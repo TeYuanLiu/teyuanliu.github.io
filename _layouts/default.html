@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  {% include head.html %}
+  <body>
+    <div class="grid-container">
+      {% include navbar.html %} {{ content }} {% include footer.html %}
+    </div>
+    {% include mathjax.html %} {% include google_analytics.html %}
+    <script defer="defer" src="/js/navbar.js"></script>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+---
+title: Projects
+layout: page
+background: "/img/la_dusk.jpg"
+---
+
+{% for post in site.projects %}
+
+<article class="post-preview">
+  <a href="{{ post.url | relative_url }}">
+    <h1 class="post-title">{{ post.title }}</h1>
+    {% if post.subtitle %}
+    <h2 class="post-subtitle">{{ post.subtitle }}</h2>
+    {% else %}
+    <h2 class="post-subtitle">{{ post.excerpt }}</h2>
+    {% endif %}
+  </a>
+  <p class="post-meta">
+    Posted by {% if post.author %} {{ post.author }} {% else %} {{ site.author
+    }} {% endif %} &middot; {% include read_time.html content=post.content %}
+  </p>
+</article>
+
+{% endfor %}

@@ -1,0 +1,14 @@
+---
+layout: default
+---
+
+<div
+  class="banner"
+  style="background-image: url('{{ page.background | relative_url }}'); background-size: cover; background-repeat: no-repeat; background-position: center;"
+>
+  <div class="heading-container">
+    <h1 class="page-heading">{{ site.title }}</h1>
+    <h2 class="page-subheading">{{ site.description }}</h2>
+  </div>
+</div>
+<div class="content-container">{{ content }}</div>

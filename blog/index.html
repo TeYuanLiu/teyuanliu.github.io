@@ -1,0 +1,64 @@
+---
+title: Blog
+layout: page
+background: "/img/nypl.jpg"
+---
+
+{% for post in paginator.posts %}
+
+<article class="post-preview">
+  <a href="{{ post.url | relative_url }}">
+    <h1 class="post-title">{{ post.title }}</h1>
+    {% if post.subtitle %}
+    <h2 class="post-subtitle">{{ post.subtitle }}</h2>
+    {% else %}
+    <h2 class="post-subtitle">{{ post.excerpt }}</h2>
+    {% endif %}
+  </a>
+  <p class="post-meta">
+    Posted by {% if post.author %} {{ post.author }} {% else %} {{ site.author
+    }} {% endif %} on {{ post.date | date: '%B %d, %Y' }} &middot; {% include
+    read_time.html content=post.content %}
+  </p>
+</article>
+
+{% endfor %}
+
+<!-- Pagination links -->
+
+<div class="row-container">
+  {% if paginator.previous_page %}
+  <a
+    href="{{ paginator.previous_page_path | relative_url }}"
+    class="blog-nav-btn float-left"
+    >&larr; Newer</a
+  >
+  {% endif %}
+
+  <!-- 
+        {% for page in (1..paginator.total_pages) %} {% if page ==
+        paginator.page %}
+        <em class="pagination-nav-item pagination-nav-item-current"
+          >{{ page }}</em
+        >
+        {% elsif page == 1 %}
+        <a href="{{ '/blog' | relative_url }}" class="pagination-nav-item"
+          >{{ page }}</a
+        >
+        {% else %}
+        <a
+          href="{{ site.paginate_path | relative_url | replace: ':num', page }}"
+          class="pagination-nav-item"
+          >{{ page }}</a
+        >
+        {% endif %} {% endfor %} 
+        -->
+
+  {% if paginator.next_page %}
+  <a
+    href="{{ paginator.next_page_path | relative_url }}"
+    class="blog-nav-btn float-right"
+    >Older &rarr;</a
+  >
+  {% endif %}
+</div>
