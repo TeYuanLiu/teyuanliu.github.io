@@ -14,8 +14,8 @@ mathjax: true
     <h2 class="page-subheading">{{ page.excerpt }}</h2>
     <p class="post-meta">
       Posted by {% if page.author %} {{ page.author }} {% else %} {{ site.author
-      }} {% endif %} on {{ page.date | date: '%B %d, %Y' }} &middot; {% include
-      read_time.html content=page.content %}
+      }} {% endif %} {% if page.date %} on {{ page.date | date: '%B %d, %Y' }}
+      {% endif %} &middot; {% include read_time.html content=page.content %}
     </p>
   </div>
 </div>
@@ -26,8 +26,8 @@ mathjax: true
     <h2 class="page-subheading">{{ page.excerpt }}</h2>
     <p class="post-meta">
       Posted by {% if page.author %} {{ page.author }} {% else %} {{ site.author
-      }} {% endif %} on {{ page.date | date: '%B %d, %Y' }} &middot; {% include
-      read_time.html content=page.content %}
+      }} {% endif %} {% if page.date %} on {{ page.date | date: '%B %d, %Y' }}
+      {% endif %} &middot; {% include read_time.html content=page.content %}
     </p>
   </div>
 </div>
