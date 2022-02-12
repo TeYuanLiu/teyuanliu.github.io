@@ -1,5 +1,7 @@
 ---
-layout: home
+layout: page
+title: Wow, that's fantastic
+excerpt: A place to share web, AI, and technology
 background: "/img/ucla.jpg"
 ---
 
@@ -8,16 +10,11 @@ background: "/img/ucla.jpg"
 <div class="post-preview">
   <a href="{{ post.url | relative_url }}">
     <h1 class="post-title">{{ post.title }}</h1>
-    {% if post.subtitle %}
-    <h2 class="post-subtitle">{{ post.subtitle }}</h2>
-    {% else %}
     <h2 class="post-subtitle">{{ post.excerpt }}</h2>
-    {% endif %}
   </a>
   <p class="post-meta">
-    Posted by {% if post.author %} {{ post.author }} {% else %} {{ site.author
-    }} {% endif %} on {{ post.date | date: '%B %d, %Y' }} &middot; {% include
-    read_time.html content=post.content %}
+    Posted by {{ post.author }} on {{ post.date | date: '%B %d, %Y' }} &middot;
+    {% include read_time.html content=post.content %}
   </p>
 </div>
 

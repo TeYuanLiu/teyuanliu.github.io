@@ -8,7 +8,7 @@ tags: Github-Pages Jekyll Google-Analytics
 
 Adding Google Analytics to your Jekyll website enables you to know more about your visitors, including the number of visitors, the time they visit, their locations and more. Sounds interesting right?
 
-![dance](https://media.giphy.com/media/nDSlfqf0gn5g4/giphy.gif)
+<img src="https://media.giphy.com/media/nDSlfqf0gn5g4/giphy.gif" width="50%"/>
 
 Well, nothing comes without a price. From then on, Google has an eye on your website :-)
 
@@ -84,7 +84,7 @@ Now you may access [Google Analytics](https://analytics.google.com/analytics/web
 
 You will see that your website has one visitor, which is yourself!
 
-![Cheers!](https://media.giphy.com/media/3oEjHV0z8S7WM4MwnK/giphy.gif)
+<img src="https://media.giphy.com/media/3oEjHV0z8S7WM4MwnK/giphy.gif" width="50%"/>
 
 What a success!
 
