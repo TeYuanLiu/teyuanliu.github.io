@@ -3,19 +3,16 @@ title: "Alpha Tic-Tac-Toe Zero"
 excerpt: "Combine reinforcement learning and Monte Carlo tree search together! That's amazing!"
 categories:
 tags: Reinforcement-Learning Monte-Carlo-Tree-Search
+date: 2022-01-03
 ---
 
 ### Playground
 
-Welcome to play the game of Tic-Tac-Toe against my Alpha Tic-Tac-Toe Zero agent!
-
-You as the challenger will use the "X" stone while the agent will use the "O" stone.
+Welcome to play the game of Tic-Tac-Toe against my AlphaZero agent!
 
 Click on the board and let's go!
 
-<div id="app"></div>
-<link rel="stylesheet" href="/css/alpha.css" class="rel" />
-<script src="/js/alpha.bundle.js" defer="defer"></script>
+<iframe src="https://teyuanliu.github.io/tic-tac-toe/" title="Tic-Tac-Toe Game" height="600px" width="100%"></iframe>
 
 ### Introduction
 
