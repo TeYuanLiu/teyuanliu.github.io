@@ -5,10 +5,22 @@ layout: default
 {% if page.background %}
 <div
   class="banner"
-  style="background-image: url('{{ page.background | relative_url }}'); background-size: cover; background-repeat: no-repeat; background-position: center;"
+  style="background-image: url('{{ page.background | relative_url }}');
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: center;
+  "
 ></div>
 {% else %}
-<div class="banner"></div>
+<div
+  class="banner"
+  style="
+    background-image: url('/img/ucla.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  "
+></div>
 {% endif %}
 
 <div class="heading-container">
@@ -16,11 +28,10 @@ layout: default
   <h1 class="page-heading">{{ page.title }}</h1>
   {% endif %} {% if page.excerpt %}
   <h2 class="page-subheading">{{ page.excerpt }}</h2>
-  {% endif %} {% if page.author %}
+  {% endif %} {% if page.author and page.date %}
   <p class="post-meta">
-    Posted by {{ page.author }} {% if page.date %} on {{ page.date | date: '%B
-    %d, %Y' }} {% endif %} &middot; {% include read_time.html
-    content=page.content %}
+    Posted by {{ page.author }} on {{ page.date | date: '%B %d, %Y' }} &middot;
+    {% include read_time.html content=page.content %}
   </p>
   {% endif %}
 </div>
