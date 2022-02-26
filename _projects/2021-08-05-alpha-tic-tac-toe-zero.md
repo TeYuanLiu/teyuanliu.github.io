@@ -1,25 +1,29 @@
 ---
-title: "Alpha Tic-Tac-Toe Zero"
+title: "Alpha Tic-tac-toe Zero"
 date: 2021-08-05
-excerpt: "Combine reinforcement learning and Monte Carlo tree search together! That's amazing!"
+excerpt: "Combine reinforcement learning and Monte Carlo tree search together, which is amazing!"
 categories:
 tags: Reinforcement-Learning Monte-Carlo-Tree-Search
 ---
 
 ### Playground
 
-Welcome to play the game of Tic-Tac-Toe against my AlphaZero agent!
+Welcome to play the game of Tic-tac-toe against my [AlphaZero agent](https://github.com/Te-YuanLiu/alpha-zero)!
 
-Click on the board and let's go!
-
-<iframe src="https://teyuanliu.github.io/tic-tac-toe/" title="Tic-Tac-Toe Game" height="600px" width="100%"></iframe>
+<iframe src="https://teyuanliu.github.io/tic-tac-toe/" title="Tic-tac-toe Game" height="600px" width="100%"></iframe>
 
 ### Introduction
 
-Alpha Tic-Tac-Toe Zero, is an agent trained for the game Tic-Tac-Toe, using a simplified implementation of the policy iteration algorithm (a type of reinforcement learning) presented in DeepMind's [AlphaGo
-Zero](https://deepmind.com/blog/article/alphago-zero-starting-scratch) paper. My code is accessible [here](https://github.com/Te-YuanLiu/alpha-zero).
+This Tic-tac-toe game has two modes, easy and hard, each backed by an Alpha Tic-tac-toe Zero agent. Players also have the option to go first or second in the game!
 
-The policy iteration algorithm works as follows. Firstly in the initialization stage, we start with a neural network with random weights so it is a random policy and value network. Next, we repeat the following iteration procedure.
+Alpha Tic-tac-toe Zero, is an agent trained for the game of Tic-tac-toe, using a simplified implementation of the policy iteration algorithm (a type of reinforcement learning) presented in DeepMind's [AlphaGo
+Zero](https://deepmind.com/blog/article/alphago-zero-starting-scratch) paper.
+
+### Methods
+
+The following is a brief description of the policy iteration algorithm.
+
+Firstly in the initialization stage, we start with a neural network with random weights so it is a random policy and value network. Next, we repeat the following iteration procedure.
 
 Each iteration consists of two steps: the policy evaluation and the policy improvement step.
 
