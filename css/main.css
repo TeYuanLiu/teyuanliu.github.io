@@ -36,8 +36,8 @@ body {
   width: 100%;
   padding: 1.5rem 3rem;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   transition: all 0.5s ease;
 }
 
@@ -48,16 +48,14 @@ body {
 
 .overlay {
   position: fixed;
-  top: 0;
-  z-index: 1;
   height: 100%;
   width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
   background-color: #aaa;
   opacity: 0.8;
-}
-
-.hidden {
-  top: -100%;
+  display: none;
 }
 
 .navbar a.logo {
@@ -96,6 +94,10 @@ body {
   position: absolute;
   right: 2rem;
   top: 1.5rem;
+}
+
+.top-hidden {
+  top: -100%;
 }
 
 /* Site banner */
@@ -227,7 +229,7 @@ body {
 }
 
 .blog-nav-btn:hover {
-  color: cyan;
+  color: #aaa;
 }
 
 /* Post content */
@@ -331,6 +333,10 @@ table {
 /* Mobile */
 
 @media (max-width: 1024px) {
+  body.noScroll {
+    overflow: hidden;
+  }
+
   .navbar {
     padding: 1rem 2rem;
   }
@@ -344,15 +350,11 @@ table {
     margin-right: 1rem;
   }
 
-  body.noScroll {
-    overflow: hidden;
-  }
-
   .menu-list {
     position: fixed;
     top: 0;
     left: -100%;
-    height: 100vh;
+    height: 100%;
     width: 100%;
     max-width: 512px;
     background: #222;
@@ -362,7 +364,12 @@ table {
     transition: all 0.5s ease;
   }
 
-  .menu-list.active {
+  .overlay {
+    display: block;
+    left: -100%;
+  }
+
+  .left-zero {
     left: 0%;
   }
 

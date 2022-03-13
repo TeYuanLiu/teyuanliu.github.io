@@ -1,4 +1,10 @@
-const navResponsive = () => {
+app();
+
+function app() {
+  setNavbar();
+}
+
+function setNavbar() {
   const body = document.querySelector("body");
   const navbar = document.querySelector(".navbar");
   const menu = document.querySelector(".menu-list");
@@ -6,16 +12,16 @@ const navResponsive = () => {
   const cancelBtn = document.querySelector(".cancel-btn");
   const overlay = document.querySelector(".overlay");
   menuBtn.onclick = () => {
-    menu.classList.add("active");
+    menu.classList.add("left-zero");
     menuBtn.classList.add("display-none");
     body.classList.add("noScroll");
-    overlay.classList.remove("hidden");
+    overlay.classList.add("left-zero");
   };
   cancelBtn.onclick = () => {
-    menu.classList.remove("active");
+    menu.classList.remove("left-zero");
     menuBtn.classList.remove("display-none");
     body.classList.remove("noScroll");
-    overlay.classList.add("hidden");
+    overlay.classList.remove("left-zero");
   };
   let preScrollY = 0;
   window.onscroll = () => {
@@ -24,14 +30,8 @@ const navResponsive = () => {
       ? navbar.classList.add("sticky")
       : navbar.classList.remove("sticky");
     scrollY > 800 && scrollY > preScrollY
-      ? navbar.classList.add("hidden")
-      : navbar.classList.remove("hidden");
+      ? navbar.classList.add("top-hidden")
+      : navbar.classList.remove("top-hidden");
     preScrollY = scrollY;
   };
-};
-
-const app = () => {
-  navResponsive();
-};
-
-app();
+}
