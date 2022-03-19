@@ -8,7 +8,7 @@ tags: Reinforcement-Learning Monte-Carlo-Tree-Search
 
 ### Playground
 
-Welcome to play the game of Tic-tac-toe against my [AlphaZero agent](https://github.com/Te-YuanLiu/alpha-zero)!
+Welcome to play the game of Tic-tac-toe with my [AlphaZero agent](https://github.com/Te-YuanLiu/alpha-zero)!
 
 Note that it may take a minute for the agent to wake up from idling, so please be patient.
 
