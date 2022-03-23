@@ -311,7 +311,8 @@ body {
 .post-content ol,
 .post-content ul {
   list-style-position: outside;
-  padding-left: 1.2rem;
+  padding-left: 2rem;
+  margin: 0 0 1rem;
 }
 
 .post-content li {

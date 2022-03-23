@@ -8,7 +8,7 @@ tags: JavaScript DOM Styles
 
 ### Summary
 
-- There are generally tow ways to style an element:
+- There are generally two ways to style an element:
 
   - Create a class in CSS and add it using `<div class="...">`
   - Write properties directly using `<div style="...">`.
