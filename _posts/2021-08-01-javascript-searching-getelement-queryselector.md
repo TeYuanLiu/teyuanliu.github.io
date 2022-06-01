@@ -1,6 +1,5 @@
 ---
 title: "JavaScript 94 - Searching: getElement*, querySelector*"
-date: 2021-08-01
 excerpt: "DOM navigation properties are great when elements are close to each other. What if they are not? How to get an arbitrary element of the page? Here we summarize some additional searching methods for that."
 categories:
 tags: JavaScript DOM

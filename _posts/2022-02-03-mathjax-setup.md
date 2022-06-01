@@ -1,6 +1,5 @@
 ---
 title: "How to write math equations in a Jekyll website using MathJax?"
-date: 2022-02-03
 excerpt: "The first step to become a master in mathematics is to know how to write math equations in your blog."
 categories:
 tags: Github-Pages Jekyll MathJax

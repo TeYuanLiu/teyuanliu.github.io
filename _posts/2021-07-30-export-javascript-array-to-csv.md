@@ -1,6 +1,5 @@
 ---
 title: "How to write LeetCode problem count per tag information into JavaScript array and download it as CSV?"
-date: 2021-07-30
 excerpt: "A piece of code can help you download a csv file about Leetcode problem count per tag for your analysis."
 categories:
 tags: JavaScript Array CSV

@@ -1,6 +1,5 @@
 ---
 title: "What is React and how to use it to develop apps?"
-date: 2021-08-01
 excerpt: "I followed the official tutorial to build an interactive tic-tac-toe game app. Here is what I have learned."
 categories:
 tags: JavaScript React

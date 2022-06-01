@@ -1,6 +1,5 @@
 ---
 title: "JavaScript 91 - Browser environment, specs"
-date: 2021-07-29
 excerpt: "The JavaScript language was initially created for web browsers. Since then it has evolved and become a language with many uses and platforms. Each of them provides platform-specific functionality but browsers remain the most popular platform to execute JavaScript."
 categories:
 tags: JavaScript Browser

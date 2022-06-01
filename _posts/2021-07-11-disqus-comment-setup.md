@@ -1,6 +1,5 @@
 ---
 title: "How to add Disqus comment to a Jekyll website?"
-date: 2021-07-11
 excerpt: "Disqus let us set up commenting functionality to our Jekyll website easily."
 categories:
 tags: Github-Pages Jekyll Disqus

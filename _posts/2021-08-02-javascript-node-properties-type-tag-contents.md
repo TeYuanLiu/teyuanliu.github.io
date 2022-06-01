@@ -1,6 +1,5 @@
 ---
 title: "JavaScript 95 - Node properties: type, tag and contents"
-date: 2021-08-02
 excerpt: "This time we take a more in-depth look at DOM nodes."
 categories:
 tags: JavaScript DOM

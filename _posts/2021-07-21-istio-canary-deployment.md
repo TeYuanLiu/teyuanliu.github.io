@@ -1,6 +1,5 @@
 ---
 title: "How does Istio support canary deployment?"
-date: 2021-07-21
 excerpt: "Istio provides canary deployment by its nature."
 categories:
 tags: Istio Canary-Deployment

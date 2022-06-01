@@ -1,6 +1,5 @@
 ---
 title: "JavaScript 1 - An introduction to JavaScript"
-date: 2022-03-23
 excerpt: "What can we achieve using JavaScript?"
 categories:
 tags: JavaScript

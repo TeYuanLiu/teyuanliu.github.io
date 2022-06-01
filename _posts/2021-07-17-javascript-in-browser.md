@@ -1,6 +1,5 @@
 ---
 title: "How does JavaScript run inside a browser?"
-date: 2021-07-17
 excerpt: "Or, how do call stack, webapis, callback queue, and event loop work together within a browser (JavaScript runtime environment)?"
 categories:
 tags: JavaScript Browser

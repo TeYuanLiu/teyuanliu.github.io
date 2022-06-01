@@ -1,6 +1,5 @@
 ---
 title: "What is TLS?"
-date: 2021-07-13
 excerpt: "Let's go over some basic knowledge about TLS and illustrate the evolution of the protocol to show how it has changed to its modern state."
 categories:
 tags: TLS Https

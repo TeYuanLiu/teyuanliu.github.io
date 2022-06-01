@@ -1,6 +1,5 @@
 ---
 title: "JavaScript 98 - Styles and classes"
-date: 2021-08-05
 excerpt: "JavaScript can modify both classes and style properties but we should always prefer CSS classes to style."
 categories:
 tags: JavaScript DOM Styles

@@ -1,6 +1,5 @@
 ---
 title: "How to build a React app using JSX, Babel, Webpack, and NPM?"
-date: 2021-08-20
 excerpt: "Create a React app using JSX syntax with Babel as the JSX transpiler, Webpack as the module bundler, and NPM as the package manager."
 categories:
 tags: React JSX Babel Webpack NPM

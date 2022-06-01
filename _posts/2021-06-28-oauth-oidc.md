@@ -1,6 +1,5 @@
 ---
 title: "Authorization and authentication: OAuth 2.0 and OpenID Connect"
-date: 2021-06-28
 excerpt: "A common way for applications to know who you are and what can you do."
 categories:
 tags: OAuth2 OpenID

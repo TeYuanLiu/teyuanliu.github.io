@@ -1,6 +1,5 @@
 ---
 title: "JavaScript 93 - Walking the DOM"
-date: 2021-07-31
 excerpt: "The DOM allows us to do anything with elements and their contents, but first we need to reach the corresponding DOM object. All operations on the DOM start with the document object. That's the main entry point to DOM. From it we can access any node."
 categories:
 tags: JavaScript DOM

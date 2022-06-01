@@ -1,6 +1,5 @@
 ---
 title: "How to deploy a Python Flask app on Heroku?"
-date: 2021-08-15
 excerpt: "So your application can live happily ever after online."
 categories:
 tags: Python Flask Heroku
