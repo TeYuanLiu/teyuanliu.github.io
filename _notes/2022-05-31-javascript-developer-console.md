@@ -1,8 +1,9 @@
 ---
 title: "JavaScript 4 - Developer console"
-excerpt: "So developers can have a easier life."
+excerpt: "So developers can have an easier life."
 categories:
 tags: JavaScript
+index: 4
 ---
 
 ### Summary

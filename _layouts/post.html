@@ -6,16 +6,17 @@ mathjax: true
 
 <div class="post-content">{{ content }}</div>
 <div class="row-container">
-  {% if page.previous.url %}
-  <a
-    href="{{ page.previous.url | relative_url }}"
-    class="blog-nav-btn float-left"
-    >&larr; Previous</a
-  >
-  {% endif %} {% if page.next.url %}
-  <a href="{{ page.next.url | relative_url }}" class="blog-nav-btn float-right"
-    >Next &rarr;</a
-  >
+  {% if page.collection %} {% assign collection = site[page.collection] | sort:
+  "index" %} {% for item in collection %} {% if item.title == page.title %} {%
+  unless forloop.first %} {% assign prev = iterator %} {% endunless %} {% unless
+  forloop.last %} {% assign next = collection[forloop.index] %} {% endunless %}
+  {% endif %} {% assign iterator = item %} {% endfor %} {% else %} {% if
+  page.previous.url %} {% assign prev = page.previous.url %} {% endif %} {% if
+  page.next.url %} {% assign next = page.next.url %} {% endif %} {% endif %} {%
+  if prev %}
+  <a href="{{ prev | relative_url }}" class="btn float-left">&larr; Previous</a>
+  {% endif %} {% if next %}
+  <a href="{{ next | relative_url }}" class="btn float-right">Next &rarr;</a>
   {% endif %}
 </div>
 {%- include disqus.html -%}

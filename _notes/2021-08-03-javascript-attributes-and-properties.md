@@ -3,6 +3,7 @@ title: "JavaScript 96 - Attributes and properties"
 excerpt: "When the browser loads the page, it reads the HTML and generates DOM objects from it. For element nodes, most standard HTML attributes automatically become properties of DOM objects. But the attribute-property mapping is not one to one and we are gonna discuss it here."
 categories:
 tags: JavaScript DOM
+index: 96
 ---
 
 ### Summary

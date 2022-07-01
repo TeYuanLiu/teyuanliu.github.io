@@ -1,13 +1,11 @@
 ---
+title: Notes
 layout: page
-title: Wow, that's fantastic
-excerpt: A place to share web, AI, and technology
-background: "/img/ucla.jpg"
 ---
 
-{% for post in site.posts limit : 5 %}
+{% assign notes = site.notes | sort: "index" %} {% for post in notes %}
 
-<div class="post-preview">
+<article class="post-preview">
   <a href="{{ post.url | relative_url }}">
     <h1 class="post-title">{{ post.title }}</h1>
     <h2 class="post-subtitle">{{ post.excerpt }}</h2>
@@ -16,12 +14,6 @@ background: "/img/ucla.jpg"
     Posted by {{ post.author }} on {{ post.date | date: '%B %d, %Y' }} &middot;
     {% include read_time.html content=post.content %}
   </p>
-</div>
+</article>
 
 {% endfor %}
-
-<div class="row-container">
-  <a href="{{ '/blog' | relative_url }}" class="btn float-right"
-    >View All Posts&rarr;</a
-  >
-</div>

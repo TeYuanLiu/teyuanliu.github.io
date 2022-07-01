@@ -39,6 +39,9 @@ collections:
   projects:
     output: true
     permalink: /projects/:title
+  notes:
+    output: true
+    permalink: /notes/:title
 
 defaults:
   - scope:
@@ -54,6 +57,12 @@ defaults:
   - scope:
       path: ""
       type: "projects"
+    values:
+      layout: "post"
+      author: "Te-Yuan Liu"
+  - scope:
+      path: ""
+      type: "notes"
     values:
       layout: "post"
       author: "Te-Yuan Liu"

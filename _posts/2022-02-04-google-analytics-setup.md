@@ -1,6 +1,6 @@
 ---
 title: "How to add Google Analytics to your Jekyll website?"
-excerpt: "Or, how to know that no one reads your blog."
+excerpt: "And thus know more about your visitors."
 categories:
 tags: Github-Pages Jekyll Google-Analytics
 ---

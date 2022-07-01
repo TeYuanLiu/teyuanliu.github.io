@@ -3,6 +3,7 @@ title: "JavaScript 95 - Node properties: type, tag and contents"
 excerpt: "This time we take a more in-depth look at DOM nodes."
 categories:
 tags: JavaScript DOM
+index: 95
 ---
 
 ### Summary

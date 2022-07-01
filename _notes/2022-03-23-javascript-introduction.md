@@ -3,6 +3,7 @@ title: "JavaScript 1 - An introduction to JavaScript"
 excerpt: "What can we achieve using JavaScript?"
 categories:
 tags: JavaScript
+index: 1
 ---
 
 ### Summary

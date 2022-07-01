@@ -3,6 +3,7 @@ title: "JavaScript 5 - Hello, world!"
 excerpt: "From JavaScript."
 categories:
 tags: JavaScript
+index: 5
 ---
 
 ### Summary

@@ -1,6 +1,5 @@
 ---
 title: "Alpha Tic-tac-toe Zero"
-date: 2021-08-05
 excerpt: "Combine reinforcement learning and Monte Carlo tree search together, which is amazing!"
 categories:
 tags: Reinforcement-Learning Monte-Carlo-Tree-Search

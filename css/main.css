@@ -27,6 +27,20 @@ body {
   grid-template-columns: 1fr minmax(0, 1024px) 1fr;
 }
 
+.btn {
+  margin: 2rem 0;
+  border: 1px solid black;
+  padding: 1rem;
+  background-color: #1b1b1b;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.btn:hover {
+  color: #aaa;
+}
+
 /* Site navigation bar */
 
 .navbar {
@@ -170,6 +184,45 @@ body {
   font-size: 1.5rem;
 }
 
+/* Contact messenger */
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-rows {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-item {
+  margin-bottom: 2rem;
+}
+
+.form-item:last-child {
+  margin-bottom: 0;
+}
+
+.form-item input,
+.form-item textarea {
+  height: 2rem;
+  width: 20rem;
+  padding: 0.25rem;
+  border: 1px solid #000;
+  border-radius: 0.25rem;
+  font-size: 1.2rem;
+  font-weight: 400;
+  outline: none;
+}
+
+.form-item textarea {
+  height: 100%;
+}
+
 /* Post index */
 
 .post-preview {
@@ -179,7 +232,7 @@ body {
 }
 
 .post-title {
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   font-size: 2.5rem;
   font-family: "Open Sans", sans-serif;
   font-weight: 700;
@@ -216,20 +269,6 @@ body {
 
 .float-right {
   float: right;
-}
-
-.blog-nav-btn {
-  margin: 2rem 0;
-  border: 1px solid black;
-  padding: 1rem;
-  background-color: #1b1b1b;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #fff;
-}
-
-.blog-nav-btn:hover {
-  color: #aaa;
 }
 
 /* Post content */
@@ -412,11 +451,27 @@ table {
     line-height: 1.5;
   }
 
-  .blog-nav-btn {
+  .btn {
     font-size: 1.2rem;
   }
 
   .footer-text {
     font-size: 1.2rem;
+  }
+
+  .form-item input,
+  .form-item textarea {
+    height: 1.2rem;
+    width: 15rem;
+    padding: 0.2rem;
+    border: 1px solid #000;
+    border-radius: 0.2rem;
+    font-size: 1rem;
+    font-weight: 400;
+    outline: none;
+  }
+
+  .form-item textarea {
+    height: 100%;
   }
 }

@@ -3,6 +3,7 @@ title: "JavaScript 3 - Code editors"
 excerpt: "Should I use VScode, Sublime or Vim?"
 categories:
 tags: JavaScript
+index: 3
 ---
 
 ### Summary

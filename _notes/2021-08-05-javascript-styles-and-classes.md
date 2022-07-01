@@ -3,6 +3,7 @@ title: "JavaScript 98 - Styles and classes"
 excerpt: "JavaScript can modify both classes and style properties but we should always prefer CSS classes to style."
 categories:
 tags: JavaScript DOM Styles
+index: 98
 ---
 
 ### Summary

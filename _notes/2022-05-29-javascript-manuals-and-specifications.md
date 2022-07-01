@@ -3,6 +3,7 @@ title: "JavaScript 2 - Manuals and specifications"
 excerpt: "If you are looking for details about the language..."
 categories:
 tags: JavaScript
+index: 2
 ---
 
 ### Summary
