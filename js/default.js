@@ -2,6 +2,17 @@ app();
 
 function app() {
   setNavbar();
+  setFooter();
+}
+
+function setFooter() {
+  const copyright = document.createElement("p");
+  copyright.classList.add("copyright");
+  copyright.textContent =
+    "Copyright \u00A9 Te-Yuan Liu " + new Date().getFullYear();
+
+  const footer = document.querySelector(".footer");
+  footer.append(copyright);
 }
 
 function setNavbar() {

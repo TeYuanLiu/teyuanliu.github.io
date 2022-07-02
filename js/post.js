@@ -1,3 +1,9 @@
+app();
+
+function app() {
+  decorateLabeledCodeblock();
+}
+
 function addClassLabeled(elem) {
   elem.classList.add("labeled");
 }
@@ -28,5 +34,3 @@ function decorateLabeledCodeblock() {
     addCopyTextButton(codeBlock);
   }
 }
-
-decorateLabeledCodeblock();
