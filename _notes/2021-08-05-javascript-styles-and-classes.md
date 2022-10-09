@@ -10,7 +10,7 @@ index: 98
 
 - There are generally two ways to style an element:
 
-  - Create a class in CSS and add it using `<div class="...">`
+  - Create a class in CSS and add it using `<div class="...">`.
   - Write properties directly using `<div style="...">`.
   - We should always prefer CSS classes to `style`. The latter should only be used if classes cannot handle it.
 
