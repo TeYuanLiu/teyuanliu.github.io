@@ -25,4 +25,4 @@ index: 10
 
 ### References
 
-- [Data types](https://javascript.info/alert-prompt-confirm)
+- [Interaction: alert, prompt, confirm](https://javascript.info/alert-prompt-confirm)
