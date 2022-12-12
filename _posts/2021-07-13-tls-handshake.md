@@ -1,6 +1,6 @@
 ---
 title: "What is TLS?"
-excerpt: "Let's go over some basic knowledge about TLS and illustrate the evolution of the protocol to show how it has changed to its modern state."
+excerpt: "Let's go over some basic knowledge about TLS and illustrate the evolution of the protocol to show how it has evolved into its modern state."
 categories:
 tags: TLS Https
 ---
@@ -59,7 +59,7 @@ Now, here is a simple way to authenticate the server to the client.
 
 1. The client sends a hello message to the server. The message contains which TLS version and which cipher suites the client supports, and a string of random bytes called the client random.
 
-2. The server puts its public key together with some metadata to form a certificate. A hash of the certificate is generated, encrypted with its private key, and then appended to the certificate. The server sends the certificate along with the server's chosen cipher suite, and another string of random bytes known as the server random, to the client.
+2. The server puts its public key together with some metadata to form a certificate. A hash of the certificate is generated, encrypted with its private key, and then appended to the certificate. The server sends this updated certificate along with the server's chosen cipher suite, and another string of random bytes known as the server random, to the client.
 
 3. Once received the message, the client decrypts the encrypted certificate hash using the public key inside the message. Then the client calculates its own certificate hash to compare the newly-generated one with the one in the message. If they are equal the certificate is valid.
 
@@ -89,7 +89,7 @@ A CA (Certification Authority) now claims it will help authenticate others to ma
 
 2. The server puts its public key together with some metadata to form a certificate, then sends the certificate to the CA.
 
-3. The CA receives the certificate. It generates a hash of the certificate, and then encrypted it with the CA's private key. It then appends the digital signature to the certificate and returns it to the server.
+3. The CA receives the certificate. It generates a hash of the certificate, and then encrypts it with the CA's private key, forming a digital signature. It then appends the digital signature to the certificate and returns this updated certificate to the server.
 
 4. The server sends the certificate along with the server's chosen cipher suite and the server random to the client.
 
