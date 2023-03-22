@@ -1,5 +1,5 @@
 ---
-title: "JavaScript 12 - Type Conversions"
+title: "JavaScript 12 - Basic operators, maths"
 excerpt: "There are many operators ranging from simple arithmetic to JavaScript-specifics."
 categories:
 tags: JavaScript
