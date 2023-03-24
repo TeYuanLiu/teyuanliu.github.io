@@ -293,6 +293,7 @@ body {
 }
 
 .post-content a {
+  color: -webkit-link;
   text-decoration: underline;
 }
 
