@@ -11,7 +11,7 @@ Welcome to play the game of Tic-tac-toe with my [AlphaZero agent](https://github
 
 Note that it may take a minute for the agent to wake up from idling, so please be patient.
 
-<iframe src="https://teyuanliu.github.io/tic-tac-toe/" title="Tic-tac-toe Game" height="600px" width="100%"></iframe>
+<iframe src="https://teyuanliu.github.io/tic_tac_toe/" title="Tic-tac-toe Game" height="600px" width="100%"></iframe>
 
 ### Introduction
 
