@@ -1,5 +1,5 @@
 ---
-title: "JavaScript 8 - Variables"
+title: "JavaScript Info 1.2.4 - Variables"
 excerpt: "A variable has its memory address, value, and name(s)."
 categories:
 tags: JavaScript

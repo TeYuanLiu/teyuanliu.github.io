@@ -1,5 +1,5 @@
 ---
-title: "JavaScript 97 - Modifying the document"
+title: "JavaScript Info 2.1.7 - Modifying the document"
 excerpt: 'DOM modification changes the existing page content "on the fly" and is the key to creating "live" pages.'
 categories:
 tags: JavaScript Browser Document

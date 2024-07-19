@@ -1,5 +1,5 @@
 ---
-title: "JavaScript 13 - Comparisons"
+title: "JavaScript Info 1.2.9 - Comparisons"
 excerpt: "There are many different types of comparisons."
 categories:
 tags: JavaScript

@@ -1,5 +1,5 @@
 ---
-title: "JavaScript 1 - An introduction to JavaScript"
+title: "JavaScript Info 1.1.1 - An introduction to JavaScript"
 excerpt: "What can we achieve using JavaScript?"
 categories:
 tags: JavaScript

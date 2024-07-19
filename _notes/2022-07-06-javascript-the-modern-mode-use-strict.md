@@ -1,5 +1,5 @@
 ---
-title: 'JavaScript 7 - The modern mode, "use strict"'
+title: 'JavaScript Info 1.2.3 - The modern mode, "use strict"'
 excerpt: "To add new features and fix bugs."
 categories:
 tags: JavaScript

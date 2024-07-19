@@ -1,5 +1,5 @@
 ---
-title: "JavaScript 11 - Type conversions"
+title: "JavaScript Info 1.2.7 - Type conversions"
 excerpt: "The three most widely used type conversions are to string, to number, and to boolean."
 categories:
 tags: JavaScript

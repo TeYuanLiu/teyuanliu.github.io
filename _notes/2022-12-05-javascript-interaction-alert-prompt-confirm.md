@@ -1,5 +1,5 @@
 ---
-title: "JavaScript 10 - Interaction: alert, prompt, confirm"
+title: "JavaScript Info 1.2.6 - Interaction: alert, prompt, confirm"
 excerpt: "The browser has a couple of functions to interact with the user."
 categories:
 tags: JavaScript

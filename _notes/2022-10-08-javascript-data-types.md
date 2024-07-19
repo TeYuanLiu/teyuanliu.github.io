@@ -1,5 +1,5 @@
 ---
-title: "JavaScript 9 - Data types"
+title: "JavaScript Info 1.2.5 - Data types"
 excerpt: "There are eight basic data types in JavaScript."
 categories:
 tags: JavaScript

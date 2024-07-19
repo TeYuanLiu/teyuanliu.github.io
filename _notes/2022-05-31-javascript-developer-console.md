@@ -1,5 +1,5 @@
 ---
-title: "JavaScript 4 - Developer console"
+title: "JavaScript Info 1.1.4 - Developer console"
 excerpt: "So developers can have an easier life."
 categories:
 tags: JavaScript

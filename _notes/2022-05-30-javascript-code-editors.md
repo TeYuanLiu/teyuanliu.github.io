@@ -1,5 +1,5 @@
 ---
-title: "JavaScript 3 - Code editors"
+title: "JavaScript Info 1.1.3 - Code editors"
 excerpt: "Should I use VScode, Sublime or Vim?"
 categories:
 tags: JavaScript

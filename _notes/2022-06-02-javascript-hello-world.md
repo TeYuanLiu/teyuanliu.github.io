@@ -1,5 +1,5 @@
 ---
-title: "JavaScript 5 - Hello, world!"
+title: "JavaScript Info 1.2.1 - Hello, world!"
 excerpt: "From JavaScript."
 categories:
 tags: JavaScript

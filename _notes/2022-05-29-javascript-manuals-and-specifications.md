@@ -1,5 +1,5 @@
 ---
-title: "JavaScript 2 - Manuals and specifications"
+title: "JavaScript Info 1.1.2 - Manuals and specifications"
 excerpt: "If you are looking for details about the language..."
 categories:
 tags: JavaScript

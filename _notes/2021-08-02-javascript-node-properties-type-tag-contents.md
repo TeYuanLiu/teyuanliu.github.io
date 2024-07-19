@@ -1,5 +1,5 @@
 ---
-title: "JavaScript 95 - Node properties: type, tag and contents"
+title: "JavaScript Info 2.1.5 - Node properties: type, tag and contents"
 excerpt: "This time we take a more in-depth look at DOM nodes."
 categories:
 tags: JavaScript DOM
