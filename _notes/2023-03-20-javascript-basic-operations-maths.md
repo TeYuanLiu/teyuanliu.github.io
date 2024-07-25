@@ -14,7 +14,9 @@ index: 12
 
 - An operator is binary if it has two operands.
 
-- Math operations like addition `+`, subtraction `-`, multiplication `*`, division `/`, remainder `%`, and exponentiation `**` are supported.
+- Some symbols like `-` are shared between different operators (the negation operator, a unary operator that reverses the sign, and the subtraction operator, a binary operator that subtracts one number from another).
+
+- Math operations like addition `+`, subtraction `-`, multiplication `*`, division `/`, remainder `%` (x modulo y = z, y is modulus, z is remainder), and exponentiation `**` are supported.
 
 - For the plus operator `+`, if any of the operands is a string, then the other one is converted to a string to do string concatenation. The binary plus is the only operator that supports strings in such a way. Other arithmetic operators work only with numbers and always convert their operands to numbers.
 
