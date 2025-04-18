@@ -1,6 +1,18 @@
-{% extends "base.html" %} {% block body %}
+{% extends "base.html" %}
+
+{% block body %}
+
+<h1>
+  <a href="{{ get_url(path='@/_index.md') | safe }}">Te-Yuan Liu</a>
+</h1>
+
+<hr>
 
 <h1>{{ section.title }}</h1>
+
+<hr>
+
+{{ section.content | safe }}
 
 <ul>
   {% for page in section.pages %}
@@ -10,4 +22,4 @@
   {% endfor %}
 </ul>
 
-{% endblock %}
+{% endblock body %}

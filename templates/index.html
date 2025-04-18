@@ -1,7 +1,21 @@
-{% extends "base.html" %} {% block body %}
+{% extends "base.html" %}
 
-<h1>Te-Yuan Liu Zola</h1>
+{% block body %}
 
-<a href="{{ get_url(path='@/blog/_index.md') | safe }}">Posts</a>
+<h1>Te-Yuan Liu</h1>
 
-{% endblock %}
+<hr>
+
+<h1>{{ section.title }}</h1>
+
+<hr>
+
+{{ section.content | safe }}
+
+<ul>
+  <li>
+    <a href="{{ get_url(path='@/blog/_index.md') | safe }}">Blog</a>
+  </li>
+</ul>
+
+{% endblock body %}
