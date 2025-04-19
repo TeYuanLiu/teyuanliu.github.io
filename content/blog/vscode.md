@@ -99,7 +99,8 @@ Visual Studio Code (VSCode) is a lightweight Integrated Development Environment 
 
 ## Git integration
 
-- Deeply nested file: Use `\` between directories and file to create a deeply nested file.
+- Deeply nested file
+  - Use `\` between directories and file to create a deeply nested file.
 
 ## Frequently-used extensions
 

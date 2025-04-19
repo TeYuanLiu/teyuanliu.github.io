@@ -82,9 +82,9 @@ Use one H1 heading as the title of the document.
 
 ## Lists
 
-### Use implicit numbering for long list and explicit otherwise
+### Use lazy numbering for long list and explicit otherwise
 
-For long lists that may change, implicit, or lazy numbering is quite useful.
+For long lists that may change, lazy numbering is quite useful.
 
 ### Nested list spacing
 
@@ -128,7 +128,7 @@ Shorten the links as long links are difficult to read and break the 80 character
 
 ### Avoid relative paths unless within the same directory
 
-Avoid relatives links that requires a `../` inside the link.
+Avoid relatives paths that requires a `../` inside the link.
 
 ### Use informative Markdown link titles
 
