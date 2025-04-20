@@ -49,10 +49,10 @@ Markdown content follows the residual convention of an 80-character line limit.
 
 Exceptions to the 80-character rule include:
 
-- Links
-- Tables
-- Headings
-- Code blocks
+-   Links
+-   Tables
+-   Headings
+-   Code blocks
 
 ## Headings
 
