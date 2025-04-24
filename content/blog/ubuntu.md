@@ -104,7 +104,7 @@ Here are the steps I take to set up my development environment.
     `sudo apt install curl`
 1.  Install Rust.
     `curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh`
-1.  Install Git.
+1.  Install Git and configure identity and SSH keys.
     ```bash
     sudo apt install git
     git config –global user.email <EMAIL>

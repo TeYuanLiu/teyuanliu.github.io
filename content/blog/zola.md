@@ -19,7 +19,15 @@ Zola supports asset colocation with sections and pages.
 
 Pages with co-located assets should be placed as an `index.md` in a dedicated directory (`content/blog/foo/index.md`) instead of directly in their section directory (`content/blog/foo.md`). By default, this page's slug will be the directory name and thus its permalink will be `https://mywebsite.com/blog/foo/`.
 
-All non-Markdown files added in a section/page directory will be copied alongside the generated page when the site is built, which allows accessing them with a relative path.
+All non-Markdown files added in a section/page directory will be copied alongside the generated page when the site is built, which allows accessing them with a relative path. Note that we can use `ignored_content` in the config file to ignore selected asset files.
+
+#### Static assets
+
+All files/directories placed in the `static` directory will be copied to the `public` directory. These files won't be parsed as Markdown files.
+
+A common use case is putting site-wide assets (CSS files, site logos and JavaScript files) under `static` and use an absolute path to access the assets.
+
+Note that zola supports colocation between `content` and `static` if the subpaths are the same. That is, we can use relative path to access `static/blog/zola/logo.svg` from `content/blog/zola/index.md`.
 
 ### Page
 
