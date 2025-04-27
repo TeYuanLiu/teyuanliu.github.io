@@ -30,6 +30,13 @@
       {% for h3 in h2.children %}
       <li>
         <a href="{{ h3.permalink | safe }}">{{ h3.title }}</a>
+        <ul>
+          {% for h4 in h3.children %}
+          <li>
+            <a href="{{ h4.permalink | safe }}">{{ h4.title }}</a>
+          </li>
+          {% endfor %}
+        </ul>
       </li>
       {% endfor %}
     </ul>

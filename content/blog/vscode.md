@@ -66,7 +66,19 @@ Visual Studio Code (VSCode) is a lightweight Integrated Development Environment 
 -   Deeply nested file
     -   Use `\` between directories and file to create a deeply nested file.
 
-## Frequently-used extensions
+## Installed extensions
+
+-   Code Spell Checker
+-   Prettier - Code formatter
+-   HTML Format
+-   HTML CSS Support
+-   Python
+-   Pylance
+-   Python Debugger
+-   Docker
+-   Docker DX
+
+## Recommended frequently-used extensions
 
 -   Quokka: Execute and show the output of JavaScript inline code.
 -   Auto rename tag: Auto rename paired HTML tag.
