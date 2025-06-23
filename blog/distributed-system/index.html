@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Distributed System
+  </div>
+  <div class="header-metadata">
+    
+      
+        May  4, 2025 · 900 words · 5 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+  <!-- 
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/distributed-system/#tradeoffs">Tradeoffs </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/distributed-system/#cap-theorem">CAP theorem</a>
+                  <ul>
+                    
+                  </ul>
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/distributed-system/#scaling">Scaling </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/distributed-system/#scaling-example">Scaling example</a>
+                  <ul>
+                    
+                  </ul>
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/distributed-system/#security">Security </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/distributed-system/#see-also">See also </a>
+          
+        </li>
+      
+    </ul>
+  
+  -->
+  <p>A distributed system is a system consists of many services running independently on different servers (servers can be physical machines, VMs, or containers) and connected via a network. Although its services are distributed, it appears as a single entity to the end user.</p>
+<span id="continue-reading"></span><h2 id="tradeoffs"><a class="zola-anchor" href="#tradeoffs" aria-label="Anchor link for: tradeoffs">Tradeoffs</a></h2>
+<p>In the <a href="https://teyuanliu.github.io/blog/system-design/#">system design post</a> we shared that a distributed system has good:</p>
+<ul>
+<li>Availability</li>
+<li>Scalability</li>
+<li>Flexibility</li>
+</ul>
+<p>But falls short at:</p>
+<ul>
+<li>Development</li>
+<li>Testing</li>
+<li>Deployment</li>
+<li>Monitoring</li>
+<li>Maintenance</li>
+<li>Performance</li>
+<li>Data consistency</li>
+</ul>
+<h3 id="cap-theorem"><a class="zola-anchor" href="#cap-theorem" aria-label="Anchor link for: cap-theorem">CAP theorem</a></h3>
+<p>CAP theorem states similar tradeoffs. It says we can only achieve two out of the three guarantees at any given time:</p>
+<ul>
+<li>Consistency (C)
+<ul>
+<li>Every request receives the latest data (an error otherwise).</li>
+</ul>
+</li>
+<li>Availability (A)
+<ul>
+<li>Every request receives a response without error (but may contain obsolete data).</li>
+</ul>
+</li>
+<li>Partition Tolerance (P)
+<ul>
+<li>The system continues to operate even if there are network partitions, which means some servers lost connection to others.</li>
+</ul>
+</li>
+</ul>
+<p>In a distributed system, partition tolerance is a requirement because network failures happen all the time, so we have to choose between consistency and availability.</p>
+<ul>
+<li>CP
+<ul>
+<li>Preferring consistency over availability, thus the requests hitting the isolated servers fail with an error because the system cannot return the latest data.</li>
+</ul>
+</li>
+<li>AP
+<ul>
+<li>Preferring availability over consistency, thus the requests hitting the isolated servers receive possibly obsolete data.</li>
+</ul>
+</li>
+</ul>
+<h2 id="scaling"><a class="zola-anchor" href="#scaling" aria-label="Anchor link for: scaling">Scaling</a></h2>
+<p>Here are a few things we need to know about scaling a distributed system.</p>
+<ul>
+<li>Stateless service
+<ul>
+<li>Services don't store user data like user sessions on their servers. User data is stored in a centralized storage like a cluster of RAIDs. Therefore, users can have the same session despite hitting different servers. This makes services easier to scale horizontally.</li>
+</ul>
+</li>
+<li>Routing
+<ul>
+<li>Route requests to different services based on request type.</li>
+</ul>
+</li>
+<li>Vertical scaling (scale-up)
+<ul>
+<li>Upgrade to a more powerful server.</li>
+</ul>
+</li>
+<li>Horizontal scaling (scale-out)
+<ul>
+<li>Use more servers to run more copies of the same service.</li>
+</ul>
+</li>
+<li>Load balancing
+<ul>
+<li>Distribute requests among multiple servers using methods like round-robin.</li>
+</ul>
+</li>
+<li>Auto scaling
+<ul>
+<li>Scale horizontally in a dynamic way based on real-time traffic.</li>
+</ul>
+</li>
+<li><a href="https://teyuanliu.github.io/blog/caching/">Caching</a>
+<ul>
+<li>Store request-response pairs to handle repetitive requests quickly without making expensive API or <a href="https://teyuanliu.github.io/blog/database/">database</a> calls over and over again.
+<ul>
+<li>Client-side cache</li>
+<li>CDN cache</li>
+<li>Load balancer cache</li>
+<li>Message queue cache</li>
+<li>Service
+<ul>
+<li>CPU cache</li>
+<li>RAM cache</li>
+<li>Disk cache</li>
+</ul>
+</li>
+<li>In-memory cache</li>
+<li>Database cache</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Database selection
+<ul>
+<li>Choose SQL databases for consistency or NoSQL databases for availability and scalability.</li>
+</ul>
+</li>
+<li>Database replication
+<ul>
+<li>Replicate the same database across multiple servers.</li>
+<li>Primary-replica
+<ul>
+<li>We have one primary database and multiple replica databases. The primary database handles write requests and propagates the latest data to replica databases. The replica databases take care of read requests.</li>
+</ul>
+</li>
+<li>This increases read speed.</li>
+</ul>
+</li>
+<li>Database sharding
+<ul>
+<li>Split the existing database into multiple smaller databases and each one of them handles a subset of the data based on certain criteria.</li>
+<li>This increases both read and write speed.</li>
+</ul>
+</li>
+<li>Asynchronous processing
+<ul>
+<li>Run time-consuming and resource-intensive tasks during off-peak hours or on background servers.</li>
+</ul>
+</li>
+</ul>
+<h3 id="scaling-example"><a class="zola-anchor" href="#scaling-example" aria-label="Anchor link for: scaling-example">Scaling example</a></h3>
+<p>Here is a simulated example for scaling a client-server application.</p>
+<ol>
+<li>Initially we launch the application with a minimal setup:
+<ul>
+<li>A client application</li>
+<li>An application server</li>
+<li>A database server</li>
+</ul>
+</li>
+<li>As more and more user requests hitting the application server, our application server fails to handle them all, probably due to CPU, memory, and connection limit.
+<ul>
+<li>We can upgrade the application server to a more powerful machine (vertical scaling).</li>
+<li>If that's not enough, we can set up more application servers and a load balancer to handle increasing traffic (horizontal scaling and load balancing).</li>
+<li>We can also set up a CDN to cache static assets (caching).</li>
+</ul>
+</li>
+<li>As more and more user data stored in our database, database query speed slows down.
+<ul>
+<li>We can upgrade the database server to a more powerful machine (vertical scaling).</li>
+<li>Read
+<ul>
+<li>If that's not enough, we can put a cache between the application servers and the database to speed up database read operations (caching).</li>
+<li>If that's not enough, we can do database replication (database replication).</li>
+</ul>
+</li>
+<li>Write
+<ul>
+<li>If that's not enough, we can shard the database into multiple smaller ones to accelerate write operations (database sharding).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>As we add more and more features, the application server fails to handle them all, probably due to CPU and memory limit, or dependency conflicts.
+<ul>
+<li>We can upgrade the application server to a more powerful machine (vertical scaling).</li>
+<li>If that's not enough, we can split the application into multiple services and run each of them in a separate server. We also use an API gateway (or even a cluster of gateways) to route the requests to different services (routing).</li>
+</ul>
+</li>
+</ol>
+<p>The scaled client-server application has the following final layout:</p>
+<ul>
+<li>The client application that serves as the user interface.</li>
+<li>A CDN that serves static assets quickly.</li>
+<li>A load balancer that distributes traffic across multiple API gateway instances running on different servers to maximize availability and performance.
+<ul>
+<li>TLS termination</li>
+<li>Load balancing</li>
+</ul>
+</li>
+<li>A cluster of API gateways that control access and route requests to APIs:
+<ul>
+<li>Rate limiting
+<ul>
+<li>DDoS</li>
+</ul>
+</li>
+<li>Logging</li>
+<li>Authentication/authorization</li>
+<li>Routing</li>
+</ul>
+</li>
+<li>A message broker or message queue for event-driven processing</li>
+<li>A distributed cache</li>
+<li>A collection of services that takes care of:
+<ul>
+<li>User</li>
+<li>Business logic</li>
+<li>Observability
+<ul>
+<li>Logging</li>
+<li>Metric monitoring</li>
+<li>Alerting</li>
+<li>Analytics</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>A group of databases that addresses:
+<ul>
+<li>Latency</li>
+<li>Throughput</li>
+<li>Availability</li>
+<li>Reliability</li>
+<li>Scalability</li>
+</ul>
+</li>
+<li>A set of communication methods that utilize HTTP, TCP, or UDP protocol:
+<ul>
+<li>REST</li>
+<li>Web socket</li>
+<li>RPC</li>
+</ul>
+</li>
+</ul>
+<h2 id="security"><a class="zola-anchor" href="#security" aria-label="Anchor link for: security">Security</a></h2>
+<p>System <a href="https://teyuanliu.github.io/blog/security/">security</a> has become more and more important.</p>
+<h2 id="see-also"><a class="zola-anchor" href="#see-also" aria-label="Anchor link for: see-also">See also</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;development-cycle&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;docker&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>     
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>
