@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="header-text">
+  <div class="header-title">
+    {{ page.title }}
+  </div>
+  <div class="header-metadata">
+    {% if page.updated %}
+      {% if page.reading_time == 1 %}
+        {{ page.updated | date(format="%b %e, %Y") }} · {{ page.word_count }} words · {{ page.reading_time }} min read
+      {% else %}
+        {{ page.updated | date(format="%b %e, %Y") }} · {{ page.word_count }} words · {{ page.reading_time }} mins read
+      {% endif %}
+    {% else %}
+      {% if page.reading_time == 1 %}
+        {{ page.date | date(format="%b %e, %Y") }} · {{ page.word_count }} words · {{ page.reading_time }} min read
+      {% else %}
+        {{ page.date | date(format="%b %e, %Y") }} · {{ page.word_count }} words · {{ page.reading_time }} mins read
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+<div class="content">
+  <!-- 
+  {% if page.toc %}
+    <ul>
+      {% for h2 in page.toc %}
+        <li>
+          <a href="{{ h2.permalink | safe }}">{{ h2.title }} </a>
+          {% if h2.children %}
+            <ul>
+              {% for h3 in h2.children %}
+                <li>
+                  <a href="{{ h3.permalink | safe }}">{{ h3.title }}</a>
+                  <ul>
+                    {% for h4 in h3.children %}
+                      <li>
+                        <a href="{{ h4.permalink | safe }}">{{ h4.title }}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  -->
+  {{ page.content | safe }}
+  {% if page.lower %}
+    <a href="{{ page.lower.permalink }}" class="button float-left">&larr;Previous</a>
+  {% endif %}
+  {% if page.higher %}
+    <a href="{{ page.higher.permalink }}" class="button float-right">Next&rarr;</a>
+  {% endif %}
+</div>
+{% endblock content %}

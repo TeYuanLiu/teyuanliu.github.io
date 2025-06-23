@@ -1,9 +1,11 @@
 +++
 title = "Bootstrap"
 date = 2025-04-25
+updated = 2025-05-04
 +++
 
 Bootstrap is a powerful, feature-packed frontend toolkit that includes pre-built CSS styles and JavaScript components. We can build prototypes and production-grade frontend in minutes.
+<!-- more -->
 
 ## Installation
 
@@ -26,3 +28,5 @@ Bootstrap organizes components through 3 layers:
     -   Use `offset-7` to make the column shift 7 column spaces to the right from the previous column.
 
 By just adding the pre-built `container` class to a `div` tag, Bootstrap automatically scales the content font size, padding, and margin in responding to display size changes.
+
+## See also

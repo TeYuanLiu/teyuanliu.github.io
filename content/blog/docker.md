@@ -1,9 +1,11 @@
 +++
 title = "Docker"
 date = 2025-04-20
+updated = 2025-05-01
 +++
 
 Docker is an open platform for developing, shipping, and running applications.
+<!-- more -->
 
 ## Features
 
@@ -17,9 +19,9 @@ Portability | Yes | No
 Speed | Slow | Fast
 Debug | Hard | easy
 
-### TLDR
+### Use case
 
-Use Docker if you need:
+Use Docker if we need:
 -   Isolation for dependency or security
 -   Portability for running the application on a different computer
 

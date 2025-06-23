@@ -1,9 +1,11 @@
 +++
 title = "Markdown"
 date = 2025-04-13
+updated = 2025-04-13
 +++
 
 Markdown is a simple way to format text. Here I documented some good points I found in the [Google Markdown style guide].
+<!-- more -->
 
 [Google Markdown style guide]: https://google.github.io/styleguide/docguide/style.html
 

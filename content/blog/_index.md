@@ -2,7 +2,6 @@
 title = "Blog"
 sort_by = "title"
 template = "section.html"
-page_template = "blog-page.html"
+page_template = "page.html"
+insert_anchor_links = "heading"
 +++
-
-This is my blog.

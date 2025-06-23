@@ -1,9 +1,11 @@
 +++
 title = "Product"
 date = 2025-04-26
+updated = 2025-05-04
 +++
 
-I have a great idea, but how to turn it into a successful software product? Here are some steps that may give us some guidance.
+We have a great business idea, but how to turn it into a software product? Here are some steps that may give us some guidance.
+<!-- more -->
 
 ## Steps
 
@@ -16,8 +18,8 @@ I have a great idea, but how to turn it into a successful software product? Here
 1.  Minimum-Viable-Product (MVP)
     -  Turn customers’ feature requests into MVP tech spec.
     -  Evaluate each feature's impact to engineering hour cost ratio to prioritize high Return-On-investment (ROI) features.
-    -   Synchronize with customers on the tradeoff between time and feature quantity/quality, and delivery deadlines.
-    -   Implement a Proof-Of-Concept (POC) system using hybrid development style and monolithic architecture.
+    -   Synchronize with customers on the tradeoff between time and feature quality/quantity, and delivery deadlines.
+    -   [Design](@/blog/system-design.md) and implement a Proof-Of-Concept (POC) system.
     -   Set up an operational dashboard for logs, metrics, and alerts.
     -   Work with the design team to polish the user interface.
     -   Write documentation.

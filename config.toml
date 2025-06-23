@@ -14,3 +14,7 @@ highlight_code = true
 
 [extra]
 # Put all your custom variables here
+head_title = "teyuanliu.github.io"
+email = "teyuanliu@gmail.com"
+linkedin = "https://www.linkedin.com/in/teyuanliu"
+github = "https://github.com/TeYuanLiu"

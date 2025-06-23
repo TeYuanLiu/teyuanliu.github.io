@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>teyuanliu.github.io</title>
-  </head>
-
+  {% include "head.html" %}
   <body>
-    <div class="grid-container">
-      {% block body %} {% endblock body%}
+    <div class="body">
+      {% include "header-image.html" %}
+      {% include "navigation.html" %}
+      {% block content %}
+      {% endblock content %}
+      {% include "footer.html" %}
     </div>
+    <script defer="defer" src="/script.js"></script>
   </body>
-
 </html>

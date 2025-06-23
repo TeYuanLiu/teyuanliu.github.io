@@ -1,9 +1,11 @@
 +++
 title = "Visual Studio Code"
 date = 2025-04-13
+updated = 2025-05-04
 +++
 
 Visual Studio Code (VSCode) is a lightweight Integrated Development Environment (IDE) that can become super powerful with extension and plugin installed.
+<!-- more -->
 
 ## Terminal commands
 

@@ -1,21 +1,12 @@
 {% extends "base.html" %}
-
-{% block body %}
-
-<h1>Te-Yuan Liu</h1>
-
-<hr>
-
-<h1>{{ section.title }}</h1>
-
-<hr>
-
-{{ section.content | safe }}
-
-<ul>
-  <li>
-    <a href="{{ get_url(path='@/blog/_index.md') | safe }}">Blog</a>
-  </li>
-</ul>
-
-{% endblock body %}
+{% block content %}
+<div class="header-text">
+  <div class="header-title">
+    {{ section.title }}
+  </div>
+</div>
+<div class="content">
+  {{ section.content | safe }}
+  <a class="button float-right" href="{{ get_url(path='@/blog/_index.md') }}">Blog&rarr;</a>
+</div>
+{% endblock content %}

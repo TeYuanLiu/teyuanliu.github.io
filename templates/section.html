@@ -1,25 +1,40 @@
 {% extends "base.html" %}
-
-{% block body %}
-
-<h1>
-  <a href="{{ get_url(path='@/_index.md') | safe }}">Te-Yuan Liu</a>
-</h1>
-
-<hr>
-
-<h1>{{ section.title }}</h1>
-
-<hr>
-
-{{ section.content | safe }}
-
-<ul>
+{% block content %}
+<div class="header-text">
+  <div class="header-title">
+    {{ section.title }}
+  </div>
+</div>
+<div class="content">
+  {{ section.content | safe }}
   {% for page in section.pages %}
-  <li>
-    <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
-  </li>
+    <div class="page-item">
+      <a href="{{ page.permalink | safe }}">
+        <div class="page-item-title">
+          {{ page.title }}
+        </div>
+        <div class="page-item-metadata">
+          {% if page.updated %}
+            {% if page.reading_time == 1 %}
+              {{ page.updated | date(format="%b %e, %Y") }} · {{ page.word_count }} words · {{ page.reading_time }} min read
+            {% else %}
+              {{ page.updated | date(format="%b %e, %Y") }} · {{ page.word_count }} words · {{ page.reading_time }} mins read
+            {% endif %}
+          {% else %}
+            {% if page.reading_time == 1 %}
+              {{ page.date | date(format="%b %e, %Y") }} · {{ page.word_count }} words · {{ page.reading_time }} min read
+            {% else %}
+              {{ page.date | date(format="%b %e, %Y") }} · {{ page.word_count }} words · {{ page.reading_time }} mins read
+            {% endif %}
+          {% endif %}
+        </div>
+        <div class="page-item-summary">
+          {% if page.summary %}
+            {{ page.summary | striptags }}
+          {% endif %}
+        </div>
+      </a>
+    </div>
   {% endfor %}
-</ul>
-
-{% endblock body %}
+</div>
+{% endblock content %}
