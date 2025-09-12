@@ -352,10 +352,10 @@ Assume we have a computer already installed with Windows, then we can install Ub
     1.  Let's quickly recap what happens when we boot up the computer.
         1.  We press the power button.
         1.  The UEFI/BIOS initializes the hardware.
-        1.  The UEFI/BIOS loads the first bootloader in the boot order (typically the GRUB bootloader at `/boot/efi/EFI/ubuntu/grubx64.efi` in the Ubuntu partition).
+        1.  The UEFI/BIOS loads **the first bootloader** in the boot order (typically the GRUB bootloader at `/boot/efi/EFI/ubuntu/grubx64.efi` in the Ubuntu partition).
         1.  The GRUB bootloader prompts the user with the GRUB menu containing the Ubuntu and Windows boot option.
         1.  The user selects a boot option and it loads the OS kernel and starts system processes.
-    1.  Now we can see that the first bootloader loaded is probably not the one we want.
+    1.  Now we can see that **the first bootloader** loaded is probably not the one we want.
     1.  A temporary fix we can do in the rescue terminal right away is to look for the Ubuntu partition and use it for current booting.
         ```bash
         ls (hd0,gpt1)/boot/grub # Iterate over every (hdx,gpty) until we find an existing (hdx,gpty)/boot/grub directory. Let's say (hd1,gpt4)/boot/grub is our target directory.
@@ -366,12 +366,21 @@ Assume we have a computer already installed with Windows, then we can install Ub
         ```
     1.  A permanent fix is to reboot the computer, pressing the UEFI/BIOS key (F2 in Acer and Dell, F10 in HP) and rearrange the bootloader order to prioritize the one located in the Ubuntu partition.
 
-1.  Fix secondary display white screen issue.
-    1.  After logging into the system, if we find the secondary display shows a white screen, it's probably because we lack the Nvidia driver. We can fix it by installing the driver.
+1.  Fix secondary display issue.
+    1.  After logging into the system, if we find the secondary display has issue like no signal or white screen, it's probably because we lack the Nvidia driver. We can fix it by installing the driver.
         ```bash
         ubuntu-drivers devices # List recommended drivers.
-        sudo apt install nvidia-driver-550
-        sudo reboot # Reboot to apply the changes.
+        sudo apt install nvidia-driver-<DRIVER_VERSION> # Or use "sudo ubuntu-drivers autoinstall" to install recommended drivers. 
+        reboot # Reboot to apply the changes.
+        ```
+
+1.  Fix root fs mount failure.
+    1.  When we boot up the computer, if we see error message like "kernel panic - unable to mount root fs on unknown-block(0,0)", this means the current kernel's initramfs is broken. We can fix it by updating the initramfs.
+        ```bash
+         # Reboot. Choose "Advanced options for Ubuntu". Log into the system with another kernel.
+        sudo update-initramfs -u -k <BROKEN_INITRAMFS_KERNEL_VERSION>
+        sudo update-grub
+        reboot
         ```
 
 ### Package manager
