@@ -13,8 +13,8 @@ Rust has its installation management tool `rustup`, compiler `rustc` and package
 
 ## Compiler
 
-Rust's compiler checks for many things such as array indexing, and prevents many types of memory bugs common in C/C++:
--   Dangling pointers
+Rust's compiler checks for many things such as array indexing, and prevents many types of memory bug common in C/C++:
+-   Segmentation fault (invalid memory address or null pointer dereference)
 -   Use-after-free
 -   Double free
 

@@ -61,7 +61,7 @@ We can reduce Docker image size by:
 
 Smaller images are nice, but be aware of some possible pitfalls.
 
-For example, you can use the Pyinstaller to bundle the bytecode of your Python application and its dependencies, plus the Python interpreter binary into a single executable, and reduce the image size by 50%. But you may find out that:
+For example, we can use the Pyinstaller to bundle the bytecode of your Python application and its dependencies, plus the Python interpreter binary into a single executable, and reduce the image size by 50%. But we may find out that:
 -   Some dependencies like the certificate aren't bundled properly and require manual fix. This can grow indefinitely as more dependencies are added to the application.
 -   Image build time increases by 82% because the application code and the dependency have to be sorted out, compiled to bytecode, and compressed.
 -   Application response latency increases by 8% due to loss of module caching and optimization specific to Python native environment.
