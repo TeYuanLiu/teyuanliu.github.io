@@ -11,7 +11,7 @@ We have a great business idea, but how to turn it into a software product? Here 
 
 1.  Inception
     -  What kind of product do we want to sell? What features does it offer?
-    -  Do we want to build a product that generates revenue via subscription and maintenance, or the one for one-time sale?
+    -  Do we want to build a product that generates revenue via subscription or one-time sale?
 1.  Market survey
     -   Does our product have unique features that are different from the current major players in the market?
     -   Is the market growing with new customers coming in?
