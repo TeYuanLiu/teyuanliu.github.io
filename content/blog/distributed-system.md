@@ -11,10 +11,11 @@ A distributed system is a system consists of many services running independently
 
 In the [system design post](@/blog/system-design.md###microservice) we shared that a distributed system has good:
 -   Availability
+-   Reliability
 -   Scalability
 -   Flexibility
 
-But falls short at:
+But faces challenges for:
 -   Development
 -   Testing
 -   Deployment
@@ -107,8 +108,8 @@ The scaled client-server application has the following final layout:
 -   The client application that serves as the user interface.
 -   A CDN that serves static assets quickly.
 -   A load balancer that distributes traffic across multiple API gateway instances running on different servers to maximize availability and performance.
-    -   TLS termination
     -   Load balancing
+    -   TLS termination
 -   A cluster of API gateways that control access and route requests to APIs:
     -   Rate limiting
         -   DDoS
@@ -122,7 +123,7 @@ The scaled client-server application has the following final layout:
     -   Business logic
     -   Observability
         -   Logging
-        -   Metric monitoring
+        -   Metrics
         -   Alerting
         -   Analytics
 -   A group of databases that addresses:
@@ -131,10 +132,14 @@ The scaled client-server application has the following final layout:
     -   Availability
     -   Reliability
     -   Scalability
--   A set of communication methods that utilize HTTP, TCP, or UDP protocol:
-    -   REST
-    -   Web socket
-    -   RPC
+-   A set of communication methods:
+    -   Application layer
+        -   REST (HTTP/HTTP2, TCP)
+        -   GraphQL (HTTP/WebSocket, TCP)
+        -   gRPC (HTTP2/QUIC, TCP/UDP)
+    -   Transport layer
+        -   TCP
+        -   UDP
 
 ## Security
 

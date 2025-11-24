@@ -57,7 +57,7 @@ These downsides bring us to another architecture, microservice.
 A microservice architecture breaks down the application into small, loosely coupled and independently deployable services. Each service is responsible for a specific business functionality and communicates with other services through APIs. This is also known as a [distributed system](@/blog/distributed-system.md).
 
 The microservice architecture addresses some of the pain points of the monolithic architecture:
--   Availability is higher as one service's failure doesn't necessarily bring down the whole application.
+-   Availability and reliability are higher as one service's failure doesn't necessarily bring down the whole application.
 -   Individual services can be scaled independently based on demand. Horizontal scaling (adding more machines) unlocks the capability of handling large volume of requests.
 -   The flexibility of changing each service independently allows more agile development.
 
