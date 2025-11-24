@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    C
+  </div>
+  <div class="header-metadata">
+    
+      
+        May  4, 2025 · 149 words · 1 min read
+      
+    
+  </div>
+</div>
+<div class="content">
+  <!-- 
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/c/#memory-layout">Memory layout </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/c/#common-memory-bugs">Common memory bugs</a>
+                  <ul>
+                    
+                  </ul>
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/c/#see-also">See also </a>
+          
+        </li>
+      
+    </ul>
+  
+  -->
+  <h2 id="memory-layout"><a class="zola-anchor" href="#memory-layout" aria-label="Anchor link for: memory-layout">Memory layout</a></h2>
+<p>Below is the memory layout listed from top to bottom in the memory space.</p>
+<ul>
+<li>Kernel space
+<ul>
+<li>Access this region can cause segmentation fault.</li>
+</ul>
+</li>
+<li>Stack
+<ul>
+<li>Include function calls, local variables.</li>
+<li>Deep recursion and large local variable variable allocation can cause stack overflow.</li>
+<li>Grow downward.</li>
+</ul>
+</li>
+<li>Unused memory</li>
+<li>Heap
+<ul>
+<li>Malloc/new dynamic allocations</li>
+<li>Invalid free/deref can cause segmentation fault.</li>
+<li>Grow upward</li>
+</ul>
+</li>
+<li>BSS
+<ul>
+<li>Uninitialized global variables</li>
+</ul>
+</li>
+<li>Data
+<ul>
+<li>Initialized global variables</li>
+</ul>
+</li>
+<li>Text
+<ul>
+<li>Compiled code</li>
+</ul>
+</li>
+<li>NULL (memory address 0x0)
+<ul>
+<li>Deref can cause segmentation fault here.</li>
+</ul>
+</li>
+</ul>
+<h3 id="common-memory-bugs"><a class="zola-anchor" href="#common-memory-bugs" aria-label="Anchor link for: common-memory-bugs">Common memory bugs</a></h3>
+<ul>
+<li>Segmentation fault
+<ul>
+<li>A segmentation fault occurs when a program tries to access a memory region it is not allowed to. Some examples are listed below.
+<ul>
+<li>Read/write outside of array bounds</li>
+<li>Dereferencing a null or dangling pointer</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Stack overflow
+<ul>
+<li>A stack overflow happens when a program uses too much stack memory. Some examples are listed below.
+<ul>
+<li>Deep recursion</li>
+<li>Large local variable allocation</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="see-also"><a class="zola-anchor" href="#see-also" aria-label="Anchor link for: see-also">See also</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;bootstrap&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;caching&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>     
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>
