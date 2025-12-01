@@ -13,7 +13,7 @@ Etcd stores data in the key-value pair format.
 
 The key is a unique, hierarchical string that serves as the object's address. It is structured like a file path to enable efficient querying and range lookups. It generally follows the format of `/registry/<resource_type>/<namespace>/<object_name>`, for example, `/registry/pods/default/my-pod`.
 
-The value is the complete YAML/JSON representation of the Kubernetes object, including the `apiVersion`, `kind`, `metadata`, `spec`, and `status`. It is usually stored as a serialized data blob like JSON.
+The value is the complete YAML/JSON representation of the Kubernetes object, including the `apiVersion`, `kind`, `metadata`, `spec`, and `status`. It is usually stored as a serialized YAML/JSON data blob.
 
 ## Data consistency
 
@@ -25,16 +25,16 @@ The Raft consensus algorithm counts on a leader-follower protocol to enforce dat
 
 A leader has two duties:
 -   Uses the `AppendEntries` Remote Procedure Call (RPC) to:
-    -   Replicate data to its followers for write requests and failure recovery.
-    -   Express heartbeat using empty-data `AppendEntries` when its heartbeat timer timeouts. Sending out `AppendEntries` for data replication also resets the heartbeat timer. 
+    -   Send its empty-payload heartbeat to the followers periodically via a heartbeat timer. The timer automatically resets after expiration. A follower resets its election timer when receiving a leader heartbeat.
+    -   Replicate data to its followers for write requests and failure recovery. Note that this resets its heartbeat timer as well. 
 -   Handle read requests.
 
 An `AppendEntries` contains:
 -   Metadata
     -   Follower node ID
     -   Term number
-    -   Leader commit index (the highest log entry the leader has committed)
--   Data
+    -   Leader commit index (the highest/latest log entry index the leader has committed)
+-   Payload
     -   Write Ahead Log (WAL)
         -   Previous entry (index + term number + key-value pair)
         -   Next entry (index + term number + key-value pair)
@@ -61,7 +61,7 @@ Due to the frequent writes to the log, etcd's performance heavily relies on the 
 #### Read request
 
 1.  A client sends a read request to the leader.
-1.  The leader ensures the data it serves is fresh by verifying its leader position via lease validation or even sending out a heartbeat to a majority of the followers.
+1.  The leader ensures the data it serves is fresh by verifying its leader position via lease validation or even sending out its heartbeat to a majority of the followers.
 1.  It checks the key-value cache. If the key is in the cache, it replies to the client.
 1.  Otherwise, it checks the key-disk-location index. If the key is in the index, it reads the value from the BoltDB and replies to the client. It also updates the key-value cache.
 1.  Otherwise, it searches in the BoltDB. If the key is in the BoltDB, it reads the value from the BoltDB, and replies to the client. It also updates the key-value cache and key-disk-location index.
@@ -81,13 +81,13 @@ A leader can be generated via the leader election process:
         1.  The receivers checks that whether the requesting candidate's WAL is at least as up-to-date as the receiver's WAL by comparing the last log index and term number.
         1.  If all three checks pass, the receiver grants the vote and resets its election timer. Otherwise, it rejects the `RequestVote`.
 1.  Winning
-    1.  If a candidate receives votes from a majority of the nodes, it becomes the new leader. If two candidates get the same votes, neither of them satisfies the majority vote rule so no leader is elected. Every node watches its election timer and starts another round of leader election after the timer timeouts (the timer is randomized to avoid indefinite staleness).
+    1.  If a candidate receives votes from a majority of the nodes, it becomes the new leader. If two candidates get the same votes, neither of them satisfies the majority vote rule so no leader is elected. Every node watches its election timer and starts another round of leader election after the timer expires (the timer is randomized to avoid indefinite staleness).
 1.  Heartbeat
-    1.  The new leader starts sending out heartbeats constantly.
+    1.  The new leader starts sending out its heartbeat constantly.
 
 ##### Disconnection and reconnection
 
-If a follower disconnects from the cluster, it transitions to a candidate, incrementing its term number, and resets the election timer. Because it is isolated from the others, it cannot get enough votes to become a leader. The election timer eventually times out and it restarts the leader election process. This election failure loop can make this isolated node having a large term number.
+If a follower disconnects from the cluster and no longer receives a leader heartbeat, it transitions to a candidate, incrementing its term number, and resets the election timer. Because it is isolated from the others, it cannot get enough votes to become a leader. The election timer eventually times out and it restarts the leader election process. This election failure loop can make this isolated node having a large term number.
 
 When the node reconnects to the cluster, if its term number is larger than the cluster leader's, it rejects the `AppendEntries` from the leader with its own term number, forcing the leader to update its own term number and reverts to the follower state.
 
