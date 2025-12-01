@@ -47,13 +47,13 @@ The Linux kernel acts as a bridge between hardware and software. When we press t
         -   Paging page replacement
         -   Page cache
     -   I/O subsystem
-        -   Virtual file system
-            -   The kernel utilizes virtual file system to interact with files on different systems.
+        -   Virtual filesystem
+            -   The kernel utilizes virtual filesystem to interact with files on different systems.
             -   The kernel utilizes drivers to interact with different peripheral devices.
             -   Terminal
                 -   Line discipline
                 -   Character device drivers.
-            -   File systems
+            -   Filesystems
                 -   Generic block layer
                 -   I/O scheduler (Linux kernel)
                 -   Block device drivers
@@ -65,72 +65,62 @@ The Linux kernel acts as a bridge between hardware and software. When we press t
     -   IPOs dispatcher
 -   Once initialized, the kernel starts applications in the user space and lets the user to log in.
 
-## File system
+## Namespace
 
-Linux's ext4 file system follows the Filesystem Hierarchy Standard (FHS) 3 specification and has the following structure:
--   /: root
--   /bin: essential binaries like `ls`
--   /sbin: superuser's essential binaries like `mount`
--   /lib: shared code between binaries
--   /usr/bin: non-essential installed binaries
--   /usr/local/bin: locally compiled binaries separated from binaries installed by system package manager
--   /etc: editable text configurations
--   /home/user: user workspace
--   /boot: files needed to boot the system like the Linux kernel
--   /dev: external device like disks
--   /opt: optional binaries
--   /var: logs and cache files
--   /tmp: temporary files
--   /proc: file system created in memory to keep track of running processes
+A Linux namespace is a logical box defined by Linux kernel feature that holds a specific software resource for a process or a group of processes within the namespace. Namespaces create lightweight, isolated environments.
 
-### Storage devices in file system
+### Namespace types
 
--   Storage devices are displayed with names like “sda”, “sdb” in Linux file system.
--   The “sd” stands for Small Computer System Interface (SCSI) Disk, which is a data transfer protocol succeeded by other protocols like Serial Advanced Technology Attachment (SATA) and Non-Volatile Memory Express (NVMe). Therefore, the "sd" includes SATA and NVMe disks as well nowadays.
--   The next letter indicates the device order, so “sda” means the first detected disk and “sdb” means the second one.
--   Each partition on the disk is given a number, so “sda1” is the first partition on the first disk.
+-   Process ID (PID)
+    -   Isolate process IDs
+    -   Each namespace has its own PID 1 process.
+-   Inter-Process Communication (IPC)
+    -   Isolate shared memory, message queues, and semaphores (resource counter to prevent race condition).
+-   Control group (cgroup)
+    -   Isolate resource limits.
+    -   Each namespace has its own cgroup for resources like CPU, memory and I/O.
+-   Mount
+    -   Isolate filesystem.
+    -   Each namespace has its own root filesystem mount-point.
+-   User ID (UID)
+    -   Isolate user and group IDs.
+    -   Each namespace has its own UID 0 user (root) and it is mapped to a different UID on the system.
+-   Environment variable
+    -   Isolate environment variable.
+-   Network
+    -   Isolate IP address (65536 ports), network devices, routing table, iptables (firewall, Network Address Translation (NAT), mangle table).
+-   UTS
+    -   Isolate hostname and domain name.
+    -   Each namespace has its own hostname.
+-   Time
+    -   Isolate system clocks.
 
-### File permissions
+## Process
 
--   We can list the permission setting of a file by running `ls -l <FILE_NAME>`, and see the symbolic permissions string which is similar to `-rw-r--r--`.
-    -   The first character indicates whether the file is a file ("-") or a directory ("d").
-    -   The second to fourth characters form the first triplet and it represents the owner.
-        -   The owner is the user who created the file.
-        -   The first character in the triplet means the read permission, which shows whether the owner can read the file's content.
-        -   The second character in the triplet is the write permission, which shows whether the owner can edit the file's content.
-        -   The third and last character in the triplet is the execute permission, which shows whether the owner can execute the file as a binary.
-        -   If the "r", "w", and "x" letters are shown, it means those privileges are granted, but if there is a dash it means permission denied.
-    -   The fifth to seventh characters make the second triplet and means the group.
-        -   The group is a group of users sharing the same set of permissions on this file.
-        -   The three characters, just like those in the owner's setting, represents read, write and execute permissions.
-    -   The eighth to tenth characters shape the third and last triplet and indicates the others.
-        -   The others means every user that is neither the owner nor a user in the group.
-        -   The three characters, just like those in the owner's setting, represents read, write and execute permissions.
--   Permissions can be presented in other formats.
-    -   Symbolic permissions `rwx` can be seen as `111` in binary because all the bits are set, and we can convert binary `111` to number  `7`. Therefore, a symbolic permissions string `-rwxr-xr-x` is `755`.
--   Setuid, Setgid, and sticky bit provide additional control over file and directory.
-    -   Setuid
-        -   Set the Setuid bit on an executable file allows the file to be run with the permission of the file owner instead of the user actually running it. A symbolic permissions string example is `-rwsr-xr-x`.
-        -   One example is the `/usr/bin/passwd` file, which has `-rwsr-xr-x` permissions to let users edit sensitive system files to set their passwords.
-    -   Setgid
-        -   The Setgid bit works in the way similar to Setuid and allows the file to be run with the group’s permission rather than the user actually running it. A symbolic permissions string example is `drwxrwsr-x`.
-        -   One example is setting the Setgid on a directory to ensure the files created within the directory have the same permission setting as the directory, allowing team members to work together on a project.
-    -   Sticky bit
-        -   The Sticky bit is set on a directory when we want to make sure only the directory owner and the root user can delete the directory. A symbolic permissions string example is `drwxrwxrwt`.
+A process is a running instance of a program that consists of an isolated memory address space and the execution of some code. When we execute a command like `ls` or `python script.py`, the Linux kernel creates a process to execute the code.
+
+During creation, each process is given the following resource.
+-   A unique identifier called a Process ID (PID)
+-   A process view. It by default inherits the parent process's process view. If the parent process is the shell, it can see all other processes on the system.
+-   A cgroup for CPU, memory, I/O access and limit. It by default inherits the parent process's cgroup. If the parent process is the shell, it can use as much CPU and memory as the system has available. Tools like Systemd or Docker creates a new cgroup, defining the CPU/memory limits, and assigns the process to it.
+-   A filesystem view. It by default inherits the parent process's filesystem. If the parent process is the shell, it can see all files on the system. Tools like Docker uses containerd, which uses runc, to run `chroot` to change the root directory of each container process for an isolated filesystem view. 
+-   A network namespace for an IP address (65536 ports), network devices (loopback, eth0, wlan0), routing table, and iptables like filter table (firewall), Network Address Translation (NAT) table, and mangle table (for packet modification). It by default inherits the parent process's network namespace. If the parent process is the shell, it can use the system network namespace. Tools like Docker creates a new network namespace for each new container and assigns the container process to it.
+
+Processes have a parent-child hierarchy as one process can start a child process.
 
 ## Rings
 
 Linux uses rings to administrate operation privileges.
 -   The kernel is in ring 0, which has the highest level of privilege.
 -   The user operates in ring 3, which has the lowest level of privilege.
--   The system call interface let a user to move from ring 3 to ring 0 and make System Call (SYSCALL) to do things like writing a file in the file system.
+-   The system call interface let a user to move from ring 3 to ring 0 and make System Call (SYSCALL) to do things like writing a file in the filesystem.
 -   The GNU Library for C (GLIBC) provides SYSCALL wrappers called functions to C application such that applications can make function calls and run SYSCALLs under the hood.
 
 ## GNU and shell
 
 In 1983, Richard Stallman started the GNU project to provide binaries that make the kernel useful.
 -   A terminal is a graphical user interface, which lets us interact with a shell.
--   A shell is a command interpreter and serves as a layer of protection between the kernel and user space. It takes in commands but the real work is done by binaries in `/bin`.
+-   A shell is a command interpreter and serves as a layer of protection between the kernel and user space. It takes in a command and call the corresponding binary in `/bin` to start a process executing that binary, which is doing the real work.
 -   A user can directly type and execute commands on a terminal or write a shell script to group commands together and then execute the script.
 -   Nowadays we have different shell options like SH (the original one), BASH, RBASH, DASH, and ZSH. They all use the same binaries in `/bin` but each option varies in terms of command and script syntax, execution speed performance, auto-completion, syntax-highlighting, and customization flexibility. 
 -   We can run `cat /etc/shells` to see what shell options are available on our machine. Below is an example output.
@@ -138,7 +128,10 @@ In 1983, Richard Stallman started the GNU project to provide binaries that make 
     /bin/sh
     /usr/bin/sh
     /bin/bash
-    /user/bin/bash
+    /use/bin/bash
+    /bin/rbash
+    /use/bin/rbash
+    /usr/bin/dash
     ```
     We can also run `echo $SHELL` to see our current shell or `echo $0` to see the active shell process.
 
@@ -277,13 +270,19 @@ In 1983, Richard Stallman started the GNU project to provide binaries that make 
     ```bash
     sed
     ```
+-   Archive a directory of files into one single file.
+    ```bash
+    tar -cvf archive.tar /path/to/files
+    ```
 -   Compress a file.
     ```bash
-    gzip
+    gzip file
     ```
--   Archive a directory.
+-   Archive a directory of files into one single file and then compress it.
     ```bash
-    tar
+    tar -czvf archive.tar.gz /path/to/files
+    or
+    zip archive.zip /path/to/files
     ```
 -   Get the IDs of the processes that are listening or talking to a port.
     ```bash
@@ -313,7 +312,7 @@ In 1983, Richard Stallman started the GNU project to provide binaries that make 
     ```bash
     python3 -m site
     ```
-    -   Debian's package manager `apt` installs packages to `dist-packages` like `/usr/lib/python3.12/dist-packages/`.
+    -   Debian's package manager `apt` installs packages to `dist-packages` like `/usr/local/lib/python3.12/dist-packages/`.
     -   Third party tools like pip installs packages to `site-packages`.
 -   Add the current user to a group.
     ```bash
@@ -329,6 +328,98 @@ In 1983, Richard Stallman started the GNU project to provide binaries that make 
     sudo rm -r /mnt/EFI/<DIRECTORY_TO_BE_DELETED>
     sudo umount /mnt
     ```
+
+## Filesystem
+
+Linux's ext4 filesystem follows the Filesystem Hierarchy Standard (FHS) 3 specification and has the following structure:
+-   `/`: Root
+-   `/bin`: Essential binaries like `ls`
+-   `/sbin`: Superuser's essential binaries like `mount`
+-   `/lib`: Shared code between binaries
+-   `/usr/bin`: Non-essential installed binaries
+-   `/usr/local/bin`: Locally compiled binaries separated from binaries installed by system package manager
+-   `/etc`: Editable text configurations
+-   `/home/user`: User workspace
+-   `/boot`: Files needed to boot the system like the Linux kernel
+-   `/dev`: External devices like disks
+-   `/opt`: Optional binaries
+-   `/var`: Logs and cache files
+-   `/tmp`: Temporary files
+-   `/proc`: A filesystem created in memory to keep track of running processes
+
+### Storage devices in filesystem
+
+-   Storage devices are displayed with names like “sda”, “sdb” in Linux filesystem.
+-   The “sd” stands for Small Computer System Interface (SCSI) Disk, which is a data transfer protocol succeeded by other protocols like Serial Advanced Technology Attachment (SATA) and Non-Volatile Memory Express (NVMe). Therefore, the "sd" includes SATA and NVMe disks as well nowadays.
+-   The next letter indicates the device order, so “sda” means the first detected disk and “sdb” means the second one.
+-   Each partition on the disk is given a number, so “sda1” is the first partition on the first disk.
+
+### File permissions
+
+-   We can list the permission setting of a file by running `ls -l <FILE_NAME>`, and see the symbolic permissions string which is similar to `-rw-r--r--`.
+    -   The first character indicates whether the file is a file ("-") or a directory ("d").
+    -   The second to fourth characters form the first triplet and it represents the owner.
+        -   The owner is the user who created the file.
+        -   The first character in the triplet means the read permission, which shows whether the owner can read the file's content.
+        -   The second character in the triplet is the write permission, which shows whether the owner can edit the file's content.
+        -   The third and last character in the triplet is the execute permission, which shows whether the owner can execute the file as a binary.
+        -   If the "r", "w", and "x" letters are shown, it means those privileges are granted, but if there is a dash it means permission denied.
+    -   The fifth to seventh characters make the second triplet and means the group.
+        -   The group is a group of users sharing the same set of permissions on this file.
+        -   The three characters, just like those in the owner's setting, represents read, write and execute permissions.
+    -   The eighth to tenth characters shape the third and last triplet and indicates the others.
+        -   The others means every user that is neither the owner nor a user in the group.
+        -   The three characters, just like those in the owner's setting, represents read, write and execute permissions.
+-   Permissions can be presented in other formats.
+    -   Symbolic permissions `rwx` can be seen as `111` in binary because all the bits are set, and we can convert binary `111` to number  `7`. Therefore, a symbolic permissions string `-rwxr-xr-x` is `755`.
+-   Setuid, Setgid, and sticky bit provide additional control over file and directory.
+    -   Setuid
+        -   Set the Setuid bit on an executable file allows the file to be run with the permission of the file owner instead of the user actually running it. A symbolic permissions string example is `-rwsr-xr-x`.
+        -   One example is the `/usr/bin/passwd` file, which has `-rwsr-xr-x` permissions to let users edit sensitive system files to set their passwords.
+    -   Setgid
+        -   The Setgid bit works in the way similar to Setuid and allows the file to be run with the group’s permission rather than the user actually running it. A symbolic permissions string example is `drwxrwsr-x`.
+        -   One example is setting the Setgid on a directory to ensure the files created within the directory have the same permission setting as the directory, allowing team members to work together on a project.
+    -   Sticky bit
+        -   The Sticky bit is set on a directory when we want to make sure only the directory owner and the root user can delete the directory. A symbolic permissions string example is `drwxrwxrwt`.
+
+## Networking
+
+### Routing table
+
+A routing table stores a list of routes. Each route has the following information.
+-   Destination network
+-   Subnet mask
+-   Next hop address
+-   Network device to forward data packets
+
+### Network device
+
+A network device (network interface) is an abstract interface for data transmission. Its driver registers itself with the kernel and the kernel adds it to the network namespace. It acts as the bridge between the kernel and the physical hardware (like an Ethernet port or Wi-Fi card), and provides a standardized way for the kernel to send and receive data. A network device is not a file, unlike many other Linux objects such as hard drives (/dev/sda) or serial ports (/dev/ttys0).
+
+#### Network device types
+
+-   Physical device (hardware + software)
+    -   Ethernet devices have names based on physical location like `enp3s0f1` (ethernet PCI bus 3 slot 0 function 1) on systemd hosts. Legacy naming looks like `eth0`.
+    -   Wireless devices have names based on physical location like `wlp2s0` (wireless Lan PCI bus 2 slot 0) on systemd hosts. Legacy naming looks like `wlan0`.
+-   Virtual device (software-only)
+    -   Loopback, `lo`, is the virtual device that allows the computer to connect to itself at `127.0.0.1`, `localhost`.
+    -   Bridge, `br0`, acts like a virtual network switch that connects multiple network devices together.
+    -   Tunnel, `tun0`, is used by VPNs to pass traffic from the kernel to a user-space application.
+    -   Virtual ethernet, `veth`, is used by Container Runtime Interface (CRI) to link containers to the host.
+
+### Traffic flow
+
+When our application on Linux wants to send a request to a remote server.
+1.  Application layer
+    -   Our application sends the request to the kernel via a socket. A socket is a file in Linux that serves as a software endpoint for sending and receiving data. Its external address is defined by a combination of an IP address, a port number, and a protocol. 
+1.  Transport layer
+    -   The kernel encapsulates the request into a segment by adding TCP headers to the request.
+1.  Network layer
+    -   The kernel builds a packet from the segment by wrapping it with IP headers. It then forwards the segment to the specific network device like eth0.
+1.  Data link layer
+    -   The network device driver packages the packet into a frame.
+1.  Physical layer
+    -   The network device driver converts the frame into electrical signals and hands over the signals to a physical Network Interface Card (NIC) for transmission and the NIC sends it out.
 
 ## Ubuntu
 
@@ -476,6 +567,20 @@ Here are the steps I take to set up my development environment.
     ```bash
     sudo apt install python3.12-venv`
     ```
+1.  Install Go
+    1.  Download the latest archive from the [Go official website](https://go.dev/doc/install).
+    1.  Extract the files at `/user/local`
+        ```bash
+        sudo tar -C /usr/local -xzf go<MAJOR>.<MINOR>.<PATCH>.linux-amd64.tar.gz
+        ```
+    1.  Add this to the `.bashrc` file.
+        ```bash
+        PATH="$PATH:/usr/local/go/bin"
+        ```
+    1.  Open a new terminal and verify the installation.
+        ```bash
+        go version
+        ```
 
 ## See also
 

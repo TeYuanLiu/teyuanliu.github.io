@@ -5,7 +5,7 @@ updated = 2025-05-04
 tags = ["javascript"]
 +++
 
-JavaScript was created as a browser-only language to integrate with HTML/CSS. It positioned itself as a new language as a "younger brother" of the Java language popular at that time, but now it has its own specification called ECMAScript, and it is used not only in servers but also many other environments as well.
+JavaScript was created as a browser-only language to integrate with HTML/CSS. It positioned itself as a new language and a "younger brother" of the Java language popular at that time, but now it has its own specification called ECMAScript, and it is used not only in servers but also many other environments as well.
 <!-- more -->
 
 ## Features
@@ -33,4 +33,4 @@ Server-side JavaScript like Node.js supports functions to read/write arbitrary f
 
 ## See also
 
-- [An introduction to JavaScript](https://javascript.info/intro)
+-   [An introduction to JavaScript](https://javascript.info/intro)

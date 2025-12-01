@@ -9,7 +9,7 @@ Learning coding is not easy, but here are some steps we can follow to boost our 
 
 ## Steps
 
-1.   Learn to learn.
+1.  Learn to learn.
     -   Feynman technique
         -   Steps in general
             1.  Choose a topic.
@@ -22,7 +22,7 @@ Learning coding is not easy, but here are some steps we can follow to boost our 
             1.  Build a MVP fast.
             1.  Refactor and share.
     -   Learn and retain problem solving patterns over programming language syntax.
-1.   Go and build something.
+1.  Go and build something.
     -   Code with the mindset of prioritizing correctness, and then readability, and then performance.
     -   Code with AI.
         -   Start new AI chat for each distinct task to keep context focused and minimal.
@@ -39,7 +39,6 @@ Learning coding is not easy, but here are some steps we can follow to boost our 
     -   Code data separation
         -   Database schema compatibility
     -   Gradual depreciation (mark feature as deprecated in earlier versions before removal)
-
 
 ## See also
 

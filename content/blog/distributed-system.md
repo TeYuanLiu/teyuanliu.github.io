@@ -7,9 +7,45 @@ updated = 2025-05-04
 A distributed system is a system consists of many services running independently on different servers (servers can be physical machines, VMs, or containers) and connected via a network. Although its services are distributed, it appears as a single entity to the end user.
 <!-- more -->
 
+However, when we want to create a software application, distributed system may not be the one that first shows up in our minds.  A more intuitive and straightforward way is to create one single application that handles the end-to-end workflow. This tightly coupled structure leads us to the monolithic architecture.
+
+## Monolithic
+
+A monolithic system is built as a single, indivisible unit. All components of the system are tightly coupled. 
+
+Because the components reside in the same place, it has several benefits:
+-   Development is intuitive as coordination among components is obvious.
+-   [Testing](@/blog/testing.md) is easy because the application has one codebase and can be tested end-to-end as a single unit.
+-   Deploying, monitoring, and maintaining is straightforward as we can run a single [container](@/blog/container.md) or Virtual Machine (VM) to host the application with configuration stored as environment variables.
+-   Performance like latency is very good since we are doing in-process calls.
+-   Data is consistent because we have only one database to interact with.
+
+This architecture well fits use cases like building a prototype. However, as time goes by and the application grows bigger in terms of number of features and users, certain drawbacks gradually emerge:
+-   Availability can be greatly impacted by the failure of just one component. One component goes down, the entire application follows it.
+-   Scaling independently a specific component, which may require more resources than others, is impossible because everything is bundled as one unit so we are forced to scale all components together. Plus, vertical scaling (upgrading to a more powerful machine) hits certain limit because even the world's most powerful machine has compute and memory constraint.
+-   Flexibility is restrained as changing a part of the system requires redeployment of the entire application, not to mention that changing one component can produce bugs in other components.
+
+These downsides bring us to another architecture, microservice, which is the foundation for distributed systems.
+
+## Microservice
+
+A microservice architecture breaks down the application into small, loosely coupled and independently deployable services. Each service is responsible for a specific business functionality and communicates with other services through APIs.
+
+The microservice architecture addresses some of the pain points of the monolithic architecture:
+-   Availability and reliability are higher as one service's failure doesn't necessarily bring down the whole application.
+-   Individual services can be scaled independently based on demand. Horizontal scaling (adding more machines) unlocks the capability of handling large volume of requests.
+-   The flexibility of changing each service independently allows more agile development.
+
+However, just like a coin has two sides, the microservice architecture overcomes the monolithic architecture's shortcomings, but struggles to match the monolithic architecture's strengths:
+-   Development is more difficult because there are multiple codebases to manage and the coordination among services requires service discovery, load balancing and inter-service communication.
+-   Testing is more complicated as we need to test each component's functionality and the integration among services.
+-   Deploying, monitoring, and maintaining many services needs robust operation practices and tools.
+-   Performance like latency is not great due to the delay brought by communication between services over the network.
+-   Data consistency is challenging to maintain across multiple services.
+
 ## Tradeoffs
 
-In the [system design post](@/blog/system-design.md###microservice) we shared that a distributed system has good:
+To sum up, a distributed system has good:
 -   Availability
 -   Reliability
 -   Scalability
@@ -23,6 +59,12 @@ But faces challenges for:
 -   Maintenance
 -   Performance
 -   Data consistency
+
+When choosing the architecture for our system, it all comes down to the question: which set of metrics matters to us?
+
+If our product needs high availability, scalability, or flexibility, we probably want something closer to the microservice architecture, otherwise, something similar to the monolithic architecture is probably a better choice.
+
+In reality we often often have a fixture of both. We can apply the microservice architecture to components that need availability, scalability, or flexibility, while grouping others into a monolithic component.
 
 ### CAP theorem
 
@@ -59,7 +101,7 @@ Here are a few things we need to know about scaling a distributed system.
 -   [Caching](@/blog/caching.md)
     -   Store request-response pairs to handle repetitive requests quickly without making expensive API or [database](@/blog/database.md) calls over and over again.
         -   Client-side cache
-        -   CDN cache
+        -   Content-Delivery Network (CDN) cache
         -   Load balancer cache
         -   Message queue cache
         -   Service
@@ -69,7 +111,7 @@ Here are a few things we need to know about scaling a distributed system.
         -   In-memory cache
         -   Database cache
 -   Database selection
-    -   Choose SQL databases for consistency or NoSQL databases for availability and scalability.
+    -   Choose SQL/NewSQL databases for consistency or NoSQL databases for availability and scalability.
 -   Database replication
     -   Replicate the same database across multiple servers.
     -   Primary-replica
@@ -89,57 +131,20 @@ Here is a simulated example for scaling a client-server application.
     -   A client application
     -   An application server
     -   A database server
-2.  As more and more user requests hitting the application server, our application server fails to handle them all, probably due to CPU, memory, and connection limit.
+1.  As more and more user requests hitting the application server, our application server fails to handle them all, probably due to CPU, memory, and connection limit.
     -   We can upgrade the application server to a more powerful machine (vertical scaling).
     -   If that's not enough, we can set up more application servers and a load balancer to handle increasing traffic (horizontal scaling and load balancing).
     -   We can also set up a CDN to cache static assets (caching).
-3.  As more and more user data stored in our database, database query speed slows down.
+1.  As more and more user data stored in our database, database query speed slows down.
     -   We can upgrade the database server to a more powerful machine (vertical scaling). 
     -   Read
         -   If that's not enough, we can put a cache between the application servers and the database to speed up database read operations (caching).
         -   If that's not enough, we can do database replication (database replication).
     -   Write
         -   If that's not enough, we can shard the database into multiple smaller ones to accelerate write operations (database sharding). 
-4.  As we add more and more features, the application server fails to handle them all, probably due to CPU and memory limit, or dependency conflicts.
+1.  As we add more and more features, the application server fails to handle them all, probably due to CPU and memory limit, or dependency conflicts.
     -   We can upgrade the application server to a more powerful machine (vertical scaling).
     -   If that's not enough, we can split the application into multiple services and run each of them in a separate server. We also use an API gateway (or even a cluster of gateways) to route the requests to different services (routing).
-
-The scaled client-server application has the following final layout:
--   The client application that serves as the user interface.
--   A CDN that serves static assets quickly.
--   A load balancer that distributes traffic across multiple API gateway instances running on different servers to maximize availability and performance.
-    -   Load balancing
-    -   TLS termination
--   A cluster of API gateways that control access and route requests to APIs:
-    -   Rate limiting
-        -   DDoS
-    -   Logging
-    -   Authentication/authorization
-    -   Routing
--   A message broker or message queue for event-driven processing
--   A distributed cache
--   A collection of services that takes care of:
-    -   User
-    -   Business logic
-    -   Observability
-        -   Logging
-        -   Metrics
-        -   Alerting
-        -   Analytics
--   A group of databases that addresses:
-    -   Latency
-    -   Throughput
-    -   Availability
-    -   Reliability
-    -   Scalability
--   A set of communication methods:
-    -   Application layer
-        -   REST (HTTP/HTTP2, TCP)
-        -   GraphQL (HTTP/WebSocket, TCP)
-        -   gRPC (HTTP2/QUIC, TCP/UDP)
-    -   Transport layer
-        -   TCP
-        -   UDP
 
 ## Security
 
