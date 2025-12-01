@@ -61,7 +61,9 @@ Due to the frequent writes to the log, etcd's performance heavily relies on the 
 #### Read request
 
 1.  A client sends a read request to the leader.
-1.  The leader ensures the data it serves is fresh by verifying its leader position via lease validation or even sending out its heartbeat to a majority of the followers.
+1.  The leader ensures its leader position via the leader lease.
+    -   The leader periodically issues a lease for itself via its heartbeat.
+    -   The lease stays valid for a short time and during the lease period, the leader is guaranteed to be the current leader.
 1.  It checks the key-value cache. If the key is in the cache, it replies to the client.
 1.  Otherwise, it checks the key-disk-location index. If the key is in the index, it reads the value from the BoltDB and replies to the client. It also updates the key-value cache.
 1.  Otherwise, it searches in the BoltDB. If the key is in the BoltDB, it reads the value from the BoltDB, and replies to the client. It also updates the key-value cache and key-disk-location index.
@@ -106,11 +108,7 @@ The requirement for a leader to coordinate all writes and secure a quorum for co
 
 #### Read optimization
 
--   Leader lease
-    -   The leader periodically issues a lease for itself. The lease stays valid for a short time and is sent to the followers using heartbeats.
-    -   During the lease period, the leader is guaranteed to be the current leader.
-    -   The leader can then serve read requests locally without involving the followers or checking its log, reducing read latency.
--   Read offloading
+-   Request offloading
     -   Followers can serve reads by following the below operation:
         1.  A client sends a read request to a follower.
         1.  The follower asks the leader for the leader commit index.
