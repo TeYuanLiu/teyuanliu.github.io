@@ -13,10 +13,7 @@ Rust has its installation management tool `rustup`, compiler `rustc` and package
 
 ## Compiler
 
-Rust's compiler checks for many things such as array indexing, and prevents many types of memory bug common in C/C++:
--   Segmentation fault (invalid memory address or null pointer dereference)
--   Use-after-free
--   Double free
+Rust prevents memory bugs by having a compiler that checks for different types of [segmentation fault](@/blog/c.md#common-memory-bugs). 
 
 Note that Rust has an `unsafe` keyword, which can bypass compiler checks and allow potential memory corruption if misused.
 -   Raw pointer dereferencing
@@ -31,5 +28,13 @@ Note that Rust has an `unsafe` keyword, which can bypass compiler checks and all
 ## Memory management
 
 ## Dependency management
+
+## Adoption challenge
+
+-   Steeper learning curve
+    -   Slower bug fix and feature delivery
+    -   Limited hiring pool
+-   Community
+    -   Limited tools
 
 ## See also

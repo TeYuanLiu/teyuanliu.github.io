@@ -25,7 +25,7 @@ The Raft consensus algorithm counts on a leader-follower protocol to enforce dat
 
 A leader has two duties:
 -   Uses the `AppendEntries` Remote Procedure Call (RPC) to:
-    -   Send its empty-payload heartbeat to the followers periodically via a heartbeat timer. The timer automatically resets after expiration. A follower resets its election timer when receiving a leader heartbeat.
+    -   Send its empty-payload heartbeat to the followers periodically (every 50ms) via a heartbeat timer. The timer automatically resets after expiration. A follower resets its election timer (randomized between 150ms to 300ms) when receiving a leader heartbeat.
     -   Replicate data to its followers for write requests and failure recovery. Note that this resets its heartbeat timer as well. 
 -   Handle read requests.
 
@@ -63,7 +63,7 @@ Due to the frequent writes to the log, etcd's performance heavily relies on the 
 1.  A client sends a read request to the leader.
 1.  The leader ensures its leader position via the leader lease.
     -   The leader periodically issues a lease for itself via its heartbeat.
-    -   The lease stays valid for a short time and during the lease period, the leader is guaranteed to be the current leader.
+    -   The lease stays valid for a short time (150 ms) and during the lease period, the leader is guaranteed to be the current leader.
 1.  It checks the key-value cache. If the key is in the cache, it replies to the client.
 1.  Otherwise, it checks the key-disk-location index. If the key is in the index, it reads the value from the BoltDB and replies to the client. It also updates the key-value cache.
 1.  Otherwise, it searches in the BoltDB. If the key is in the BoltDB, it reads the value from the BoltDB, and replies to the client. It also updates the key-value cache and key-disk-location index.
@@ -108,12 +108,11 @@ The requirement for a leader to coordinate all writes and secure a quorum for co
 
 #### Read optimization
 
--   Request offloading
-    -   Followers can serve reads by following the below operation:
-        1.  A client sends a read request to a follower.
-        1.  The follower asks the leader for the leader commit index.
-        1.  The follower waits until its log has been replicated up to the leader commit index.
-        1.  The follower serves the read request.
+-   Adding learner
+    -   A learner is a node that only does data replication.
+    -   It does not participate in any voting.
+    -   The leader doesn't wait for a learner's acknowledgement of the `appendEntries` to commit the WAL entry.
+    -   This increase read throughput without sacrificing write latency.
 -   Sharding
     -   Split the entire dataset into smaller shards.
     -   Each shard is handled by an independent Raft cluster.

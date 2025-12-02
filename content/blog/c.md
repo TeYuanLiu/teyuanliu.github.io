@@ -42,7 +42,9 @@ Below is the memory layout listed from top to bottom in the memory space.
 -   Segmentation fault
     -   A segmentation fault occurs when a program tries to access a memory region it is not allowed to. Some examples are listed below.
         -   Read/write outside of array bounds
-        -   Dereferencing a null or dangling pointer
+        -   Use/free a null pointer
+        -   Use-after-free
+        -   Double free
 -   Stack overflow
     -   A stack overflow happens when a program uses too much stack memory. Some examples are listed below.
         -   Deep recursion
