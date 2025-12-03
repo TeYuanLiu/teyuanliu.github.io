@@ -113,7 +113,7 @@ A sidecar container is usually managed via a mutating webhook to run alongside t
 ## Networking
 
 A Kubernetes cluster has the following:
--   One pod CIDR allocated by the CNI plugin that is distributed across nodes and each pod gets its own IP.
+-   One pod Classless Inter-Domain Routing (CIDR) allocated by the CNI plugin that is distributed across nodes and each pod gets its own IP.
 -   One service CIDR allocated by the Kubernetes API server via kube-proxy that contains virtual IPs, which do not have the corresponding network devices, so it is different from the pod CIDR.
 
 Whenever a node joins the cluster, the Container Networking Interface (CNI) configures the node's:
