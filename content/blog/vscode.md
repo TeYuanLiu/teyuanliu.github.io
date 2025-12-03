@@ -15,7 +15,6 @@ Visual Studio Code (VSCode) is a lightweight Integrated Development Environment 
 
 -   Move cursor by word.
     -   Ctrl + Left / Right
-    -   sdf
 -   Highlight words matching the current word.
     -   Ctrl + D
     -   Press D multiple times to highlight multiple occurrences.

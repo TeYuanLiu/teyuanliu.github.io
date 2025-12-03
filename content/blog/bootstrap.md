@@ -14,14 +14,14 @@ Import Bootstrap's CSS and JavaScript assets into our HTML file.
 ## CSS
 
 Bootstrap organizes components through 3 layers:
-1.  Container
+1.  Container (top-layer)
     -   Add `container` class.
 1.  Row
     -   Add `row` class.
     -   Use Flexbox.
     -   Each row has 12 column spaces available for allocation.
 1.  Column
-    -   Add 'col' class.
+    -   Add `col` class.
     -   Use `col-6` to let a column takes 6 out of the 12 available column spaces.
     -   Use `col` or `col-auto` to make a column figure out its width.
     -   Use `col-xl-2 col-lg-4 col-5` to set multiple break points. The column will take 2 column spaces when display width reaches `XL`, 4 column spaces when reaches `LG`, and 5 column spaces otherwise.

@@ -39,7 +39,7 @@ When developing a software system, should we choose to build it in a bottom-up f
         -   Faster prototyping.
     -   Cons
         -   Risk of over-engineering.
-        -   Testing of high-level features relies on assumption rather than the actual behavior of low-level components.
+        -   Testing of high-level features relies on the assumption rather than the actual behavior of low-level components.
         -   Debugging of high-level feature is hard because the system is more complex.
         -   Issues of low-level component surface at the end of development. If a low-level component fails to satisfy the predefined requirements, it is cumbersome to modify the high-level design.
     -   Use cases
@@ -71,20 +71,22 @@ Now we have figured out our priorities, and we are ready to talk about the devel
 
 1.  Create user stories based on requirements (plan).
 1.  [Pick up user stories from the backlog based on prioritization](@/blog/development-cycle.md#prioritization) and put them into a sprint of a two-week development cycle.
-1.  Commit source code into the code repository (code).
+1.  Develop and commit the source code into the code repository (code).
     -   Prefer many small Pull Requests (PR) over one large PR.
         -   Choose among feature addition, bug fix, and refactoring but not two or more.
         -   Colleagues are more willing to review many small PRs rather than one giant PR.
         -   Get feedback early to revise architecture design before spending too much time and energy on less impactful things.
         -   Smaller PR works well with Continuous Integration / Continuous Delivery (CI/CD) and testing.
-1.  Build artifacts (build).
-1.  Conduct unit tests (test).
-1.  If the build passes the unit test verification, store the artifacts into the artifactory and deploy the build into the development environment, otherwise, go back to step 3.
-1.  Deploy build into the Quality Assurance (QA) environment.
-1.  Conduct QA testing including version-specific test, regression test, cross-version test and performance test.
-1.  If the build passes the QA test verification, deploy the build into the UAT environment, otherwise, go back to step 3.
-1.  Conduct User Acceptance Testing (UAT).
-1.  If the build passes the UAT verification, make it a release candidate and deploy the build into the production environment (deploy).
+1.  Build the binary (build).
+1.  Conduct the unit test (test).
+1.  If the build passes the unit test, store it into the artifactory and deploy it into the development environment, otherwise, go back to step 3.
+1.  Conduct the integration test.
+1.  If the build passes the integration test, deploy it into the Quality Assurance (QA) environment, otherwise, go back to step 3.
+1.  Conduct the QA test which includes version-specific test, regression test, cross-version test and performance test.
+1.  If the build passes the QA test, deploy it into the UAT environment, otherwise, go back to step 3.
+1.  Conduct the User Acceptance Testing (UAT).
+1.  If the build passes the UAT verification, promote it to a release candidate.
+1.  Make the release and deploy the build into the production environment (deploy).
     -   Git branch management
     -   Semantic versioning
     -   Release schedule
