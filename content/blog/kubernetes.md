@@ -35,7 +35,7 @@ The controller manager is a process that runs built-in Kubernetes controllers (n
 
 #### Kube-proxy
 
-Kube-proxy is a Kubernetes network component running on each node as a pod under the `kube-system` namespace. It implements networking for services like ClusterIP, NodePort, and LoadBalancer. It uses the NAT table on node to translate the service’s virtual IP to one of the target pods behind the service.
+Kube-proxy is a Kubernetes network component running on each node as a pod under the `kube-system` namespace. It implements networking for services like ClusterIP, NodePort, and LoadBalancer. It configures the iptables of a node to a service’s ClusterIP to the IP of one of the service backend pods.
 
 ## Pod
 
@@ -148,29 +148,37 @@ LoadBalancer relies on a cloud provider to create an external load balancer that
 
 #### Pod-to-service networking
 
+##### kube-proxy networking
+
 Here is what happens when a pod makes a request to a service:
 1.  The application in a pod makes a request to `https://servie.namespace.svc.cluster.local`.
-1.  The pod uses the CoreDNS pod to resolve the service DNS name to its ClusterIP.
-1.  A packet is created inside the pod's network namespace.
+1.  The pod needs to contact the Domain Name Service (DNS) server first to get the service's ClusterIP. It checks its DNS configuration file and finds the CoreDNS service ClusterIP.
+1.  The pod creates a DNS packet inside its network namespace.
     ```
     Src IP = Pod IP (e.g., 10.244.1.5)
-    Dst IP = Service ClusterIP (e.g., 10.96.123.45)
+    Dst IP = CoreDNS service ClusterIP (e.g., 10.96.123.45)
     ```
-1.  The pod's network namespace sends the packet to the host's network namespace via `veth`.
-1.  The kube-proxy pod running on the same host uses the host's NAT to translate the ClusterIP into a target pod IP.
+1.  The pod sends the packet to the host's network namespace via `veth`.
+1.  The host's kernel intercepts the packet using iptables rules configured by kube-proxy and rewrites the destination IP from the CoreDNS service ClusterIP to a CoreDNS pod IP (selected via random or round-robin).
     ```
     10.96.123.45:443 -> 10.244.2.7:443
     ```
-1.  The host's kernel uses its routing table configured by CNI to know what is the next hop and which network device it should use to send out data, and then it sends out the data via VXLAN, BGP, or direct routing if the cluster's CNI is Calico.
-1.  The target host receives the packet and forwards it to the target pod's network namespace via `veth`.
-1.  The backend pod processes the request and sends back a response following the same flow.
+1.  The host's kernel sends out the packet to the CoreDNS pod's host.
+1.  The CoreDNS pod's host receives the packet and forwards it to the CoreDNS pod's network namespace via `veth`.
+1.  The CoreDNS pod processes the packet and sends back a response containing the service's ClusterIP.
+1.  The pod receives the service's ClusterIP and then goes through the same process as before to send the request to the service.
+
+##### Istio service mesh networking
+
+1.  The pod creates a packet inside its network namespace.
+1.  The Istio proxy sidecar container running inside the same pod decides which service backend pod IP to use and rewrites the destination IP from the service ClusterIP to a backend pod IP.
+
+#### External to service networking
 
 Extended from the above, here is what happens when an external client makes a request to a service on the cluster.
 1.  The external client sends the request packet to the ingress gateway.
 1.  The ingress gateway forwards the packet to a virtual service.
 1.  The virtual service sends the packet to the corresponding service.
-
-#### External to service networking
 
 ## Operation
 
