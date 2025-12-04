@@ -4,10 +4,10 @@ date = 2025-05-02
 updated = 2025-05-04
 +++
 
-A distributed system is a system consists of many services running independently on different servers (servers can be physical machines, VMs, or containers) and connected via a network. Although its services are distributed, it appears as a single entity to the end user.
+A distributed system is a system consists of many services running independently on different physical machines or Virtual Machines (VM) and connected via a network. Although its services are distributed, it appears as a single entity to the end user.
 <!-- more -->
 
-However, when we want to create a software application, distributed system may not be the one that first shows up in our minds.  A more intuitive and straightforward way is to create one single application that handles the end-to-end workflow. This tightly coupled structure leads us to the monolithic architecture.
+However, when we want to create a software application, distributed system may not be the one that first shows up in our mind. A more intuitive and straightforward way is to create one single application that handles the end-to-end workflow. This tightly-coupled structure leads us to the monolithic architecture.
 
 ## Monolithic
 
@@ -16,30 +16,30 @@ A monolithic system is built as a single, indivisible unit. All components of th
 Because the components reside in the same place, it has several benefits:
 -   Development is intuitive as coordination among components is obvious.
 -   [Testing](@/blog/testing.md) is easy because the application has one codebase and can be tested end-to-end as a single unit.
--   Deploying, monitoring, and maintaining is straightforward as we can run a single [container](@/blog/container.md) or Virtual Machine (VM) to host the application with configuration stored as environment variables.
+-   Deploying, monitoring, and maintaining is straightforward as we can run a single [container](@/blog/container.md) or VM to host the application with configuration stored as environment variables.
 -   Performance like latency is very good since we are doing in-process calls.
 -   Data is consistent because we have only one database to interact with.
 
-This architecture well fits use cases like building a prototype. However, as time goes by and the application grows bigger in terms of number of features and users, certain drawbacks gradually emerge:
--   Availability can be greatly impacted by the failure of just one component. One component goes down, the entire application follows it.
--   Scaling independently a specific component, which may require more resources than others, is impossible because everything is bundled as one unit so we are forced to scale all components together. Plus, vertical scaling (upgrading to a more powerful machine) hits certain limit because even the world's most powerful machine has compute and memory constraint.
+This architecture well fits the use case like building a prototype. However, as time goes by and the application grows bigger in terms of number of features and users, certain drawbacks gradually emerge:
+-   If one component crashes, it brings down the entire application. This exposes the system's lack of fault tolerance and thus low reliability. Low reliability hurts the uptime and deteriorates availability.
+-   Scaling a specific component independently, which may require more resources than others, is impossible because everything is bundled as one unit so we are forced to scale all components together. Plus, vertical scaling (upgrading to a more powerful machine) hits certain limit because even the world's most powerful machine has compute and memory constraint.
 -   Flexibility is restrained as changing a part of the system requires redeployment of the entire application, not to mention that changing one component can produce bugs in other components.
 
 These downsides bring us to another architecture, microservice, which is the foundation for distributed systems.
 
 ## Microservice
 
-A microservice architecture breaks down the application into small, loosely coupled and independently deployable services. Each service is responsible for a specific business functionality and communicates with other services through APIs.
+A microservice architecture breaks down the application into small, loosely coupled, independently deployable microservices. Each service is responsible for a specific business functionality and communicates with other services through APIs.
 
 The microservice architecture addresses some of the pain points of the monolithic architecture:
--   Availability and reliability are higher as one service's failure doesn't necessarily bring down the whole application.
+-   Availability and reliability are higher because we can have multiple copies of the same service running simultaneously, so one service replica's failure doesn't necessarily bring down the whole application.
 -   Individual services can be scaled independently based on demand. Horizontal scaling (adding more machines) unlocks the capability of handling large volume of requests.
 -   The flexibility of changing each service independently allows more agile development.
 
 However, just like a coin has two sides, the microservice architecture overcomes the monolithic architecture's shortcomings, but struggles to match the monolithic architecture's strengths:
 -   Development is more difficult because there are multiple codebases to manage and the coordination among services requires service discovery, load balancing and inter-service communication.
 -   Testing is more complicated as we need to test each component's functionality and the integration among services.
--   Deploying, monitoring, and maintaining many services needs robust operation practices and tools.
+-   Deploying, monitoring, and maintaining many services need robust operation practices and tools.
 -   Performance like latency is not great due to the delay brought by communication between services over the network.
 -   Data consistency is challenging to maintain across multiple services.
 
@@ -60,11 +60,11 @@ But faces challenges for:
 -   Performance
 -   Data consistency
 
-When choosing the architecture for our system, it all comes down to the question: which set of metrics matters to us?
+When choosing the architecture for our system, it all comes down to the question: which set of metrics matters?
 
-If our product needs high availability, scalability, or flexibility, we probably want something closer to the microservice architecture, otherwise, something similar to the monolithic architecture is probably a better choice.
+If our product needs high availability, reliability, scalability, or flexibility, we probably want something like the microservice architecture, otherwise, something similar to the monolithic architecture is probably a better choice.
 
-In reality we often often have a fixture of both. We can apply the microservice architecture to components that need availability, scalability, or flexibility, while grouping others into a monolithic component.
+In reality we often have a fixture of both. We can apply the microservice architecture to components that need availability, reliability, scalability, or flexibility, while grouping others into a monolithic component.
 
 ### CAP theorem
 
@@ -99,7 +99,7 @@ Here are a few things we need to know about scaling a distributed system.
 -   Auto scaling
     -   Scale horizontally in a dynamic way based on real-time traffic.
 -   [Caching](@/blog/caching.md)
-    -   Store request-response pairs to handle repetitive requests quickly without making expensive API or [database](@/blog/database.md) calls over and over again.
+    -   Store request-response pairs to handle repetitive requests quickly without making the expensive API or [database](@/blog/database.md) call over and over again.
         -   Client-side cache
         -   Content-Delivery Network (CDN) cache
         -   Load balancer cache
