@@ -1,36 +1,42 @@
 +++
-title = "JavaScript Info 1.1.1 - An introduction to JavaScript"
-date = 2025-04-26
-updated = 2025-05-04
+title = "JavaScript Info 1.1 - Introduction"
+date = 2025-12-03
+updated = 2025-12-03
 tags = ["javascript"]
 +++
 
-JavaScript was created as a browser-only language to integrate with HTML/CSS. It positioned itself as a new language and a "younger brother" of the Java language popular at that time, but now it has its own specification called ECMAScript, and it is used not only in servers but also many other environments as well.
+JavaScript was created as a browser-only language to integrate with HTML/CSS. Nowadays it is used not only in browsers but even in servers and cellphones.
 <!-- more -->
 
-## Features
+## Summary
 
--   Full integration with HTML/CSS.
--   Supported by all major browsers.
-
-## Environments
-
-### Browser
-
-In-browser JavaScript can do everything related to webpage manipulation, interaction with user and webserver, and browser local storage, but its capabilities on other things are restrained for the sake of users' safety.
-
-#### Limitations
-
--   JavaScript doesn't have low-level access to CPU, memory, and kernel functions.
--   JavaScript can work with files, but the access is limited and only provided if the user does certain actions like uploading a file.
--   JavaScript can interact with camera/microphone and other devices, but they require a user's explicit permission.
--   Different tabs/windows generally do not know about each other except when a window uses JavaScript to open the other one. This is called the "Same Origin Policy" and to work around that both pages must agree for data exchange and contain a special JavaScript code that handles it.
--   JavaScript can easily communicate over the net to the server where the current page came from but its ability to receive data from other sites is crippled. 
-
-### Server
-
-Server-side JavaScript like Node.js supports functions to read/write arbitrary files, perform network requests, etc.
+-   JavaScript has two main advantages:
+    -   Full integration with HTML/CSS
+    -   Supported by all major browsers
+-   In-browser JavaScript:
+    -   Can:
+        -   Get user input via mouse and keyboard actions.
+        -   Access camera and microphone with the explicit approval from the user.
+        -   Accept files uploaded by the user. 
+        -   Manage browser local storage.
+        -   Manipulate webpage elements like a DOM tree node.
+        -   Interact with servers.
+    -   Cannot:
+        -   Access kernel functions.
+        -   Know the existence of other browser windows or tabs unless one tab uses JavaScript to open another one.
+        -   Request data from a server with different origin unless configured.
+-   Server-side JavaScript
+    -   Can:
+        -   Read/write the server's files.
+        -   Interact with other servers.
+-   The [ECMA-262](https://www.ecma-international.org/publications-and-standards/standards/ecma-262/) specification defines the JavaScript language.
+-   The [Mozilla JavaScript Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript) is the main manual with examples and other information.
+-   An editor is a tool for users to edit files fast, elegant, and simple.
+    -   Some common examples are Sublime, Vim and Notepad++.
+-   An Integrated Development Environment (IDE) refers to the tool that allows a user to work on the scope of the entire project.
+    -   It includes not only an editor but also features like directory opening, autocompletion, version control and command line interface.
+    -   Some common examples are Visual Studio Code, XCode, Visual Studio, and WebStorm.
 
 ## See also
 
--   [An introduction to JavaScript](https://javascript.info/intro)
+-   [JavaScript introduction](https://javascript.info/getting-started)
