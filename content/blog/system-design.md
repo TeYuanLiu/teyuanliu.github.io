@@ -62,7 +62,7 @@ After clarifying the functional and non-functional requirements of the system, w
     -   Reliability
 -   Cache
     -   Database cache
-    -   Content-Delivery network (CDN) cache
+    -   Content-Delivery Network (CDN)
     -   Client-side cache
 -   Queue
     -   Message queue
@@ -75,8 +75,6 @@ After clarifying the functional and non-functional requirements of the system, w
             -   gRPC
     -   QUIC (UDP)
         -   gRPC
--   Content-Delivery network (CDN)
-    -   Serves static data quickly.
 
 ## Performance boost
 
