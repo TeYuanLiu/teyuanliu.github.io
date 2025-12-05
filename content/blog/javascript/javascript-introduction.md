@@ -36,6 +36,7 @@ JavaScript was created as a browser-only language to integrate with HTML/CSS. No
 -   An Integrated Development Environment (IDE) refers to the tool that allows a user to work on the scope of the entire project.
     -   It includes not only an editor but also features like directory opening, autocompletion, version control and command line interface.
     -   Some common examples are Visual Studio Code, XCode, Visual Studio, and WebStorm.
+-   In-browser developer tools allow users to see errors, run commands and examine variables for debugging. We can open the developer tools by pressing `F12` for Linux and Windows, and `Cmd + Opt + J` for chrome on Mac.
 
 ## See also
 
