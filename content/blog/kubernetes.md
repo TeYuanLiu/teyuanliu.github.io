@@ -4,7 +4,7 @@ date = 2025-05-01
 updated = 2025-11-30
 +++
 
-Kubernetes is a container orchestration engine for containerized application management and provides features like high availability, complex auto-scaling, automatic rollout and rollback, custom scheduling, and service mesh.
+Kubernetes is a [container](@/blog/container.md) orchestration engine for containerized application management and provides features like high availability, complex auto-scaling, automatic rollout and rollback, custom scheduling, and service mesh.
 <!-- more -->
 
 ## Cluster
@@ -43,7 +43,7 @@ A Pod is the smallest deployable unit in Kubernetes and contains a group of cont
 -   Pause container
     -   Runs the `pause` command to sleep forever.
     -   Serves as the pod’s root container with Process ID (PID) 1 and owns the Linux namespaces so even if the application container exits the pod still persists. Its lifecycle is bounded with the pod’s lifecycle.
-    -   All other containers start with `–net=container:<pause_container_id>`.
+    -   All other containers start with `–net=container:<PAUSE_CONTAINER_ID>`.
 -   Linux namespaces (PID, IPC, cgroup, mount, UID, network)
 -   Container Network Interface (CNI) configuration
 -   Persistent volume and mount-point
