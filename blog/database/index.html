@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Database
+  </div>
+  <div class="header-metadata">
+    
+      
+        May  1, 2025 · 113 words · 1 min read
+      
+    
+  </div>
+</div>
+<div class="content">
+  <!-- 
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/database/#scaling">Scaling </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/database/#read">Read</a>
+                  <ul>
+                    
+                      <li>
+                        <a href="https://teyuanliu.github.io/blog/database/#sharding">Sharding</a>
+                      </li>
+                    
+                  </ul>
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/database/#see-also">See also </a>
+          
+        </li>
+      
+    </ul>
+  
+  -->
+  <h2 id="scaling"><a class="zola-anchor" href="#scaling" aria-label="Anchor link for: scaling">Scaling</a></h2>
+<h3 id="read"><a class="zola-anchor" href="#read" aria-label="Anchor link for: read">Read</a></h3>
+<h4 id="sharding"><a class="zola-anchor" href="#sharding" aria-label="Anchor link for: sharding">Sharding</a></h4>
+<p>There are different types of sharding:</p>
+<ul>
+<li>Range based sharding
+<ul>
+<li>Partition the table rows according to ID ranges, like the rows with ID 1 to 100 go to shard 1, and 101 to 200 go to shard 2.</li>
+</ul>
+</li>
+<li>Hash based sharding
+<ul>
+<li>Use a hash function to hash the ID of a table row to its shard number.</li>
+</ul>
+</li>
+<li>Directory based sharding
+<ul>
+<li>Use a lookup table to map the ID of a table row to its shard number based on directory.</li>
+</ul>
+</li>
+</ul>
+<p>A shard manager takes care of the lifecycle management of shards. It can dynamically creates, splits, and merges shards on-the-fly based on traffic forecasting to handle various loads.</p>
+<h2 id="see-also"><a class="zola-anchor" href="#see-also" aria-label="Anchor link for: see-also">See also</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;container&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;development-cycle&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>     
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Go
+  </div>
+  <div class="header-metadata">
+    
+      
+        Dec  1, 2025 · 309 words · 2 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+  <!-- 
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#"> </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#execution-flow">Execution flow </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#package">Package</a>
+                  <ul>
+                    
+                  </ul>
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#module">Module</a>
+                  <ul>
+                    
+                      <li>
+                        <a href="https://teyuanliu.github.io/blog/go/#module-initialization">Module initialization</a>
+                      </li>
+                    
+                  </ul>
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#compile-and-run">Compile and run</a>
+                  <ul>
+                    
+                  </ul>
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#variable-declaration">Variable declaration </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#function-declaration">Function declaration </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#dependency-management">Dependency management </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#memory-management">Memory management </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#common-memory-bugs">Common memory bugs</a>
+                  <ul>
+                    
+                  </ul>
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#adoption-challenge">Adoption challenge </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#see-also">See also </a>
+          
+        </li>
+      
+    </ul>
+  
+  -->
+  <h2 id=""><a class="zola-anchor" href="#" aria-label="Anchor link for: "></a></h2>
+<h2 id="execution-flow"><a class="zola-anchor" href="#execution-flow" aria-label="Anchor link for: execution-flow">Execution flow</a></h2>
+<h3 id="package"><a class="zola-anchor" href="#package" aria-label="Anchor link for: package">Package</a></h3>
+<p>A Go package is a collection of Go files inside the same directory.</p>
+<h3 id="module"><a class="zola-anchor" href="#module" aria-label="Anchor link for: module">Module</a></h3>
+<p>A Go module is a collection of packages. It is like a project or repository.</p>
+<h4 id="module-initialization"><a class="zola-anchor" href="#module-initialization" aria-label="Anchor link for: module-initialization">Module initialization</a></h4>
+<p>We use <code>go init mod &lt;MODULE_PATH&gt;</code> to initialize a module where <code>&lt;MODULE_PATH&gt;</code> is the path to our module on a repository platform like GitHub. We usually use a GitHub repository to host a module so the module path is <code>github.com/&lt;ORGANIZATION&gt;/&lt;REPOSITORY&gt;</code>.</p>
+<p>Running the command generates a <code>go.mod</code> file that stores the module path and the Go version we are using.
+<div class="code-block-tag">
+  go.mod
+</div></p>
+<pre data-lang="config" style="background-color:#2b303b;color:#c0c5ce;" class="language-config "><code class="language-config" data-lang="config"><span style="color:#bf616a;">module </span><span>&lt;MODULE_PATH&gt;
+</span><span style="color:#bf616a;">go </span><span>&lt;VERSION&gt;
+</span></code></pre>
+<h3 id="compile-and-run"><a class="zola-anchor" href="#compile-and-run" aria-label="Anchor link for: compile-and-run">Compile and run</a></h3>
+<p>The Go compiler first converts Go files into an assembly-like internal representation and then compiles the internal representation into a binary.</p>
+<p>We can use the <code>go build</code> command to instruct the Go compiler to compile the Go files in the working directory into a binary.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># Compile
+</span><span style="color:#bf616a;">go</span><span> build </span><span style="color:#65737e;"># Generates a binary that has the same name as the working directory. Assumes it is called hello-go.
+</span><span>
+</span><span style="color:#65737e;"># Run
+</span><span style="color:#bf616a;">./hello-go
+</span></code></pre>
+<p>Note that we must have a Go file that not only belongs to the <code>main</code> package but also includes a <code>main</code> function for the compile to succeed. Otherwise, the compiler cannot locate the entrypoint of the binary, leading to compile failure.</p>
+<p>We can combine the compile and run into one command <code>go run</code>.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># Compile and run
+</span><span style="color:#bf616a;">go</span><span> run main.go </span><span style="color:#65737e;"># Generates an ephemeral binary go-buildxxx inside the temporary directory /tmp, running it, and deletes the binary after execution.
+</span></code></pre>
+<h2 id="variable-declaration"><a class="zola-anchor" href="#variable-declaration" aria-label="Anchor link for: variable-declaration">Variable declaration</a></h2>
+<p>Go uses the <code>var &lt;VARIABLE_NAME&gt; &lt;VARIABLE_TYPE&gt;</code> declaration format for variables. This makes variable declaration easier to understand when comparing with C, especially for pointers.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">// Integer pointer p in C
+</span><span style="color:#b48ead;">int </span><span>*</span><span style="color:#8fa1b3;">p
+</span></code></pre>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#65737e;">// Integer pointer p in Go
+</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">p </span><span>*</span><span style="color:#b48ead;">int
+</span></code></pre>
+<h2 id="function-declaration"><a class="zola-anchor" href="#function-declaration" aria-label="Anchor link for: function-declaration">Function declaration</a></h2>
+<p>Go uses the <code>func &lt;FUNCTION_NAME&gt;(&lt;FUNCTION_PARAMETER&gt;) &lt;RETURN_TYPE&gt;</code> declaration format for functions. This is also easier to understand comparing with C.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">// Function f that takes an integer parameter and returns an integer in C
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">f</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">p</span><span>)
+</span></code></pre>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#65737e;">// Function f that takes an integer parameter and returns an integer in Go
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">f</span><span>(</span><span style="color:#bf616a;">p </span><span style="color:#b48ead;">int</span><span>) </span><span style="color:#b48ead;">int
+</span></code></pre>
+<h2 id="dependency-management"><a class="zola-anchor" href="#dependency-management" aria-label="Anchor link for: dependency-management">Dependency management</a></h2>
+<h2 id="memory-management"><a class="zola-anchor" href="#memory-management" aria-label="Anchor link for: memory-management">Memory management</a></h2>
+<h3 id="common-memory-bugs"><a class="zola-anchor" href="#common-memory-bugs" aria-label="Anchor link for: common-memory-bugs">Common memory bugs</a></h3>
+<ul>
+<li>Invalid memory address or nil pointer dereference
+<ul>
+<li>An invalid memory address or nil pointer dereference error occurs when a program tries to access a memory region it is not allowed to.</li>
+</ul>
+</li>
+</ul>
+<h2 id="adoption-challenge"><a class="zola-anchor" href="#adoption-challenge" aria-label="Anchor link for: adoption-challenge">Adoption challenge</a></h2>
+<ul>
+<li>Goroutine race condition</li>
+<li>Memory leak as goroutine is blocked waiting on an inactive channel</li>
+<li>Limited tools and hiring pool</li>
+</ul>
+<h2 id="see-also"><a class="zola-anchor" href="#see-also" aria-label="Anchor link for: see-also">See also</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;frontend&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;javascript&#x2F;javascript-introduction&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>     
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>
