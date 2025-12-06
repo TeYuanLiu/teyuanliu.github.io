@@ -4,7 +4,7 @@ date = 2025-05-01
 updated = 2025-11-07
 +++
 
-## CSS
+## Cascading Style Sheets (CSS)
 
 ### Sass
 
@@ -12,11 +12,11 @@ updated = 2025-11-07
 
 #### Variable
 
-Variables are meant to store CSS values that will be reused like colors or font stacks. A variable can be declared using the `$` symbol. When the Sass is processed, variables are substituted with their values to output normal CSS.
+A variable is meant to store a CSS property value that will be reused like color or font stack. A variable can be declared using the `$` symbol. When a Sass file is being processed, its variables are substituted with their values to output a normal CSS.
 
 #### Nesting
 
-Nesting CSS selectors lets us mimic the hierarchy of a HTML DOM tree. Note that overly nested rules often introduce over-qualified CSS and are hard to debug so be cautious when using nesting.
+Nesting CSS selectors lets us mimic the hierarchy of a HyperText Markup Language (HTML) Document Object Model (DOM) tree. Note that overly-nested rules often introduce over-qualified CSS and are hard to debug so be cautious when using nesting.
 
 #### Mixin
 
@@ -29,15 +29,15 @@ Inheritance lets us share a fixed set of CSS properties, so it's less flexible c
 ## Response time optimization
 
 -   Code pruning
-    -   Optimize the final JS bundle by removing dead code that will never be used.
+    -   Optimize the code bundle by removing dead code that will never get executed.
 -   Code splitting
-    -   Split a large application bundle into multiple smaller bundles for efficient loading.
+    -   Split the bundle into multiple smaller bundles for efficient loading.
 -   Dynamic code imports
-    -   Load code modules dynamically based on user actions to optimize the initial loading times.
+    -   Load  bundles dynamically based on the user action to optimize the initial loading time.
 -   Compression
     -   Compress files and minimize data size before transmission to reduce network load.
 -   Priority-based loading
-    -   Prioritize essential resources and content that are visible above the fold for a better user experience.
+    -   Prioritize essential contents that are visible above the fold for a better user experience.
 -   Pre-fetching
     -   Proactively fetch and cache resources that are likely to be needed soon.
 
