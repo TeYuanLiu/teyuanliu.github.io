@@ -9,7 +9,7 @@ Kubernetes is a [container](@/blog/container.md) orchestration engine for contai
 
 ## Cluster
 
-We need a groups of machines to set up a Kubernetes cluster. Each machine has its own CPUs, memory, disk storage, OS, and network device.
+We need a group of machines to set up a Kubernetes cluster. Each machine has its own CPUs, memory, disk storage, OS, and network device.
 
 ## Node
 
@@ -35,16 +35,16 @@ The controller manager is a process that runs built-in Kubernetes controllers (n
 
 #### Kube-proxy
 
-Kube-proxy is a Kubernetes network component running on each node as a pod under the `kube-system` namespace. It implements networking for services like ClusterIP, NodePort, and LoadBalancer. It configures the iptables of a node to a service’s ClusterIP to the IP of one of the service backend pods.
+Kube-proxy is a Kubernetes network component running on each node as a pod under the `kube-system` namespace. It implements networking for services like ClusterIP, NodePort, and LoadBalancer. It configures each node's iptables to set up the mapping between a service’s ClusterIP to the service's backend pod IPs.
 
 ## Pod
 
 A Pod is the smallest deployable unit in Kubernetes and contains a group of containers that share the same Linux namespaces. A pod contains the following:
 -   Pause container
     -   Runs the `pause` command to sleep forever.
-    -   Serves as the pod’s root container with Process ID (PID) 1 and owns the Linux namespaces so even if the application container exits the pod still persists. Its lifecycle is bounded with the pod’s lifecycle.
-    -   All other containers start with `–net=container:<PAUSE_CONTAINER_ID>`.
--   Linux namespaces (PID, IPC, cgroup, mount, UID, network)
+    -   Serves as a pod’s root container with Process ID (PID) 1 and owns the Linux namespaces such that the pod can persist even if other application containers have exit. Its lifecycle is bounded with the pod’s lifecycle.
+    -   All other containers start with `–net=container:<PAUSE_CONTAINER_ID>` to share the network namespace.
+-   Linux namespaces (PID, cgroup, mount, network, etc)
 -   Container Network Interface (CNI) configuration
 -   Persistent volume and mount-point
 
@@ -75,13 +75,13 @@ The pod's `command` field replaces the container's `ENTRYPOINT` and `args` field
 
 The resource request defines the guaranteed resource amount that will be given to the container. The scheduler uses resource request to determine which node to schedule for a pod.
 
-The resource limit defines the maximum amount of resource a container can use. A container hitting the limits can cause CPU throttling or OOM kill.
+The resource limit defines the maximum amount of resource a container can use. A container hitting the limits can cause CPU throttling or Out-Of-Memory (OOM) kill.
 
 Setting both request and limit to 2x of the average resource usage is a good starting point. If the average usage is unknown, cloud providers like GCP recommends 1 CPU and 4Gi memory.
 
 If a resource's request is missing but its limit is set, the Kubernetes API server will copy the limit to the request.
 
-Missing both request and limit configurations may cause that too many pods are scheduled on the same node, throttling the CPUs and using up memory. If cluster autoscaler is enabled, this may result in unnecessary scale-out and lead to a waste of resource/money.
+Missing both request and limit configuration may cause that too many pods are scheduled on the same node, throttling the CPUs and using up memory. If cluster autoscaler is enabled, this may result in unnecessary scale-out and lead to a waste of resource/money.
 
 #### Container liveness and readiness
 
@@ -116,19 +116,19 @@ A Kubernetes cluster has the following:
 -   One pod Classless Inter-Domain Routing (CIDR) allocated by the CNI plugin that is distributed across nodes and each pod gets its own IP.
 -   One service CIDR allocated by the Kubernetes API server via kube-proxy that contains virtual IPs, which do not have the corresponding network devices, so it is different from the pod CIDR.
 
-Whenever a node joins the cluster, the Container Networking Interface (CNI) configures the node's:
+Whenever a node joins the cluster, the CNI configures the node's:
 -   Pod CIDR
 -   Routing table
 -   Network device like virtual ethernet `veth`
 -   Virtual eXtensible Local-Area Network (VXLAN) tunnels
 
-Whenever a pod is created, CNI sets up the pod's:
+Whenever a pod is created, the CNI sets up the pod's:
 -   Network namespace
     -   Network device
     -   Routing table
     -   Iptables
         -   Filter table (firewall)
-            -   CNIs like Calico uses the filter table to implement NetworkPolicy and allow traffic from a pod to another.
+            -   A CNI like Calico uses the filter table to implement NetworkPolicy and allow traffic from a pod to another.
         -   Name Address Translation (NAT) table
         -   Mangle table (packet modification)
 
@@ -151,8 +151,8 @@ LoadBalancer relies on a cloud provider to create an external load balancer that
 ##### kube-proxy networking
 
 Here is what happens when a pod makes a request to a service:
-1.  The application in a pod makes a request to `https://servie.namespace.svc.cluster.local`.
-1.  The pod needs to contact the Domain Name Service (DNS) server first to get the service's ClusterIP. It checks its DNS configuration file and finds the CoreDNS service ClusterIP.
+1.  The application in a pod makes a request to `https://service.namespace.svc.cluster.local`.
+1.  The pod needs to contact the Domain Name Service (DNS) first to get the service ClusterIP. It checks its DNS configuration file and finds the CoreDNS service ClusterIP.
 1.  The pod creates a DNS packet inside its network namespace.
     ```
     Src IP = Pod IP (e.g., 10.244.1.5)
@@ -165,8 +165,8 @@ Here is what happens when a pod makes a request to a service:
     ```
 1.  The host's kernel sends out the packet to the CoreDNS pod's host.
 1.  The CoreDNS pod's host receives the packet and forwards it to the CoreDNS pod's network namespace via `veth`.
-1.  The CoreDNS pod processes the packet and sends back a response containing the service's ClusterIP.
-1.  The pod receives the service's ClusterIP and then goes through the same process as before to send the request to the service.
+1.  The CoreDNS pod processes the packet and sends back a response containing the service ClusterIP.
+1.  The pod receives the service ClusterIP and then goes through the same process as before to send a request to the service.
 
 ##### Istio service mesh networking
 
@@ -239,11 +239,11 @@ Here is an example directory structure of applying GitOps via ArgoCD application
 
 Prometheus is a metric processing framework that pulls metrics periodically from a service metric/exporter endpoint and stores them in its Time-Series DataBase (TSDB).
 
-We can deploy the kube-prometheus-stack helm chart as a starting point. It includes Prometheus, community-built Prometheus alerting rules, Grafana, and community-built Grafana dashboards.
+We can deploy the kube-prometheus-stack helm chart as a starting point. It includes Prometheus, Grafana, community-built Grafana dashboards, community-built Prometheus alerting rules, and Alertmanager.
 
-To start using it, we may create a ServiceMonitor manifest and set its release label to `prometheus` to register the metric endpoint to Prometheus.
+To start using it, we may create a `ServiceMonitor` manifest and set its release label to `prometheus` to register the metric endpoint to Prometheus.
 
-If an alerting rule is configured, Prometheus runs its PromQL query periodically to see if the alerting rule fires. If so, it pushes the alert event to downstream services like Alertmanager.
+If an alerting rule is configured, Prometheus runs its PromQL query periodically to see if the alerting rule fires. If so, it pushes the alert event to a downstream service like Alertmanager.
 
 ### Grafana
 
@@ -251,18 +251,18 @@ Grafana is a dashboard framework that pulls data from Prometheus via GraphQL que
 
 ### Alertmanager
 
-Alertmanager is an alerting framework which receives alert events from Prometheus, grouping, inhibiting, silencing alerts, and then propagates them to downstream notification services like Slack or GoAlert.
+Alertmanager is an alerting framework which receives alert events from Prometheus, grouping, inhibiting, silencing alerts, and then propagates them to a downstream notification service like Slack or GoAlert.
 
 ### Auto-scaling
 
 -   Vertical pod autoscaler (VPA)
-    -   Adjusts the pod resource request/limit based on the resource usage It recreates the pod without changing the replica count.
+    -   Adjusts the pod resource request/limit based on the resource usage. It recreates the pod without changing the replica count.
     -   Suits stateful workloads which might face synchronization issues if scaling horizontally.
 -   Horizontal pod autoscaler (HPA)
-    -   Scales the number of pod replicas based on CPU or memory utilization, object metrics like queue length, or custom metrics.
+    -   Scales the number of pod replicas based on CPU or memory utilization, or an object metric like queue length, or a custom metric.
     -   Suits stateless workloads.
 -   Kubernetes event-driven autoscaler (KEDA)
-    -   Scales the number of pod replicas based on external events like Kafka lag, message queue length, and HTTP request rate.
+    -   Scales the number of pod replicas based on an external event like the Kafka lag, message queue length, and HTTP request rate.
     -   Supports scale-to-zero.
     -   Uses HPA behind the scenes.
     -   Suits stateless/event-driven workloads.

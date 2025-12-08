@@ -5,7 +5,7 @@ updated = 2025-12-03
 tags = ["javascript"]
 +++
 
-JavaScript was created as a browser-only language to integrate with HTML/CSS. Nowadays it is used not only in browsers but even in servers and cellphones.
+JavaScript was created as a browser-only language to integrate with HTML/CSS, but nowadays it is used on various devices.
 <!-- more -->
 
 ## Summary
@@ -15,15 +15,15 @@ JavaScript was created as a browser-only language to integrate with HTML/CSS. No
     -   Supported by all major browsers
 -   In-browser JavaScript:
     -   Can:
-        -   Get user input via mouse and keyboard actions.
+        -   Get the user's input via mouse and keyboard actions.
         -   Access camera and microphone with the explicit approval from the user.
-        -   Accept files uploaded by the user. 
+        -   Let the user download/upload files. 
         -   Manage browser local storage.
         -   Manipulate webpage elements like a DOM tree node.
         -   Interact with servers.
     -   Cannot:
         -   Access kernel functions.
-        -   Know the existence of other browser windows or tabs unless one tab uses JavaScript to open another one.
+        -   Know the existence of other browser tabs unless one tab uses JavaScript to open another one.
         -   Request data from a server with different origin unless configured.
 -   Server-side JavaScript
     -   Can:

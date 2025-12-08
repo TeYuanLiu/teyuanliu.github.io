@@ -4,7 +4,7 @@ date = 2025-05-01
 updated = 2025-05-01
 +++
 
-[Rust](https://www.rust-lang.org/) is a system language that uses a ownership and borrowing system enforced at compile time to ensure memory safety without needing a garbage collector.
+[Rust](https://www.rust-lang.org/) is a system language that uses an ownership and borrowing system enforced at compile time to ensure memory safety without needing a garbage collector.
 <!-- more -->
 
 ## Setup

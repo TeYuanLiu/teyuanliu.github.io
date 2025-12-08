@@ -30,15 +30,15 @@ Learning coding is not easy, but here are some steps we can follow to boost our 
         -   Question architectural decisions and refactor the generated code into smaller, focused modules.
         -   Strengthen type definitions and interfaces.
         -   Document architectural decision and module boundary.
-            -   Use AI-generated description as supplement but not replacement of handwritten ones.
-            -   Add comments to clarify the reason why this piece of code exists.
+            -   Use AI-generated description as a supplement rather than a replacement of manual-written ones.
+            -   Add comments to clarify the reason why a piece of code exists.
         -   Add edge case and error handling.
     -   Dependency management
     -   Modular design
     -   Feature flag
     -   Code data separation
         -   Database schema compatibility
-    -   Gradual depreciation (mark feature as deprecated in earlier versions before removal)
+    -   Gradual depreciation (mark a feature as deprecated in earlier versions before removal)
 
 ## See also
 
