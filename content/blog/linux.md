@@ -11,9 +11,9 @@ Linux is a free and open source Operating System (OS). It is the dominating OS o
 
 In 1970s, the Bell labs developed an OS named Unix, and it led to a standardization called Portable Operating System Interface (POSIX) to ensure compatibility among different systems.
 
-In 1987, an OS named Minix was developed based on Unix and gained popularity in the academic field. However, the redistribution of its code was restricted. This motivated a Finnish software developer, Linus Torvalds, to developed his own OS kernel in C, Linux, in 1991.
+In 1987, an OS named Minix was developed based on Unix and gained popularity in the academic field. However, the redistribution of its code was restricted. This motivated a Finnish software developer, Linus Torvalds, to developed his own OS kernel, Linux, in 1991, using the C programming language.
 
-Linux was advertised as a free and open source software under the GNU General Public License (GPL) 2.0 license. It was free to distribute, modify, and make money out of it.
+Linux was advertised as a free and open source software under the GNU (GNU's Not Unix) General Public License (GPL) 2.0 license. It was free to distribute, modify, and make money from it.
 
 ## Distribution
 
@@ -27,7 +27,7 @@ A Linux distribution is a complete operating system built on the Linux kernel an
     -   Use Gnome as the desktop environment.
 -   Red Hat
     -   Enterprise-maintained distribution that supports long-term maintenance.
-    -   Use apt as the package manger.
+    -   Use Dandified YUM (DNF) as the package manger.
 -   Arch
     -   A lightweight distribution thrives on simplicity.
     -   Use pacman as the package manger.
@@ -35,7 +35,7 @@ A Linux distribution is a complete operating system built on the Linux kernel an
 ## Bootup
 
 The Linux kernel acts as a bridge between hardware and software. When we press the power button of a Linux machine:
--   The bootloader, usually GRUB, loads the kernel into Random Access Memory (RAM).
+-   The bootloader, usually GRand Unified Bootloader (GRUB), loads the kernel into the Random Access Memory (RAM).
 -   The kernel detects hardware devices like CPU, RAM, disk, network, etc, and executes the `init` system, which is often `systemd`, to start many subsystems.
     -   Process management subsystem
         -   Signal handling
@@ -67,30 +67,30 @@ The Linux kernel acts as a bridge between hardware and software. When we press t
 
 ## Namespace
 
-A Linux namespace is a logical box defined by Linux kernel feature that holds a specific software resource for a process or a group of processes within the namespace. Namespaces create lightweight, isolated environments.
+A Linux namespace is a kernel-defined logical box that holds a specific software resource for a process or a group of processes within the namespace. A namespace creates a lightweight and isolated environment.
 
 ### Namespace types
 
 -   Process ID (PID)
-    -   Isolate process IDs
+    -   Isolate process IDs.
     -   Each namespace has its own PID 1 process.
--   Inter-Process Communication (IPC)
-    -   Isolate shared memory, message queues, and semaphores (resource counter to prevent race condition).
 -   Control group (cgroup)
     -   Isolate resource limits.
     -   Each namespace has its own cgroup for resources like CPU, memory and I/O.
 -   Mount
-    -   Isolate filesystem.
+    -   Isolate the filesystem.
     -   Each namespace has its own root filesystem mount-point.
+-   Network
+    -   Isolate the IP address (65536 ports), network devices, routing table, iptables (firewall, Network Address Translation (NAT), mangle table).
+-   Inter-Process Communication (IPC)
+    -   Isolate the shared memory, message queues, and semaphores (resource counter to prevent race condition).
 -   User ID (UID)
     -   Isolate user and group IDs.
     -   Each namespace has its own UID 0 user (root) and it is mapped to a different UID on the system.
 -   Environment variable
-    -   Isolate environment variable.
--   Network
-    -   Isolate IP address (65536 ports), network devices, routing table, iptables (firewall, Network Address Translation (NAT), mangle table).
+    -   Isolate environment variables.
 -   UTS
-    -   Isolate hostname and domain name.
+    -   Isolate the hostname and domain name.
     -   Each namespace has its own hostname.
 -   Time
     -   Isolate system clocks.
@@ -99,22 +99,22 @@ A Linux namespace is a logical box defined by Linux kernel feature that holds a 
 
 A process is a running instance of a program that consists of an isolated memory address space and the execution of some code. When we execute a command like `ls` or `python script.py`, the Linux kernel creates a process to execute the code.
 
-During creation, each process is given the following resource.
+Each process is given the following resources.
 -   A unique identifier called a Process ID (PID)
--   A process view. It by default inherits the parent process's process view. If the parent process is the shell, it can see all other processes on the system.
--   A cgroup for CPU, memory, I/O access and limit. It by default inherits the parent process's cgroup. If the parent process is the shell, it can use as much CPU and memory as the system has available. Tools like Systemd or Docker creates a new cgroup, defining the CPU/memory limits, and assigns the process to it.
--   A filesystem view. It by default inherits the parent process's filesystem. If the parent process is the shell, it can see all files on the system. Tools like Docker uses containerd, which uses runc, to run `chroot` to change the root directory of each container process for an isolated filesystem view. 
--   A network namespace for an IP address (65536 ports), network devices (loopback, eth0, wlan0), routing table, and iptables like filter table (firewall), Network Address Translation (NAT) table, and mangle table (for packet modification). It by default inherits the parent process's network namespace. If the parent process is the shell, it can use the system network namespace. Tools like Docker creates a new network namespace for each new container and assigns the container process to it.
+-   A process view. It by default inherits the parent process's process view. If the parent process is the shell, it can see all the processes on the system.
+-   A cgroup for CPU, memory, I/O access and limit. It by default inherits the parent process's cgroup. If the parent process is the shell, it can use as much CPU and memory as the system has available. Tools like Systemd or Docker creates a new cgroup, defining the CPU/memory limits, and assigns a process to it.
+-   A filesystem view. It by default inherits the parent process's filesystem. If the parent process is the shell, it can see all the files on the system. Docker uses containerd, which uses runc, to run `chroot` to change the root directory of each container process for an isolated filesystem view. 
+-   A network namespace for an IP address (65536 ports), network devices (loopback, eth0, wlan0), routing table, and iptables like filter table (firewall), Network Address Translation (NAT) table, and mangle table (for packet modification). It by default inherits the parent process's network namespace. If the parent process is the shell, it can use the system network namespace. Docker creates a new network namespace for each new container and assigns the container process to it.
 
-Processes have a parent-child hierarchy as one process can start a child process.
+Processes have a parent-child hierarchy as a parent process can start a child process.
 
 ## Rings
 
-Linux uses rings to administrate operation privileges.
+Linux uses rings to administer operation privileges.
 -   The kernel is in ring 0, which has the highest level of privilege.
 -   The user operates in ring 3, which has the lowest level of privilege.
 -   The system call interface let a user to move from ring 3 to ring 0 and make System Call (SYSCALL) to do things like writing a file in the filesystem.
--   The GNU Library for C (GLIBC) provides SYSCALL wrappers called functions to C application such that applications can make function calls and run SYSCALLs under the hood.
+-   The GNU Library for C (GLIBC) provides SYSCALL wrappers, called functions, to C application such that applications can make function calls and run SYSCALLs under the hood.
 
 ## GNU and shell
 
@@ -179,7 +179,7 @@ In 1983, Richard Stallman started the GNU project to provide binaries that make 
     ```
 -   Pass the output of a command as the input of another command with pipe.
     ```bash
-    cat error.log | sort | uniq # sort and de-duplicate the lines in `error.log
+    cat error.log | sort | uniq # Sort and de-duplicate the lines in `error.log.
     ```
 -   Print the current user's name.
     ```bash
@@ -213,7 +213,7 @@ In 1983, Richard Stallman started the GNU project to provide binaries that make 
     ```bash
     cd <DIRECTORY_PATH>
     ```
--   Print the current working directory's path.
+-   Print the working directory's path.
     ```bash
     pwd
     ```
@@ -232,7 +232,7 @@ In 1983, Richard Stallman started the GNU project to provide binaries that make 
 -   Change a file's permissions.
     ```bash
     chmod [u/g/o/a][+/-/=][r/w/x] <FILE_NAME>`
-    chmod a+r <FILE_NAME>` # to grant everyone the read access
+    chmod a+r <FILE_NAME>` # Grant everyone the read access.
     ```
 -   Change a file's owner.
     ```bash
@@ -313,7 +313,7 @@ In 1983, Richard Stallman started the GNU project to provide binaries that make 
     python3 -m site
     ```
     -   Debian's package manager `apt` installs packages to `dist-packages` like `/usr/local/lib/python3.12/dist-packages/`.
-    -   Third party tools like pip installs packages to `site-packages`.
+    -   Any third party tool like pip installs packages to `site-packages`.
 -   Add the current user to a group.
     ```bash
     sudo usermod -aG <GROUP> $USER
@@ -399,13 +399,13 @@ A network device (network interface) is an abstract interface for data transmiss
 #### Network device types
 
 -   Physical device (hardware + software)
-    -   Ethernet devices have names based on physical location like `enp3s0f1` (ethernet PCI bus 3 slot 0 function 1) on systemd hosts. Legacy naming looks like `eth0`.
-    -   Wireless devices have names based on physical location like `wlp2s0` (wireless Lan PCI bus 2 slot 0) on systemd hosts. Legacy naming looks like `wlan0`.
+    -   Ethernet devices have names based on physical location like `enp3s0f1` (ethernet PCI bus 3 slot 0 function 1) on systemd machines. Legacy naming looks like `eth0`.
+    -   Wireless devices have names based on physical location like `wlp2s0` (wireless Lan PCI bus 2 slot 0) on systemd machines. Legacy naming looks like `wlan0`.
 -   Virtual device (software-only)
     -   Loopback, `lo`, is the virtual device that allows the computer to connect to itself at `127.0.0.1`, `localhost`.
     -   Bridge, `br0`, acts like a virtual network switch that connects multiple network devices together.
     -   Tunnel, `tun0`, is used by VPNs to pass traffic from the kernel to a user-space application.
-    -   Virtual ethernet, `veth`, is used by Container Runtime Interface (CRI) to link containers to the host.
+    -   Virtual ethernet, `veth`, is used by the Container Runtime Interface (CRI) to link a container to the host.
 
 ### Traffic flow
 

@@ -51,17 +51,17 @@ A Pod is the smallest deployable unit in Kubernetes and contains a group of cont
 ### Pod creation
 
 1.  A user sends a pod creation request to the API server.
-1.  The API server performs authentication, authorization, admission control (validation/mutating), writing the desired pod object with empty `nodeName` into etcd, and then notifies the user that the pod is created.
-1.  The scheduler watches the API server for empty `nodeName`, scheduling the pod to a node, and then updates the API server.
-1.  The kubelet on the assigned node watches the API server for `nodeName` matching objects, working with a Container Runtime Interface (CRI) to create the pod, and then updates the API server.
+1.  The API server performs authentication, authorization, admission control (validation/mutating), writing a pod with empty `nodeName` into the etcd, and then updates the user about the pod creation.
+1.  The scheduler watches the API server for any pod with empty `nodeName`, scheduling the pod to a node, and then updates the API server about the pod scheduling.
+1.  The kubelet on the assigned node watches the API server for any assigned pod with the matching `nodeName`, working with the Container Runtime Interface (CRI) plugin to create the pod, and then updates the API server about the pod and container creation.
 
 ### Pod deletion
 
 1.  A user sends a pod deletion request to the API server.
-1.  The API server performs authentication, authorization, admission control (validation/mutating), setting the the pod object's `deletionTimestamp` to the current time in etcd, and then notifies the user that the pod is deleted.
-1.  The endpoint controller watches the API server for `deletionTimestamp`, removing the pod's IP address from any service endpoint that includes it.
-1.  The kubelet on the node where the pod is running watches the API server for `deletionTimestamp`, working with a Container Runtime Interface (CRI) to delete the pod (`SIGTERM` or `SIGKILL`), and then updates the API server.
-1.  The API server removes the pod object from etcd.
+1.  The API server performs authentication, authorization, admission control (validation/mutating), updating the pod with its `deletionTimestamp` set to the current time in the etcd, and then updates the user about the pod deletion.
+1.  The endpoint controller watches the API server for any pod with its `deletionTimestamp` set, removing the pod's IP address from any service endpoint that includes it, and then updates the API server about the pod's IP removal.
+1.  The kubelet on the node where the pod is running watches the API server for any pod with its `deletionTimestamp` set, working with the CRI plugin to delete the pod (`SIGTERM` or `SIGKILL`), and then updates the API server about the pod and container deletion.
+1.  The API server removes the pod object from the etcd.
 
 ### Container
 
@@ -113,8 +113,8 @@ A sidecar container is usually managed via a mutating webhook to run alongside t
 ## Networking
 
 A Kubernetes cluster has the following:
--   One pod Classless Inter-Domain Routing (CIDR) allocated by the CNI plugin that is distributed across nodes and each pod gets its own IP.
--   One service CIDR allocated by the Kubernetes API server via kube-proxy that contains virtual IPs, which do not have the corresponding network devices, so it is different from the pod CIDR.
+-   A pod Classless Inter-Domain Routing (CIDR) allocated by the CNI. The CNI allocates each node's pod CIDR and assigns each pod's IP. It also creates a `cni0` network device on each node to communicate with the `veth0` network device inside a container. The pod CIDR to network device mapping on each node is stored inside the node's routing table.
+-   A service CIDR allocated by a service mesh like kube-proxy or Istio. The service CIDR contains virtual IPs without the corresponding network devices.
 
 Whenever a node joins the cluster, the CNI configures the node's:
 -   Pod CIDR
@@ -179,6 +179,24 @@ Extended from the above, here is what happens when an external client makes a re
 1.  The external client sends the request packet to the ingress gateway.
 1.  The ingress gateway forwards the packet to a virtual service.
 1.  The virtual service sends the packet to the corresponding service.
+
+## Storage
+
+Kubernetes uses the Persistent Volume Claim (PVC) to manage storage.
+
+### PVC creation
+
+1.  A user sends a PVC creation request to the API server.
+1.  The API server performs authentication, authorization, admission control (validation/mutating), writing an unbound PVC into the etcd, and then updates the user about the PVC creation.
+1.  The Container Storage Interface (CSI) controller watches the API server for any unbound PVC, working with a storage system to create a directory as a volume on the storage system's filesystem, and then sends a Persistent Volume (PV) creation request to the API server. The request contains metadata like volume ID, driver details, and `claimRef` for PVC bound.
+1.  The API server performs authentication, authorization, admission control (validation/mutating), writing a PV into the etcd, updating the PVC's bound status, and then updates the CSI controller about the PV creation.
+
+### PVC deletion
+
+1.  A user sends a PVC deletion request to the API server.
+1.  The API server performs authentication, authorization, admission control (validation/mutating), setting the PVC's deletion status into the etcd, and then updates the user about the PVC deletion.
+1.  The CSI controller watches the API server for any PVC deletion, working with the storage system to remove the directory from the filesystem, and then updates the API server about the PVC and PV deletion.
+1.  The API server removes the PVC and PV from the etcd.
 
 ## Operation
 
