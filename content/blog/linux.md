@@ -337,7 +337,7 @@ Linux's ext4 filesystem follows the Filesystem Hierarchy Standard (FHS) 3 specif
 -   `/sbin`: Superuser's essential binaries like `mount`
 -   `/lib`: Shared code between binaries
 -   `/usr/bin`: Non-essential installed binaries
--   `/usr/local/bin`: Locally compiled binaries separated from binaries installed by system package manager
+-   `/usr/local/bin`: Locally compiled binaries separated from binaries installed by a system package manager
 -   `/etc`: Editable text configurations
 -   `/home/user`: User workspace
 -   `/boot`: Files needed to boot the system like the Linux kernel
@@ -349,32 +349,32 @@ Linux's ext4 filesystem follows the Filesystem Hierarchy Standard (FHS) 3 specif
 
 ### Storage devices in filesystem
 
--   Storage devices are displayed with names like “sda”, “sdb” in Linux filesystem.
--   The “sd” stands for Small Computer System Interface (SCSI) Disk, which is a data transfer protocol succeeded by other protocols like Serial Advanced Technology Attachment (SATA) and Non-Volatile Memory Express (NVMe). Therefore, the "sd" includes SATA and NVMe disks as well nowadays.
+-   A storage devices is displayed with a name like “sda” in Linux filesystem.
+-   The “sd” stands for Small Computer System Interface (SCSI) Disk, which is a data transfer protocol succeeded by other protocols like Serial Advanced Technology Attachment (SATA) and Non-Volatile Memory express (NVMe). Therefore, a disk with name prefixed with "sd" may be either a SATA or a NVMe drive.
 -   The next letter indicates the device order, so “sda” means the first detected disk and “sdb” means the second one.
 -   Each partition on the disk is given a number, so “sda1” is the first partition on the first disk.
 
 ### File permissions
 
--   We can list the permission setting of a file by running `ls -l <FILE_NAME>`, and see the symbolic permissions string which is similar to `-rw-r--r--`.
-    -   The first character indicates whether the file is a file ("-") or a directory ("d").
-    -   The second to fourth characters form the first triplet and it represents the owner.
+-   We can list the permission setting of a file by running `ls -l <FILE_NAME>`, and see the symbolic permission string like `-rw-r--r--`.
+    -   The first character indicates whether the file is a file `-` or a directory `d`.
+    -   The second to fourth characters form the first triplet and it represents the owner's permissions.
         -   The owner is the user who created the file.
         -   The first character in the triplet means the read permission, which shows whether the owner can read the file's content.
         -   The second character in the triplet is the write permission, which shows whether the owner can edit the file's content.
-        -   The third and last character in the triplet is the execute permission, which shows whether the owner can execute the file as a binary.
-        -   If the "r", "w", and "x" letters are shown, it means those privileges are granted, but if there is a dash it means permission denied.
-    -   The fifth to seventh characters make the second triplet and means the group.
+        -   The last character in the triplet is the execute permission, which shows whether the owner can execute the file as a binary.
+        -   If the "r", "w", and "x" letters are shown, it means those privileges are granted, but if there is a dash it means the permission is not granted.
+    -   The fifth to seventh characters make up the second triplet and represents the group's permission.
         -   The group is a group of users sharing the same set of permissions on this file.
-        -   The three characters, just like those in the owner's setting, represents read, write and execute permissions.
-    -   The eighth to tenth characters shape the third and last triplet and indicates the others.
-        -   The others means every user that is neither the owner nor a user in the group.
-        -   The three characters, just like those in the owner's setting, represents read, write and execute permissions.
+        -   The three characters, just like those in the owner's setting, represent the read, write and execute permission.
+    -   The eighth to tenth characters shape the and last triplet and indicate the permissions of others.
+        -   This includes every user that is neither the owner nor a user in the group.
+        -   The three characters, just like those in the owner's setting, represent the read, write and execute permission.
 -   Permissions can be presented in other formats.
-    -   Symbolic permissions `rwx` can be seen as `111` in binary because all the bits are set, and we can convert binary `111` to number  `7`. Therefore, a symbolic permissions string `-rwxr-xr-x` is `755`.
--   Setuid, Setgid, and sticky bit provide additional control over file and directory.
+    -   Symbolic permissions `rwx` can be seen as `111` in binary because all the bits are set, and we can convert binary `111` to number  `7`. Therefore, a symbolic permission string `-rwxr-xr-x` can be converted to the number `755`.
+-   Setuid, Setgid, and sticky bit provide additional control over a file or directory.
     -   Setuid
-        -   Set the Setuid bit on an executable file allows the file to be run with the permission of the file owner instead of the user actually running it. A symbolic permissions string example is `-rwsr-xr-x`.
+        -   Set the Setuid bit on an executable file allows the file to be run with the permission of the file owner instead of the user actually running it. A symbolic permission string example is `-rwsr-xr-x`.
         -   One example is the `/usr/bin/passwd` file, which has `-rwsr-xr-x` permissions to let users edit sensitive system files to set their passwords.
     -   Setgid
         -   The Setgid bit works in the way similar to Setuid and allows the file to be run with the group’s permission rather than the user actually running it. A symbolic permissions string example is `drwxrwsr-x`.
@@ -386,67 +386,70 @@ Linux's ext4 filesystem follows the Filesystem Hierarchy Standard (FHS) 3 specif
 
 ### Routing table
 
-A routing table stores a list of routes. Each route has the following information.
--   Destination network
--   Subnet mask
--   Next hop address
--   Network device to forward data packets
+A routing table stores a list of route entries. Each route entry has the following information.
+-   Destination Internet Protocol (IP) Classless Inter-Domain Routing (CIDR)
+-   Next hop IP address
+-   Network device
 
 ### Network device
 
-A network device (network interface) is an abstract interface for data transmission. Its driver registers itself with the kernel and the kernel adds it to the network namespace. It acts as the bridge between the kernel and the physical hardware (like an Ethernet port or Wi-Fi card), and provides a standardized way for the kernel to send and receive data. A network device is not a file, unlike many other Linux objects such as hard drives (/dev/sda) or serial ports (/dev/ttys0).
+A network device (network interface) is an abstract interface for data transmission. Its driver registers itself with the kernel and the kernel adds it to the network namespace. It acts as a bridge between the kernel and the physical hardware like an Ethernet port or Wi-Fi card, and provides a standardized way for the kernel to send and receive data. A network device is not a file, unlike many other Linux objects such as disks (/dev/sda) or serial ports (/dev/ttys0).
 
-#### Network device types
+#### Network device type
 
 -   Physical device (hardware + software)
-    -   Ethernet devices have names based on physical location like `enp3s0f1` (ethernet PCI bus 3 slot 0 function 1) on systemd machines. Legacy naming looks like `eth0`.
-    -   Wireless devices have names based on physical location like `wlp2s0` (wireless Lan PCI bus 2 slot 0) on systemd machines. Legacy naming looks like `wlan0`.
+    -   Each Ethernet device on a systemd machine has the name based on its physical location like `enp3s0f1` (Ethernet PCI bus 3 slot 0 function 1). Legacy naming looks like `eth0`.
+    -   Each wireless device on a systemd machine has the name based on its physical location like `wlp2s0` (wireless Lan PCI bus 2 slot 0). Legacy naming looks like `wlan0`.
 -   Virtual device (software-only)
-    -   Loopback, `lo`, is the virtual device that allows the computer to connect to itself at `127.0.0.1`, `localhost`.
+    -   Loopback, `lo`, is the virtual device that allows the computer to connect to itself at `127.0.0.1` or `localhost`.
     -   Bridge, `br0`, acts like a virtual network switch that connects multiple network devices together.
     -   Tunnel, `tun0`, is used by VPNs to pass traffic from the kernel to a user-space application.
     -   Virtual ethernet, `veth`, is used by the Container Runtime Interface (CRI) to link a container to the host.
+
+### Socket
+
+A socket is a file in Linux that serves as a software endpoint for sending and receiving data. Its external address is defined by a combination of an IP address, a port number, and a protocol. 
 
 ### Traffic flow
 
 When our application on Linux wants to send a request to a remote server.
 1.  Application layer
-    -   Our application sends the request to the kernel via a socket. A socket is a file in Linux that serves as a software endpoint for sending and receiving data. Its external address is defined by a combination of an IP address, a port number, and a protocol. 
+    -   Our application sends the request to the kernel.
 1.  Transport layer
     -   The kernel encapsulates the request into a segment by adding TCP headers to the request.
 1.  Network layer
-    -   The kernel builds a packet from the segment by wrapping it with IP headers. It then forwards the segment to the specific network device like eth0.
+    -   The kernel builds a packet from the segment by wrapping it with IP headers. It then forwards the packet to the specific network device like `eth0`.
 1.  Data link layer
     -   The network device driver packages the packet into a frame.
 1.  Physical layer
-    -   The network device driver converts the frame into electrical signals and hands over the signals to a physical Network Interface Card (NIC) for transmission and the NIC sends it out.
+    -   The network device driver converts the frame into electronic signals and hands over the signals to a physical Network Interface Card (NIC) for transmission and the NIC sends it out.
 
 ## Ubuntu
 
 ### Dual boot
 
-Assume we have a computer already installed with Windows, then we can install Ubuntu along side it. Below are the steps of installation.
+Assume we have a computer already installed with Windows, then we can install Ubuntu alongside it. Below are the steps of installation.
 
 1.  Make a bootable USB drive.
     1.  Download the latest LTS Ubuntu Desktop ISO image from the [official website](https://ubuntu.com/download/desktop).
-    1.  Use software like [Rufus](https://rufus.ie/downloads/) to write the ISO image to an USB drive.
+    1.  Use a software like [Rufus](https://rufus.ie/downloads/) to write the ISO image to an USB drive.
 1.  Create a disk partition.
-    1.  Use Windows built-in software disk management to create an unallocated partition.
+    1.  Use the Windows built-in disk management software to create an unallocated partition.
 1.  Reboot from the USB drive and install Ubuntu.
     1.  Restart the computer and select the USB drive for booting. Follow the prompted instructions to install the system.
     1.  After the installation, reboot the computer.
     1.  During the installation process, I connected it to the Internet and updated the installer when asked. I did not install any other third party software.
 1.  Reconfigure boot order.
-    1.  When booting up the computer, if we enter the GRUB rescue terminal instead of the GRUB boot menu (which lets us select between Ubuntu and Windows), this means the Unified Extensible Firmware Interface (UEFI)/BIOS has found the GRUB bootloader, but:
-        -   The `grub.cfg` (typically `/boot/grub/grub.cfg` in the Ubuntu partition) was not found.
-        -   The Ubuntu partition was not found probably because it was moved, or not mounted properly, or not installed completely.
+    1.  When booting up the computer, if we enter the GRUB rescue terminal instead of the GRUB boot menu (which lets us select between Ubuntu and Windows), this means the Unified Extensible Firmware Interface (UEFI)/BIOS has found a GRUB bootloader, but:
+        -   either the bootloader's partition is not the Ubuntu partition we have installed,
+        -   Or the `grub.cfg` file, which is typically at `/boot/grub/grub.cfg`, is missing due to various reasons like mount failure or incomplete installation.
     1.  Let's quickly recap what happens when we boot up the computer.
         1.  We press the power button.
         1.  The UEFI/BIOS initializes the hardware.
         1.  The UEFI/BIOS loads **the first bootloader** in the boot order (typically the GRUB bootloader at `/boot/efi/EFI/ubuntu/grubx64.efi` in the Ubuntu partition).
         1.  The GRUB bootloader prompts the user with the GRUB menu containing the Ubuntu and Windows boot option.
         1.  The user selects a boot option and it loads the OS kernel and starts system processes.
-    1.  Now we can see that **the first bootloader** loaded is probably not the one we want.
+    1.  Now we can see that most likely **the first bootloader** is probably not the one we want.
     1.  A temporary fix we can do in the rescue terminal right away is to look for the Ubuntu partition and use it for current booting.
         ```bash
         ls (hd0,gpt1)/boot/grub # Iterate over every (hdx,gpty) until we find an existing (hdx,gpty)/boot/grub directory. Let's say (hd1,gpt4)/boot/grub is our target directory.
@@ -458,7 +461,7 @@ Assume we have a computer already installed with Windows, then we can install Ub
     1.  A permanent fix is to reboot the computer, pressing the UEFI/BIOS key (F2 in Acer and Dell, F10 in HP) and rearrange the bootloader order to prioritize the one located in the Ubuntu partition.
 
 1.  Fix secondary display issue.
-    1.  After logging into the system, if we find the secondary display has issue like no signal or white screen, it's probably because we lack the Nvidia driver. We can fix it by installing the driver.
+    1.  After logging into the system, if we find the secondary display has problems like no signal or white screen, it's probably because the Nvidia driver is not installed. We can fix it by installing the driver.
         ```bash
         ubuntu-drivers devices # List recommended drivers.
         sudo apt install nvidia-driver-<DRIVER_VERSION> # Or use "sudo ubuntu-drivers autoinstall" to install recommended drivers. 
@@ -569,7 +572,7 @@ Here are the steps I take to set up my development environment.
     ```
 1.  Install Go
     1.  Download the latest archive from the [Go official website](https://go.dev/doc/install).
-    1.  Extract the files at `/user/local`
+    1.  Extract the files at `/user/local`.
         ```bash
         sudo tar -C /usr/local -xzf go<MAJOR>.<MINOR>.<PATCH>.linux-amd64.tar.gz
         ```

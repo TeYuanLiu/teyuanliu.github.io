@@ -47,13 +47,14 @@ After clarifying the functional and non-functional requirements of the system, w
     -   Logging
     -   Routing
 -   Service
+    -   Dispatcher -> queue -> service -> database
     -   User
     -   Business logic
     -   Observability
-        -   Metric monitoring
-        -   Alerting
-        -   Logging
-        -   Analytics
+        -   Metric
+        -   Alert
+        -   Log
+        -   Analytic
 -   Storage
     -   Latency
     -   Throughput
