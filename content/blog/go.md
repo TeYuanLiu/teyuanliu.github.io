@@ -270,6 +270,11 @@ The built-in `error` type is an interface that requires an `Error() string` meth
 
 ## Dependency management
 
+We can use a function from an external package by following the below steps.
+1.  Locate the package path via pkg.go.dev.
+2.  Import the package in our Go file. Do should add the package as a requirement to the `go.mod` file and produce a `go.sum` file for module authentication.
+3.  Run `go mod tidy` to install the package's latest version to the system.
+
 ## Memory management
 
 ### Common memory bugs
