@@ -80,9 +80,13 @@ go run .
 
 ## Declaration
 
-Go follows the `<WHAT_TO_DECLARE> <WHAT_NAME> <WHAT_TYPE>` declaration format for many things like variables, functions, structs, etc.
+Go follows the `<WHAT_TO_DECLARE> <WHAT_NAME> <WHAT_TYPE>` declaration format for many things like variables, functions, types, etc.
+
+## Variable
 
 ### Variable declaration
+
+The `var` statement declares a list of variables. It can be at package or function level.
 
 Go uses the `var <VARIABLE_NAME> <VARIABLE_TYPE>` declaration format for variables. This makes variable declaration easier to understand when comparing with C, especially for pointers.
 
@@ -96,33 +100,58 @@ int *p
 var p *int
 ```
 
-We can declare and assign a variable at the same time via an explicit declaration or its shorter version.
+Variables declared without an explicit initial value are given their zero value.
+-   `false` for boolean
+-   0 for numeric
+-   "" for string
+-   `null` for pointer
 
-The shorter version is more commonly used because it is more concise. When using the shorter version, Go can infer the variable type automatically if the value assigned is a primitive data type like integer.
+We can declare and initialize a variable at the same time via an explicit declaration or its shorter version. Note that the shorter version is only available within a function and we should use the explicit declaration at the package level.
+
+The shorter version is more commonly used because it is more concise. When using the shorter version, Go can infer the variable type automatically from the value initialized. When the initialization value is an untyped numeric constant, the variable's type is decided by Go based on the precision of the constant. 
 
 ```go
 // Explicit declaration
-var i int = 10
+var i int = 10  // Note that the int type here can be omitted because we initialize i with a value. 
 
 // Shorter version
 i := 10
 ```
 
-### Function declaration
+### Primitive type
 
-Go uses the `func <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format for functions. This is also easier to understand comparing with C.
-
-```c
-// Declare a function f that takes an integer parameter and returns an integer in C.
-int f(int p)
 ```
+bool
+
+string
+
+int     int8    int16   int32   int64
+uint    uint8   uint16  uint32  uint64  uintptr
+
+byte    // alias for uint8
+
+rune    // alias for int32. Represents a Unicode code point.
+
+float32 float64
+
+complex64   complex128
+```
+
+The `int`, `uint`, and `uintptr` type can be 32-bit or 64-bit, depending on the system.
+
+#### Type conversion
+
+We can use the `T(v)` expression to convert a variable `v` to the type `T`.
 
 ```go
-// Declare a function f that takes an integer parameter and returns an integer in Go.
-func f(p int) int
-```
+// Explicit declaration
+var i int = 2
+var f float64 = float64(i)
 
-## Data type
+// Shorter versoin
+i := 2
+f := float64(i)
+```
 
 ### Array
 
@@ -222,23 +251,6 @@ m := map[int]string{1: "one"}
 m := make(map[int]string)
 ```
 
-### Struct
-
-A struct is a collection of variables.
-
-#### Method
-
-A method is a function attached to a struct using either value or pointer receiver.
-
--   Value receiver
-    -   The method operates on a copy of the struct and is best for read-only operations. It uses the `func (<RECEIVER_NAME> <RECEIVER_TYPE>) <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format.
--   Pointer receiver
-    -   The method operates on the original struct via a pointer pointing to its memory address and is used for write operations. It uses the `func (<RECEIVER_NAME> *<RECEIVER_TYPE>) <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format.
-
-### Interface
-
-An Interface defines a set of methods, and any struct that implements those methods can be used in a function that accepts the interface, achieving polymorphism (flexibility). 
-
 ### Pointer
 
 A pointer is a variable that stores a memory address, usually the memory address of another variable. With a pointer, we can work on a large struct directly inside different functions without the need to copy and pass the object around.
@@ -262,6 +274,100 @@ var p *int = &i
 *p = 4  // Now i has value 4.
 ```
 
+## Constant
+
+### Constant declaration
+
+Go uses the `const <CONSTANT_NAME> <CONSTANT_TYPE>` declaration format for constants. Note that we cannot use the shorter version `:=` to declare a constant.
+
+Numeric constants are high-precision values. An untyped constant takes the type needed by its context.
+
+## Type
+
+### Type declaration
+
+Go uses the `type <TYPE_NAME> <TYPE_TYPE>` declaration format for types.
+
+### Struct
+
+A struct is a collection of variables.
+
+#### Struct declaration
+
+```go
+type person struct
+```
+
+## Function
+
+### Function declaration
+
+Go uses the `func <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format for functions. This is also easier to understand comparing with C.
+
+```c
+// Declare a function f that takes an integer parameter and returns an integer in C.
+int f(int p)
+```
+
+```go
+// Declare a function f that takes an integer parameter and returns an integer in Go.
+func f(p int) int
+```
+
+### Function parameter
+
+When two or more consecutive named function parameters share a type, we can omit the type from all but the last.
+
+```go
+// Declare a function add that takes two integer parameters and returns an integer.
+func add(x int, y int) int
+
+// Shorter version
+func add(x, y int) int
+```
+
+### Function return value
+
+A function's return values may be named. If so, they are treated as variables defined at the top of the function. These return value names should be used to document the meaning of the return values. A `return` statement without arguments returns the named return values.
+
+We generally don't use named return value as they can decrease readability in longer functions.
+
+```go
+func getXY() (x, y int) {
+    x = 1
+    y = 2
+    return
+}
+```
+
+### Method
+
+A method is a function attached to a struct using either value or pointer receiver.
+
+-   Value receiver
+    -   The method operates on a copy of the struct and is best for read-only operations. It uses the `func (<RECEIVER_NAME> <RECEIVER_TYPE>) <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format.
+-   Pointer receiver
+    -   The method operates on the original struct via a pointer pointing to its memory address and is used for write operations. It uses the `func (<RECEIVER_NAME> *<RECEIVER_TYPE>) <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format.
+
+### Interface
+
+An Interface defines a set of methods, and any struct that implements those methods can be used in a function that accepts the interface, achieving polymorphism (flexibility). 
+
+## Program output
+
+We often use the `Print`, `Println`, and `Printf` function from the built-in `fmt` package.
+-   Print
+    -   Aggregate passed-in parameters without adding space and new line character as delimiter, and print the result.
+-   Println
+    -   Aggregate parameters, adding space and new line character, and print the result.
+-   Printf
+    -   Aggregate parameters based on the passed-in template, without adding space and new line character, and print the result.
+    -   `%s` for string
+    -   `%d` for decimal number
+    -   `%v` for object
+    -   `%g` for floating-point number
+    -   `%T` for type
+
 ## Error handling
 
 Any function call, including arithmetic operation, file read/write, and network request, may fail unexpectedly. Therefore, Go makes functions return two values: the result, and an error. This forces the caller to explicitly handle the potential failure immediately.
@@ -272,8 +378,12 @@ The built-in `error` type is an interface that requires an `Error() string` meth
 
 We can use a function from an external package by following the below steps.
 1.  Locate the package path via pkg.go.dev.
-2.  Import the package in our Go file. Do should add the package as a requirement to the `go.mod` file and produce a `go.sum` file for module authentication.
+2.  Import the package into our Go file. Go should add the package as a requirement to the `go.mod` file and produce a `go.sum` file for module authentication.
 3.  Run `go mod tidy` to install the package's latest version to the system.
+
+### Exported name
+
+A name is exported if it begins with a capital letter. For example, `Pi` is exported from the `math` package and can be accessed via `math.Pi`.
 
 ## Memory management
 
