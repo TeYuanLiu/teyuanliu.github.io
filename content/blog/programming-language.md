@@ -9,36 +9,36 @@ We use programming languages to talk to computers, but how does it work? Here we
 
 ## Type
 
-Static type means the type of every variable is known at compile-time, while dynamic type indicates that some variables have unknown type at compile-time, which are figured out during run-time.
+Static type means the type of every variable is known at compile-time, while dynamic type indicates that some variables have unknown type at compile-time, and are figured out later during run-time.
 
 ## Syntax
 
 ### For loop vs while loop
 
--   Use `for` when we know how many times we are looping.
--   Use `while` when we don't know beforehand how many times we will loop.
+-   Use the `for` loop when we know how many times we are looping.
+-   Use the `while` loop when we don't know beforehand how many times we will loop.
 
 ## Execution flow
 
-Our human readable source code has to go through a sequence of operations to become electrical signals on silicon chips.
+Human readable source code has to go through a sequence of operations to become electronic signals on a silicon chip.
 -   Source code to binary
     -   Assembly
-        -   The assembler compiles assembly like `ADD R0, R1` into binary like `0001 0000 0001`.
+        -   The assembler compiles the assembly code like `ADD R0, R1` into the binary like `0001 0000 0001`.
     -   C
-        -   The GNU Compiler Collection (GCC) converts C code into assembly specific to our CPU architecture like x86_64, amd64, arm64.
-        -   The assembler compiles assembly into a group of binaries, also called object files.
-        -   The linker combines object files and libraries into the final binary.
+        -   The GNU Compiler Collection (GCC) converts C code into the assembly specific to our CPU architecture like x86_64, amd64, or arm64.
+        -   The assembler compiles the assembly into a group of binaries, also called object files.
+        -   The linker combines the object files and libraries into the final binary.
 -   Binary to electrical signal
-    -   CPU executes binary by running electrical signals inside logic gates.
+    -   The CPU executes the binary by running electronic signals inside the logic gates.
         -   Fetch
-            -   Fetches an instruction from memory.
+            -   Fetch an instruction from memory.
         -   Decode
-            -   Decodes the operation and operands.
+            -   Decode the instruction's operation and operands.
         -   Execute
-            -   Executes ALU operation or control flow adjustment.
+            -   Execute the Arithmetic Logic Unit (ALU) operation or control flow adjustment.
         -   Memory
-            -   Accesses memory to perform load (memory to register) or store (register to memory) instruction.
+            -   Access memory to perform load (memory to register) or store (register to memory) operation.
         -   Writeback
-            -   Writebacks the instruction result to the register.
+            -   Save the result of the instruction execution to the register.
 
 ## See also

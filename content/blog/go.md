@@ -353,6 +353,50 @@ A method is a function attached to a struct using either value or pointer receiv
 
 An Interface defines a set of methods, and any struct that implements those methods can be used in a function that accepts the interface, achieving polymorphism (flexibility). 
 
+## Loop
+
+### For loop
+
+A `for` loop has 3 components separated by semicolons.
+1.  An initial statement is executed before the first iteration.
+1.  A condition expression is evaluated before every iteration.
+1.  An post statement is executed at the end of every iteration.
+
+```go
+for i := 0; i < 10; i++ {
+    fmt.Println(i)
+}
+
+i := 0
+for i < 10 {
+    fmt.Println(i)
+    i++
+}
+
+// Declare a for loop that runs forever.
+for {
+    fmt.Println("Hello, Go!")
+}
+```
+
+## Flow control
+
+### If and else
+
+An `if` statement has 2 components separated by a semicolon.
+1.  An initial statement is executed first. Its variables stay in the scope of the `if` and `else`.
+1.  A condition expression is then evaluated.
+
+```go
+if check := true; check == true {
+    fmt.Println("Check is true.")
+} else if check == false {
+    fmt.Println("Check is false.")
+} else {
+    fmt.Println("Panic: check is not boolean.")
+}
+```
+
 ## Program output
 
 We often use the `Print`, `Println`, and `Printf` function from the built-in `fmt` package.
@@ -362,10 +406,11 @@ We often use the `Print`, `Println`, and `Printf` function from the built-in `fm
     -   Aggregate parameters, adding space and new line character, and print the result.
 -   Printf
     -   Aggregate parameters based on the passed-in template, without adding space and new line character, and print the result.
-    -   `%s` for string
+    -   `%t` for boolean
     -   `%d` for decimal number
-    -   `%v` for object
     -   `%g` for floating-point number
+    -   `%s` for string
+    -   `%v` for object
     -   `%T` for type
 
 ## Error handling

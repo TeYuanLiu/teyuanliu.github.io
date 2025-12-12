@@ -4,25 +4,22 @@ date = 2025-04-26
 updated = 2025-05-04
 +++
 
-We have a great business idea, but how to turn it into a software product? Here are some steps that may give us some guidance.
+We have a business idea, and that's super cool! Now let's think about how to turn it into a product. Here are some steps that may give us some guidance.
 <!-- more -->
 
 ## Steps
 
 1.  Inception
-    -  What kind of product do we want to sell? What features does it offer?
-    -  Do we want to build a product that generates revenue via subscription or one-time sale?
+    -  What kind of product do we want to sell?
+    -  What feature does the product offer?
+    -  Does the product generate revenue via subscription or one-time sale?
 1.  Market survey
-    -   Does our product have unique features that are different from the current major players in the market?
+    -   Does the product have a unique feature that is different from the current major players in the market?
     -   Is the market growing with new customers coming in?
 1.  Minimum-Viable-Product (MVP)
-    -  Turn customers’ feature requests into MVP tech spec.
-    -  Evaluate each feature's impact to engineering hour cost ratio to prioritize high Return-On-investment (ROI) features.
+    -   Prioritize the features based on impact to engineer hour cost ratio and get a list of functional/non-functional requirements, achieving high Return-On-investment (ROI).
     -   Synchronize with customers on the tradeoff between time and feature quality/quantity, and delivery deadlines.
-    -   [Design](@/blog/system-design.md) and implement a Proof-Of-Concept (POC) system.
-    -   Set up an operational dashboard for logs, metrics, and alerts.
-    -   Work with the design team to polish the user interface.
-    -   Write documentation.
+    -   [Design](@/blog/system-design.md) and [implement](@/blog/development-cycle.md) a Proof-Of-Concept (POC) system.
 1.  Iteration
     -   Collect feedback about the MVP from customers to quickly iterate and improve.
     -   Give customers 7-day free trial, plus monthly and yearly plan.

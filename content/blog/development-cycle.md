@@ -7,7 +7,7 @@ updated = 2025-05-04
 Let's talk about software development prioritization as well as the development cycle.
 <!-- more -->
 
-## Prioritization
+## Development flow
 
 When developing a software system, should we choose to build it in a bottom-up fashion, starting from low-level components, or should we follow a top-down style, starting from high-level features? Here is the comparison.
 
@@ -69,8 +69,10 @@ Now we have figured out our priorities, and we are ready to talk about the devel
 
 ## Development cycle
 
-1.  Create user stories based on requirements (plan).
-1.  [Pick up user stories from the backlog based on prioritization](@/blog/development-cycle.md#prioritization) and put them into a sprint of a two-week development cycle.
+1.  Create development tasks based on requirements (plan).
+1.  Prioritize development tasks based on impact to engineer hour cost ratio, achieving high Return-On-investment (ROI).
+1.  Synchronize with customers on the tradeoff between time and feature quality/quantity, and delivery deadlines.
+1.  Pick up development tasks from the backlog and put them into a two-week sprint.
 1.  Develop and commit the source code into the code repository (code).
     -   Prefer many small Pull Requests (PR) over one large PR.
         -   Choose among feature addition, bug fix, and refactoring but not two or more.
@@ -93,7 +95,8 @@ Now we have figured out our priorities, and we are ready to talk about the devel
     -   End-of-life schedule
 1.  Monitor the production environment and watch for alerts. Escalate issues if needed (monitor).
     -   Error logging
-    -   Performance monitoring
+    -   Performance metric monitoring
+    -   Failure alerting
     -   User feedback collection
 1.  Write documentation (document).
     -   Versioned documentation
