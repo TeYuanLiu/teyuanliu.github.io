@@ -155,7 +155,7 @@ f := float64(i)
 
 ### Array
 
-A Go array is a contiguous chunk of memory that has a fixed size.
+A Go array is a contiguous chunk of memory that has a fixed length, so the length is part of its type.
 
 If the compiler thinks that an array is only accessed within a specific scope and its memory consumption is small (less than 64KB), it is stored on the stack and freed once out-of-scope.
 
@@ -260,8 +260,8 @@ A pointer is a variable that stores a memory address, usually the memory address
 We can use the address operator `&` to get the memory address of a variable.
 
 ```go
-var i int = 2
-var p *int = &i
+i := 2
+p := &i
 ```
 
 #### Dereference operator
@@ -270,7 +270,7 @@ We can use the dereference operator `*` to access the pointed-to variable.
 
 ```go
 i := 2
-var p *int = &i
+p := &i
 *p = 4  // Now i has value 4.
 ```
 
@@ -290,13 +290,43 @@ Go uses the `type <TYPE_NAME> <TYPE_TYPE>` declaration format for types.
 
 ### Struct
 
-A struct is a collection of variables.
+A struct is a collection of fields (variables).
 
 #### Struct declaration
 
+A struct literal denotes a newly allocated struct value by listing the values of its fields.
+
 ```go
-type person struct
+type Vertex struct {
+    X int
+    Y int
+}
+
+func main() {
+    v1 := Vertex{}      // X = 0 and Y = 0 because of default zero-value initialization
+    v2 := Vertex{1, 2}  // X = 1 and Y = 2
+    v3 := Vertex{X: 3}  // X = 3 and Y = 0    
+}
 ```
+
+#### Struct field access
+
+Struct fields are accessible via a dot. If we have a struct pointer, using a dot does the dereferencing automatically.
+
+```go
+type Vertex struct {
+    X int
+    Y int
+}
+
+func main() {
+    v := Vertex{1, 2}
+    v.X = 3
+    p := &Vertex{4, 5}
+    p.Y = 6 // Same as (*p).Y = 6
+}
+```
+
 
 ## Function
 
@@ -396,6 +426,39 @@ if check := true; check == true {
     fmt.Println("Panic: check is not boolean.")
 }
 ```
+
+### Switch
+
+A `switch` statement is a shorter way for flow control. It evaluates cases from top to bottom, and runs the first case whose value is equal to the condition expression.
+
+```go
+import (
+	"fmt"
+	"runtime"
+)
+
+func main() {
+	fmt.Print("Go runs on ")
+	switch os := runtime.GOOS; os {
+	case "linux":
+		fmt.Println("Linux.")
+	case "darwin":
+		fmt.Println("macOS.")
+    case "windows":
+        fmt.Println("Windows.")
+	default:
+		fmt.Printf("%s.\n", os)
+	}
+}
+```
+
+Switch without condition is the same as `switch true` and is a clean way to write long if-then-else chains.
+
+### Defer
+
+A `defer` statement evaluates its function arguments immediately but postpones the function execution until the `defer` statement's surrounding function returns.
+
+Deferred function calls are pushed onto a stack and follows the Last-In-First-Out (LIFO) execution order.
 
 ## Program output
 
