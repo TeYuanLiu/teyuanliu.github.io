@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Distributed System
+  </div>
+  <div class="header-metadata">
+    
+      
+        May  4, 2025 · 1386 words · 7 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+  <!-- 
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/distributed-system/#monolithic">Monolithic </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/distributed-system/#microservice">Microservice </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/distributed-system/#tradeoffs">Tradeoffs </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/distributed-system/#cap-theorem">CAP theorem</a>
+                  <ul>
+                    
+                  </ul>
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/distributed-system/#scaling">Scaling </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/distributed-system/#scaling-example">Scaling example</a>
+                  <ul>
+                    
+                  </ul>
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/distributed-system/#security">Security </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/distributed-system/#see-also">See also </a>
+          
+        </li>
+      
+    </ul>
+  
+  -->
+  <p>A distributed system is a system consists of many services running independently on different physical machines or Virtual Machines (VM) and connected via a network. Although its services are distributed, it appears as a single entity to the end user.</p>
+<span id="continue-reading"></span>
+<p>However, when we want to create a software application, distributed system may not be the one that first shows up in our mind. A more intuitive and straightforward way is to create one single application that handles the end-to-end workflow. This tightly-coupled structure leads us to the monolithic architecture.</p>
+<h2 id="monolithic"><a class="zola-anchor" href="#monolithic" aria-label="Anchor link for: monolithic">Monolithic</a></h2>
+<p>A monolithic system is built as a single, indivisible unit. All components of the system are tightly coupled.</p>
+<p>Because the components reside in the same place, it has several benefits:</p>
+<ul>
+<li>Development is intuitive as coordination among components is obvious.</li>
+<li><a href="https://teyuanliu.github.io/blog/testing/">Testing</a> is easy because the application has one codebase and can be tested end-to-end as a single unit.</li>
+<li>Deploying, monitoring, and maintaining is straightforward as we can run a single <a href="https://teyuanliu.github.io/blog/container/">container</a> or VM to host the application with configuration stored as environment variables.</li>
+<li>Performance like latency is very good since we are doing in-process calls.</li>
+<li>Data is consistent because we have only one database to interact with.</li>
+</ul>
+<p>This architecture well fits the use case like building a prototype. However, as time goes by and the application grows bigger in terms of number of features and users, certain drawbacks gradually emerge:</p>
+<ul>
+<li>If one component crashes, it brings down the entire application. This exposes the system's lack of fault tolerance and thus low reliability. Low reliability hurts the uptime and deteriorates availability.</li>
+<li>Scaling a specific component independently, which may require more resources than others, is impossible because everything is bundled as one unit so we are forced to scale all components together. Plus, vertical scaling (upgrading to a more powerful machine) hits certain limit because even the world's most powerful machine has compute and memory constraint.</li>
+<li>Flexibility is restrained as changing a part of the system requires redeployment of the entire application, not to mention that changing one component can produce bugs in other components.</li>
+</ul>
+<p>These downsides bring us to another architecture, microservice, which is the foundation for distributed systems.</p>
+<h2 id="microservice"><a class="zola-anchor" href="#microservice" aria-label="Anchor link for: microservice">Microservice</a></h2>
+<p>A microservice architecture breaks down the application into small, loosely coupled, independently deployable microservices. Each service is responsible for a specific business functionality and communicates with other services through APIs.</p>
+<p>The microservice architecture addresses some of the pain points of the monolithic architecture:</p>
+<ul>
+<li>Availability and reliability are higher because we can have multiple copies of the same service running simultaneously, so one service replica's failure doesn't necessarily bring down the whole application.</li>
+<li>Individual services can be scaled independently based on demand. Horizontal scaling (adding more machines) unlocks the capability of handling large volume of requests.</li>
+<li>The flexibility of changing each service independently allows more agile development.</li>
+</ul>
+<p>However, just like a coin has two sides, the microservice architecture overcomes the monolithic architecture's shortcomings, but struggles to match the monolithic architecture's strengths:</p>
+<ul>
+<li>Development is more difficult because there are multiple codebases to manage and the coordination among services requires service discovery, load balancing and inter-service communication.</li>
+<li>Testing is more complicated as we need to test each component's functionality and the integration among services.</li>
+<li>Deploying, monitoring, and maintaining many services need robust operation practices and tools.</li>
+<li>Performance like latency is not great due to the delay brought by communication between services over the network.</li>
+<li>Data consistency is challenging to maintain across multiple services.</li>
+</ul>
+<h2 id="tradeoffs"><a class="zola-anchor" href="#tradeoffs" aria-label="Anchor link for: tradeoffs">Tradeoffs</a></h2>
+<p>To sum up, a distributed system has good:</p>
+<ul>
+<li>Availability</li>
+<li>Reliability</li>
+<li>Scalability</li>
+<li>Flexibility</li>
+</ul>
+<p>But faces challenges for:</p>
+<ul>
+<li>Development</li>
+<li>Testing</li>
+<li>Deployment</li>
+<li>Monitoring</li>
+<li>Maintenance</li>
+<li>Performance</li>
+<li>Data consistency</li>
+</ul>
+<p>When choosing the architecture for our system, it all comes down to the question: which set of metrics matters?</p>
+<p>If our product needs high availability, reliability, scalability, or flexibility, we probably want something like the microservice architecture, otherwise, something similar to the monolithic architecture is probably a better choice.</p>
+<p>In reality we often have a fixture of both. We can apply the microservice architecture to components that need availability, reliability, scalability, or flexibility, while grouping others into a monolithic component.</p>
+<h3 id="cap-theorem"><a class="zola-anchor" href="#cap-theorem" aria-label="Anchor link for: cap-theorem">CAP theorem</a></h3>
+<p>CAP theorem states similar tradeoffs. It says we can only achieve two out of the three guarantees at any given time:</p>
+<ul>
+<li>Consistency (C)
+<ul>
+<li>Every request receives the latest data (an error otherwise).</li>
+</ul>
+</li>
+<li>Availability (A)
+<ul>
+<li>Every request receives a response without error (but may contain obsolete data).</li>
+</ul>
+</li>
+<li>Partition Tolerance (P)
+<ul>
+<li>The system continues to operate even if there are network partitions, which means some servers lost connection to others.</li>
+</ul>
+</li>
+</ul>
+<p>In a distributed system, partition tolerance is a requirement because network failures happen all the time, so we have to choose between consistency and availability.</p>
+<ul>
+<li>CP
+<ul>
+<li>Preferring consistency over availability, thus the requests hitting the isolated servers fail with an error because the system cannot return the latest data.</li>
+</ul>
+</li>
+<li>AP
+<ul>
+<li>Preferring availability over consistency, thus the requests hitting the isolated servers receive possibly obsolete data.</li>
+</ul>
+</li>
+</ul>
+<h2 id="scaling"><a class="zola-anchor" href="#scaling" aria-label="Anchor link for: scaling">Scaling</a></h2>
+<p>Here are a few things we need to know about scaling a distributed system.</p>
+<ul>
+<li>Stateless service
+<ul>
+<li>Services don't store user data like user sessions on their servers. User data is stored in a centralized storage like a cluster of RAIDs. Therefore, users can have the same session despite hitting different servers. This makes services easier to scale horizontally.</li>
+</ul>
+</li>
+<li>Routing
+<ul>
+<li>Route requests to different services based on request type.</li>
+</ul>
+</li>
+<li>Vertical scaling (scale-up)
+<ul>
+<li>Upgrade to a more powerful server.</li>
+</ul>
+</li>
+<li>Horizontal scaling (scale-out)
+<ul>
+<li>Use more servers to run more copies of the same service.</li>
+</ul>
+</li>
+<li>Load balancing
+<ul>
+<li>Distribute requests among multiple servers using methods like round-robin.</li>
+</ul>
+</li>
+<li>Auto scaling
+<ul>
+<li>Scale horizontally in a dynamic way based on real-time traffic.</li>
+</ul>
+</li>
+<li><a href="https://teyuanliu.github.io/blog/caching/">Caching</a>
+<ul>
+<li>Store request-response pairs to handle repetitive requests quickly without making the expensive API or <a href="https://teyuanliu.github.io/blog/database/">database</a> call over and over again.
+<ul>
+<li>Client-side cache</li>
+<li>Content-Delivery Network (CDN) cache</li>
+<li>Load balancer cache</li>
+<li>Message queue cache</li>
+<li>Service
+<ul>
+<li>CPU cache</li>
+<li>RAM cache</li>
+<li>Disk cache</li>
+</ul>
+</li>
+<li>In-memory cache</li>
+<li>Database cache</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Database selection
+<ul>
+<li>Choose SQL/NewSQL databases for consistency or NoSQL databases for availability and scalability.</li>
+</ul>
+</li>
+<li>Database replication
+<ul>
+<li>Replicate the same database across multiple servers.</li>
+<li>Primary-replica
+<ul>
+<li>We have one primary database and multiple replica databases. The primary database handles write requests and propagates the latest data to replica databases. The replica databases take care of read requests.</li>
+</ul>
+</li>
+<li>This increases read speed.</li>
+</ul>
+</li>
+<li>Database sharding
+<ul>
+<li>Split the existing database into multiple smaller databases and each one of them handles a subset of the data based on certain criteria.</li>
+<li>This increases both read and write speed.</li>
+</ul>
+</li>
+<li>Asynchronous processing
+<ul>
+<li>Run time-consuming and resource-intensive tasks during off-peak hours or on background servers.</li>
+</ul>
+</li>
+</ul>
+<h3 id="scaling-example"><a class="zola-anchor" href="#scaling-example" aria-label="Anchor link for: scaling-example">Scaling example</a></h3>
+<p>Here is a simulated example for scaling a client-server application.</p>
+<ol>
+<li>Initially we launch the application with a minimal setup:
+<ul>
+<li>A client application</li>
+<li>An application server</li>
+<li>A database server</li>
+</ul>
+</li>
+<li>As more and more user requests hitting the application server, our application server fails to handle them all, probably due to CPU, memory, and connection limit.
+<ul>
+<li>We can upgrade the application server to a more powerful machine (vertical scaling).</li>
+<li>If that's not enough, we can set up more application servers and a load balancer to handle increasing traffic (horizontal scaling and load balancing).</li>
+<li>We can also set up a CDN to cache static assets (caching).</li>
+</ul>
+</li>
+<li>As more and more user data stored in our database, database query speed slows down.
+<ul>
+<li>We can upgrade the database server to a more powerful machine (vertical scaling).</li>
+<li>Read
+<ul>
+<li>If that's not enough, we can put a cache between the application servers and the database to speed up database read operations (caching).</li>
+<li>If that's not enough, we can do database replication (database replication).</li>
+</ul>
+</li>
+<li>Write
+<ul>
+<li>If that's not enough, we can shard the database into multiple smaller ones to accelerate write operations (database sharding).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>As we add more and more features, the application server fails to handle them all, probably due to CPU and memory limit, or dependency conflicts.
+<ul>
+<li>We can upgrade the application server to a more powerful machine (vertical scaling).</li>
+<li>If that's not enough, we can split the application into multiple services and run each of them in a separate server. We also use an API gateway (or even a cluster of gateways) to route the requests to different services (routing).</li>
+</ul>
+</li>
+</ol>
+<h2 id="security"><a class="zola-anchor" href="#security" aria-label="Anchor link for: security">Security</a></h2>
+<p>System <a href="https://teyuanliu.github.io/blog/security/">security</a> has become more and more important.</p>
+<h2 id="see-also"><a class="zola-anchor" href="#see-also" aria-label="Anchor link for: see-also">See also</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;development-cycle&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;etcd&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>     
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>
