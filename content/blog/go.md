@@ -52,7 +52,7 @@ func main() {
 }
 ```
 
-### Compile and run
+#### Compile and run
 
 We can use the `go build` command to instruct the Go compiler to compile the working directory's Go files into a binary.
 
@@ -88,7 +88,11 @@ Examples | `5; a + b; len(array)` | `x = 5; if ... else ...; for ...; return val
 
 ## Declaration
 
-Go follows the `<WHAT_TO_DECLARE> <WHAT_NAME> <WHAT_TYPE>` declaration format for many things like variables, functions, types, etc.
+Go follows the `<TYPE> <NAME> <UNDERLYING_TYPE>` declaration format for many things like variables, functions, types, etc.
+
+### Naming convention
+
+The Go community has the naming convention of PascalCase for exported variables, functions, and camelCase for unexported variables, functions.
 
 ## Variable
 
@@ -126,7 +130,7 @@ var i int = 10  // Note that the int type here can be omitted because we initial
 i := 10
 ```
 
-### Primitive type
+### Primitive variable type
 
 -   Boolean
     -   bool
@@ -159,7 +163,7 @@ i := 10
 -   Rune
     -   rune (alias of int32, representing a Unicode code point)
 
-#### Type conversion
+### Variable type conversion
 
 We can use the `T(v)` expression to convert a variable `v` to the type `T`.
 
@@ -304,8 +308,6 @@ m := map[string]Vertex{
 
 #### Map operation
 
-##### Element insertion or update
-
 ```go
 // Insert or update a key-value pair.
 m[key] = value
@@ -321,15 +323,6 @@ value, ok := m[key]
 // If the key is in m, ok is true.
 // Otherwise, the value is the value type's zero value, and ok is false. 
 ```
-
-##### Element insertion or update
-
-```go
-m[key] = value
-```
-
-
-
 
 ### Pointer
 
@@ -407,7 +400,6 @@ func main() {
 }
 ```
 
-
 ## Function
 
 ### Function declaration
@@ -469,20 +461,52 @@ func main() {
 
 ### Function closure
 
-A closure is a function value that references variables from outside its body. Each closure is bound to its own variable.
+A closure is a function value that references variables from outside its body. Each closure is bound to its own external variables.
+
+```go
+// fibonacciFactory is a function that returns
+// a fibonacci function, which is a closure, that returns
+// the next number in the Fibonacci series.
+func fibonacciFactory() func() int {
+	i, pp, p := -1, 0, 1
+	fibonacci := func() int {
+		i += 1
+		if i == 0 {
+			return 0
+		} else if i == 1 {
+			return 1
+		} else {
+			c := pp + p
+			pp = p
+			p = c
+			return c
+		}
+	}
+	return fibonacci
+}
+
+func main() {
+	f := fibonacciFactory()
+	for i := 0; i < 10; i++ {
+		fmt.Println(f())
+	}
+}
+```
 
 ### Method
 
-A method is a function attached to a struct using either value or pointer receiver.
+A method is a function with a special receiver argument. We use the receiver argument to attach the function to a type. Note that the receiver type has to be defined in the same package as the method so we cannot declare a method with a receiver whose type is `int`. Also the receiver's type cannot be a pointer.
+
+There are 2 kinds of receivers, the value receiver and the pointer receiver.
 
 -   Value receiver
-    -   The method operates on a copy of the struct and is best for read-only operations. It uses the `func (<RECEIVER_NAME> <RECEIVER_TYPE>) <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format.
+    -   The method operates on a copy of the receiver value and is best for read operations on small structs. It uses the `func (<RECEIVER_NAME> <RECEIVER_TYPE>) <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format. Note that we can pass in a receiver value pointer and Go automatically dereferences the pointer, making a copy of the receiver value, and runs the method.
 -   Pointer receiver
-    -   The method operates on the original struct via a pointer pointing to its memory address and is used for write operations. It uses the `func (<RECEIVER_NAME> *<RECEIVER_TYPE>) <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format.
+    -   The method operates on the original receiver value via a pointer pointing to its memory address and is used for write operations or read operations on large structs. It uses the `func (<RECEIVER_NAME> *<RECEIVER_TYPE>) <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format. Note that we can pass in a receiver value and Go automatically gets its pointer and runs the method. 
 
 ### Interface
 
-An Interface defines a set of methods, and any struct that implements those methods can be used in a function that accepts the interface, achieving polymorphism (flexibility). 
+An Interface defines a set of method signatures. An interface value can hold a value from any underlying type that implements those methods, achieving polymorphism (flexibility). Calling a method on an interface value effectively executes the same-name method of its underlying type value.
 
 ## Loop
 
