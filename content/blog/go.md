@@ -4,15 +4,15 @@ date = 2025-11-30
 updated = 2025-12-01
 +++
 
-## Hello Go
+## Here we Go
 
 ### Package
 
-A Go package is a collection of Go files inside the same directory.
+A package is a collection of Go files inside the same directory.
 
 ### Module
 
-A Go module is a collection of packages. It is like a project or repository.
+A module is a collection of packages. It is like a project or repository.
 
 #### Module initialization
 
@@ -29,12 +29,12 @@ go <VERSION>
 
 ### First Go program
 
-We can create our first Go program by making a `hello.go` file. Later on during the compile process, the Go compiler first converts this Go file into an assembly-like internal representation and then compiles the internal representation into a binary.
+We can create our first Go program by making a `here_we_go.go` file. Later on during the compile process, the Go compiler first converts this Go file into an assembly-like internal representation and then compiles the internal representation into a binary.
 
-In order to let the compile succeed, there must be a Go file (`hello.go` in our case here) that not only belongs to the `main` package but also includes a `main` function such that the compiler can locate the entrypoint of the binary.
+In order to let the compile succeed, there must be a Go file (`here_we_go.go` in our case here) that not only belongs to the `main` package but also includes a `main` function such that the compiler can locate the entrypoint of the binary.
 
 {% codeblocktag () %}
-hello.go
+here_we_go.go
 {% end %}
 ```go
 // Declare this file as part of the main package.
@@ -47,8 +47,8 @@ import (
 
 // Declare the main function in the main package.
 func main() {   
-    // Print a line saying "Hello, Go!".
-    fmt.Println("Hello, Go!")
+    // Print a line saying "Here we Go!".
+    fmt.Println("Here we Go!")
 }
 ```
 
@@ -64,19 +64,27 @@ go build
 And then we can run the produced binary.
 
 ```bash
-# Run the binary, assuming its name is hello-go.
-./hello-go
+# Run the binary, assuming its name is here-we-go.
+./here-we-go
 ```
 
 Furthermore, we can combine the compile and run into one command `go run`.
 
 ```bash
 # Generate an ephemeral binary go-buildxxx inside the temporary directory /tmp, running it, and deletes the binary after execution.
-go run hello.go 
+go run here_we_go.go 
 
 # This also works as long as the working directory contains the Go file that includes the main package's main function.
 go run .
 ```
+
+## Expression and statement
+
+Feature | Expression | Statement
+- | - | -
+Purpose | To produce data. | To execute an instruction.
+Value returning | Yes | No
+Examples | `5; a + b; len(array)` | `x = 5; if ... else ...; for ...; return value; import "fmt"; i++`
 
 ## Declaration
 
@@ -120,24 +128,36 @@ i := 10
 
 ### Primitive type
 
-```
-bool
-
-string
-
-int     int8    int16   int32   int64
-uint    uint8   uint16  uint32  uint64  uintptr
-
-byte    // alias for uint8
-
-rune    // alias for int32. Represents a Unicode code point.
-
-float32 float64
-
-complex64   complex128
-```
-
-The `int`, `uint`, and `uintptr` type can be 32-bit or 64-bit, depending on the system.
+-   Boolean
+    -   bool
+-   String
+    -   string
+-   Integer
+    -   int
+        -   32-bit or 64-bit based on system type
+    -   int8
+    -   int16
+    -   int32
+    -   int64
+-   Unsigned integer
+    -   uint
+        -   32-bit or 64-bit based on system type
+    -   uint8
+    -   uint16
+    -   uint32
+    -   uint64
+    -   uintptr
+        -   32-bit or 64-bit based on system type
+-   Floating number
+    -   float32
+    -   float64
+-   Complex number
+    -   complex64
+    -   complex128
+-   Byte
+    -   byte (alias of uint8)
+-   Rune
+    -   rune (alias of int32, representing a Unicode code point)
 
 #### Type conversion
 
@@ -155,7 +175,7 @@ f := float64(i)
 
 ### Array
 
-A Go array is a contiguous chunk of memory that has a fixed length, so the length is part of its type.
+An array is a contiguous chunk of memory that has a fixed length, so the length is part of its type.
 
 If the compiler thinks that an array is only accessed within a specific scope and its memory consumption is small (less than 64KB), it is stored on the stack and freed once out-of-scope.
 
@@ -182,12 +202,12 @@ a := [...]int{1, 2}
 
 ### Slice
 
-A Go slice is a lightweight data structure allocated on the stack that describes a contiguous segment of an underlying array.
+A slice is dynamically-sized, flexible view into the elements of an array. When created, it is allocated on the stack.
 
 It contains:
--   A pointer to the slice's starting point in the array
+-   A pointer to the first element in the slice
 -   The length of the slice
--   The capacity of the slice, which is the length of the array starting from the slice's starting point
+-   The capacity of the slice, which is the number of elements in the underlying array, counting from the first element in the slice
 
 If any slice still holds a pointer to its underlying array, the entire array remains in memory. Therefore, the way to release the array's memory is to set the slice to `nil`.
 
@@ -197,51 +217,64 @@ If our slice is using a small portion of the underlying array, we can use the be
 
 #### Slice declaration
 
+A slice literal is like an array literal without the length. During the slice literal declaration, Go creates the underlying array and builds a slice that references it.
+
+We can use the built-in `println` function to learn a slice's information.
+
 ```go
-// Declare an integer slice. By default its pointer is initialized to nil.
+// Declare an integer slice. By default its pointer is initialized to nil and both length and capacity are set to 0.
 var s []int
 
-// Declare and initialize an integer slice with a literal.
+// Declare and initialize via a slice literal.
 var s = []int{1, 2}
 
 // Shorter version
 s := []int{1, 2}
 
 // Declare and initialize a slice with make so it has 2 in length and 4 in capacity. 
-// Under the hood, it creates an array with 4 in length and sets the slice's pointer to point to the start of the array.
+// Under the hood, it creates an array with 4 in length and sets the slice's pointer to point to the array's first element.
 s = make([]int, 2, 4) 
 
 // Shorter version
 s := make([]int, 2, 4)
 
+// Print the slice.
+println(s)          // Print [2/4]0xa00001a120, where 2 for length, 4 for capacity, 0xa00001a120 for the pointer.
+fmt.Println(len(s)) // Print 2 for length
+fmt.Println(cap(s)) // Print 4 for capacity
+
 // Declare and initialize a slice from an existing array
 var a [2]int
+
+// The following statements are equivalent.
 s := a[:]
+s := a[0:]
+s := a[:2]
+s := a[0:2]
 ```
 
 #### Slice appending
 
 We can append one or multiple elements or even another slice to the end of a slice. If the slice's capacity is exceeded, meaning the underlying array doesn't have the space to accommodate all elements, Go creates another array (usually doubling the array length), copying the elements into it, and updates the slice to use the new array.
 
-We can use the built-in `println` function to learn a slice's information.
-
 ```go
-s := make([]int, 2, 4)
-println(s)
-// Print [2/4]0xa00001a120, where 2 for length, 4 for capacity, 0xa00001a120 for slice pointer.
+s1 := []int{1}          // s1 = {1}
+s1 = append(s1, 2, 3)   // s1 = {1, 2, 3}
+s2 := []int{4}          // s2 = {4}
+s1 = append(s1, s2...)  // s1 = {1, 2, 3, 4}
 ```
 
 ### Map
 
-A map is used to store key-value pairs.
+A map is used to store key-value pairs. Its zero value is `nil` and has no keys or the ability to accept new keys.
 
 #### Map declaration
 
 ```go
-// Declare an integer-to-string map.
+// Declare an integer-to-string map. This is meaningless because it's a nil map and cannot accept new keys.
 var m map[int]string
 
-// Declare and initialize a map with a literal.
+// Declare and initialize via a map literal.
 var m = map[int]string{1: "one"}
 
 // Shorter version
@@ -250,6 +283,53 @@ m := map[int]string{1: "one"}
 // Declare a map with make.
 m := make(map[int]string)
 ```
+
+When using a map literal to declare and initialize a map, we can omit the top-level value type if it is a type name.
+
+```go
+type Vertex struct {
+    X, Y int
+}
+
+// Explicit value type
+m := map[string]Vertex{
+    "Go": Vertex{1, 2},
+}
+
+// Shorter version
+m := map[string]Vertex{
+    "Go": {1, 2},
+}
+```
+
+#### Map operation
+
+##### Element insertion or update
+
+```go
+// Insert or update a key-value pair.
+m[key] = value
+
+// Retrieve the value of a key.
+value := m[key]
+
+// Delete a key-value pair
+delete(m, key)
+
+// Test a key's existence.
+value, ok := m[key]
+// If the key is in m, ok is true.
+// Otherwise, the value is the value type's zero value, and ok is false. 
+```
+
+##### Element insertion or update
+
+```go
+m[key] = value
+```
+
+
+
 
 ### Pointer
 
@@ -370,6 +450,27 @@ func getXY() (x, y int) {
 }
 ```
 
+### Function value
+
+Functions are values and can be passed around just like other values.
+
+```go
+func compute(fn func(float64, float64) float64) float64 {
+	return fn(3, 4)
+}
+
+func main() {
+	hypot := func(x, y float64) float64 {
+		return math.Sqrt(x * x + y * y)
+	}
+	fmt.Println(compute(hypot))
+}
+```
+
+### Function closure
+
+A closure is a function value that references variables from outside its body. Each closure is bound to its own variable.
+
 ### Method
 
 A method is a function attached to a struct using either value or pointer receiver.
@@ -390,7 +491,7 @@ An Interface defines a set of methods, and any struct that implements those meth
 A `for` loop has 3 components separated by semicolons.
 1.  An initial statement is executed before the first iteration.
 1.  A condition expression is evaluated before every iteration.
-1.  An post statement is executed at the end of every iteration.
+1.  A post statement is executed at the end of every iteration.
 
 ```go
 for i := 0; i < 10; i++ {
@@ -405,9 +506,32 @@ for i < 10 {
 
 // Declare a for loop that runs forever.
 for {
-    fmt.Println("Hello, Go!")
+    fmt.Println("Here we Go!")
 }
 ```
+
+#### For-range loop
+
+A `for-range` loop provides a concise way to iterate over a range, string, array, slice, map, or channel. The basic syntax assigns iteration values to one or two variables, followed by the `range` keyword and then the collection.
+
+```go
+// Loop over both the index and value
+for index, value := range collection {}
+
+// Loop over the index
+for index := range collection {}
+
+// Loop over the value
+for _, value := range collection {}
+```
+
+Collection type | First value | Second value (optional)
+- | - | -
+Integer | Index (int) | Not applicable
+String | Index (int) | Rune (Unicode code point)
+Array or Slice | Index (int) | Element copy
+Map | Key | Value copy
+Channel | Element | Not applicable
 
 ## Flow control
 

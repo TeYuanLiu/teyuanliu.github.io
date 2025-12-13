@@ -31,7 +31,7 @@ We can monitor the application's file access pattern and network requests at run
     docker run -it --rm -v "$PWD/workspace":/workspace <IMAGE_NAME> bash
     ```
 1.  Run and monitor the application at runtime.
-    -   Inside container
+    -   Inside the container
         -   File access
             -   Install and run `strace` to trace file operations when running the application.
                 ```bash
@@ -43,14 +43,14 @@ We can monitor the application's file access pattern and network requests at run
                 ```bash
                 sudo tcpdump -i any -n port 80 or port 443
                 ```
-    -   Outside container
+    -   Outside the container
         -   File access
             -   Install and run `inotify` to monitor what files the container accesses.
                 ```bash
                 inotifywait -m -r $PWD/workspace
                 ```
 1.  Run the application with restricted access.
-    -   Use `--read-only` to prevent write outside volume.
+    -   Use `--read-only` to prevent writes beyond the volume.
     -   Use `--network=none` to prevent network access.
     -   Use `--cap-drop=ALL` to strip extra privileges.
     -   Use `--security-opt no-new-privileges:true` to prevent privilege escalation.
