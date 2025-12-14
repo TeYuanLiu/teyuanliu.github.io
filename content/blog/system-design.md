@@ -6,17 +6,17 @@ updated = 2025-05-01
 
 Ok, we want to build a software product, but where should we start?
 
-Well, let's first think about what are the functional and non-functional requirements. This gives us a long list of questions to answer.
+Well, let's first think about the functional and non-functional requirements of our product. This gives us a list of questions to answer.
 <!-- more -->
 
-## Functional requirements (scope)
+## Functional requirement (scope)
 
--   What kind of features should we provide?
-    -   What's the feature's input?
-    -   What's the feature's output?
--   What does the storage/API schema look like?
+-   What features do we provide?
+-   What does the API schema look like?
+-   What does the storage schema look like?
+-   What kind of storage do we use?
 
-## Non-functional requirements
+## Non-functional requirement
 
 -   Scalability
     -   Traffic
@@ -24,12 +24,19 @@ Well, let's first think about what are the functional and non-functional require
         -   How many concurrent users?
         -   How many write requests per second?
         -   How many read requests per second?
-        -   What are the latency and throughput requirement?
-    -   Long-term (5-year) storage
+        -   What are the latency and throughput requirements?
+            -   Latency
+                -   1   ns for cache
+                -   100 ns for memory
+                -   100 us for Non-Volatile Memory express (NVMe) drive
+                -   5   ms for Hard-Disk Drive (HDD)
+    -   Storage
+        -   How much storage is needed for 5 years?
 -   Availability
     -   What is the service uptime requirement?
 -   Reliability
     -   What is the data consistency requirement?
+    -   What is the fault tolerance requirement?
 
 ## Layout
 
@@ -39,22 +46,29 @@ After clarifying the functional and non-functional requirements of the system, w
 -   Load balancer
 -   API gateway
     -   Security
+        -   Authentication and authorization
         -   TLS
         -   Rate limiting
-        -   Authentication and authorization
+    -   Transforming
+    -   Routing
     -   Caching
     -   Metric monitoring
+    -   Alerting
     -   Logging
-    -   Routing
 -   Service
-    -   Dispatcher -> queue -> service -> database
-    -   User
+    -   Each service follows the pattern of Kafka queue -> logic <-> storage.
     -   Business logic
     -   Observability
-        -   Metric
-        -   Alert
-        -   Log
-        -   Analytic
+        -   Metric monitoring
+        -   Alerting
+        -   Logging
+    -   Analytic
+        -   HDFS storage
+        -   Impala HDFS query 
+        -   Hive data management and HiveQL query
+        -   Spark batch processing
+        -   Oozie job orchestration
+        -   YARN resource management
 -   Storage
     -   Latency
     -   Throughput
@@ -65,16 +79,14 @@ After clarifying the functional and non-functional requirements of the system, w
     -   Database cache
     -   Content-Delivery Network (CDN)
     -   Client-side cache
--   Queue
-    -   Message queue
-    -   Task queue
 -   Communication
     -   TCP
         -   HTTP
             -   REST
             -   GraphQL
             -   gRPC
-    -   QUIC (UDP)
+        -   WebSocket
+    -   UDP
         -   gRPC
 
 ## Performance boost

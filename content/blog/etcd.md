@@ -102,7 +102,7 @@ The requirement for a leader to coordinate all writes and secure a quorum for co
 #### Write optimization
 
 -   Vertical scaling
-    -   Use NVMe SSDs for cluster nodes as WAL disk sync is sensitive to disk I/O throughput and latency.
+    -   Use Non-Volatile Memory express (NVMe) SSDs for cluster nodes as WAL disk sync is sensitive to disk I/O throughput and latency.
     -   Use high-speed network as the network round-trip time is a major component of write latency.
     -   Enable dynamic write request batching such that the leader can put multiple requests into a single large log entry before doing data replication, amortizing the disk sync and networking cost. 
 

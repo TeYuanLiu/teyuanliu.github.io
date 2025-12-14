@@ -52,6 +52,16 @@ func main() {
 }
 ```
 
+#### Expression and statement
+
+A Go file consists of expressions and statements for the computer to read, parse, and execute instructions. Here is a comparison between expression and statement.
+
+Feature | Expression | Statement
+- | - | -
+Purpose | To produce data. | To execute an instruction.
+Value returning | Yes | No
+Examples | `5; a + b; len(array)` | `x = 5; if ... else ...; for ...; return value; import "fmt"; i++`
+
 #### Compile and run
 
 We can use the `go build` command to instruct the Go compiler to compile the working directory's Go files into a binary.
@@ -78,22 +88,6 @@ go run here_we_go.go
 go run .
 ```
 
-## Expression and statement
-
-Feature | Expression | Statement
-- | - | -
-Purpose | To produce data. | To execute an instruction.
-Value returning | Yes | No
-Examples | `5; a + b; len(array)` | `x = 5; if ... else ...; for ...; return value; import "fmt"; i++`
-
-## Declaration
-
-Go follows the `<TYPE> <NAME> <UNDERLYING_TYPE>` declaration format for many things like variables, functions, types, etc.
-
-### Naming convention
-
-The Go community has the naming convention of PascalCase for exported variables, functions, and camelCase for unexported variables, functions.
-
 ## Variable
 
 ### Variable declaration
@@ -114,8 +108,8 @@ var p *int
 
 Variables declared without an explicit initial value are given their zero value.
 -   `false` for boolean
--   0 for numeric
--   "" for string
+-   `0` for numeric
+-   `""` for string
 -   `null` for pointer
 
 We can declare and initialize a variable at the same time via an explicit declaration or its shorter version. Note that the shorter version is only available within a function and we should use the explicit declaration at the package level.
@@ -129,6 +123,10 @@ var i int = 10  // Note that the int type here can be omitted because we initial
 // Shorter version
 i := 10
 ```
+
+### Naming convention
+
+The Go community has the naming convention of PascalCase for exported variables, functions, and camelCase for unexported variables, functions. For example, `Pi` is exported from the `math` package and can be accessed via `math.Pi`.
 
 ### Primitive variable type
 
@@ -177,6 +175,23 @@ i := 2
 f := float64(i)
 ```
 
+### Program output
+
+We often use the `Print`, `Println`, and `Printf` function from the built-in `fmt` package.
+-   Print
+    -   Aggregate passed-in parameters without adding space and new line character as delimiter, and print the result.
+-   Println
+    -   Aggregate parameters, adding space and new line character, and print the result.
+-   Printf
+    -   Aggregate parameters based on the passed-in template, without adding space and new line character, and print the result.
+    -   %t for boolean
+    -   %d for decimal number
+    -   %g for floating-point number
+    -   %s for string
+    -   %v for object
+    -   %T for type
+    -   %q for double-quoted string with special character escaping
+
 ### Array
 
 An array is a contiguous chunk of memory that has a fixed length, so the length is part of its type.
@@ -213,10 +228,10 @@ It contains:
 -   The length of the slice
 -   The capacity of the slice, which is the number of elements in the underlying array, counting from the first element in the slice
 
-If any slice still holds a pointer to its underlying array, the entire array remains in memory. Therefore, the way to release the array's memory is to set the slice to `nil`.
+If any slice still holds a pointer to its underlying array, the entire array remains in memory. Therefore, the way to release the array's memory is to set the slice to nil.
 
 If our slice is using a small portion of the underlying array, we can use the below methods to cut down memory cost.
--   If the underlying array holds pointers to large data structures, we can explicitly set the pointers to `nil` to let the pointed-to data to be garbage collected, even if the array itself remains.
+-   If the underlying array holds pointers to large data structures, we can explicitly set the pointers to nil to let the pointed-to data to be garbage collected, even if the array itself remains.
 -   Copy the relevant elements to a new slice with a new underlying array and let the original one to be garbage collected.
 
 #### Slice declaration
@@ -270,7 +285,7 @@ s1 = append(s1, s2...)  // s1 = {1, 2, 3, 4}
 
 ### Map
 
-A map is used to store key-value pairs. Its zero value is `nil` and has no keys or the ability to accept new keys.
+A map is used to store key-value pairs. Its zero value is nil and has no keys or the ability to accept new keys.
 
 #### Map declaration
 
@@ -355,50 +370,105 @@ Go uses the `const <CONSTANT_NAME> <CONSTANT_TYPE>` declaration format for const
 
 Numeric constants are high-precision values. An untyped constant takes the type needed by its context.
 
-## Type
+## Flow control
 
-### Type declaration
+### Loop
 
-Go uses the `type <TYPE_NAME> <TYPE_TYPE>` declaration format for types.
+#### For loop
 
-### Struct
-
-A struct is a collection of fields (variables).
-
-#### Struct declaration
-
-A struct literal denotes a newly allocated struct value by listing the values of its fields.
+A `for` loop has 3 components separated by semicolons.
+1.  An initial statement is executed before the first iteration.
+1.  A condition expression is evaluated before every iteration.
+1.  A post statement is executed at the end of every iteration.
 
 ```go
-type Vertex struct {
-    X int
-    Y int
+for i := 0; i < 10; i++ {
+    fmt.Println(i)
 }
 
-func main() {
-    v1 := Vertex{}      // X = 0 and Y = 0 because of default zero-value initialization
-    v2 := Vertex{1, 2}  // X = 1 and Y = 2
-    v3 := Vertex{X: 3}  // X = 3 and Y = 0    
+i := 0
+for i < 10 {
+    fmt.Println(i)
+    i++
+}
+
+// Declare a for loop that runs forever.
+for {
+    fmt.Println("Here we Go!")
 }
 ```
 
-#### Struct field access
+#### For-range loop
 
-Struct fields are accessible via a dot. If we have a struct pointer, using a dot does the dereferencing automatically.
+A `for-range` loop provides a concise way to iterate over a range, string, array, slice, map, or channel. The basic syntax assigns iteration values to one or two variables, followed by the `range` keyword and then the collection.
 
 ```go
-type Vertex struct {
-    X int
-    Y int
-}
+// Loop over both the index and value
+for index, value := range collection {}
 
-func main() {
-    v := Vertex{1, 2}
-    v.X = 3
-    p := &Vertex{4, 5}
-    p.Y = 6 // Same as (*p).Y = 6
+// Loop over the index
+for index := range collection {}
+
+// Loop over the value
+for _, value := range collection {}
+```
+
+Collection type | First value | Second value (optional)
+- | - | -
+Integer | Index (int) | Not applicable
+String | Index (int) | Rune (Unicode code point)
+Array or Slice | Index (int) | Element copy
+Map | Key | Value copy
+Channel | Element | Not applicable
+
+### If and else
+
+An `if` statement has 2 components separated by a semicolon.
+1.  An initial statement is executed first. Its variables stay in the scope of the `if` and `else`.
+1.  A condition expression is then evaluated.
+
+```go
+if check := true; check == true {
+    fmt.Println("Check is true.")
+} else if check == false {
+    fmt.Println("Check is false.")
+} else {
+    fmt.Println("Panic: check is not boolean.")
 }
 ```
+
+### Switch
+
+A `switch` statement is a shorter way for flow control. It evaluates cases from top to bottom, and runs the first case whose value is equal to the condition expression.
+
+```go
+import (
+	"fmt"
+	"runtime"
+)
+
+func main() {
+	fmt.Print("Go runs on ")
+	switch os := runtime.GOOS; os {
+	case "linux":
+		fmt.Println("Linux.")
+	case "darwin":
+		fmt.Println("macOS.")
+    case "windows":
+        fmt.Println("Windows.")
+	default:
+		fmt.Printf("%s.\n", os)
+	}
+}
+```
+
+Switch without condition is the same as `switch true` and is a clean way to write long if-then-else chains.
+
+### Defer
+
+A `defer` statement evaluates its function arguments immediately but postpones the function execution until the `defer` statement's surrounding function returns.
+
+Deferred function calls are pushed onto a stack and follows the Last-In-First-Out (LIFO) execution order.
 
 ## Function
 
@@ -432,7 +502,7 @@ func add(x, y int) int
 
 A function's return values may be named. If so, they are treated as variables defined at the top of the function. These return value names should be used to document the meaning of the return values. A `return` statement without arguments returns the named return values.
 
-We generally don't use named return value as they can decrease readability in longer functions.
+We generally don't use named return values as they can decrease readability in longer functions.
 
 ```go
 func getXY() (x, y int) {
@@ -495,140 +565,252 @@ func main() {
 
 ### Method
 
-A method is a function with a special receiver argument. We use the receiver argument to attach the function to a type. Note that the receiver type has to be defined in the same package as the method so we cannot declare a method with a receiver whose type is `int`. Also the receiver's type cannot be a pointer.
+A method is a function with a special receiver argument. We use the receiver argument to attach the function to a type, usually a struct. Note that the receiver type can't be a pointer and must be defined in the same package so we cannot declare a method with a receiver whose type is `int`.
 
 There are 2 kinds of receivers, the value receiver and the pointer receiver.
 
 -   Value receiver
-    -   The method operates on a copy of the receiver value and is best for read operations on small structs. It uses the `func (<RECEIVER_NAME> <RECEIVER_TYPE>) <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format. Note that we can pass in a receiver value pointer and Go automatically dereferences the pointer, making a copy of the receiver value, and runs the method.
+    -   The method operates on a copy of the receiver and is best for reads on small structs. It uses the `func (<RECEIVER_NAME> <RECEIVER_TYPE>) <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format. Note that we can pass in a receiver pointer and Go automatically dereferences the pointer, making a copy of the receiver, and runs the method.
 -   Pointer receiver
-    -   The method operates on the original receiver value via a pointer pointing to its memory address and is used for write operations or read operations on large structs. It uses the `func (<RECEIVER_NAME> *<RECEIVER_TYPE>) <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format. Note that we can pass in a receiver value and Go automatically gets its pointer and runs the method. 
+    -   The method operates on the original receiver via a pointer pointing to the receiver and is used for writes or reads on large structs. It uses the `func (<RECEIVER_NAME> *<RECEIVER_TYPE>) <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format. Note that we can pass in a receiver value and Go automatically gets its memory address and runs the method. 
+
+## Type
+
+### Type declaration
+
+Go uses the `type <TYPE_NAME> <UNDERLYING_TYPE>` declaration format for types.
+
+### Struct
+
+A struct is a collection of fields (variables).
+
+#### Struct declaration
+
+A struct literal denotes a newly allocated struct value by listing the values of its fields.
+
+```go
+type Vertex struct {
+    X int
+    Y int
+}
+
+func main() {
+    v1 := Vertex{}      // X = 0 and Y = 0 because of default zero-value initialization
+    v2 := Vertex{1, 2}  // X = 1 and Y = 2
+    v3 := Vertex{X: 3}  // X = 3 and Y = 0    
+}
+```
+
+#### Struct field access
+
+Struct fields are accessible via a dot. If we have a struct pointer, using a dot does the dereferencing automatically.
+
+```go
+type Vertex struct {
+    X int
+    Y int
+}
+
+func main() {
+    v := Vertex{1, 2}
+    v.X = 3
+    p := &Vertex{4, 5}
+    p.Y = 6 // Same as (*p).Y = 6
+}
+```
 
 ### Interface
 
-An Interface defines a set of method signatures. An interface value can hold a value from any underlying type that implements those methods, achieving polymorphism (flexibility). Calling a method on an interface value effectively executes the same-name method of its underlying type value.
+An Interface defines a set of method signatures for other types to implement, achieving polymorphism (flexibility).
 
-## Loop
+An interface value is a tuple of a concrete value and the concrete type, and can hold any concrete type value as long as that concrete type implements those methods.
 
-### For loop
-
-A `for` loop has 3 components separated by semicolons.
-1.  An initial statement is executed before the first iteration.
-1.  A condition expression is evaluated before every iteration.
-1.  A post statement is executed at the end of every iteration.
+Calling a method on an interface value effectively executes the same-named method of its concrete type value. 
 
 ```go
-for i := 0; i < 10; i++ {
-    fmt.Println(i)
+type I interface {
+    M()
 }
 
-i := 0
-for i < 10 {
-    fmt.Println(i)
-    i++
+func describe(i I) {
+	fmt.Printf("(%v, %T)\n", i, i)
 }
 
-// Declare a for loop that runs forever.
-for {
-    fmt.Println("Here we Go!")
+type T struct {
+    S string
 }
-```
 
-#### For-range loop
-
-A `for-range` loop provides a concise way to iterate over a range, string, array, slice, map, or channel. The basic syntax assigns iteration values to one or two variables, followed by the `range` keyword and then the collection.
-
-```go
-// Loop over both the index and value
-for index, value := range collection {}
-
-// Loop over the index
-for index := range collection {}
-
-// Loop over the value
-for _, value := range collection {}
-```
-
-Collection type | First value | Second value (optional)
-- | - | -
-Integer | Index (int) | Not applicable
-String | Index (int) | Rune (Unicode code point)
-Array or Slice | Index (int) | Element copy
-Map | Key | Value copy
-Channel | Element | Not applicable
-
-## Flow control
-
-### If and else
-
-An `if` statement has 2 components separated by a semicolon.
-1.  An initial statement is executed first. Its variables stay in the scope of the `if` and `else`.
-1.  A condition expression is then evaluated.
-
-```go
-if check := true; check == true {
-    fmt.Println("Check is true.")
-} else if check == false {
-    fmt.Println("Check is false.")
-} else {
-    fmt.Println("Panic: check is not boolean.")
+func (t *T) M() {
+    fmt.Println(t.S)
 }
-```
-
-### Switch
-
-A `switch` statement is a shorter way for flow control. It evaluates cases from top to bottom, and runs the first case whose value is equal to the condition expression.
-
-```go
-import (
-	"fmt"
-	"runtime"
-)
 
 func main() {
-	fmt.Print("Go runs on ")
-	switch os := runtime.GOOS; os {
-	case "linux":
-		fmt.Println("Linux.")
-	case "darwin":
-		fmt.Println("macOS.")
-    case "windows":
-        fmt.Println("Windows.")
+    var i I
+    describe(i) // (nil, nil)
+    i.M()       // nil pointer dereference runtime error
+
+    i = &T{"Here we Go!"}
+    describe(i) // (&{Hello}, *main.T)
+    i.M()       // "Here we Go!"
+}
+```
+
+If the concrete type value inside the interface value is a nil pointer, calling the method will result in a nil pointer dereference runtime error. Therefore, it's a good practice to write code to gracefully handle nil receiver method call.
+
+#### Empty interface
+
+An interface type that specifies no methods is an empty interface. An empty interface can hold values of any concrete type and is used to handle the concrete type value that is unknown at compile time but figured out at runtime.
+
+#### Interface concrete type assertion
+
+An interface concrete type assertion checks if the interface value holds a value of the specified concrete type. If so, it returns the concrete type value and a true ok value. Otherwise, it returns the zero value of the specified concrete type and a false ok value.
+
+#### Interface type switch
+
+An interface type switch is a switch statement that uses types as cases, rather than values as cases.
+
+```go
+func do(i interface{}) {
+	switch v := i.(type) {
+	case int:
+		fmt.Printf("Twice %v is %v\n", v, v*2)
+	case string:
+		fmt.Printf("%q is %v bytes long\n", v, len(v))
 	default:
-		fmt.Printf("%s.\n", os)
+		fmt.Printf("I don't know about type %T!\n", v)
 	}
 }
 ```
 
-Switch without condition is the same as `switch true` and is a clean way to write long if-then-else chains.
+#### Error interface
 
-### Defer
-
-A `defer` statement evaluates its function arguments immediately but postpones the function execution until the `defer` statement's surrounding function returns.
-
-Deferred function calls are pushed onto a stack and follows the Last-In-First-Out (LIFO) execution order.
-
-## Program output
-
-We often use the `Print`, `Println`, and `Printf` function from the built-in `fmt` package.
--   Print
-    -   Aggregate passed-in parameters without adding space and new line character as delimiter, and print the result.
--   Println
-    -   Aggregate parameters, adding space and new line character, and print the result.
--   Printf
-    -   Aggregate parameters based on the passed-in template, without adding space and new line character, and print the result.
-    -   `%t` for boolean
-    -   `%d` for decimal number
-    -   `%g` for floating-point number
-    -   `%s` for string
-    -   `%v` for object
-    -   `%T` for type
-
-## Error handling
+The built-in error type is an interface that requires an `Error() string` method. When implementing the method for a custom error type, we should use `fmt.Sprintf` on the error value's internal fields or the type-converted error value, rather than passing the error value back into the `fmt` function. This makes sure we don't create a recursion that leads to infinite looping. 
 
 Any function call, including arithmetic operation, file read/write, and network request, may fail unexpectedly. Therefore, Go makes functions return two values: the result, and an error. This forces the caller to explicitly handle the potential failure immediately.
 
-The built-in `error` type is an interface that requires an `Error() string` method and is often implemented via `fmt.Errorf()` or `errors.New()`.
+```go
+type MyError struct {
+	When time.Time
+	What string
+}
+
+func (e *MyError) Error() string {
+	return fmt.Sprintf("at %v, %s",
+		e.When, e.What)
+}
+
+func run() error {
+	return &MyError{
+		time.Now(),
+		"it didn't work",
+	}
+}
+
+func main() {
+	if err := run(); err != nil {
+		fmt.Println(err)
+	}
+}
+```
+
+#### IO Reader interface
+
+The `io.Reader` interface has a `Read` method that populates the given byte slice with data and returns the number of bytes populated and an error value. It returns an `io.EOF` error when the stream ends.
+
+```go
+func (T) Read(b []byte) (n int, err error)
+```
+
+#### Image interface
+
+type Image interface {
+    ColorModel() color.Model
+    Bounds() Rectangle
+    At(x, y int) color.Color
+}
+
+### Generic function
+
+A function can handle the same parameter of different types using type parameters.
+
+```go
+// Declare a function that takes in a slice `s` and a variable `x` of any type T that fulfills the built-in comparable constraint.
+// The comparable constraint ensures that we can use a comparison operator like `==` on values of that type. 
+func getIndex[T comparable](s []T, x T) int {}
+```
+
+### Generic type
+
+```go
+// List represents a singly-linked list that holds
+// values of any type.
+type List[T any] struct {
+	next *List[T]
+	val  T
+}
+```
+
+## Concurrency
+
+### Goroutine
+
+A goroutine is a lightweight thread managed by the Go runtime.
+
+We can start running a function `f(x)` inside a goroutine using `go f(x)`, The evaluation of `f` and `x` happens in the current goroutine and the execution of `f(x)` happens in the new goroutine.
+
+### Channel
+
+Goroutines shared the same process memory so memory access must be synchronized. This is why we use channels.
+
+A channel is where goroutines synchronize data with each other.
+
+#### Channel declaration
+
+We can use `make` to declare and initialize a channel.
+
+```go
+ch := make(chan int)
+```
+
+#### Channel operation
+
+We can send and receive elements through a channel with the channel operator `<-`.
+
+```go
+x := <- ch  // Receive an element from channel ch and use it to create x. 
+ch <- y     // Send the value of y to channel ch.
+```
+
+Here is an example to use 2 goroutines to sum the numbers in a slice.
+
+```go
+func sum(s []int, c chan int) {
+	sum := 0
+	for _, v := range s {
+		sum += v
+	}
+	c <- sum
+}
+
+func main() {
+	s := []int{7, 2, 8, -9, 4, 0}
+
+	c := make(chan int)
+	go sum(s[:len(s)/2], c)
+	go sum(s[len(s)/2:], c)
+	x, y := <-c, <-c
+
+	fmt.Println(x, y, x+y)
+}
+```
+
+#### Buffered channel
+
+A buffer is a channel's internal queue. The zero value of channel buffer length is 0, so a send does block a goroutine until the element is received by another goroutine. Same for the read, a read blocks a goroutine until another goroutine sends an element to the channel.
+
+We can use the second argument of `make` to initialize a buffered channel with a buffer length.
+
+A send does not block a goroutine if the number of elements in the channel is less than the buffer length as the element is placed into the buffer. Otherwise, the send blocks the goroutine. A read works in a similar way.
 
 ## Dependency management
 
@@ -636,10 +818,6 @@ We can use a function from an external package by following the below steps.
 1.  Locate the package path via pkg.go.dev.
 2.  Import the package into our Go file. Go should add the package as a requirement to the `go.mod` file and produce a `go.sum` file for module authentication.
 3.  Run `go mod tidy` to install the package's latest version to the system.
-
-### Exported name
-
-A name is exported if it begins with a capital letter. For example, `Pi` is exported from the `math` package and can be accessed via `math.Pi`.
 
 ## Memory management
 

@@ -21,7 +21,7 @@
   </div>
 </div>
 <div class="content">
-  <!-- 
+  
   {% if page.toc %}
     <ul>
       {% for h2 in page.toc %}
@@ -32,13 +32,24 @@
               {% for h3 in h2.children %}
                 <li>
                   <a href="{{ h3.permalink | safe }}">{{ h3.title }}</a>
-                  <ul>
-                    {% for h4 in h3.children %}
-                      <li>
-                        <a href="{{ h4.permalink | safe }}">{{ h4.title }}</a>
-                      </li>
-                    {% endfor %}
-                  </ul>
+                  {% if h3.children %}
+                    <ul>
+                      {% for h4 in h3.children %}
+                        <li>
+                          <a href="{{ h4.permalink | safe }}">{{ h4.title }}</a>
+                          {% if h4.children %}
+                            <ul>
+                              {% for h5 in h4.children %}
+                                <li>
+                                  <a href="{{ h5.permalink | safe }}">{{ h5.title }}</a>
+                                </li>
+                              {% endfor %}
+                            </ul>
+                          {% endif %}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
                 </li>
               {% endfor %}
             </ul>
@@ -47,7 +58,7 @@
       {% endfor %}
     </ul>
   {% endif %}
-  -->
+  
   {{ page.content | safe }}
   {% if page.lower %}
     <a href="{{ page.lower.permalink }}" class="button float-left">&larr;Previous</a>
