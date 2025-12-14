@@ -97,28 +97,28 @@ The `var` statement declares a list of variables. It can be at package or functi
 Go uses the `var <VARIABLE_NAME> <VARIABLE_TYPE>` declaration format for variables. This makes variable declaration easier to understand when comparing with C, especially for pointers.
 
 ```c
-// Declare an integer pointer p in C
+// Declare an integer pointer p in C.
 int *p
 ```
 
 ```go
-// Declare an integer pointer p in Go
+// Declare an integer pointer p in Go.
 var p *int
 ```
 
-Variables declared without an explicit initial value are given their zero value.
+Variables declared without an initial value are given their zero value.
 -   `false` for boolean
 -   `0` for numeric
 -   `""` for string
--   `null` for pointer
+-   `nil` for pointer
 
-We can declare and initialize a variable at the same time via an explicit declaration or its shorter version. Note that the shorter version is only available within a function and we should use the explicit declaration at the package level.
+We can declare a variable via the explicit way or its shorter version. Note that the shorter version is only available within a function so we must use the explicit way at the package level.
 
-The shorter version is more commonly used because it is more concise. When using the shorter version, Go can infer the variable type automatically from the value initialized. When the initialization value is an untyped numeric constant, the variable's type is decided by Go based on the precision of the constant. 
+The shorter version is more commonly used because it is more concise. When using the shorter version, Go can infer the variable type automatically from its initial value. When the variable initial value is an untyped numeric constant, the variable type is decided by Go based on the precision of the constant. 
 
 ```go
 // Explicit declaration
-var i int = 10  // Note that the int type here can be omitted because we initialize i with a value. 
+var i int = 10  // The int type here can be omitted as Go can infer it from the initial value. 
 
 // Shorter version
 i := 10
@@ -170,7 +170,7 @@ We can use the `T(v)` expression to convert a variable `v` to the type `T`.
 var i int = 2
 var f float64 = float64(i)
 
-// Shorter versoin
+// Shorter version
 i := 2
 f := float64(i)
 ```
@@ -203,16 +203,16 @@ Otherwise, it is allocated on the heap, which is managed by Go's garbage collect
 #### Array declaration
 
 ```go
-// Declare an integer array with 2 in length. By default the elements are initialized to 0.
+// Declare an integer array with 2 in length. By default the elements are set to 0.
 var a [2]int
 
-// Declare and initialize an integer array with a literal.
+// Declare an integer array with an array literal.
 var a = [2]int{1, 2}
 
 // Shorter version
 a := [2]int{1, 2}
 
-// Declare and initialize an integer array with a literal and length-inferring.
+// Declare an integer array with an array literal with length-inferring.
 var a = [...]int{1, 2}
 
 // Shorter version
@@ -241,16 +241,16 @@ A slice literal is like an array literal without the length. During the slice li
 We can use the built-in `println` function to learn a slice's information.
 
 ```go
-// Declare an integer slice. By default its pointer is initialized to nil and both length and capacity are set to 0.
+// Declare an integer slice. By default its pointer = nil and length = capacity = 0.
 var s []int
 
-// Declare and initialize via a slice literal.
+// Declare via a slice literal.
 var s = []int{1, 2}
 
 // Shorter version
 s := []int{1, 2}
 
-// Declare and initialize a slice with make so it has 2 in length and 4 in capacity. 
+// Declare a slice with make so it has 2 in length and 4 in capacity. 
 // Under the hood, it creates an array with 4 in length and sets the slice's pointer to point to the array's first element.
 s = make([]int, 2, 4) 
 
@@ -262,7 +262,7 @@ println(s)          // Print [2/4]0xa00001a120, where 2 for length, 4 for capaci
 fmt.Println(len(s)) // Print 2 for length
 fmt.Println(cap(s)) // Print 4 for capacity
 
-// Declare and initialize a slice from an existing array
+// Declare a slice from an existing array
 var a [2]int
 
 // The following statements are equivalent.
@@ -293,7 +293,7 @@ A map is used to store key-value pairs. Its zero value is nil and has no keys or
 // Declare an integer-to-string map. This is meaningless because it's a nil map and cannot accept new keys.
 var m map[int]string
 
-// Declare and initialize via a map literal.
+// Declare via a map literal.
 var m = map[int]string{1: "one"}
 
 // Shorter version
@@ -303,7 +303,7 @@ m := map[int]string{1: "one"}
 m := make(map[int]string)
 ```
 
-When using a map literal to declare and initialize a map, we can omit the top-level value type if it is a type name.
+When using a map literal to declare a map, we can omit the top-level value type if it is a type name.
 
 ```go
 type Vertex struct {
@@ -595,7 +595,7 @@ type Vertex struct {
 }
 
 func main() {
-    v1 := Vertex{}      // X = 0 and Y = 0 because of default zero-value initialization
+    v1 := Vertex{}      // By default X = 0 and Y = 0
     v2 := Vertex{1, 2}  // X = 1 and Y = 2
     v3 := Vertex{X: 3}  // X = 3 and Y = 0    
 }
@@ -766,7 +766,7 @@ A channel is where goroutines synchronize data with each other.
 
 #### Channel declaration
 
-We can use `make` to declare and initialize a channel.
+We can use `make` to declare a channel.
 
 ```go
 ch := make(chan int)
@@ -804,13 +804,13 @@ func main() {
 }
 ```
 
-#### Buffered channel
+#### Channel buffer
 
-A buffer is a channel's internal queue. The zero value of channel buffer length is 0, so a send does block a goroutine until the element is received by another goroutine. Same for the read, a read blocks a goroutine until another goroutine sends an element to the channel.
+A buffer is a channel's internal queue. By default the buffer length is 0, so a send does block a goroutine until the element it's sending is received by another goroutine. Same for the read, a read blocks a goroutine until another goroutine sends an element to the channel for it to receive.
 
-We can use the second argument of `make` to initialize a buffered channel with a buffer length.
+We can use the second argument of `make` to set the buffer length.
 
-A send does not block a goroutine if the number of elements in the channel is less than the buffer length as the element is placed into the buffer. Otherwise, the send blocks the goroutine. A read works in a similar way.
+A send does not block a goroutine if the number of elements in the channel is less than the buffer length. Otherwise, the send blocks the goroutine. A read works in a similar way.
 
 ## Dependency management
 
