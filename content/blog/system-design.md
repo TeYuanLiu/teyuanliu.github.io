@@ -35,8 +35,8 @@ Well, let's first think about the functional and non-functional requirements of 
 -   Availability
     -   What is the service uptime requirement?
 -   Reliability
-    -   What is the data consistency requirement?
     -   What is the fault tolerance requirement?
+    -   What is the data durability requirement?
 
 ## Layout
 
