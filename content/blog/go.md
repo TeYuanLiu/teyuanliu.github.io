@@ -403,14 +403,14 @@ for {
 A `for-range` loop provides a concise way to iterate over a range, string, array, slice, map, or channel. The basic syntax assigns iteration values to one or two variables, followed by the `range` keyword and then the collection.
 
 ```go
-// Loop over both the index and value
-for index, value := range collection {}
-
 // Loop over the index
-for index := range collection {}
+for index := range collection
+
+// Loop over both the index and value
+for index, value := range collection
 
 // Loop over the value
-for _, value := range collection {}
+for _, value := range collection
 ```
 
 Collection type | First value | Second value (optional)
@@ -684,7 +684,9 @@ func do(i interface{}) {
 
 #### Error interface
 
-The built-in error type is an interface that requires an `Error() string` method. When implementing the method for a custom error type, we should use `fmt.Sprintf` on the error value's internal fields or the type-converted error value, rather than passing the error value back into the `fmt` function. This makes sure we don't create a recursion that leads to infinite looping. 
+The built-in error type is an interface that requires an `Error() string` method. we can use `errors.New()` or `fmt.Errorf()` to quickly build an error value, or we can develop a custom error type.
+
+When implementing the method for a custom error type, we should use `fmt.Sprintf` on the error value's internal fields or the type-converted error value, rather than passing the error value back into the `fmt` function. This makes sure we don't create a recursion that leads to infinite looping.
 
 Any function call, including arithmetic operation, file read/write, and network request, may fail unexpectedly. Therefore, Go makes functions return two values: the result, and an error. This forces the caller to explicitly handle the potential failure immediately.
 
@@ -723,11 +725,13 @@ func (T) Read(b []byte) (n int, err error)
 
 #### Image interface
 
+```go
 type Image interface {
     ColorModel() color.Model
     Bounds() Rectangle
     At(x, y int) color.Color
 }
+```
 
 ### Generic function
 
@@ -736,7 +740,7 @@ A function can handle the same parameter of different types using type parameter
 ```go
 // Declare a function that takes in a slice `s` and a variable `x` of any type T that fulfills the built-in comparable constraint.
 // The comparable constraint ensures that we can use a comparison operator like `==` on values of that type. 
-func getIndex[T comparable](s []T, x T) int {}
+func getIndex[T comparable](s []T, x T) int
 ```
 
 ### Generic type
@@ -776,12 +780,22 @@ ch := make(chan int)
 
 We can send and receive elements through a channel with the channel operator `<-`.
 
+When a sender has no more elements to send, it may use the `close()` function to close the channel. A receiver can test whether a channel has been closed by assigning a second parameter `ok` to the receive expression. If `ok` is `false` then the channel is closed.
+
+Note that only the sender should close a channel as sending to a closed channel causes a panic but receiving from a closed channel doesn't cause a panic.
+
+A receiver can also use a for-range loop `for i:= range c` to receive elements from the `c` channel repeatedly until it is closed. Note that this blocks the receiver's goroutine until the channel is closed.
+
+We usually don't need to close a channel unless a receiver must be told that there are no more elements coming, such as to terminate a for-range loop.
+
 ```go
-x := <- ch  // Receive an element from channel ch and use it to create x. 
-ch <- y     // Send the value of y to channel ch.
+ch <- y         // Send the value of y to channel ch.
+x := <-ch       // Receive an element from channel ch and use it to create x. 
+close(ch)       // A sender closes the ch channel.
+z, ok := <-ch   // A receiver checks if the ch channel is closed via the ok variable.
 ```
 
-Here is an example to use 2 goroutines to sum the numbers in a slice.
+ Here is an example to use 2 goroutines to sum the numbers in a slice.
 
 ```go
 func sum(s []int, c chan int) {
@@ -798,9 +812,13 @@ func main() {
 	c := make(chan int)
 	go sum(s[:len(s)/2], c)
 	go sum(s[len(s)/2:], c)
-	x, y := <-c, <-c
+    v := 0
+    for e := range c {
+        fmt.Println(e)
+        v += e
+    }
 
-	fmt.Println(x, y, x+y)
+	fmt.Println(v)
 }
 ```
 
@@ -811,6 +829,16 @@ A buffer is a channel's internal queue. By default the buffer length is 0, so a 
 We can use the second argument of `make` to set the buffer length.
 
 A send does not block a goroutine if the number of elements in the channel is less than the buffer length. Otherwise, the send blocks the goroutine. A read works in a similar way.
+
+#### Goroutine select
+
+The `select` statement pauses a goroutine until it can execute one of its communication cases. If multiple are ready, it randomly choose one of them to execute.
+
+We can specify a `default` case for it to send or receive without blocking when other cases are not ready.
+
+### Mutex
+
+We use Mutual-exclusion (Mutex) to let a variable be accessed by one goroutine at a time. Go provides the `sync.Mutex` type and its methods, `Lock`, and `Unlock`, to achieve this.
 
 ## Dependency management
 
