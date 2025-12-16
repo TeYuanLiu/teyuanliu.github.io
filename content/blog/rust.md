@@ -20,7 +20,7 @@ Rust has its installation management tool `rustup`, compiler `rustc` and package
 
 ### Compiler
 
-Rust prevents memory bugs by having a compiler that checks for different types of [segmentation fault](@/blog/c.md#common-memory-bugs). 
+Rust prevents memory bugs by having a compiler that checks for different types of [segmentation fault](@/blog/c.md#common-memory-bugs).
 
 Note that Rust has an `unsafe` keyword, which can bypass compiler checks and allow potential memory corruption if misused like raw pointer dereferencing.
 

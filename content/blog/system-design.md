@@ -64,7 +64,7 @@ After clarifying the functional and non-functional requirements of the system, w
         -   Logging
     -   Analytic
         -   HDFS storage
-        -   Impala HDFS query 
+        -   Impala HDFS query
         -   Hive data management and HiveQL query
         -   Spark batch processing
         -   Oozie job orchestration

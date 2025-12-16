@@ -39,7 +39,7 @@ function setNavigation() {
 
   const collapseButton = document.querySelector(".collapse-button")
 
-  collapseButton.onclick = () => { 
+  collapseButton.onclick = () => {
     links.classList.remove("left-zero")
     overlay.classList.remove("left-zero")
     expandButton.classList.remove("display-none")

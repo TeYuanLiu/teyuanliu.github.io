@@ -21,7 +21,7 @@
   </div>
 </div>
 <div class="content">
-  
+
   {% if page.toc %}
     <ul>
       {% for h2 in page.toc %}
@@ -58,7 +58,7 @@
       {% endfor %}
     </ul>
   {% endif %}
-  
+
   {{ page.content | safe }}
   {% if page.lower %}
     <a href="{{ page.lower.permalink }}" class="button float-left">&larr;Previous</a>

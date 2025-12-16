@@ -140,7 +140,7 @@ ClusterIP is the default Kubernetes service type for exposing applications. It p
 
 #### NodePort
 
-NodePort exposes the service on a static port on each node's IP, allowing external access through the port but not automatically load-balancing across nodes. 
+NodePort exposes the service on a static port on each node's IP, allowing external access through the port but not automatically load-balancing across nodes.
 
 #### LoadBalancer
 
@@ -211,7 +211,7 @@ Here is an example directory structure of applying GitOps via ArgoCD application
             -   argocd-application.yaml // Watches bootstrap/argocd/base.
             -   argocd-app-project.yaml
             -   root-application.yaml // Watches applications/clusters/<overlay>.
-        -   overlays 
+        -   overlays
             -   test
                 -   kustomization.yaml
             -   production
@@ -230,7 +230,7 @@ Here is an example directory structure of applying GitOps via ArgoCD application
             -   base
                 -   kustomization.yaml
                 -   application.yaml // Watches manifests/app-1/base
-            -   overlays 
+            -   overlays
                 -   test
                     -   kustomization.yaml
                 -   production
@@ -238,7 +238,7 @@ Here is an example directory structure of applying GitOps via ArgoCD application
         -   test
             -   kustomization.yaml // A tailored list of applications available at
                                     // applications/catalog/.
-        -   production 
+        -   production
 -   manifests
     -   app-1
         -   base

@@ -103,7 +103,7 @@ Each process is given the following resources.
 -   A unique identifier called a Process ID (PID)
 -   A process view. It by default inherits the parent process's process view. If the parent process is the shell, it can see all the processes on the system.
 -   A cgroup for CPU, memory, I/O access and limit. It by default inherits the parent process's cgroup. If the parent process is the shell, it can use as much CPU and memory as the system has available. Tools like Systemd or Docker creates a new cgroup, defining the CPU/memory limits, and assigns a process to it.
--   A filesystem view. It by default inherits the parent process's filesystem. If the parent process is the shell, it can see all the files on the system. Docker uses containerd, which uses runc, to run `chroot` to change the root directory of each container process for an isolated filesystem view. 
+-   A filesystem view. It by default inherits the parent process's filesystem. If the parent process is the shell, it can see all the files on the system. Docker uses containerd, which uses runc, to run `chroot` to change the root directory of each container process for an isolated filesystem view.
 -   A network namespace for an IP address (65536 ports), network devices (loopback, eth0, wlan0), routing table, and iptables like filter table (firewall), Network Address Translation (NAT) table, and mangle table (for packet modification). It by default inherits the parent process's network namespace. If the parent process is the shell, it can use the system network namespace. Docker creates a new network namespace for each new container and assigns the container process to it.
 
 Processes have a parent-child hierarchy as a parent process can start a child process.
@@ -122,7 +122,7 @@ In 1983, Richard Stallman started the GNU project to provide binaries that make 
 -   A terminal is a graphical user interface, which lets us interact with a shell.
 -   A shell is a command interpreter and serves as a layer of protection between the kernel and user space. It takes in a command and call the corresponding binary in `/bin` to start a process executing that binary, which is doing the real work.
 -   A user can directly type and execute commands on a terminal or write a shell script to group commands together and then execute the script.
--   Nowadays we have different shell options like SH (the original one), BASH, RBASH, DASH, and ZSH. They all use the same binaries in `/bin` but each option varies in terms of command and script syntax, execution speed performance, auto-completion, syntax-highlighting, and customization flexibility. 
+-   Nowadays we have different shell options like SH (the original one), BASH, RBASH, DASH, and ZSH. They all use the same binaries in `/bin` but each option varies in terms of command and script syntax, execution speed performance, auto-completion, syntax-highlighting, and customization flexibility.
 -   We can run `cat /etc/shells` to see what shell options are available on our machine. Below is an example output.
     ```
     /bin/sh
@@ -408,7 +408,7 @@ A network device (network interface) is an abstract interface for data transmiss
 
 ### Socket
 
-A socket is a file in Linux that serves as a software endpoint for sending and receiving data. Its external address is defined by a combination of an IP address, a port number, and a protocol. 
+A socket is a file in Linux that serves as a software endpoint for sending and receiving data. Its external address is defined by a combination of an IP address, a port number, and a protocol.
 
 ### Traffic flow
 
@@ -464,7 +464,7 @@ Assume we have a computer already installed with Windows, then we can install Ub
     1.  After logging into the system, if we find the secondary display has problems like no signal or white screen, it's probably because the Nvidia driver is not installed. We can fix it by installing the driver.
         ```bash
         ubuntu-drivers devices # List recommended drivers.
-        sudo apt install nvidia-driver-<DRIVER_VERSION> # Or use "sudo ubuntu-drivers autoinstall" to install recommended drivers. 
+        sudo apt install nvidia-driver-<DRIVER_VERSION> # Or use "sudo ubuntu-drivers autoinstall" to install recommended drivers.
         reboot # Reboot to apply the changes.
         ```
 
@@ -587,7 +587,7 @@ Here are the steps I take to set up my development environment.
 1.  Install pre-commit
     ```bash
     sudo apt install pre-commit`
-    ``` 
+    ```
 
 ## See also
 

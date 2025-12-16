@@ -8,7 +8,7 @@ updated = 2025-11-07
 
 ### Sass
 
-[Sass](https://sass-lang.com/) is a CSS extension language that makes CSS property management easier. 
+[Sass](https://sass-lang.com/) is a CSS extension language that makes CSS property management easier.
 
 #### Variable
 

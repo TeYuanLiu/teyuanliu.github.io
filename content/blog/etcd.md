@@ -26,7 +26,7 @@ The Raft consensus algorithm counts on a leader-follower protocol to enforce dat
 A leader has two duties:
 -   Use the `AppendEntries` Remote Procedure Call (RPC) to:
     -   Send its empty-payload heartbeat to the followers periodically (every 50ms) via a heartbeat timer. The timer automatically resets after expiration. A follower resets its election timer (randomized between 150ms to 300ms) when receiving a leader heartbeat.
-    -   Replicate data to its followers for write requests and failure recovery. Note that this resets its heartbeat timer as well. 
+    -   Replicate data to its followers for write requests and failure recovery. Note that this resets its heartbeat timer as well.
 -   Handle read requests.
 
 An `AppendEntries` contains:
@@ -104,7 +104,7 @@ The requirement for a leader to coordinate all writes and secure a quorum for co
 -   Vertical scaling
     -   Use Non-Volatile Memory express (NVMe) SSDs for cluster nodes as WAL disk sync is sensitive to disk I/O throughput and latency.
     -   Use high-speed network as the network round-trip time is a major component of write latency.
-    -   Enable dynamic write request batching such that the leader can put multiple requests into a single large log entry before doing data replication, amortizing the disk sync and networking cost. 
+    -   Enable dynamic write request batching such that the leader can put multiple requests into a single large log entry before doing data replication, amortizing the disk sync and networking cost.
 
 #### Read optimization
 

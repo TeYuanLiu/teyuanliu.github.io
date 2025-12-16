@@ -46,7 +46,7 @@ import (
 )
 
 // Declare the main function in the main package.
-func main() {   
+func main() {
     // Print a line saying "Here we Go!".
     fmt.Println("Here we Go!")
 }
@@ -82,7 +82,7 @@ Furthermore, we can combine the compile and run into one command `go run`.
 
 ```bash
 # Generate an ephemeral binary go-buildxxx inside the temporary directory /tmp, running it, and deletes the binary after execution.
-go run here_we_go.go 
+go run here_we_go.go
 
 # This also works as long as the working directory contains the Go file that includes the main package's main function.
 go run .
@@ -114,11 +114,11 @@ Variables declared without an initial value are given their zero value.
 
 We can declare a variable via the explicit way or its shorter version. Note that the shorter version is only available within a function so we must use the explicit way at the package level.
 
-The shorter version is more commonly used because it is more concise. When using the shorter version, Go can infer the variable type automatically from its initial value. When the variable initial value is an untyped numeric constant, the variable type is decided by Go based on the precision of the constant. 
+The shorter version is more commonly used because it is more concise. When using the shorter version, Go can infer the variable type automatically from its initial value. When the variable initial value is an untyped numeric constant, the variable type is decided by Go based on the precision of the constant.
 
 ```go
 // Explicit declaration
-var i int = 10  // The int type here can be omitted as Go can infer it from the initial value. 
+var i int = 10  // The int type here can be omitted as Go can infer it from the initial value.
 
 // Shorter version
 i := 10
@@ -250,9 +250,9 @@ var s = []int{1, 2}
 // Shorter version
 s := []int{1, 2}
 
-// Declare a slice with make so it has 2 in length and 4 in capacity. 
+// Declare a slice with make so it has 2 in length and 4 in capacity.
 // Under the hood, it creates an array with 4 in length and sets the slice's pointer to point to the array's first element.
-s = make([]int, 2, 4) 
+s = make([]int, 2, 4)
 
 // Shorter version
 s := make([]int, 2, 4)
@@ -336,7 +336,7 @@ delete(m, key)
 // Test a key's existence.
 value, ok := m[key]
 // If the key is in m, ok is true.
-// Otherwise, the value is the value type's zero value, and ok is false. 
+// Otherwise, the value is the value type's zero value, and ok is false.
 ```
 
 ### Pointer
@@ -572,7 +572,7 @@ There are 2 kinds of receivers, the value receiver and the pointer receiver.
 -   Value receiver
     -   The method operates on a copy of the receiver and is best for reads on small structs. It uses the `func (<RECEIVER_NAME> <RECEIVER_TYPE>) <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format. Note that we can pass in a receiver pointer and Go automatically dereferences the pointer, making a copy of the receiver, and runs the method.
 -   Pointer receiver
-    -   The method operates on the original receiver via a pointer pointing to the receiver and is used for writes or reads on large structs. It uses the `func (<RECEIVER_NAME> *<RECEIVER_TYPE>) <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format. Note that we can pass in a receiver value and Go automatically gets its memory address and runs the method. 
+    -   The method operates on the original receiver via a pointer pointing to the receiver and is used for writes or reads on large structs. It uses the `func (<RECEIVER_NAME> *<RECEIVER_TYPE>) <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format. Note that we can pass in a receiver value and Go automatically gets its memory address and runs the method.
 
 ## Type
 
@@ -597,7 +597,7 @@ type Vertex struct {
 func main() {
     v1 := Vertex{}      // By default X = 0 and Y = 0
     v2 := Vertex{1, 2}  // X = 1 and Y = 2
-    v3 := Vertex{X: 3}  // X = 3 and Y = 0    
+    v3 := Vertex{X: 3}  // X = 3 and Y = 0
 }
 ```
 
@@ -625,7 +625,7 @@ An Interface defines a set of method signatures for other types to implement, ac
 
 An interface value is a tuple of a concrete value and the concrete type, and can hold any concrete type value as long as that concrete type implements those methods.
 
-Calling a method on an interface value effectively executes the same-named method of its concrete type value. 
+Calling a method on an interface value effectively executes the same-named method of its concrete type value.
 
 ```go
 type I interface {
@@ -739,7 +739,7 @@ A function can handle the same parameter of different types using type parameter
 
 ```go
 // Declare a function that takes in a T-typed slice `s` and a T-typed variable `x`. The T type can be any type that fulfills the built-in comparable constraint.
-// The comparable constraint ensures that we can use a comparison operator like `==` on values of that type. 
+// The comparable constraint ensures that we can use a comparison operator like `==` on values of that type.
 func getIndex[T comparable](s []T, x T) int
 ```
 
@@ -790,7 +790,7 @@ We usually don't need to close a channel unless a receiver must be told that the
 
 ```go
 ch <- y         // Send the value of y to channel ch.
-x := <-ch       // Receive an element from channel ch and use it to create x. 
+x := <-ch       // Receive an element from channel ch and use it to create x.
 close(ch)       // A sender closes the ch channel.
 z, ok := <-ch   // A receiver checks if the ch channel is closed via the ok variable.
 ```

@@ -11,7 +11,7 @@ Zola is a static site generator (SSG) written in [Rust](https://www.rust-lang.or
 
 ### Section
 
-Zola uses the directory structure to determine the site structure. Each child directory in the `content` directory represents a section if it contains an `_index.md` file. The `_index.md` file stores both the metadata and the content of a section. For example, the content in `content/blog/_index.md` is shown on `https://mywebsite.com/blog/`. If a directory does not contain an `_index.md` file, no section will be created, but Markdown files within that directory will still create pages (known as orphan pages). Note that the `content` directory itself creates a main content section, regardless the existence of an `_index.md` file inside the directory, and if `content/_index.md` is created, its content is shown on `https://mywebsite.com/`. 
+Zola uses the directory structure to determine the site structure. Each child directory in the `content` directory represents a section if it contains an `_index.md` file. The `_index.md` file stores both the metadata and the content of a section. For example, the content in `content/blog/_index.md` is shown on `https://mywebsite.com/blog/`. If a directory does not contain an `_index.md` file, no section will be created, but Markdown files within that directory will still create pages (known as orphan pages). Note that the `content` directory itself creates a main content section, regardless the existence of an `_index.md` file inside the directory, and if `content/_index.md` is created, its content is shown on `https://mywebsite.com/`.
 
 #### Front matter
 
@@ -314,7 +314,7 @@ The homepage is a section so `index.html` also has access to the section variabl
 
 ### Custom templates
 
-We can create custom templates by creating an HTML file inside the `templates` directory (or its subdirectories). A custom template will be used when its path within the `templates` directory is explicitly specified in a page's `template` front-matter variable (or if it is included in another template that is applied). 
+We can create custom templates by creating an HTML file inside the `templates` directory (or its subdirectories). A custom template will be used when its path within the `templates` directory is explicitly specified in a page's `template` front-matter variable (or if it is included in another template that is applied).
 
 
 ### Section
@@ -349,6 +349,6 @@ Both section and page template have a `toc` variable that corresponds to an arra
 -   children
 -   level
 -   id
--   permalink 
+-   permalink
 
 ## See also

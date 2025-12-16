@@ -11,7 +11,7 @@ However, when we want to create a software application, distributed system may n
 
 ## Monolithic
 
-A monolithic system is built as a single, indivisible unit. All components of the system are tightly coupled. 
+A monolithic system is built as a single, indivisible unit. All components of the system are tightly coupled.
 
 Because the components reside in the same place, it has several benefits:
 -   Development is intuitive as coordination among components is obvious.
@@ -81,7 +81,7 @@ In a distributed system, partition tolerance is a requirement because network fa
     -   Preferring consistency over availability, thus the requests hitting the isolated servers fail with an error because the system cannot return the latest data.
 -   AP
     -   Preferring availability over consistency, thus the requests hitting the isolated servers receive possibly obsolete data.
-    
+
 ## Scaling
 
 Here are a few things we need to know about scaling a distributed system.
@@ -136,12 +136,12 @@ Here is a simulated example for scaling a client-server application.
     -   If that's not enough, we can set up more application servers and a load balancer to handle increasing traffic (horizontal scaling and load balancing).
     -   We can also set up a CDN to cache static assets (caching).
 1.  As more and more user data stored in our database, database query speed slows down.
-    -   We can upgrade the database server to a more powerful machine (vertical scaling). 
+    -   We can upgrade the database server to a more powerful machine (vertical scaling).
     -   Read
         -   If that's not enough, we can put a cache between the application servers and the database to speed up database read operations (caching).
         -   If that's not enough, we can do database replication (database replication).
     -   Write
-        -   If that's not enough, we can shard the database into multiple smaller ones to accelerate write operations (database sharding). 
+        -   If that's not enough, we can shard the database into multiple smaller ones to accelerate write operations (database sharding).
 1.  As we add more and more features, the application server fails to handle them all, probably due to CPU and memory limit, or dependency conflicts.
     -   We can upgrade the application server to a more powerful machine (vertical scaling).
     -   If that's not enough, we can split the application into multiple services and run each of them in a separate server. We also use an API gateway (or even a cluster of gateways) to route the requests to different services (routing).

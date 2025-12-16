@@ -17,7 +17,7 @@ JavaScript was created as a browser-only language to integrate with HTML/CSS, bu
     -   Can:
         -   Get the user's input via mouse and keyboard actions.
         -   Access camera and microphone with the explicit approval from the user.
-        -   Let the user download/upload files. 
+        -   Let the user download/upload files.
         -   Manage browser local storage.
         -   Manipulate webpage elements like a DOM tree node.
         -   Interact with servers.
