@@ -584,6 +584,10 @@ Here are the steps I take to set up my development environment.
         ```bash
         go version
         ```
+1.  Install pre-commit
+    ```bash
+    sudo apt install pre-commit`
+    ``` 
 
 ## See also
 

@@ -738,7 +738,7 @@ type Image interface {
 A function can handle the same parameter of different types using type parameters.
 
 ```go
-// Declare a function that takes in a slice `s` and a variable `x` of any type T that fulfills the built-in comparable constraint.
+// Declare a function that takes in a T-typed slice `s` and a T-typed variable `x`. The T type can be any type that fulfills the built-in comparable constraint.
 // The comparable constraint ensures that we can use a comparison operator like `==` on values of that type. 
 func getIndex[T comparable](s []T, x T) int
 ```
@@ -839,6 +839,32 @@ We can specify a `default` case for it to send or receive without blocking when 
 ### Mutex
 
 We use Mutual-exclusion (Mutex) to let a variable be accessed by one goroutine at a time. Go provides the `sync.Mutex` type and its methods, `Lock`, and `Unlock`, to achieve this.
+
+## Context
+
+Contexts propagate cancellation and timeouts across service calls, preventing resource leaks and allowing for graceful shutdowns.
+
+-   context.Context
+    -   context.Background()
+    -   context.TODO()
+    -   context.WithCancel()
+    -   context.WithTimeout()
+
+## Networking
+
+-   net/http package for REST API server and client
+-   encoding/json package for data serialization/deserialization
+-   gopkg.in/yaml.v2 package for parsing YAML
+
+## Command Line Interface (CLI)
+
+-   spf13/cobra package for building CLI tools
+-   viper package for reading YAML/JSON configuration files, environment variables, and flags
+-   log/slog package for structured logging
+
+## Testing
+
+-   testing package for unit tests
 
 ## Dependency management
 

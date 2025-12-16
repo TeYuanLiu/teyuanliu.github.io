@@ -293,4 +293,14 @@ Alertmanager is an alerting framework which receives alert events from Prometheu
 
 ## Security
 
+## Client
+
+-   k8s.io/client-go module's clientset for Kubernetes standard resource CRUD operations
+-   dynamic client for Kubernetes custom resource CRUD operations
+
+## Controller
+
+-   k8s.io/client-go/tools/cache package's informer for Kubernetes resource watching
+-   sigs.k8s.io/controller-runtime module for building Kubernetes controllers
+
 ## See also
