@@ -23,13 +23,13 @@ YAML front matter formatted by triple minuses (`---`) is also supported.
 
 #### Sorting
 
-Posts will be iterated over in the order specified by the `sort_by` variable set in the `_index.md` file of the section. The `sort_by` variable can be given a few values: `date`, `update_date`, `title`, `title_bytes`, `weight`, `slug`, or `none`.
+Posts will be iterated over in the order specified by the `sort_by` variable set in the `_index.md` file of the section. The `sort_by` variable can be set to one of these values: `date`, `update_date`, `title`, `title_bytes`, `weight`, `slug`, or `none`.
 
 #### Asset colocation
 
 Zola supports asset colocation with sections and pages.
 
-Pages with co-located assets should be placed as an `index.md` in a dedicated directory (`content/blog/foo/index.md`) instead of directly in their section directory (`content/blog/foo.md`). By default, this page's slug will be the directory name and thus its permalink will be `https://mywebsite.com/blog/foo/`.
+A page with co-located assets should be placed as an `index.md` in a dedicated directory (`content/blog/foo/index.md`) instead of in the section directory (`content/blog/foo.md`). By default, the page slug will be the directory name and thus its permalink will be `https://mywebsite.com/blog/foo/`.
 
 All non-Markdown files added in a section/page directory will be copied alongside the generated page when the site is built, which allows accessing them with a relative path. Note that we can use `ignored_content` in the config file to ignore selected asset files.
 
@@ -51,17 +51,17 @@ Sections and pages can be drafted by setting the `draft` option in the front mat
 
 ### Page
 
-A page is any Markdown file that is not `_index.md` within the `content` directory. Note that a `index.md` file will generate a page with the name of its directory. For example `content/about/index.md` will create a page at `<BASE_URL>/about`.
+A page is any Markdown file that is not `_index.md` within the `content` directory. Note that a `index.md` file will generate a page with the name of its directory. For example `content/about/index.md` will create a page at `https://mywebsite.com/about`.
 
 #### Front matter
 
-We can set [page front matter] as well.
+We can set the [page front matter] as well.
 
 [page front matter]: https://www.getzola.org/documentation/content/page/#front-matter
 
 ### Shortcode
 
-Zola borrows the concept of shortcodes from WordPress to cover two distinct use cases:
+Zola borrows the concept of shortcode from WordPress to cover two distinct use cases:
 -   Inject more complex HTML like inline HTML or styling.
 -   Display external data in a page's body without repetitive tasks.
 
@@ -72,10 +72,9 @@ Shortcode has several limitations:
 -   The argument parentheses are required.
 -   All arguments are required.
 -   Shortcodes are rendered before the page's Markdown is parsed so they don't have access to Tera variables, the page's table or contents, or global functions like `get_page`, `get_section`, `get_taxonomy`, etc.
--   Concatenation and other operators are unavailable
+-   Concatenation and other operators are unavailable.
 
-
-If the shortcode is invalid it will get rendered directly into the final HTML instead of being processed.
+If a shortcode is invalid it will get rendered directly into the final HTML instead of being processed.
 
 #### Shortcode without body and arguments
 
@@ -88,7 +87,7 @@ templates/shortcodes/withoutbodywithoutarguments.html
     My message.
 </div>
 ```
-Zola will recognize this template as a shortcode named `withoutbodywithoutarguments`. We can then use it in any Markdown files as if it was a Tera function in a variable block.
+Zola will recognize this template as a shortcode named `withoutbodywithoutarguments`. We can then use it in any Markdown file as if it was a Tera function in a variable block.
 ```
 {{/* withoutbodywithoutarguments() */}}
 ```
@@ -159,7 +158,7 @@ My body.
 
 We can escape rendering content that looks like a shortcode by using `{{/*` and `*/}}` instead of `{{` and `}}`, and `{%/*` and `*/%}` instead of `{%` and `%}`.
 
-#### Examples
+#### Example
 
 ##### YouTube
 
@@ -178,7 +177,7 @@ templates/shortcodes/youtube.html
 </div>
 ```
 
-Zola now recognizes this template as the `youtube` shortcode that wraps an iframe pointing to an YouTube URL in a `<div>`
+Zola now recognizes this template as the `youtube` shortcode that wraps an iframe pointing to a YouTube URL in a `<div>`.
 
 The Markdown renderer wraps an inline HTML node into a paragraph but we can disable this behavior by wrapping the shortcode in a `<div>`.
 
@@ -192,7 +191,6 @@ templates/shortcodes/books.md
 {% set data = load_data(path=path) -%}
 {% for book in data.books %}
 ### {{ book.title }}
-
 {{ book.description | safe }}
 {% endfor %}
 ```
@@ -213,7 +211,7 @@ Zola creates a shortcode `books` that takes in the `path` argument, which points
 
 When rendering the Markdown content, each heading will be automatically assigned a unique id, obtained by converting the heading text to a slug through processes like whitespace replacement and special character stripping.
 
-We can manually specify an id as well as CSS classes using a `{#id-placeholder .class-placeholder}` suffix on the heading line.
+We can manually specify an id as well as CSS classes using a `{#id-placeholder .class-placeholder}` suffix in the heading line.
 
 #### Anchor link
 
@@ -237,7 +235,7 @@ We can enable Zola's built-in syntax highlighting by configuring it in `config.t
 highlight_code = true
 ```
 
-Below is a list of some supported languages and their short names.
+Below is a list of supported languages and their short-names.
 
 -   Shell: sh
 -   Bourne Again Shell (bash): bash
@@ -291,9 +289,9 @@ Zola can build a search index from the sections and pages content to be used by 
 
 ### Sass
 
-Sass is a popular CSS preprocessor that adds special features like variables and nested rules to facilitate the maintenance of large sets of CSS rules.
+[Sass](@/blog/frontend.md#sass) is a popular CSS preprocessor that adds special features like variables and nested rules to facilitate the maintenance of large sets of CSS rules.
 
-## Templates
+## Template
 
 Zola uses the Tera template engine.
 
@@ -303,7 +301,7 @@ Here are a few variables available on all templates except feeds and the sitemap
 -   `current_url`
 -   `lang`
 
-### Standard templates
+### Standard template
 
 Zola looks for three standard templates:
 -   `index.html` which is applied to the site homepage
@@ -312,7 +310,7 @@ Zola looks for three standard templates:
 
 The homepage is a section so `index.html` also has access to the section variables just like `section.html`. The `page.html` template has access to the page variables.
 
-### Custom templates
+### Custom template
 
 We can create custom templates by creating an HTML file inside the `templates` directory (or its subdirectories). A custom template will be used when its path within the `templates` directory is explicitly specified in a page's `template` front-matter variable (or if it is included in another template that is applied).
 
