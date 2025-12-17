@@ -1,10 +1,10 @@
 +++
 title = "Programming Language"
 date = 2025-04-20
-updated = 2025-05-04
+updated = 2025-12-17
 +++
 
-We use programming languages to talk to computers, but how does it work? Here we list out some common syntax, characteristics of different programming languages and how their code get executed on a computer.
+We use programming languages to talk to computers, but how does it work? Here we discuss a few concepts about programming languages including types, syntax, and execution flow.
 <!-- more -->
 
 ## Type
@@ -28,6 +28,8 @@ Human readable source code has to go through a sequence of operations to become 
         -   The GNU Compiler Collection (GCC) converts C code into the assembly specific to our CPU architecture like x86_64, amd64, or arm64.
         -   The assembler compiles the assembly into a group of binaries, also called object files.
         -   The linker combines the object files and libraries into the final binary.
+    -   English
+        -   The English compiler converts a set of English sentences into a binary.
 -   Binary to electrical signal
     -   The CPU executes the binary by running electronic signals inside the logic gates.
         -   Fetch

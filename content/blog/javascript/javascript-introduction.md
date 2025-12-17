@@ -1,7 +1,7 @@
 +++
 title = "JavaScript Info 1.1 - Introduction"
 date = 2025-12-03
-updated = 2025-12-03
+updated = 2025-12-17
 tags = ["javascript"]
 +++
 
