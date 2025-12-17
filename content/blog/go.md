@@ -574,6 +574,16 @@ There are 2 kinds of receivers, the value receiver and the pointer receiver.
 -   Pointer receiver
     -   The method operates on the original receiver via a pointer pointing to the receiver and is used for writes or reads on large structs. It uses the `func (<RECEIVER_NAME> *<RECEIVER_TYPE>) <FUNCTION_NAME>(<FUNCTION_PARAMETER>) <RETURN_TYPE>` declaration format. Note that we can pass in a receiver value and Go automatically gets its memory address and runs the method.
 
+### Generic function
+
+A generic function can handle the same parameter of different types using type parameters.
+
+```go
+// Declare a function that takes in a T-typed slice `s` and a T-typed variable `x`. The T type can be any type that fulfills the built-in comparable constraint.
+// The comparable constraint ensures that we can use a comparison operator like `==` on values of that type.
+func getIndex[T comparable](s []T, x T) int
+```
+
 ## Type
 
 ### Type declaration
@@ -733,17 +743,9 @@ type Image interface {
 }
 ```
 
-### Generic function
-
-A function can handle the same parameter of different types using type parameters.
-
-```go
-// Declare a function that takes in a T-typed slice `s` and a T-typed variable `x`. The T type can be any type that fulfills the built-in comparable constraint.
-// The comparable constraint ensures that we can use a comparison operator like `==` on values of that type.
-func getIndex[T comparable](s []T, x T) int
-```
-
 ### Generic type
+
+A generic type can hold values of any type.
 
 ```go
 // List represents a singly-linked list that holds
