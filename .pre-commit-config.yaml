@@ -9,6 +9,6 @@ repos:
     -   id: check-yaml
     -   id: check-added-large-files
 -   repo: https://github.com/teyuanliu/pre-commit-hook
-    rev: 8871cd587658087f4b7a298670e72f13033148e8
+    rev: 557ea637e90e5e743ddb716a16a5be61bfdce89f
     hooks:
     -   id: update-zola-post-updated-date
