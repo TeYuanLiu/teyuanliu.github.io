@@ -1,7 +1,7 @@
 +++
 title = "System Design"
 date = 2025-04-25
-updated = 2025-05-01
+updated = 2025-12-17
 +++
 
 Ok, we want to build a software product, but where should we start?
@@ -56,7 +56,8 @@ After clarifying the functional and non-functional requirements of the system, w
     -   Alerting
     -   Logging
 -   Service
-    -   Each service follows the pattern of Kafka queue -> logic <-> storage.
+    -   Each write service follows the pattern of queue -> logic <-> storage.
+    -   Each read service follows the pattern of logic <-> storage.
     -   Business logic
     -   Observability
         -   Metric monitoring
