@@ -1,7 +1,7 @@
 +++
 title = "Learning Coding"
 date = 2025-04-27
-updated = 2025-05-04
+updated = 2025-12-18
 +++
 
 Learning coding is not easy, but here are some steps we can follow to boost our efficiency.
@@ -33,12 +33,6 @@ Learning coding is not easy, but here are some steps we can follow to boost our 
             -   Use AI-generated description as a supplement rather than a replacement of manual-written ones.
             -   Add comments to clarify the reason why a piece of code exists.
         -   Add edge case and error handling.
-    -   Dependency management
-    -   Modular design
-    -   Feature flag
-    -   Code data separation
-        -   Database schema compatibility
-    -   Gradual depreciation (mark a feature as deprecated in earlier versions before removal)
 
 ## See also
 

@@ -1,7 +1,7 @@
 +++
 title = "Product"
 date = 2025-04-26
-updated = 2025-05-04
+updated = 2025-12-18
 +++
 
 We have a business idea, and that's super cool! Now let's think about how to turn it into a product. Here are some steps that may give us some guidance.
@@ -24,5 +24,6 @@ We have a business idea, and that's super cool! Now let's think about how to tur
     -   Collect feedback about the MVP from customers to quickly iterate and improve.
     -   Give customers 7-day free trial, plus monthly and yearly plan.
     -   Ask for the reason of unsubscribing to learn which direction to move forward and improve retention rate.
+    -   Conduct gradual deprecation by marking a feature as deprecated in earlier versions before its actual removal.
 
 ## See also
