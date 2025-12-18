@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date = 2025-04-17
-updated = 2025-04-27
+updated = 2025-12-18
 +++
 
 Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.
@@ -17,11 +17,11 @@ Linux was advertised as a free and open source software under the GNU (GNU's Not
 
 ## Distribution
 
-A Linux distribution is a complete operating system built on the Linux kernel and each distribution has its own highly opinionated set of default software. Here are some famous distributions.
+A Linux distribution is a complete operating system built on top of the Linux kernel and each distribution has its own highly opinionated set of default software. Here are some famous distributions.
 -   Slackware
     -   The original gangster from the 1990s.
 -   Debian
-    -   The most popular distribution overall.
+    -   The most popular distribution overall, including many variants like Ubuntu.
     -   Emphasize openness and ease of use.
     -   Use apt as the package manger.
     -   Use Gnome as the desktop environment.
@@ -34,8 +34,12 @@ A Linux distribution is a complete operating system built on the Linux kernel an
 
 ## Bootup
 
-The Linux kernel acts as a bridge between hardware and software. When we press the power button of a Linux machine:
--   The bootloader, usually GRand Unified Bootloader (GRUB), loads the kernel into the Random Access Memory (RAM).
+The kernel acts as a bridge between the hardware and software. When we press the power button of a computer:
+-   The UEFI/BIOS initializes the hardware.
+-   The UEFI/BIOS loads the first bootloader in the boot order.
+    -   If this is a Ubuntu computer, it should be the GRand Unified Bootloader (GRUB) bootloader at `/boot/efi/EFI/ubuntu/grubx64.efi` in the Ubuntu partition.
+    -   If this is a Windows computer, it should be the Windows bootloader at `/Windows/Boot/EFI/bootmgfw.efi` in the Windows partition.
+-   The bootloader loads the kernel into the Random Access Memory (RAM).
 -   The kernel detects hardware devices like CPU, RAM, disk, network, etc, and executes the `init` system, which is often `systemd`, to start many subsystems.
     -   Process management subsystem
         -   Signal handling
@@ -48,11 +52,11 @@ The Linux kernel acts as a bridge between hardware and software. When we press t
         -   Page cache
     -   I/O subsystem
         -   Virtual filesystem
-            -   The kernel utilizes virtual filesystem to interact with files on different systems.
+            -   The kernel utilizes a virtual filesystem to interact with files on different devices.
             -   The kernel utilizes drivers to interact with different peripheral devices.
             -   Terminal
                 -   Line discipline
-                -   Character device drivers.
+                -   Character device drivers
             -   Filesystems
                 -   Generic block layer
                 -   I/O scheduler (Linux kernel)
@@ -439,39 +443,37 @@ Assume we have a computer already installed with Windows, then we can install Ub
     1.  Restart the computer and select the USB drive for booting. Follow the prompted instructions to install the system.
     1.  After the installation, reboot the computer.
     1.  During the installation process, I connected it to the Internet and updated the installer when asked. I did not install any other third party software.
-1.  Reconfigure boot order.
-    1.  When booting up the computer, if we enter the GRUB rescue terminal instead of the GRUB boot menu (which lets us select between Ubuntu and Windows), this means the Unified Extensible Firmware Interface (UEFI)/BIOS has found a GRUB bootloader, but:
-        -   either the bootloader's partition is not the Ubuntu partition we have installed,
-        -   Or the `grub.cfg` file, which is typically at `/boot/grub/grub.cfg`, is missing due to various reasons like mount failure or incomplete installation.
-    1.  Let's quickly recap what happens when we boot up the computer.
-        1.  We press the power button.
-        1.  The UEFI/BIOS initializes the hardware.
-        1.  The UEFI/BIOS loads **the first bootloader** in the boot order (typically the GRUB bootloader at `/boot/efi/EFI/ubuntu/grubx64.efi` in the Ubuntu partition).
-        1.  The GRUB bootloader prompts the user with the GRUB menu containing the Ubuntu and Windows boot option.
-        1.  The user selects a boot option and it loads the OS kernel and starts system processes.
-    1.  Now we can see that most likely **the first bootloader** is probably not the one we want.
-    1.  A temporary fix we can do in the rescue terminal right away is to look for the Ubuntu partition and use it for current booting.
+1.  Done!
+
+#### Troubleshooting
+
+Here is a list of issues and their resolution I encountered in the past.
+
+-   Reconfigure boot order.
+    1.  When booting up the computer, if we enter the GRUB rescue terminal instead of the GRUB boot menu (which lets us select between Ubuntu and Windows), this means the Unified Extensible Firmware Interface (UEFI)/BIOS has found a GRUB bootloader, but it is NOT the one in the Ubuntu partition we have installed.
+    -   A temporary fix we can do in the rescue terminal right away is to look for the Ubuntu partition and use it for current booting.
         ```bash
-        ls (hd0,gpt1)/boot/grub # Iterate over every (hdx,gpty) until we find an existing (hdx,gpty)/boot/grub directory. Let's say (hd1,gpt4)/boot/grub is our target directory.
+         # Iterate over every (hdx,gpty) until we find an existing (hdx,gpty)/boot/grub directory.
+        ls (hd0,gpt1)/boot/grub
+         # Let's say (hd1,gpt4)/boot/grub is what we have found.
         set root=(hd1,gpt4)
         set prefix=(hd1,gpt4)/boot/grub
         insmod normal # insmod = insert module
         normal
         ```
-    1.  A permanent fix is to reboot the computer, pressing the UEFI/BIOS key (F2 in Acer and Dell, F10 in HP) and rearrange the bootloader order to prioritize the one located in the Ubuntu partition.
-
-1.  Fix secondary display issue.
-    1.  After logging into the system, if we find the secondary display has problems like no signal or white screen, it's probably because the Nvidia driver is not installed. We can fix it by installing the driver.
+    -   A permanent fix is to reboot the computer, pressing the UEFI/BIOS key (F2 in Acer and Dell, F10 in HP) and rearrange the bootloader order to prioritize the one located in the Ubuntu partition.
+-   Fix secondary display issue.
+    -   After logging into the system, if we find the secondary display has problems like no signal or white screen, it's probably because the Nvidia driver is not installed. We can fix it by installing the driver.
         ```bash
         ubuntu-drivers devices # List recommended drivers.
         sudo apt install nvidia-driver-<DRIVER_VERSION> # Or use "sudo ubuntu-drivers autoinstall" to install recommended drivers.
         reboot # Reboot to apply the changes.
         ```
-
-1.  Fix root fs mount failure.
-    1.  When we boot up the computer, if we see error message like "kernel panic - unable to mount root fs on unknown-block(0,0)", this means the current kernel's initramfs is broken. We can fix it by updating the initramfs.
+-   Fix root fs mount failure.
+    -   When we boot up the computer, if we see error message like "kernel panic - unable to mount root fs on unknown-block(0,0)", this means the current kernel's initramfs is broken. We can fix it by updating the initramfs.
         ```bash
-         # Reboot. Choose "Advanced options for Ubuntu". Log into the system with another kernel.
+         # Reboot. Choose "Advanced options for Ubuntu".
+         # Log into the system with another kernel.
         sudo update-initramfs -u -k <BROKEN_INITRAMFS_KERNEL_VERSION>
         sudo update-grub
         reboot
