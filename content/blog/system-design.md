@@ -129,9 +129,25 @@ After clarifying the functional and non-functional requirements of the system, w
         -   Write-Ahead Logging (WAL)
             -   Ensure atomicity (all-or-nothing) and durability (data persistence) of the ACID properties by first appending a write transaction to a sequential log file on disk and then committing it to the database. If the system crashes, it can recover by replaying the log to restore the data to a consistent state.
 -   Scalability
-    -   Auto scaling
-    -   Rate limiting
-    -   Graceful quality degradation
+    -   Server
+        -   Auto scaling
+        -   Rate limiting
+        -   Graceful quality degradation
+    -   Storage
+        -   Read-heavy
+            -   Optimized query
+            -   Indexing
+            -   Caching
+            -   CDN
+            -   Database replication
+            -   Load balancing
+            -   Data partitioning
+        -   Write-heavy
+            -   CQRS
+            -   Event sourcing
+            -   Asynchronous processing
+            -   Write batching
+            -   Data partitioning
 
 ## Next step
 
