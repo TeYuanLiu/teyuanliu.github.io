@@ -1,7 +1,7 @@
 +++
 title = "System Design"
 date = 2025-04-25
-updated = 2025-12-17
+updated = 2025-12-18
 +++
 
 Ok, we want to build a software product, but where should we start?
@@ -89,6 +89,26 @@ After clarifying the functional and non-functional requirements of the system, w
         -   WebSocket
     -   UDP
         -   gRPC
+
+## Tradeoff
+
+-   Server
+    -   Direct server exposure vs API gateway
+    -   Token bucket vs leaky bucket
+    -   Direct server serving vs CDN serving
+    -   Polling vs long-polling vs webhooks
+    -   Server vs serverless
+    -   Stateful vs stateless
+    -   Server-side caching vs client-side caching
+    -   Batch processing vs stream processing
+-   Storage
+    -   SQL vs NoSQL
+        -   ACID vs BASE
+        -   Strong consistency vs eventual consistency
+        -   Data deduplication (normalization) vs data compression (de-normalization)
+        -   Primary-replica database replication vs peer-to-peer database replication
+    -   Read-through cache vs write-through cache
+    -   Hybrid cloud storage vs all-cloud storage
 
 ## Performance boost
 

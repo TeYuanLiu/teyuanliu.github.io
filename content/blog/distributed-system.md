@@ -1,7 +1,7 @@
 +++
 title = "Distributed System"
 date = 2025-05-02
-updated = 2025-05-04
+updated = 2025-12-18
 +++
 
 A distributed system is a system consists of many services running independently on different physical machines or Virtual Machines (VM) and connected via a network. Although its services are distributed, it appears as a single entity to the end user.
@@ -149,5 +149,11 @@ Here is a simulated example for scaling a client-server application.
 ## Security
 
 System [security](@/blog/security.md) has become more and more important.
+
+## Troubleshooting
+
+-   Race condition
+-   Misconfiguration
+-   Service process OOM kill
 
 ## See also

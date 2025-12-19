@@ -26,4 +26,9 @@ We have a business idea, and that's super cool! Now let's think about how to tur
     -   Ask for the reason of unsubscribing to learn which direction to move forward and improve retention rate.
     -   Conduct gradual deprecation by marking a feature as deprecated in earlier versions before its actual removal.
 
+## Mindset
+
+-   Use theory to drive implementation, and use implementation to refine theory.
+-   Make creative destruction.
+
 ## See also
