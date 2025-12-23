@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2025-12-01
+updated = 2025-12-22
 +++
 
 ## Here we Go
@@ -134,6 +134,7 @@ The Go community has the naming convention of PascalCase for exported variables,
     -   bool
 -   String
     -   string
+        -   Use "" for literal.
 -   Integer
     -   int
         -   32-bit or 64-bit based on system type
@@ -158,8 +159,10 @@ The Go community has the naming convention of PascalCase for exported variables,
     -   complex128
 -   Byte
     -   byte (alias of uint8)
+        -   Use '' for literal.
 -   Rune
     -   rune (alias of int32, representing a Unicode code point)
+        -   Use '' for literal.
 
 ### Variable type conversion
 
@@ -174,23 +177,6 @@ var f float64 = float64(i)
 i := 2
 f := float64(i)
 ```
-
-### Program output
-
-We often use the `Print`, `Println`, and `Printf` function from the built-in `fmt` package.
--   Print
-    -   Aggregate passed-in parameters without adding space and new line character as delimiter, and print the result.
--   Println
-    -   Aggregate parameters, adding space and new line character, and print the result.
--   Printf
-    -   Aggregate parameters based on the passed-in template, without adding space and new line character, and print the result.
-    -   %t for boolean
-    -   %d for decimal number
-    -   %g for floating-point number
-    -   %s for string
-    -   %v for object
-    -   %T for type
-    -   %q for double-quoted string with special character escaping
 
 ### Array
 
@@ -369,6 +355,28 @@ p := &i
 Go uses the `const <CONSTANT_NAME> <CONSTANT_TYPE>` declaration format for constants. Note that we cannot use the shorter version `:=` to declare a constant.
 
 Numeric constants are high-precision values. An untyped constant takes the type needed by its context.
+
+## Print
+
+We often use the `Print`, `Println`, and `Printf` function from the built-in `fmt` package.
+-   Print
+    -   Aggregate passed-in parameters without adding space and new line character as delimiter, and print the result.
+-   Println
+    -   Aggregate parameters, adding space and new line character, and print the result.
+-   Printf
+    -   Aggregate parameters based on the passed-in template, without adding space and new line character, and print the result.
+    -   %t for boolean
+    -   %d for decimal number
+    -   %g for floating-point number
+    -   %c for Unicode code point character
+    -   %s for string
+    -   %v for default format
+    -   %T for type
+    -   %q for double-quoted string with special character escaping
+    -   %w for error
+    -   %b for binary
+    -   %o for octal (base8)
+    -   %x for hexadecimal (base16)
 
 ## Flow control
 

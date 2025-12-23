@@ -1,8 +1,19 @@
 +++
 title = "Service Communication"
 date = 2025-05-01
-updated = 2025-05-04
+updated = 2025-12-22
 +++
+
+## Communication protocols
+
+-   TCP
+    -   HTTP
+        -   REST
+        -   GraphQL
+        -   gRPC
+    -   WebSocket
+-   UDP
+    -   gRPC
 
 ## Large data transmission
 

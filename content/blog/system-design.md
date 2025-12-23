@@ -1,7 +1,7 @@
 +++
 title = "System Design"
 date = 2025-04-25
-updated = 2025-12-18
+updated = 2025-12-22
 +++
 
 Ok, we want to build a software product, but where should we start?
@@ -12,7 +12,7 @@ Well, let's first think about the functional and non-functional requirements of 
 ## Functional requirement (scope)
 
 -   What features do we provide?
--   What does the API schema look like?
+-   What does the Application Programming Interface (API) schema look like?
 -   What does the storage schema look like?
 -   What kind of storage do we use?
 
@@ -20,11 +20,11 @@ Well, let's first think about the functional and non-functional requirements of 
 
 -   Scalability
     -   Traffic
-        -   How many total users?
-        -   How many concurrent users?
-        -   How many write requests per second?
-        -   How many read requests per second?
-        -   What are the latency and throughput requirements?
+        -   How many users in total?
+        -   How many concurrent users at maximum?
+        -   How many concurrent writes at maximum?
+        -   How many concurrent reads at maximum?
+        -   What is the latency requirement?
             -   Latency
                 -   1   ns for cache
                 -   100 ns for memory
@@ -38,79 +38,100 @@ Well, let's first think about the functional and non-functional requirements of 
     -   What is the fault tolerance requirement?
     -   What is the data durability requirement?
 
-## Layout
+## System layout
 
-After clarifying the functional and non-functional requirements of the system, we move on to sketching out the system layout. Modern systems usually need high scalability/availability/reliability so here we design a distributed system to satisfy the requirements.
+After clarifying the functional and non-functional requirements of the system, we move on to sketching out the system layout.
+
+Unless the non-functional requirements demand a system that supports millions or even billions of concurrent users and requests upfront, we want to start with the most basic design.
+
+Forget about microservices, load-balancing, auto-scaling, message queue, async-processing, distributed storage, or big data. We simply don't need them.
+
+When deciding whether we should add a specific component to our system, keep asking ourselves: will anything break if we don't add this component? If nothing actually breaks, that component is something we don't need to include in our system.
+
+This practice minimizes the system complexity as well as operational cost.
+
+### Basic
+
+Start with one monolithic server and one database.
+
+In general, CRUD applications are I/O-bound and a server can handle around 10 K Requests Per Second (RPS). If the application is CPU-bound, the concurrency is limited by the number of CPU cores of the server, usually around the number of 1 K.
+
+-   Client
+-   Server
+    -   Business logic
+-   Database
+
+### Server concurrency bottleneck
+
+As the application gains more users, usually the server concurrency becomes the bottleneck of our system due to OS setting limit or system memory shortage.
+
+#### OS setting limit customization
+
+If the bottleneck is caused by OS setting limit, we can tune the setting limits like the open file descriptor number limit or the TCP stack depth limit. For example, we can lift the open file descriptor number limit from 1024 to 100 K.
+
+#### Server vertical scale up
+
+If the bottleneck is caused by system memory shortage, we can upgrade the server to a larger instance with more system memory.
+
+#### Server horizontal scale out
+
+If OS setting limit customization and server vertical scale up don't fully resolve the concurrency bottleneck, we then need to horizontally scale out the server to a server cluster. We use a load balancer to distribute the request traffic among the servers.
 
 -   Client
 -   Load balancer
--   API gateway
-    -   Security
-        -   Authentication and authorization
-        -   TLS
-        -   Rate limiting
-    -   Transforming
-    -   Routing
-    -   Caching
-    -   Metric monitoring
-    -   Alerting
-    -   Logging
--   Service
-    -   Each write service follows the pattern of queue -> logic <-> storage.
-    -   Each read service follows the pattern of logic <-> storage.
-    -   Business logic
-    -   Observability
-        -   Metric monitoring
-        -   Alerting
-        -   Logging
-    -   Analytic
-        -   HDFS storage
-        -   Impala HDFS query
-        -   Hive data management and HiveQL query
-        -   Spark batch processing
-        -   Oozie job orchestration
-        -   YARN resource management
--   Storage
-    -   Latency
-    -   Throughput
-    -   Scalability
-    -   Availability
-    -   Reliability
--   Cache
-    -   Database cache
-    -   Content-Delivery Network (CDN)
+-   Server cluster
+    -   Server
+        -   Business logic
+-   Database
+
+### Database transaction latency bottleneck
+
+As more data is stored in the database and more transactions happen at the same time, the database transaction latency rises to an unacceptable level and becomes the bottleneck of our system.
+
+We can resolve this via [adding a database cache, Content Delivery Network (CDN), and client-side cache](@/blog/database.md).
+
+-   Client
     -   Client-side cache
--   Communication
-    -   TCP
-        -   HTTP
-            -   REST
-            -   GraphQL
-            -   gRPC
-        -   WebSocket
-    -   UDP
-        -   gRPC
+-   CDN
+-   Load balancer
+-   Server cluster
+    -   Server
+        -   Business logic
+-   Database cache
+-   Database
+
+### Availability and reliability bottleneck
+
+As our monolithic system grows bigger in size, it will face the [availability and reliability challenge](@/blog/system-architecture.md#monolithic). We need to refactor the system to use the microservice architecture. We use an API gateway to filter requests and route them to different services, and for each service we have a load balancer to distribute traffic among many service replicas.
+
+-   Client
+    -   Client-side cache
+-   CDN
+-   API gateway
+-   Service
+    -   Load balancer
+    -   Service replica
+        -   Business logic
+-   Database cache
+-   Database
+
+### External API rate limit bottleneck
+
+If a service depends on an external API and that external API has a rate limit, we can use a message queue to control the request sending rate based on the rate limit in a centralized fashion.
+
+-   Client
+    -   Client-side cache
+-   CDN
+-   API gateway
+-   Service
+    -   Message queue
+    -   Load balancer
+    -   Service replica
+        -   Business logic
+-   Database cache
+-   Database
 
 ## Tradeoff
-
--   Server
-    -   Direct server exposure vs API gateway
-    -   Token bucket vs leaky bucket
-    -   Direct server serving vs CDN serving
-    -   Polling vs long-polling vs webhooks
-    -   Server vs serverless
-    -   Stateful vs stateless
-    -   Server-side caching vs client-side caching
-    -   Batch processing vs stream processing
--   Storage
-    -   SQL vs NoSQL
-        -   ACID vs BASE
-        -   Strong consistency vs eventual consistency
-        -   Data deduplication (normalization) vs data compression (de-normalization)
-        -   Primary-replica database replication vs peer-to-peer database replication
-    -   Read-through cache vs write-through cache
-    -   Hybrid cloud storage vs all-cloud storage
-
-## Performance boost
 
 -   Availability (assuming load staying within capacity)
     -   Service uptime
@@ -125,29 +146,20 @@ After clarifying the functional and non-functional requirements of the system, w
             -   GET/PUT/DELETE are usually idempotent.
             -   Use POST with idempotency keys.
     -   Data durability
-        -   Data replication
-        -   Write-Ahead Logging (WAL)
-            -   Ensure atomicity (all-or-nothing) and durability (data persistence) of the ACID properties by first appending a write transaction to a sequential log file on disk and then committing it to the database. If the system crashes, it can recover by replaying the log to restore the data to a consistent state.
 -   Scalability
     -   Server
-        -   Auto scaling
-        -   Rate limiting
-        -   Graceful quality degradation
-    -   Storage
-        -   Read-heavy
-            -   Optimized query
-            -   Indexing
-            -   Caching
-            -   CDN
-            -   Database replication
-            -   Load balancing
-            -   Data partitioning
-        -   Write-heavy
-            -   CQRS
-            -   Event sourcing
-            -   Asynchronous processing
-            -   Write batching
-            -   Data partitioning
+        -   Fixed server number vs auto-scaling
+        -   Single-region deployment vs multi-region deployment
+        -   No rate limit vs rate limit
+        -   Fixed quality vs Graceful quality degradation
+        -   Direct server exposure vs API gateway
+        -   Direct server serving vs CDN serving
+        -   Polling vs long-polling vs webhooks
+        -   Server vs serverless
+        -   Stateful vs stateless
+            -   Stateless services don't store user data like user sessions inside their own storage. User data is stored in a centralized storage such that users can have the same session despite hitting different service replicas. This makes services easier to scale horizontally.
+        -   Server-side caching vs client-side caching
+        -   Batch processing vs stream processing
 
 ## Next step
 

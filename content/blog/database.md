@@ -1,14 +1,54 @@
 +++
 title = "Database"
 date = 2025-05-01
-updated = 2025-05-01
+updated = 2025-12-22
 +++
+
+## Relational database
+
+## NoSQL database
+
+## Comparison
+
+-   SQL vs NoSQL
+    -   ACID vs BASE
+    -   Strong consistency vs eventual consistency
+    -   Data deduplication (normalization) vs data compression (de-normalization)
+    -   Primary-replica database replication vs peer-to-peer database replication
+        -   We have one primary database and multiple replica databases. The primary database handles write requests and propagates the latest data to replica databases. The replica databases take care of read requests. This increases read speed.
+
+### Tradeoff
+
+-   Latency
+-   Throughput
+-   Consistency
+-   Scalability
+-   Availability
+-   Reliability
 
 ## Scaling
 
 ### Read
 
-#### Sharding
+-   Optimized query
+-   Indexing
+-   Caching
+    -   Read-through cache vs write-through cache
+-   CDN
+-   Replication
+-   Sharding
+
+### Write
+
+-   Control Query Request Separation (CQRS)
+-   Event sourcing
+    -   Write-Ahead Logging (WAL)
+        -   Ensure atomicity (all-or-nothing) and durability (data persistence) of the ACID properties by first appending a write transaction to a sequential log file on disk and then committing it to the database. If the system crashes, it can recover by replaying the log to restore the data to a consistent state.
+-   Write batching
+-   Asynchronous processing
+-   Sharding
+
+### Sharding
 
 There are different types of sharding:
 -   Range based sharding

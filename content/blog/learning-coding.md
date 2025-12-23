@@ -1,7 +1,7 @@
 +++
 title = "Learning Coding"
 date = 2025-04-27
-updated = 2025-12-18
+updated = 2025-12-22
 +++
 
 Learning coding is not easy, but here are some steps we can follow to boost our efficiency.
@@ -24,6 +24,8 @@ Learning coding is not easy, but here are some steps we can follow to boost our 
     -   Learn and retain problem solving patterns over programming language syntax.
 1.  Go and build something.
     -   Code with the mindset of prioritizing correctness, and then readability, and then performance.
+    -   Code it ourselves.
+        -   Try to design and implement things before asking AI. If we see the AI's answer first, our thought process tends to anchor to its solution and loses the opportunity for critical thinking.
     -   Code with AI.
         -   Start new AI chat for each distinct task to keep context focused and minimal.
         -   Let AI generate a basic implementation.
