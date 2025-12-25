@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date = 2025-04-17
-updated = 2025-12-18
+updated = 2025-12-24
 +++
 
 Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.
@@ -589,6 +589,14 @@ Here are the steps I take to set up my development environment.
 1.  Install pre-commit
     ```bash
     sudo apt install pre-commit`
+    ```
+1.  Install PostgreSQL
+    ```bash
+    sudo apt install postgresql
+    ```
+1.  Install Vim
+    ```bash
+    sudo apt install vim
     ```
 
 ## See also

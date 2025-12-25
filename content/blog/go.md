@@ -1,24 +1,27 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2025-12-22
+updated = 2025-12-24
 +++
+
+Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
+<!-- more -->
 
 ## Here we Go
 
 ### Package
 
-A package is a collection of Go files inside the same directory.
+A package is a collection of Go files inside the same directory. Variables, constants, functions, and types defined under the same package are visible across all Go files in the package.
 
 ### Module
 
-A module is a collection of packages. It is like a project or repository.
+A module is a collection of packages. It is like a project or repository. A module contains all packages inside its root directory (the directory that has the `go.mod`), including those in the subdirectories, except any subdirectory that contains another `go.mod`, which therefore defines another module.
 
 #### Module initialization
 
-We use `go init mod <MODULE_PATH>` to initialize a module where `<MODULE_PATH>` is the path to our module on a repository platform like GitHub. We usually use a GitHub repository to host a module so the module path is `github.com/<ORGANIZATION>/<REPOSITORY>`.
+We use `go init mod <MODULE_PATH>` to initialize a module where `<MODULE_PATH>` is the path to our module on a repository platform like GitHub. We usually use a GitHub repository to host a module so the module path is `github.com/<ORGANIZATION>/<REPOSITORY>`. The module path also defines the import path prefix for all packages within the module.
 
-Running the command generates a `go.mod` file that stores the module path and the Go version we are using.
+Running the command generates the `go.mod` file that stores the module path and the Go version we are using.
 {% codeblocktag () %}
 go.mod
 {% end %}
@@ -651,7 +654,7 @@ type I interface {
 }
 
 func describe(i I) {
-	fmt.Printf("(%v, %T)\n", i, i)
+    fmt.Printf("(%v, %T)\n", i, i)
 }
 
 type T struct {
@@ -668,7 +671,7 @@ func main() {
     i.M()       // nil pointer dereference runtime error
 
     i = &T{"Here we Go!"}
-    describe(i) // (&{Hello}, *main.T)
+    describe(i) // (&{"Here we Go!"}, *main.T)
     i.M()       // "Here we Go!"
 }
 ```
@@ -878,10 +881,22 @@ Contexts propagate cancellation and timeouts across service calls, preventing re
 
 ## Dependency management
 
-We can use a function from an external package by following the below steps.
-1.  Locate the package path via pkg.go.dev.
-2.  Import the package into our Go file. Go should add the package as a requirement to the `go.mod` file and produce a `go.sum` file for module authentication.
-3.  Run `go mod tidy` to install the package's latest version to the system.
+### Downloading remote modules
+
+In each Go file, we use the `import` keyword to import packages from both local module and remote modules. To download a remote module and record its version in our `go.mod`. We use the `go mod tidy` command to add the missing module and also remove unneeded modules.
+
+If two different modules have packages with the same name, we have to use alias for at least one of the package to avoid conflicting import.
+
+```go
+import (
+    "example.com/module1/x"
+    m2x "example.com/module2/x" // Alias example.com/module2/x to m2x.
+)
+```
+
+### Removing all downloaded modules
+
+Use `go clean -modcache` to remove all downloaded modules.
 
 ## Memory management
 
