@@ -1,7 +1,7 @@
 +++
 title = "System Design"
 date = 2025-04-25
-updated = 2025-12-22
+updated = 2025-12-26
 +++
 
 Ok, we want to build a software product, but where should we start?
@@ -48,30 +48,34 @@ Forget about microservices, load-balancing, auto-scaling, message queue, async-p
 
 When deciding whether we should add a specific component to our system, keep asking ourselves: will anything break if we don't add this component? If nothing actually breaks, that component is something we don't need to include in our system.
 
-This practice minimizes the system complexity as well as operational cost.
+This practice minimizes the system complexity and thus the operational cost.
 
-### Basic
+### Basic design
 
 Start with one monolithic server and one database.
 
-In general, CRUD applications are I/O-bound and a server can handle around 10 K Requests Per Second (RPS). If the application is CPU-bound, the concurrency is limited by the number of CPU cores of the server, usually around the number of 1 K.
+In general, CRUD applications are I/O-bound and a server can handle around 10 K Requests Per Second (RPS).
+
+If the application is CPU-bound, the concurrency is limited by the number of logical cores of the server (CPU socket count x physical cores per socket x logical cores per physical core). An enterprise-grade server can have up to 1 K logical cores (8 x 64 x 2).
+
+The basic system design layout looks like the following.
 
 -   Client
 -   Server
     -   Business logic
 -   Database
 
-### Server concurrency bottleneck
+### Server bottleneck
 
-As the application gains more users, usually the server concurrency becomes the bottleneck of our system due to OS setting limit or system memory shortage.
+As the application gains more users, the server struggles to handle that many concurrent requests and users start to feel the response latency increase. Concurrency becomes the bottleneck of our system due to the OS setting limits or system memory shortage.
 
 #### OS setting limit customization
 
-If the bottleneck is caused by OS setting limit, we can tune the setting limits like the open file descriptor number limit or the TCP stack depth limit. For example, we can lift the open file descriptor number limit from 1024 to 100 K.
+If the bottleneck is caused by the OS setting limits, we can tune those limits such as the open file descriptor number limit and the TCP stack depth limit. For example, we can lift the open file descriptor number limit from 1 K to 100 K.
 
 #### Server vertical scale up
 
-If the bottleneck is caused by system memory shortage, we can upgrade the server to a larger instance with more system memory.
+If the bottleneck is caused by the system memory shortage, we can upgrade the server to a larger instance with more system memory.
 
 #### Server horizontal scale out
 
@@ -84,11 +88,11 @@ If OS setting limit customization and server vertical scale up don't fully resol
         -   Business logic
 -   Database
 
-### Database transaction latency bottleneck
+### Database bottleneck
 
 As more data is stored in the database and more transactions happen at the same time, the database transaction latency rises to an unacceptable level and becomes the bottleneck of our system.
 
-We can resolve this via [adding a database cache, Content Delivery Network (CDN), and client-side cache](@/blog/database.md).
+We can resolve this via [adding a database cache, Content Delivery Network (CDN), and client-side cache](@/blog/database.md#read).
 
 -   Client
     -   Client-side cache
@@ -99,6 +103,8 @@ We can resolve this via [adding a database cache, Content Delivery Network (CDN)
         -   Business logic
 -   Database cache
 -   Database
+
+See more about read and write transaction scaling in the [database post](@/blog/database.md).
 
 ### Availability and reliability bottleneck
 
@@ -151,7 +157,7 @@ If a service depends on an external API and that external API has a rate limit, 
         -   Fixed server number vs auto-scaling
         -   Single-region deployment vs multi-region deployment
         -   No rate limit vs rate limit
-        -   Fixed quality vs Graceful quality degradation
+        -   Fixed quality vs graceful quality degradation
         -   Direct server exposure vs API gateway
         -   Direct server serving vs CDN serving
         -   Polling vs long-polling vs webhooks
