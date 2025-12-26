@@ -1,7 +1,7 @@
 +++
 title = "PostgreSQL"
 date = 2025-12-23
-updated = 2025-12-24
+updated = 2025-12-25
 +++
 
 PostgreSQL is an open-source relational database.
@@ -72,6 +72,10 @@ In PostgreSQL, using unquoted names is a best practice for naming.
 Unquoted names must begin with a letter or an underscore. Subsequent characters can be letters, digits, underscores, or dollar signs. Unquoted names are automatically folded to lowercase so it is recommended to just use lowercase letters.
 
 We can use arbitrary characters like uppercase letter, spaces and hyphens for naming if we enclose the name in double quotes. However, this is a poor practice because we then have to use double quotes everywhere.
+
+Double quotes are used for identifiers like table and column names that contain reserved keywords, special characters or spaces.
+
+Single quotes are used for string literals.
 
 #### Data types
 
