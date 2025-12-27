@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2025-12-24
+updated = 2025-12-27
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -45,7 +45,7 @@ package main
 
 // Import the built-in fmt package for input/output.
 import (
-"fmt"
+    "fmt"
 )
 
 // Declare the main function in the main package.
@@ -57,11 +57,11 @@ func main() {
 
 #### Expression and statement
 
-A Go file consists of expressions and statements for the computer to read, parse, and execute instructions. Here is a comparison between expression and statement.
+A Go file consists of expressions and statements for the computer to read, parse, and execute instructions. Here is a comparison between the expression and statement.
 
-Feature | Expression | Statement
+ | Expression | Statement
 - | - | -
-Purpose | To produce data. | To execute an instruction.
+Purpose | To produce data | To execute an instruction
 Value returning | Yes | No
 Examples | `5; a + b; len(array)` | `x = 5; if ... else ...; for ...; return value; import "fmt"; i++`
 
@@ -137,7 +137,7 @@ The Go community has the naming convention of PascalCase for exported variables,
     -   bool
 -   String
     -   string
-        -   Use "" for literal.
+        -   Use "<STRING>" for literal.
 -   Integer
     -   int
         -   32-bit or 64-bit based on system type
@@ -162,10 +162,12 @@ The Go community has the naming convention of PascalCase for exported variables,
     -   complex128
 -   Byte
     -   byte (alias of uint8)
-        -   Use '' for literal.
+        -   Use '<BYTE>' for literal.
+        -   Byte is an alias of uint8 and not int8 because people had already developed the habit of considering 0xFF as 255 not -1. This has caused overflow detection difficulty though.
 -   Rune
     -   rune (alias of int32, representing a Unicode code point)
-        -   Use '' for literal.
+        -   Use '<RUNE>' for literal.
+        -   Rune is an alias of int32 and not uint32 such that overflows can be detected easily.
 
 ### Variable type conversion
 
@@ -454,22 +456,22 @@ A `switch` statement is a shorter way for flow control. It evaluates cases from 
 
 ```go
 import (
-	"fmt"
-	"runtime"
+    "fmt"
+    "runtime"
 )
 
 func main() {
-	fmt.Print("Go runs on ")
-	switch os := runtime.GOOS; os {
-	case "linux":
-		fmt.Println("Linux.")
-	case "darwin":
-		fmt.Println("macOS.")
-    case "windows":
-        fmt.Println("Windows.")
-	default:
-		fmt.Printf("%s.\n", os)
-	}
+    fmt.Print("Go runs on ")
+    switch os := runtime.GOOS; os {
+        case "linux":
+            fmt.Println("Linux.")
+        case "darwin":
+            fmt.Println("macOS.")
+        case "windows":
+            fmt.Println("Windows.")
+        default:
+            fmt.Printf("%s.\n", os)
+    }
 }
 ```
 
@@ -529,14 +531,14 @@ Functions are values and can be passed around just like other values.
 
 ```go
 func compute(fn func(float64, float64) float64) float64 {
-	return fn(3, 4)
+    return fn(3, 4)
 }
 
 func main() {
-	hypot := func(x, y float64) float64 {
-		return math.Sqrt(x * x + y * y)
-	}
-	fmt.Println(compute(hypot))
+    hypot := func(x, y float64) float64 {
+        return math.Sqrt(x * x + y * y)
+    }
+    fmt.Println(compute(hypot))
 }
 ```
 
@@ -549,28 +551,28 @@ A closure is a function value that references variables from outside its body. E
 // a fibonacci function, which is a closure, that returns
 // the next number in the Fibonacci series.
 func fibonacciFactory() func() int {
-	i, pp, p := -1, 0, 1
-	fibonacci := func() int {
-		i += 1
-		if i == 0 {
-			return 0
-		} else if i == 1 {
-			return 1
-		} else {
-			c := pp + p
-			pp = p
-			p = c
-			return c
-		}
-	}
-	return fibonacci
+    i, pp, p := -1, 0, 1
+    fibonacci := func() int {
+        i += 1
+        if i == 0 {
+            return 0
+        } else if i == 1 {
+            return 1
+        } else {
+            c := pp + p
+            pp = p
+            p = c
+            return c
+        }
+    }
+    return fibonacci
 }
 
 func main() {
-	f := fibonacciFactory()
-	for i := 0; i < 10; i++ {
-		fmt.Println(f())
-	}
+    f := fibonacciFactory()
+    for i := 0; i < 10; i++ {
+        fmt.Println(f())
+    }
 }
 ```
 
@@ -692,14 +694,14 @@ An interface type switch is a switch statement that uses types as cases, rather 
 
 ```go
 func do(i interface{}) {
-	switch v := i.(type) {
-	case int:
-		fmt.Printf("Twice %v is %v\n", v, v*2)
-	case string:
-		fmt.Printf("%q is %v bytes long\n", v, len(v))
-	default:
-		fmt.Printf("I don't know about type %T!\n", v)
-	}
+    switch v := i.(type) {
+        case int:
+            fmt.Printf("Twice %v is %v\n", v, v*2)
+        case string:
+            fmt.Printf("%q is %v bytes long\n", v, len(v))
+        default:
+            fmt.Printf("I don't know about type %T!\n", v)
+    }
 }
 ```
 
@@ -713,26 +715,26 @@ Any function call, including arithmetic operation, file read/write, and network 
 
 ```go
 type MyError struct {
-	When time.Time
-	What string
+    When time.Time
+    What string
 }
 
 func (e *MyError) Error() string {
-	return fmt.Sprintf("at %v, %s",
-		e.When, e.What)
+    return fmt.Sprintf("at %v, %s",
+        e.When, e.What)
 }
 
 func run() error {
-	return &MyError{
-		time.Now(),
-		"it didn't work",
-	}
+    return &MyError{
+        time.Now(),
+        "it didn't work",
+    }
 }
 
 func main() {
-	if err := run(); err != nil {
-		fmt.Println(err)
-	}
+    if err := run(); err != nil {
+        fmt.Println(err)
+    }
 }
 ```
 
@@ -762,8 +764,8 @@ A generic type can hold values of any type.
 // List represents a singly-linked list that holds
 // values of any type.
 type List[T any] struct {
-	next *List[T]
-	val  T
+    next *List[T]
+    val  T
 }
 ```
 
@@ -812,26 +814,26 @@ z, ok := <-ch   // A receiver checks if the ch channel is closed via the ok vari
 
 ```go
 func sum(s []int, c chan int) {
-	sum := 0
-	for _, v := range s {
-		sum += v
-	}
-	c <- sum
+    sum := 0
+    for _, v := range s {
+        sum += v
+    }
+    c <- sum
 }
 
 func main() {
-	s := []int{7, 2, 8, -9, 4, 0}
+    s := []int{7, 2, 8, -9, 4, 0}
 
-	c := make(chan int)
-	go sum(s[:len(s)/2], c)
-	go sum(s[len(s)/2:], c)
+    c := make(chan int)
+    go sum(s[:len(s)/2], c)
+    go sum(s[len(s)/2:], c)
     v := 0
     for e := range c {
         fmt.Println(e)
         v += e
     }
 
-	fmt.Println(v)
+    fmt.Println(v)
 }
 ```
 

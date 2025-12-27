@@ -1,7 +1,7 @@
 +++
 title = "Programming Language"
 date = 2025-04-20
-updated = 2025-12-17
+updated = 2025-12-27
 +++
 
 We use programming languages to talk to computers, but how does it work? Here we discuss a few concepts about programming languages including types, syntax, and execution flow.
@@ -10,6 +10,18 @@ We use programming languages to talk to computers, but how does it work? Here we
 ## Type
 
 Static type means the type of every variable is known at compile-time, while dynamic type indicates that some variables have unknown type at compile-time, and are figured out later during run-time.
+
+## Layout
+
+In a source code file, we can organize the code as the following for better readability.
+
+1.  Dependency imports
+1.  Global constants
+1.  Global variables
+1.  Type definition A which is based on type definition B
+1.  Type definition B
+1.  Function definition A which is based on function definition B
+1.  Function definition B
 
 ## Syntax
 

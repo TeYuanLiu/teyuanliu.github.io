@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date = 2025-04-17
-updated = 2025-12-24
+updated = 2025-12-27
 +++
 
 Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.
@@ -385,6 +385,15 @@ Linux's ext4 filesystem follows the Filesystem Hierarchy Standard (FHS) 3 specif
         -   One example is setting the Setgid on a directory to ensure the files created within the directory have the same permission setting as the directory, allowing team members to work together on a project.
     -   Sticky bit
         -   The Sticky bit is set on a directory when we want to make sure only the directory owner and the root user can delete the directory. A symbolic permissions string example is `drwxrwxrwt`.
+
+### Encoding
+
+-   ASCII
+    -   ASCII is created as a mapping table to map a character like A-Z, 0-9, or common symbol to a number stored in 1 byte. Given a ASCII character, we use ASCII to transform/encode it into a number such that it can be stored as a byte on a computer. We also use ASCII to decode a byte back to its ASCII character.
+-   Unicode
+    -   Unicode is a character set extending ASCII characters and aims to include every used character on Earth inside it.
+-   UTF-8
+    -   UTF-8 is the mapping table similar to ASCII that does the encoding/decoding for Unicode characters.
 
 ## Networking
 

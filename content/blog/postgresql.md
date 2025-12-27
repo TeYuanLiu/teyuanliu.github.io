@@ -1,7 +1,7 @@
 +++
 title = "PostgreSQL"
 date = 2025-12-23
-updated = 2025-12-25
+updated = 2025-12-27
 +++
 
 PostgreSQL is an open-source relational database.
@@ -81,19 +81,36 @@ Single quotes are used for string literals.
 
 Each column has its own data type, and here is a list of the standard SQL data types.
 
--   int
--   smallint
--   real
-    -   single precision floating-point number
--   double precision
--   char(N)
-    -   character string with a fixed length of N
--   varchar(N)
-    -   character string up to N characters in length
--   date
--   time
--   timestamp
--   interval
+-   smallint (2 bytes)
+-   integer/int (4 bytes)
+-   bigint (8 bytes)
+-   real (4 bytes)
+    -   single-precision floating-point number
+-   double precision (8 bytes)
+    -   double-precision floating-point number
+-   char(N) (1 byte length metadata overhead + actual data length)
+    -   string with a fixed length of N
+    -   padding with blank
+    -   Each character can use 1 to 4 bytes.
+    -   data size limit is 1 GB
+-   varchar(N) (1 byte length metadata overhead + actual data length)
+    -   variable-length string up to N characters in length
+    -   Each character can use 1 to 4 bytes.
+    -   data size limit is 1 GB
+-   text
+    -   string with no length limit
+    -   Each character can use 1 to 4 bytes.
+    -   data size limit is 1 GB
+-   date (4 bytes)
+    -   date only
+-   time (8 bytes)
+    -   time of day only
+-   timestamp (8 bytes)
+    -   date and time without time zone
+-   timestamptz (8 bytes)
+    -   date and time with time zone
+-   interval (16 bytes)
+    -   3 fields of months, days, seconds
 
 #### SQL command
 
