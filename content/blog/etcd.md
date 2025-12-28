@@ -1,7 +1,7 @@
 +++
 title = "Etcd"
 date = 2025-11-28
-updated = 2025-12-27
+updated = 2025-12-28
 +++
 
 Etcd is a distributed key-value store that keeps the single source of truth for all configuration data and cluster state for a [Kubernetes](@/blog/kubernetes.md) cluster. All Kubernetes objects like pods, deployments, and services, are stored in etcd.
@@ -110,7 +110,7 @@ The requirement for a leader to coordinate all writes and secure a quorum for co
 
 -   Adding learner
     -   A learner is a node that only does data replication.
-    -   It does not participate in any voting.
+    -   It doesn't participate in any voting.
     -   The leader doesn't wait for a learner's acknowledgement of the `AppendEntries` before commiting the WAL entry.
     -   This increase read throughput without sacrificing write latency.
 -   Sharding

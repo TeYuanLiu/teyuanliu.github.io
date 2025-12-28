@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2025-12-27
+updated = 2025-12-28
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -803,7 +803,7 @@ When a sender has no more elements to send, it may use the `close()` function to
 
 Note that only the sender should close a channel as sending to a closed channel causes a panic but receiving from a closed channel doesn't cause a panic.
 
-A receiver can also use a for-range loop `for i:= range c` to receive elements from the `c` channel repeatedly until it is closed. Note that this blocks the receiver's goroutine until the channel is closed.
+A receiver can also use a for-range loop `for i := range c` to receive elements from the `c` channel repeatedly until it is closed. Note that this blocks the receiver's goroutine until the channel is closed.
 
 We usually don't need to close a channel unless a receiver must be told that there are no more elements coming, such as to terminate a for-range loop.
 
@@ -843,11 +843,11 @@ func main() {
 
 #### Channel buffer
 
-A buffer is a channel's internal queue. By default the buffer length is 0, so a send does block a goroutine until the element it's sending is received by another goroutine. Same for the read, a read blocks a goroutine until another goroutine sends an element to the channel for it to receive.
+A buffer is a channel's internal queue. By default the buffer length is 0, so a send blocks a goroutine until the element it's sending is received by another goroutine. Same for the read, a read blocks a goroutine until another goroutine sends an element to the channel for it to receive.
 
 We can use the second argument of `make` to set the buffer length.
 
-A send does not block a goroutine if the number of elements in the channel is less than the buffer length. Otherwise, the send blocks the goroutine. A read works in a similar way.
+A send doesn't block a goroutine if the number of elements in the channel is less than the buffer length. Otherwise, the send blocks the goroutine. A read works in a similar way.
 
 #### Goroutine select
 

@@ -1,40 +1,42 @@
 +++
-title = "Frontend"
+title = "Web Application"
 date = 2025-05-01
-updated = 2025-12-27
+updated = 2025-12-28
 +++
 
-## Cascading Style Sheets (CSS)
+## Frontend
 
-### Sass
+### Cascading Style Sheets (CSS)
+
+#### Sass
 
 [Sass](https://sass-lang.com/) is a CSS extension language that makes CSS property management easier.
 
-#### Variable
+##### Variable
 
 A variable is meant to store a CSS property value that will be reused like color or font stack. A variable can be declared using the `$` symbol. When a Sass file is being processed, its variables are substituted with their values to output a normal CSS.
 
-#### Nesting
+##### Nesting
 
 Nesting CSS selectors lets us mimic the hierarchy of a HyperText Markup Language (HTML) Document Object Model (DOM) tree. Note that overly-nested rules often introduce over-qualified CSS and are hard to debug so be cautious when using nesting.
 
-#### Mixin
+##### Mixin
 
 A mixin defines the template of a set of CSS declarations. We can pass in values to a mixin to make it even more flexible.
 
-#### Inheritance
+##### Inheritance
 
 Inheritance lets us share a fixed set of CSS properties, so it's less flexible compared with mixins. A class that holds the CSS properties is called the placeholder class. A CSS selector can include the placeholder class's CSS properties by inheriting/extending it. A placeholder class only prints when it is inherited/extended.
 
-## Bootstrap
+### Bootstrap
 
 Bootstrap is a powerful, feature-packed frontend toolkit that includes pre-built CSS styles and JavaScript components. We can build prototypes and production-grade frontend in minutes.
 
-### Installation
+#### Installation
 
 Import Bootstrap's CSS and JavaScript assets into our HTML file.
 
-### CSS
+#### CSS
 
 Bootstrap organizes components through 3 layers:
 1.  Container (top-layer)
@@ -52,7 +54,7 @@ Bootstrap organizes components through 3 layers:
 
 By just adding the pre-built `container` class to a `div` tag, Bootstrap automatically scales the content font size, padding, and margin in responding to display size changes.
 
-## Response time optimization
+### Response time optimization
 
 -   Code pruning
     -   Optimize the code bundle by removing dead code that will never get executed.
@@ -66,5 +68,41 @@ By just adding the pre-built `container` class to a `div` tag, Bootstrap automat
     -   Prioritize essential contents that are visible above the fold for a better user experience.
 -   Pre-fetching
     -   Proactively fetch and cache resources that are likely to be needed soon.
+
+## Backend
+
+### API gateway
+
+-   Security
+    -   Authentication and authorization
+    -   TLS
+    -   Rate limiting
+-   Transforming
+-   Routing
+-   Caching
+-   Metric monitoring
+-   Alerting
+-   Logging
+
+#### Session
+
+
+
+### Message queue
+
+#### Failure handling
+
+1.  Use a dead letter queue to store messages that failed during transmission.
+1.  Configure the message queue's retry setting.
+1.  Increase message storage time as a redundancy measure.
+
+### Business analytics
+
+-   HDFS storage
+-   Impala HDFS query
+-   Hive data management and HiveQL query
+-   Spark batch processing
+-   Oozie job orchestration
+-   YARN resource management
 
 ## References
