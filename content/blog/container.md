@@ -1,7 +1,7 @@
 +++
 title = "Container"
 date = 2025-04-20
-updated = 2025-11-26
+updated = 2025-12-27
 +++
 
 A container is a process or a group of processes running with its own namespace for process ID (PID), cgroup, mount, user ID (UID), Inter-Process Communication (IPC), network, environment variable, etc. Through these namespace configurations, the container process sees itself as isolated.
@@ -127,7 +127,7 @@ Here are some tips to increase security when using Docker:
 -   Restrict IP and port access to block dangerous communication.
 -   Run the application as a non-root user so even when someone gains access to the container the security risk is limited.
 
-## See also
+## References
 
 -   [Containers are chroot with a Marketing Budget](https://earthly.dev/blog/chroot/)
 -   [Comparing Container Runtimes: containerd vs. Docker](https://earthly.dev/blog/containerd-vs-docker/)

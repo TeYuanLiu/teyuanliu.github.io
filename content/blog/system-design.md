@@ -1,7 +1,7 @@
 +++
 title = "System Design"
 date = 2025-04-25
-updated = 2025-12-26
+updated = 2025-12-27
 +++
 
 Ok, we want to build a software product, but where should we start?
@@ -171,4 +171,4 @@ If a service depends on an external API and that external API has a rate limit, 
 
 Once we have decided how we structure the system, we can go ahead with the [development cycle](@/blog/development-cycle.md).
 
-## See also
+## References

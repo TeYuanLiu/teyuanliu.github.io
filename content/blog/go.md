@@ -917,4 +917,4 @@ Use `go clean -modcache` to remove all downloaded modules.
 -   Memory leak as goroutine is blocked waiting on an inactive channel
 -   Limited tools and hiring pool
 
-## See also
+## References

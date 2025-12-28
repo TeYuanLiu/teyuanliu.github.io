@@ -1,7 +1,7 @@
 +++
 title = "JavaScript Info 1.1 - Introduction"
 date = 2025-12-03
-updated = 2025-12-17
+updated = 2025-12-27
 tags = ["javascript"]
 +++
 
@@ -38,6 +38,6 @@ JavaScript was created as a browser-only language to integrate with HTML/CSS, bu
     -   Some common examples are Visual Studio Code, XCode, Visual Studio, and WebStorm.
 -   In-browser developer tools allow users to see errors, run commands and examine variables for debugging. We can open the developer tools by pressing `F12` for Linux and Windows, and `Cmd + Opt + J` for chrome on Mac.
 
-## See also
+## References
 
 -   [JavaScript introduction](https://javascript.info/getting-started)

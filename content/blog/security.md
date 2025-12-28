@@ -1,7 +1,7 @@
 +++
 title = "Security"
 date = 2025-04-20
-updated = 2025-05-04
+updated = 2025-12-27
 +++
 
 Software security measures are essential to prevent malicious actions.
@@ -64,4 +64,4 @@ We can monitor the application's file access pattern and network requests at run
         <IMAGE_NAME> bash
     ```
 
-## See also
+## References

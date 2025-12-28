@@ -1,7 +1,7 @@
 +++
 title = "Visual Studio Code"
 date = 2025-04-13
-updated = 2025-05-04
+updated = 2025-12-27
 +++
 
 Visual Studio Code (VSCode) is a lightweight Integrated Development Environment (IDE) that can become super powerful with extensions and plugins installed.
@@ -97,4 +97,4 @@ Visual Studio Code (VSCode) is a lightweight Integrated Development Environment 
 -   Flutter snippet: Use snippets to reduce repetitive work.
 -   Paste JSON as code: Copy JSON and paste as TypeScript, Go, C++, and more.
 
-## See also
+## References

@@ -1,7 +1,7 @@
 +++
 title = "Kubernetes"
 date = 2025-05-01
-updated = 2025-11-30
+updated = 2025-12-27
 +++
 
 Kubernetes is a [container](@/blog/container.md) orchestration engine for containerized application management and provides features like high availability, complex auto-scaling, automatic rollout and rollback, custom scheduling, and service mesh.
@@ -303,4 +303,4 @@ Alertmanager is an alerting framework which receives alert events from Prometheu
 -   k8s.io/client-go/tools/cache package's informer for Kubernetes resource watching
 -   sigs.k8s.io/controller-runtime module for building Kubernetes controllers
 
-## See also
+## References

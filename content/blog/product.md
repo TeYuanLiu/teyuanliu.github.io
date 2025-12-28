@@ -1,7 +1,7 @@
 +++
 title = "Product"
 date = 2025-04-26
-updated = 2025-12-18
+updated = 2025-12-27
 +++
 
 We have a business idea, and that's super cool! Now let's think about how to turn it into a product. Here are some steps that may give us some guidance.
@@ -31,4 +31,4 @@ We have a business idea, and that's super cool! Now let's think about how to tur
 -   Use theory to drive implementation, and use implementation to refine theory.
 -   Make creative destruction.
 
-## See also
+## References

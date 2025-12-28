@@ -1,7 +1,7 @@
 +++
 title = "Learning Coding"
 date = 2025-04-27
-updated = 2025-12-22
+updated = 2025-12-27
 +++
 
 Learning coding is not easy, but here are some steps we can follow to boost our efficiency.
@@ -36,6 +36,6 @@ Learning coding is not easy, but here are some steps we can follow to boost our 
             -   Add comments to clarify the reason why a piece of code exists.
         -   Add edge case and error handling.
 
-## See also
+## References
 
 -   [How to Learn to Code - 8 Hard Truths](https://www.youtube.com/watch?v=NtfbWkxJTHw)

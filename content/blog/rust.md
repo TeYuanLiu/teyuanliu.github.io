@@ -1,7 +1,7 @@
 +++
 title = "Rust"
 date = 2025-05-01
-updated = 2025-05-01
+updated = 2025-12-27
 +++
 
 [Rust](https://www.rust-lang.org/) is a system language that uses an ownership and borrowing system enforced at compile time to ensure memory safety without needing a garbage collector.
@@ -33,4 +33,4 @@ Note that Rust has an `unsafe` keyword, which can bypass compiler checks and all
 -   Slower bug fix and feature delivery due to steep learning curve for memory ownership and borrow checker
 -   Limited tools and hiring pool
 
-## See also
+## References

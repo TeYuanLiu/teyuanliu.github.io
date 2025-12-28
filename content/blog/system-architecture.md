@@ -1,7 +1,7 @@
 +++
 title = "System Architecture"
 date = 2025-05-02
-updated = 2025-12-22
+updated = 2025-12-27
 +++
 
 Here we discuss the monolithic architecture, which is a tightly-coupled software running on a single physical server or Virtual Machine (VM) that handles the end-to-end workflow. Then we talk about the microservice architecture, which consists of many services running independently on different servers and connected via a network.
@@ -84,4 +84,4 @@ If our product needs high availability, reliability, scalability, or flexibility
 
 In reality we often have a fixture of both. We can apply the microservice architecture to components that need availability, reliability, scalability, or flexibility, while grouping others into a monolithic component.
 
-## See also
+## References

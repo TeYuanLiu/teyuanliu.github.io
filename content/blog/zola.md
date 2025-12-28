@@ -1,7 +1,7 @@
 +++
 title = "Zola"
 date = 2025-04-13
-updated = 2025-12-16
+updated = 2025-12-27
 +++
 
 Zola is a static site generator (SSG) written in [Rust](https://www.rust-lang.org/) and uses the [Tera](https://keats.github.io/tera/) template engine. Zola uses [pulldown-cmark](https://github.com/raphlinus/pulldown-cmark#pulldown-cmark) to parse content written in [CommonMark](https://commonmark.org/) specification of [Markdown](https://www.markdownguide.org/). Zola prioritizes ease of use, super fast build, simple templating, and is suitable for minimalistic and fast dev blog.
@@ -349,4 +349,4 @@ Both section and page template have a `toc` variable that corresponds to an arra
 -   id
 -   permalink
 
-## See also
+## References

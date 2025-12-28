@@ -1,7 +1,7 @@
 +++
 title = "C"
 date = 2025-05-04
-updated = 2025-05-04
+updated = 2025-12-27
 +++
 
 ## Execution flow
@@ -52,4 +52,4 @@ Below is the memory layout listed from top to bottom in the memory space.
 
 ## Dependency management
 
-## See also
+## References

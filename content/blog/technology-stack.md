@@ -1,7 +1,7 @@
 +++
 title = "Technology Stack"
 date = 2025-04-30
-updated = 2025-04-30
+updated = 2025-12-27
 +++
 
 Here is a technology stack evolution list:
@@ -14,4 +14,4 @@ Here is a technology stack evolution list:
 -   Database
     -   SQL vs NoSQL vs NewSQL
 
-## See also
+## References

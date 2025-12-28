@@ -608,6 +608,6 @@ Here are the steps I take to set up my development environment.
     sudo apt install vim
     ```
 
-## See also
+## References
 
 -   [How to dual boot Windows 10 and Ubuntu](https://www.freecodecamp.org/news/how-to-dual-boot-windows-10-and-ubuntu-linux-dual-booting-tutorial/)

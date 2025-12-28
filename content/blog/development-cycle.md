@@ -1,7 +1,7 @@
 +++
 title = "Development Cycle"
 date = 2025-04-30
-updated = 2025-05-04
+updated = 2025-12-27
 +++
 
 Let's talk about software development prioritization as well as the development cycle.
@@ -102,4 +102,4 @@ Now we have figured out our priorities, and we are ready to talk about the devel
     -   Versioned documentation
     -   Migration guide
 
-## See also
+## References

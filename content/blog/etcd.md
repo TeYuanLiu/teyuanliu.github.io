@@ -1,7 +1,7 @@
 +++
 title = "Etcd"
 date = 2025-11-28
-updated = 2025-11-28
+updated = 2025-12-27
 +++
 
 Etcd is a distributed key-value store that keeps the single source of truth for all configuration data and cluster state for a [Kubernetes](@/blog/kubernetes.md) cluster. All Kubernetes objects like pods, deployments, and services, are stored in etcd.
@@ -118,4 +118,4 @@ The requirement for a leader to coordinate all writes and secure a quorum for co
     -   Each shard is handled by an independent Raft cluster.
     -   Requests are routed to the correct shard based on key range or directory.
 
-## See also
+## References

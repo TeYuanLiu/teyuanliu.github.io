@@ -1,7 +1,7 @@
 +++
 title = "Service Communication"
 date = 2025-05-01
-updated = 2025-12-22
+updated = 2025-12-27
 +++
 
 ## Communication protocols
@@ -22,4 +22,4 @@ updated = 2025-12-22
 1.  Use different data transmission type for metadata and objects.
 1.  Develop a cadence to send large data during low-volume time.
 
-## See also
+## References

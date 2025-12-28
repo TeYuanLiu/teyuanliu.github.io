@@ -1,7 +1,7 @@
 +++
 title = "Markdown"
 date = 2025-04-13
-updated = 2025-04-13
+updated = 2025-12-27
 +++
 
 Markdown is a simple way to format text. Here I documented some best practices I found in the [Google Markdown style guide].
@@ -38,7 +38,7 @@ TOC
 
 Content.
 
-## See also
+## References
 
 * Link-to-more-info
 ```
@@ -154,4 +154,4 @@ Use an image only if it's easier to show a reader something than to describe it 
 
 Use a table when the data distribution is relatively uniform across two dimensions and there are many parallel items with distinct attributes. Otherwise, subheading plus list is often suffice to present the same information.
 
-## See also
+## References

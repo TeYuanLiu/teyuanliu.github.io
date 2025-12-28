@@ -436,6 +436,6 @@ SELECT name, elevation
     WHERE elevation > 500;
 ```
 
-## See also
+## References
 
 -   [PostgreSQL tutorial](https://www.postgresql.org/docs/current/tutorial.html)

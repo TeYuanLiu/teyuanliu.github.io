@@ -1,7 +1,7 @@
 +++
 title = "Database"
 date = 2025-05-01
-updated = 2025-12-22
+updated = 2025-12-27
 +++
 
 ## Relational database
@@ -60,4 +60,4 @@ There are different types of sharding:
 
 A shard manager takes care of the lifecycle management of shards. It can dynamically creates, splits, and merges shards on-the-fly based on traffic forecasting to handle various loads.
 
-## See also
+## References

@@ -1,6 +1,6 @@
 +++
 title = "Backend"
-date = 2025-12-22
+date = 2025-12-27
 updated = 2025-12-27
 +++
 
@@ -33,3 +33,5 @@ updated = 2025-12-27
 -   Spark batch processing
 -   Oozie job orchestration
 -   YARN resource management
+
+## References
