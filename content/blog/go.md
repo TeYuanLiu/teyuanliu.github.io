@@ -135,9 +135,6 @@ The Go community has the naming convention of PascalCase for exported variables,
 
 -   Boolean
     -   bool
--   String
-    -   string
-        -   Use "<STRING>" for literal.
 -   Integer
     -   int
         -   32-bit or 64-bit based on system type
@@ -162,12 +159,19 @@ The Go community has the naming convention of PascalCase for exported variables,
     -   complex128
 -   Byte
     -   byte (alias of uint8)
-        -   Use '<BYTE>' for literal.
-        -   Byte is an alias of uint8 and not int8 because people had already developed the habit of considering 0xFF as 255 not -1. This has caused overflow detection difficulty though.
+        -   Use `'<BYTE>'` for literal.
+        -   Byte is an alias of uint8 and not int8 because people had already developed the habit of considering 0xFF as 255 not -1. This has increased the difficulty of detecting arithmetic overflow though.
 -   Rune
     -   rune (alias of int32, representing a Unicode code point)
-        -   Use '<RUNE>' for literal.
-        -   Rune is an alias of int32 and not uint32 such that overflows can be detected easily.
+        -   Use `'<RUNE>'` for literal.
+        -   Rune is an alias of int32 and not uint32 such that arithmetic overflow can be easily detected.
+        -   UTF-8
+            -   A code point between 0 and 2047 is stored with 2 bytes. The first byte has a 3-bit header `110xxxxx` indicating the character start. The second byte has a 2-bit header `10xxxxxx` marking itself as a continuation byte. The `x` count is 11, and a 11-bit signed integer gives us the range of -2048 to 2047. For example, a code point with value 256 has the first byte as `11000100` and the second byte as `10000000`.
+            -   A code point between 2048 and 65535 is stored with 3 bytes. The first byte has a 4-bit header `1110xxxx` indicating the character start. The second and third byte each has a 2-bit header `10xxxxxx` marking as a continuation byte. The `x` count is 16, and a 16-bit signed integer gives us the range of -65536 to 65535. For example, a code point with value 2048 has the first byte as `11100000`, the second byte as `10100000`, and the third byte as `10000000`.
+-   String
+    -   string
+        -   Use `"<STRING>"` for literal.
+        -   When working with a string, if you want the rune index as well as the rune value, it is recommended to first turn the string into a rune slice and then process it. If you only need the rune value, a `for _, r := range s {fmt.Printf("%c", r)}` is sufficient.
 
 ### Variable type conversion
 
