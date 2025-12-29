@@ -86,7 +86,22 @@ By just adding the pre-built `container` class to a `div` tag, Bootstrap automat
 
 #### Session
 
+A session is a data structure stored in database for the server to identify a user across multiple pages of the server website. Here is the flow.
 
+1.  A user sends a request to a website server.
+1.  The server creates a unique long string of random characters called a session ID.
+1.  The server stores the session ID as well as other user information like the user ID in its database.
+1.  The server replies to the user with the session ID added to the cookie.
+1.  Every time the user accesses other pages of the website or refresh the same page, the user browser sends the request as well as the cookie, which has the session ID, to the server.
+1.  The server looks up the session ID in its database to identify the user and replies back with the user data.
+
+##### Session vs cookie
+
+\ | Session | Cookie
+-|-|-
+Storage location | Server database | Client browser
+Security | No user access | User can create, read, update, or delete
+Capacity | Limited by server database | Limited to about 4 KB text
 
 ### Message queue
 

@@ -59,8 +59,8 @@ func main() {
 
 A Go file consists of expressions and statements for the computer to read, parse, and execute instructions. Here is a comparison between the expression and statement.
 
- | Expression | Statement
-- | - | -
+\ | Expression | Statement
+-|-|-
 Purpose | To produce data | To execute an instruction
 Value returning | Yes | No
 Examples | `5; a + b; len(array)` | `x = 5; if ... else ...; for ...; return value; import "fmt"; i++`
@@ -417,21 +417,26 @@ for {
 
 #### For-range loop
 
-A `for-range` loop provides a concise way to iterate over a range, string, array, slice, map, or channel. The basic syntax assigns iteration values to one or two variables, followed by the `range` keyword and then the collection.
+A `for-range` loop provides a concise way to iterate over a range, string, array, slice, or map. The basic syntax assigns iteration values to one or two variables, followed by the `range` keyword and then the collection.
+
+We can even use this to read a channel. Note that if we want to handle different values received from the channel separately, consider to use the [goroutine select](@/blog/go.md#goroutine-select).
 
 ```go
-// Loop over the index
+// Loop over the index.
 for index := range collection
 
-// Loop over both the index and value
+// Loop over both the index and value.
 for index, value := range collection
 
-// Loop over the value
+// Loop over the value.
 for _, value := range collection
+
+// Loop over the value received from a channel.
+for value := range channel
 ```
 
 Collection type | First value | Second value (optional)
-- | - | -
+-|-|-
 Integer | Index (int) | Not applicable
 String | Index (int) | Rune (Unicode code point)
 Array or Slice | Index (int) | Element copy

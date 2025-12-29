@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date = 2025-04-17
-updated = 2025-12-27
+updated = 2025-12-28
 +++
 
 Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.
@@ -493,7 +493,7 @@ Here is a list of issues and their resolution I encountered in the past.
 Ubuntu's maintainer, Canonical, has created its own package manager called `Snap` to live besides the Debian's `APT`. Below is a comparison.
 
 Feature | APT | Snap
-------- | --- | ----
+-|-|-
 Source | Debian repos | Snapcraft store
 Format  | `.deb` | `.snap`
 Size | Small | Large

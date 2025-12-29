@@ -1,7 +1,7 @@
 +++
 title = "Container"
 date = 2025-04-20
-updated = 2025-12-27
+updated = 2025-12-28
 +++
 
 A container is a process or a group of processes running with its own namespace for process ID (PID), cgroup, mount, user ID (UID), Inter-Process Communication (IPC), network, environment variable, etc. Through these namespace configurations, the container process sees itself as isolated.
@@ -77,7 +77,7 @@ Docker Compose is a tool for creating and running applications across multiple c
 ### Docker vs local
 
 Feature | Docker | Local
-------- | --- | ----
+-|-|-
 Isolation | Yes | No
 Dependency conflict | No | Possible
 Security | Higher  | Lower
