@@ -289,7 +289,7 @@ Zola can build a search index from the sections and pages content to be used by 
 
 ### Sass
 
-[Sass](@/blog/frontend.md#sass) is a popular CSS preprocessor that adds special features like variables and nested rules to facilitate the maintenance of large sets of CSS rules.
+[Sass](@/blog/web-application.md#sass) is a popular CSS preprocessor that adds special features like variables and nested rules to facilitate the maintenance of large sets of CSS rules.
 
 ## Template
 
