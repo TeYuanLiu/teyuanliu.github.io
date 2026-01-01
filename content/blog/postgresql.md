@@ -1,7 +1,7 @@
 +++
 title = "PostgreSQL"
 date = 2025-12-23
-updated = 2025-12-27
+updated = 2026-01-01
 +++
 
 PostgreSQL is an open-source relational database.
@@ -11,7 +11,7 @@ PostgreSQL is an open-source relational database.
 
 -   Server
     -   Root server process
-        -   This is the manager process that creates a connection server process for each client connection and administer its lifecycle.
+        -   This is the manager process that creates a connection server process for each client connection and administers its lifecycle.
     -   Connection server process
         -   This is the process that communicates with a client via a TCP/IP network connection, managing database files, and performs database actions on behalf of the client.
 -   Client
@@ -46,6 +46,10 @@ psql <DATABASE_NAME>    # Assume DATABASE_NAME is mydb.
 mydb=> SELECT current_date; # Print the current date.
 
 mydb=> \h   # Get help.
+
+mydb=> \d   # Get the list of tables and sequences.
+
+mydb=> \dt  # Get the list of tables.
 
 mydb=> \i commands.sql  # Read and execute the commands.sql file.
 
@@ -313,7 +317,7 @@ SELECT user_name, count(*) FILTER (WHERE creation_date > '2025-12-24') FROM cour
 UPDATE course_enrollment SET creation_date = '2025-12-24' WHERE creation_date = '2025-12-25';
 ```
 
-#### Row delete
+#### Row deletion
 
 ```sql
 DELETE FROM course_enrollment WHERE course_name = 'cardio';
