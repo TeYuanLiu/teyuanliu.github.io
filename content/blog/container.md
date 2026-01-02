@@ -1,7 +1,7 @@
 +++
 title = "Container"
 date = 2025-04-20
-updated = 2025-12-28
+updated = 2026-01-02
 +++
 
 A container is a process or a group of processes running with its own namespace for process ID (PID), cgroup, mount, user ID (UID), Inter-Process Communication (IPC), network, environment variable, etc. Through these namespace configurations, the container process sees itself as isolated.
@@ -97,7 +97,7 @@ Using Docker for applications comes with different costs:
 #### Image size
 
 We can reduce Docker image size by:
--   Include only what's needed.
+-   Include only what is needed.
     -   Multi-stage build
         -   Build stage
             -   Install necessary dependencies and create a standalone executable.

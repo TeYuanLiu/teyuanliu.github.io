@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2025-12-28
+updated = 2026-01-02
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -804,13 +804,13 @@ ch := make(chan int)
 
 We can send and receive elements through a channel with the channel operator `<-`.
 
-When a sender has no more elements to send, it may use the `close()` function to close the channel. A receiver can test whether a channel has been closed by assigning a second parameter `ok` to the receive expression. If `ok` is `false` then the channel is closed.
+If we have one sender and that sender has no more elements to send, then it should call `close()` to shutdown the channel.
 
-Note that only the sender should close a channel as sending to a closed channel causes a panic but receiving from a closed channel doesn't cause a panic.
+If we have multiple senders, we should use `sync.WaitGroup` in the coordinator goroutine to wait for all senders to finish before closing the channel. Note that only a sender or coordinator should close the channel because sending to a closed channel causes a panic but receiving from a closed channel doesn't cause a panic.
 
-A receiver can also use a for-range loop `for i := range c` to receive elements from the `c` channel repeatedly until it is closed. Note that this blocks the receiver's goroutine until the channel is closed.
+A receiver can test whether a channel has been closed by assigning a second parameter `ok` to the receive expression. If `ok` is `false` then the channel is closed.
 
-We usually don't need to close a channel unless a receiver must be told that there are no more elements coming, such as to terminate a for-range loop.
+A receiver can use a [for-range loop](@/blog/go.md#for-range-loop) `for i := range c` to receive elements from the `c` channel repeatedly until it is closed. Note that this blocks the receiver goroutine until the channel is closed. This is one of the occasions where we need to close the channel to let the the receiver goroutine be garbage collected. Other than this, we usually don't need to close a channel.
 
 ```go
 ch <- y         // Send the value of y to channel ch.
@@ -819,7 +819,7 @@ close(ch)       // A sender closes the ch channel.
 z, ok := <-ch   // A receiver checks if the ch channel is closed via the ok variable.
 ```
 
- Here is an example to use 2 goroutines to sum the numbers in a slice.
+Here is an example to use 2 goroutines to sum the numbers in a slice.
 
 ```go
 func sum(s []int, c chan int) {
@@ -846,6 +846,43 @@ func main() {
 }
 ```
 
+Here is a template for common workflows. Note the destructor goroutine that closes the channel to unblock the main function.
+
+```go
+type Result struct {
+    ID int
+    Value int
+    Error error
+}
+
+func main() {
+    results := make(chan Result)
+    var wg sync.WaitGroup
+
+    for i := range 3 {
+        wg.Go(func() {
+            work(i, results)
+        })
+    }
+    go func() {
+        wg.Wait()
+        close(results)
+    }()
+    for res := range results {
+        fmt.Println(res)
+    }
+    fmt.Println("finished!")
+}
+
+func work(id int, results chan Result) {
+    if id % 2 == 0 {
+        results <- Result{ID: id, Value: id * 10, Error: nil}
+    } else {
+        results <- Result{ID: id, Error: errors.New("remainder is 1")}
+    }
+}
+```
+
 #### Channel buffer
 
 A buffer is a channel's internal queue. By default the buffer length is 0, so a send blocks a goroutine until the element it's sending is received by another goroutine. Same for the read, a read blocks a goroutine until another goroutine sends an element to the channel for it to receive.
@@ -856,9 +893,52 @@ A send doesn't block a goroutine if the number of elements in the channel is les
 
 #### Goroutine select
 
-The `select` statement pauses a goroutine until it can execute one of its communication cases. If multiple are ready, it randomly choose one of them to execute.
+Goroutine select is used for cases like signal handling alongside receiving values from a channel. The `select` statement pauses the current goroutine until it can execute one of its communication cases. If multiple are ready, it randomly choose one of them to execute.
 
-We can specify a `default` case for it to send or receive without blocking when other cases are not ready.
+We can specify a `default` case for it to send or receive without blocking when other cases are not ready yet.
+
+Note that we label the outer loop and break that loop when the result channel is closed.
+
+```go
+func main() {
+    controls := make(chan string)
+    results := make(chan int)
+    var wg sync.WaitGroup
+
+    for i := range 3 {
+        wg.Go(func() {
+            func(id int) {
+                results <- id * 10
+            }(i)
+        })
+    }
+    go func() {
+        wg.Wait()
+        close(results)
+    }()
+    go func() {
+        time.Sleep(time.Second * 2)
+        controls <- "terminate"
+    }()
+Loop:
+    for {
+        select {
+            case signal := <- controls:
+                if signal == "terminate" {
+                    fmt.Println("terminated!")
+                    break Loop
+                }
+            case res, ok := <- results:
+                if ok {
+                    fmt.Println(res)
+                }
+            default:
+                time.Sleep(time.Millisecond * 1)
+        }
+    }
+    fmt.Println("finished!")
+}
+```
 
 ### Mutex
 

@@ -1,7 +1,7 @@
 +++
 title = "Transport Layer Security"
 date = 2025-11-29
-updated = 2025-11-29
+updated = 2026-01-02
 +++
 
 Transport Layer Security (TLS), is a popular protocol for secure data transmission between client and server. It is derived from a deprecated protocol called Secure Socket Layer (SSL).
@@ -93,7 +93,7 @@ A Certification Authority (CA) now claims it can help authenticate others to mak
 
 Congratulations! We have learned all 3 properties of TLS and how the TLS handshake is done. It is kind of exciting for me to get into how TLS works and the steps of handshake as I was thinking of possible security issues of web apps and the ways to address them. Network security is really a big topic nowadays and we have just scratched the surface of it, so keep on learning more!
 
-### See more
+### References
 
 -   [SSL/TLS beginner's tutorial](https://medium.com/talpor/ssl-tls-authentication-explained-86f00064280)
 -   [Public Keys and Private Keys in Public Key Cryptography](https://sectigo.com/resource-library/public-key-vs-private-key)
