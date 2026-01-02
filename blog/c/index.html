@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    C
+  </div>
+  <div class="header-metadata">
+    
+      
+        Dec 27, 2025 · 218 words · 2 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/c/#execution-flow">Execution flow </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/c/#memory-management">Memory management </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/c/#memory-layout">Memory layout</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/c/#common-memory-bugs">Common memory bugs</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/c/#dependency-management">Dependency management </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/c/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <h2 id="execution-flow"><a class="zola-anchor" href="#execution-flow" aria-label="Anchor link for: execution-flow">Execution flow</a></h2>
+<ol>
+<li>The GNU Compiler Collection (GCC) converts our C code into an assembly specific to our CPU architecture like x86_64, amd64, arm64.</li>
+<li>The assembler compiles the assembly into a group of binaries, also called object files.</li>
+<li>The linker combines the object files and libraries into the final binary.</li>
+<li>The machine executes the final binary.</li>
+</ol>
+<h2 id="memory-management"><a class="zola-anchor" href="#memory-management" aria-label="Anchor link for: memory-management">Memory management</a></h2>
+<h3 id="memory-layout"><a class="zola-anchor" href="#memory-layout" aria-label="Anchor link for: memory-layout">Memory layout</a></h3>
+<p>Below is the memory layout listed from top to bottom in the memory space.</p>
+<ul>
+<li>Kernel space
+<ul>
+<li>Accessing this region can cause <a href="https://teyuanliu.github.io/blog/c/#common-memory-bugs">segmentation fault</a>.</li>
+</ul>
+</li>
+<li>Stack
+<ul>
+<li>Include function calls, local variables.</li>
+<li>Deep recursion and large local variable allocation can cause stack overflow.</li>
+<li>Grow downward.</li>
+</ul>
+</li>
+<li>Unused memory</li>
+<li>Heap
+<ul>
+<li>Malloc/new dynamic allocations</li>
+<li>Invalid free/dereferencing can cause segmentation fault.</li>
+<li>Grow upward.</li>
+</ul>
+</li>
+<li>BSS
+<ul>
+<li>Uninitialized global variables</li>
+</ul>
+</li>
+<li>Data
+<ul>
+<li>Initialized global variables</li>
+</ul>
+</li>
+<li>Text
+<ul>
+<li>Compiled code</li>
+</ul>
+</li>
+<li>NULL (memory address 0x0)
+<ul>
+<li>Dereferencing this can cause segmentation fault here.</li>
+</ul>
+</li>
+</ul>
+<h3 id="common-memory-bugs"><a class="zola-anchor" href="#common-memory-bugs" aria-label="Anchor link for: common-memory-bugs">Common memory bugs</a></h3>
+<ul>
+<li>Segmentation fault
+<ul>
+<li>A segmentation fault occurs when a program tries to access a memory region it is not allowed to. Some examples are listed below.
+<ul>
+<li>Read/write outside of array bounds</li>
+<li>Use/free a null pointer</li>
+<li>Use-after-free</li>
+<li>Double free</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Stack overflow
+<ul>
+<li>A stack overflow happens when a program uses too much stack memory. Some examples are listed below.
+<ul>
+<li>Deep recursion</li>
+<li>Large local variable allocation</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="dependency-management"><a class="zola-anchor" href="#dependency-management" aria-label="Anchor link for: dependency-management">Dependency management</a></h2>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;caching&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

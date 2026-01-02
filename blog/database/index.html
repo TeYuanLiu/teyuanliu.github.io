@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Database
+  </div>
+  <div class="header-metadata">
+    
+      
+        Dec 27, 2025 · 271 words · 2 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/database/#relational-database">Relational database </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/database/#nosql-database">NoSQL database </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/database/#comparison">Comparison </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/database/#tradeoff">Tradeoff</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/database/#scaling">Scaling </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/database/#read">Read</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/database/#write">Write</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/database/#sharding">Sharding</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/database/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <h2 id="relational-database"><a class="zola-anchor" href="#relational-database" aria-label="Anchor link for: relational-database">Relational database</a></h2>
+<h2 id="nosql-database"><a class="zola-anchor" href="#nosql-database" aria-label="Anchor link for: nosql-database">NoSQL database</a></h2>
+<h2 id="comparison"><a class="zola-anchor" href="#comparison" aria-label="Anchor link for: comparison">Comparison</a></h2>
+<ul>
+<li>SQL vs NoSQL
+<ul>
+<li>ACID vs BASE</li>
+<li>Strong consistency vs eventual consistency</li>
+<li>Data deduplication (normalization) vs data compression (de-normalization)</li>
+<li>Primary-replica database replication vs peer-to-peer database replication
+<ul>
+<li>We have one primary database and multiple replica databases. The primary database handles write requests and propagates the latest data to replica databases. The replica databases take care of read requests. This increases read speed.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="tradeoff"><a class="zola-anchor" href="#tradeoff" aria-label="Anchor link for: tradeoff">Tradeoff</a></h3>
+<ul>
+<li>Latency</li>
+<li>Throughput</li>
+<li>Consistency</li>
+<li>Scalability</li>
+<li>Availability</li>
+<li>Reliability</li>
+</ul>
+<h2 id="scaling"><a class="zola-anchor" href="#scaling" aria-label="Anchor link for: scaling">Scaling</a></h2>
+<h3 id="read"><a class="zola-anchor" href="#read" aria-label="Anchor link for: read">Read</a></h3>
+<ul>
+<li>Optimized query</li>
+<li>Indexing</li>
+<li>Caching
+<ul>
+<li>Read-through cache vs write-through cache</li>
+</ul>
+</li>
+<li>CDN</li>
+<li>Replication</li>
+<li>Sharding</li>
+</ul>
+<h3 id="write"><a class="zola-anchor" href="#write" aria-label="Anchor link for: write">Write</a></h3>
+<ul>
+<li>Control Query Request Separation (CQRS)</li>
+<li>Event sourcing
+<ul>
+<li>Write-Ahead Logging (WAL)
+<ul>
+<li>Ensure atomicity (all-or-nothing) and durability (data persistence) of the ACID properties by first appending a write transaction to a sequential log file on disk and then committing it to the database. If the system crashes, it can recover by replaying the log to restore the data to a consistent state.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Write batching</li>
+<li>Asynchronous processing</li>
+<li>Sharding</li>
+</ul>
+<h3 id="sharding"><a class="zola-anchor" href="#sharding" aria-label="Anchor link for: sharding">Sharding</a></h3>
+<p>There are different types of sharding:</p>
+<ul>
+<li>Range based sharding
+<ul>
+<li>Partition the table rows according to ID ranges, like the rows with ID 1 to 100 go to shard 1, and 101 to 200 go to shard 2.</li>
+</ul>
+</li>
+<li>Hash based sharding
+<ul>
+<li>Use a hash function to hash the ID of a table row to its shard number.</li>
+</ul>
+</li>
+<li>Directory based sharding
+<ul>
+<li>Use a lookup table to map the ID of a table row to its shard number based on directory.</li>
+</ul>
+</li>
+</ul>
+<p>A shard manager takes care of the lifecycle management of shards. It can dynamically creates, splits, and merges shards on-the-fly based on traffic forecasting to handle various loads.</p>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;container&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;development-cycle&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>
