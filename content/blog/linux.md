@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date = 2025-04-17
-updated = 2025-12-28
+updated = 2026-01-06
 +++
 
 Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.
@@ -403,6 +403,14 @@ A routing table stores a list of route entries. Each route entry has the followi
 -   Destination Internet Protocol (IP) Classless Inter-Domain Routing (CIDR)
 -   Next hop IP address
 -   Network device
+
+### Network address translation table
+
+A NAT table stores the request ID to device private IP mapping, and is often used by routers.
+
+NAT is a proxy that manages the outbound traffic of the private network. For an outbound request from a device on the private network, it uses the NAT table to record the request ID to device private IP mapping, and then replaces the request's source private IP with its own public IP.
+
+When it receives a response, it use the NAT table to redirect the response to the device.
 
 ### Network device
 
