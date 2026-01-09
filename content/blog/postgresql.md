@@ -1,7 +1,7 @@
 +++
 title = "PostgreSQL"
 date = 2025-12-23
-updated = 2026-01-01
+updated = 2026-01-09
 +++
 
 PostgreSQL is an open-source relational database.
@@ -184,8 +184,8 @@ SELECT * FROM user;
 -- Select the name column and bmi expression from the user table without row filtering criteria.
 SELECT name, weight_kg/(height_m*height_m) AS bmi FROM user;
 
--- Select the name and height_m column from the user table with a qualification specifying that only rows with height_m > 1.8 and weight_kg < 70 are wanted. Remove rows with duplicate names. The result should be ordered by name.
-SELECT DISTINCT name, height_m FROM user WHERE height_m > 1.8 AND weight_kg < 70 ORDER BY name;
+-- Select the name and height_m column from the user table with a qualification specifying that only rows with height_m > 1.8 and weight_kg < 70 are wanted. Remove rows with duplicate names. The result should be ordered by name in descending order.
+SELECT DISTINCT name, height_m FROM user WHERE height_m > 1.8 AND weight_kg < 70 ORDER BY name DESC;
 ```
 
 -   Use `*` to select all columns.
@@ -404,7 +404,7 @@ When we need to put multiple window functions inside a query, it is recommended 
 
 ```sql
 -- Compare each user's weight with the average weight of the users with the same height.
-SELECT id, name, weight_kg, avg(weight_kg), row_number() OVER (PARTITION BY height_m ORDER BY weight_kg DESC) FROM user;
+SELECT id, name, weight_kg, avg(weight_kg), row_number() OVER (PARTITION BY height_m ORDER BY weight_kg) FROM user;
 ```
 
 #### Execution order
