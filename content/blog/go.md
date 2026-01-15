@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-01-02
+updated = 2026-01-14
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -226,8 +226,8 @@ It contains:
 If any slice still holds a pointer to its underlying array, the entire array remains in memory. Therefore, the way to release the array's memory is to set the slice to nil.
 
 If our slice is using a small portion of the underlying array, we can use the below methods to cut down memory cost.
--   If the underlying array holds pointers to large data structures, we can explicitly set the pointers to nil to let the pointed-to data to be garbage collected, even if the array itself remains.
--   Copy the relevant elements to a new slice with a new underlying array and let the original one to be garbage collected.
+-   If the underlying array holds pointers to large data structures, we can explicitly set the pointers to nil to let the pointed-to data be garbage collected, even if the array itself remains.
+-   Copy the relevant elements to a new slice with a new underlying array and let the original one be garbage collected.
 
 #### Slice declaration
 
