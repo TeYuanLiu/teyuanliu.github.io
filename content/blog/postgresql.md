@@ -1,7 +1,7 @@
 +++
 title = "PostgreSQL"
 date = 2025-12-23
-updated = 2026-01-09
+updated = 2026-01-25
 +++
 
 PostgreSQL is an open-source relational database.
@@ -215,7 +215,7 @@ In a join query, it is good practice to qualify all column names so that the que
 A self join is joining a table against itself.
 
 ```sql
-SELECT u1.name, u1.height_m AS height, u2.name, u2.height_m AS height FROM user u1 JOIN user u2 ON u1.height_m < u2.height_m;
+SELECT u1.name, u1.height_m AS u1_height, u2.name, u2.height_m AS u2_height FROM user u1 JOIN user u2 ON u1.height_m < u2.height_m;
 ```
 
 ##### Inner join
