@@ -1,12 +1,22 @@
 +++
 title = "Web Application"
 date = 2025-05-01
-updated = 2025-12-28
+updated = 2026-01-31
 +++
 
 ## Frontend
 
+### HyperText Markup Language (HTML)
+
+We use kebab-case for HTML file names because Linux is case-sensitive and URLs use hyphens as the delimiter.
+
+Servers often look for a file named `index.html` as the default starting page for any folder.
+
+We use kebab-case for HTML tag attribute values to be consistent with CSS property naming.
+
 ### Cascading Style Sheets (CSS)
+
+CSS properties often use hyphens, but the input tag name attribute value is often written in snake_case because of compatibility with backend relational databases.
 
 #### Sass
 
@@ -32,11 +42,11 @@ Inheritance lets us share a fixed set of CSS properties, so it's less flexible c
 
 Bootstrap is a powerful, feature-packed frontend toolkit that includes pre-built CSS styles and JavaScript components. We can build prototypes and production-grade frontend in minutes.
 
-#### Installation
+#### Bootstrap installation
 
 Import Bootstrap's CSS and JavaScript assets into our HTML file.
 
-#### CSS
+#### Bootstrap CSS
 
 Bootstrap organizes components through 3 layers:
 1.  Container (top-layer)

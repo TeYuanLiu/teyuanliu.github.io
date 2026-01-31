@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-01-14
+updated = 2026-01-31
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -9,9 +9,19 @@ Go is a statically typed, compiled programming language. It has fast compilation
 
 ## Here we Go
 
+### File
+
+A Go file contains expressions and statements to perform some data processing.
+
+We use lowercase_snake_case for Go file names because of compatibility across case-sensitive OS like Linux and case-insensitive OS like Windows and MacOS. Also, the Go compiler uses underscores for special file suffixes to control the build process. For example, the Go compiler sees `*_test.go` as test file and `*_linux.go` as file that can only be compiled on Linux.
+
+We use kebab-case for compiled binaries to be consistent with other shell tools.
+
 ### Package
 
 A package is a collection of Go files inside the same directory. Variables, constants, functions, and types defined under the same package are visible across all Go files in the package.
+
+We use lowercase single word for package names so the `user service` package becomes `userservice`.
 
 ### Module
 
@@ -127,7 +137,7 @@ var i int = 10  // The int type here can be omitted as Go can infer it from the 
 i := 10
 ```
 
-### Naming convention
+### Variable naming convention
 
 The Go community has the naming convention of PascalCase for exported variables, functions, and camelCase for unexported variables, functions. For example, `Pi` is exported from the `math` package and can be accessed via `math.Pi`.
 
