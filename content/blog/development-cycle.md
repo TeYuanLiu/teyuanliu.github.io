@@ -1,7 +1,7 @@
 +++
 title = "Development Cycle"
 date = 2025-04-30
-updated = 2025-12-27
+updated = 2026-02-03
 +++
 
 Let's talk about software development prioritization as well as the development cycle.
@@ -71,7 +71,7 @@ Now we have figured out our priorities, and we are ready to talk about the devel
 
 1.  Create development tasks based on requirements (plan).
 1.  Prioritize development tasks based on impact to engineer hour cost ratio, achieving high Return-On-investment (ROI).
-1.  Synchronize with customers on the tradeoff between time and feature quality/quantity, and delivery deadlines.
+1.  Synchronize with customers on the tradeoff between time and feature quality/quantity, and delivery deadlines. Emphasize safety over delivery speed.
 1.  Pick up development tasks from the backlog and put them into a two-week sprint.
 1.  Develop and commit the source code into the code repository (code).
     -   Prefer many small Pull Requests (PR) over one large PR.

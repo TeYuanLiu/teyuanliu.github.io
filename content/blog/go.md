@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-01-31
+updated = 2026-02-03
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -792,7 +792,11 @@ type List[T any] struct {
 
 ### Goroutine
 
-A goroutine is a lightweight thread managed by the Go runtime.
+A goroutine is a lightweight (2 KB memory) thread managed by the Go runtime, whereas an OS thread (8 MB memory) is managed by the OS.
+
+Given a small number of OS threads (usually the number of logical cores), the Go runtime can schedule thousands of goroutines to run on these few threads.
+
+If a goroutine blocks because of waiting for I/O, the Go runtime scheduler swaps another runnable goroutine onto the thread.
 
 We can start running a function `f(x)` inside a goroutine using `go f(x)`, The evaluation of `f` and `x` happens in the current goroutine and the execution of `f(x)` happens in the new goroutine.
 
@@ -907,46 +911,41 @@ Goroutine select is used for cases like signal handling alongside receiving valu
 
 We can specify a `default` case for it to send or receive without blocking when other cases are not ready yet.
 
-Note that we label the outer loop and break that loop when the result channel is closed.
+If the select statement is in the main function, we can label the outer loop and break that loop when the result channel is closed.
 
 ```go
 func main() {
-    controls := make(chan string)
+    ctx, cancel := context.WithTimeout(context.Background(), 4 * time.Second)
+	defer cancel()
+
     results := make(chan int)
     var wg sync.WaitGroup
 
     for i := range 3 {
         wg.Go(func() {
-            func(id int) {
-                results <- id * 10
-            }(i)
+            multiplyBy10(i, ctx, results)
         })
     }
+
     go func() {
         wg.Wait()
         close(results)
     }()
-    go func() {
-        time.Sleep(time.Second * 2)
-        controls <- "terminate"
-    }()
-Loop:
-    for {
-        select {
-            case signal := <- controls:
-                if signal == "terminate" {
-                    fmt.Println("terminated!")
-                    break Loop
-                }
-            case res, ok := <- results:
-                if ok {
-                    fmt.Println(res)
-                }
-            default:
-                time.Sleep(time.Millisecond * 1)
-        }
+
+    for result := results {
+        fmt.Printf("Received result: %d\n", result)
     }
-    fmt.Println("finished!")
+}
+
+func multiplyBy10(i int, ctx context.Context, results chan int) {
+    select {
+        case <- time.After(2 * time.Second):
+            results <- i * 10
+        case <- ctx.Done():
+            fmt.Printf("Stopped due to context cancellation: %v", ctx.Err())
+        default:
+            time.Sleep(500 * time.Millisecond)
+    }
 }
 ```
 
@@ -964,11 +963,28 @@ Contexts propagate cancellation and timeouts across service calls, preventing re
     -   context.WithCancel()
     -   context.WithTimeout()
 
+```go
+func work() {
+    ctx, cancel := context.WithTimeout(context.Background(), 2 * time.Second) // The timer of ctx starts ticking here.
+    defer cancel()
+
+    select {
+        case <- time.after(1 * time.Second):
+            fmt.Println("Finished work successfully.")
+        case <- ctx.Done():
+            fmt.Println("Timed out:", ctx.Err())
+    }
+}
+```
+
 ## Networking
 
 -   net/http package for REST API server and client
 -   encoding/json package for data serialization/deserialization
 -   gopkg.in/yaml.v2 package for parsing YAML
+-   Create your own custom `http.Client` because `http.DefaultClient` has no timeout and may be modified by imported dependencies.
+-   Reuse the same client for connection pool sharing.
+-   Close the response body to prevent file descriptor exhaustion.
 
 ## Command Line Interface (CLI)
 
