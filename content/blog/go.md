@@ -1,27 +1,13 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-02-03
+updated = 2026-02-05
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
 <!-- more -->
 
 ## Here we Go
-
-### File
-
-A Go file contains expressions and statements to perform some data processing.
-
-We use lowercase_snake_case for Go file names because of compatibility across case-sensitive OS like Linux and case-insensitive OS like Windows and MacOS. Also, the Go compiler uses underscores for special file suffixes to control the build process. For example, the Go compiler sees `*_test.go` as test file and `*_linux.go` as file that can only be compiled on Linux.
-
-We use kebab-case for compiled binaries to be consistent with other shell tools.
-
-### Package
-
-A package is a collection of Go files inside the same directory. Variables, constants, functions, and types defined under the same package are visible across all Go files in the package.
-
-We use lowercase single word for package names so the `user service` package becomes `userservice`.
 
 ### Module
 
@@ -39,6 +25,20 @@ go.mod
 module <MODULE_PATH>
 go <VERSION>
 ```
+
+### Package
+
+A package is a collection of Go files inside the same directory. Variables, constants, functions, and types defined under the same package are visible across all Go files in the package.
+
+We use lowercase single word for package names so the `user service` package becomes `userservice`.
+
+### File
+
+A Go file contains expressions and statements to perform some data processing.
+
+We use lowercase_snake_case for Go file names because of compatibility across case-sensitive OS like Linux and case-insensitive OS like Windows and MacOS. Also, the Go compiler uses underscores for special file suffixes to control the build process. For example, the Go compiler sees `*_test.go` as test file and `*_linux.go` as file that can only be compiled on Linux.
+
+We use kebab-case for compiled binaries to be consistent with other shell tools.
 
 ### First Go program
 
@@ -80,8 +80,11 @@ Examples | `5; a + b; len(array)` | `x = 5; if ... else ...; for ...; return val
 We can use the `go build` command to instruct the Go compiler to compile the working directory's Go files into a binary.
 
 ```bash
-# Generate a binary that has the same name as the working directory.
+# Generate a binary named after the working directory.
 go build
+
+# Generate a binary with the specified name.
+go build -o <BINARY_NAME>
 ```
 
 And then we can run the produced binary.
@@ -99,6 +102,19 @@ go run here_we_go.go
 
 # This also works as long as the working directory contains the Go file that includes the main package's main function.
 go run .
+```
+
+If we want to install the binary so we can run it anywhere, export the Go install path and install the binary.
+
+```bash
+# Locate the Go install path.
+go list -f '{{.Target}}'
+
+# Export the path.
+export PATH=$PATH:<GO_INSTALL_PATH>
+
+# Compile and install the binary to the Go install path.
+go install
 ```
 
 ## Variable
