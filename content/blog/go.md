@@ -9,6 +9,20 @@ Go is a statically typed, compiled programming language. It has fast compilation
 
 ## Here we Go
 
+### File
+
+A Go file contains expressions and statements to perform some data processing.
+
+We use snake_case for Go file names because of compatibility across case-sensitive OS like Linux and case-insensitive OS like Windows and MacOS. Also, the Go compiler uses underscores for special file suffixes to control the build process. For example, the Go compiler sees `*_test.go` as test file and `*_linux.go` as file that can only be compiled on Linux.
+
+We use kebab-case for compiled binaries to be consistent with other shell tools.
+
+### Package
+
+A package is a collection of Go files inside the same directory. Variables, constants, functions, and types defined under the same package are visible across all Go files in the package.
+
+We use lowercase single word for package names so the `user service` package becomes `userservice`.
+
 ### Module
 
 A module is a collection of packages. It is like a project or repository. A module contains all packages inside its root directory (the directory that has the `go.mod`), including those in the subdirectories, except any subdirectory that contains another `go.mod`, which therefore defines another module.
@@ -25,20 +39,6 @@ go.mod
 module <MODULE_PATH>
 go <VERSION>
 ```
-
-### Package
-
-A package is a collection of Go files inside the same directory. Variables, constants, functions, and types defined under the same package are visible across all Go files in the package.
-
-We use lowercase single word for package names so the `user service` package becomes `userservice`.
-
-### File
-
-A Go file contains expressions and statements to perform some data processing.
-
-We use lowercase_snake_case for Go file names because of compatibility across case-sensitive OS like Linux and case-insensitive OS like Windows and MacOS. Also, the Go compiler uses underscores for special file suffixes to control the build process. For example, the Go compiler sees `*_test.go` as test file and `*_linux.go` as file that can only be compiled on Linux.
-
-We use kebab-case for compiled binaries to be consistent with other shell tools.
 
 ### First Go program
 
