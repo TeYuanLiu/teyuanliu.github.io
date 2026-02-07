@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Etcd
+  </div>
+  <div class="header-metadata">
+    
+      
+        Dec 28, 2025 · 1361 words · 7 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/etcd/#data-model">Data model </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/etcd/#data-consistency">Data consistency </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/etcd/#raft-consensus-algorithm">Raft consensus algorithm</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/etcd/#write-request">Write request</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/etcd/#read-request">Read request</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/etcd/#leader-election">Leader election</a>
+                          
+                            <ul>
+                              
+                                <li>
+                                  <a href="https://teyuanliu.github.io/blog/etcd/#disconnection-and-reconnection">Disconnection and reconnection</a>
+                                </li>
+                              
+                            </ul>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/etcd/#scaling">Scaling</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/etcd/#write-optimization">Write optimization</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/etcd/#read-optimization">Read optimization</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/etcd/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>Etcd is a distributed key-value store that keeps the single source of truth for all configuration data and cluster state for a <a href="https://teyuanliu.github.io/blog/kubernetes/">Kubernetes</a> cluster. All Kubernetes objects like pods, deployments, and services, are stored in etcd.</p>
+<span id="continue-reading"></span><h2 id="data-model"><a class="zola-anchor" href="#data-model" aria-label="Anchor link for: data-model">Data model</a></h2>
+<p>Etcd stores data in the key-value pair format.</p>
+<p>The key is a unique, hierarchical string that serves as the object's address. It is structured like a file path to enable efficient querying and range lookups. It generally follows the format of <code>/registry/&lt;OBJECT_TYPE&gt;/&lt;OBJECT_NAMESPACE&gt;/&lt;OBJECT_NAME&gt;</code>, for example, <code>/registry/pods/default/my-pod</code>.</p>
+<p>The value is the complete YAML/JSON representation of the Kubernetes object, including the <code>apiVersion</code>, <code>kind</code>, <code>metadata</code>, <code>spec</code>, and <code>status</code>. It is usually stored as a serialized YAML/JSON data blob.</p>
+<h2 id="data-consistency"><a class="zola-anchor" href="#data-consistency" aria-label="Anchor link for: data-consistency">Data consistency</a></h2>
+<p>Etcd uses the Raft consensus algorithm the ensure that data is replicated consistently and reliably across all etcd nodes in a cluster.</p>
+<h3 id="raft-consensus-algorithm"><a class="zola-anchor" href="#raft-consensus-algorithm" aria-label="Anchor link for: raft-consensus-algorithm">Raft consensus algorithm</a></h3>
+<p>The Raft consensus algorithm counts on a leader-follower protocol to enforce data consistency. For a cluster of nodes, there is a leader and the others are followers.</p>
+<p>A leader has two duties:</p>
+<ul>
+<li>Use the <code>AppendEntries</code> Remote Procedure Call (RPC) to:
+<ul>
+<li>Send its empty-payload heartbeat to the followers periodically (every 50ms) via a heartbeat timer. The timer automatically resets after expiration. A follower resets its election timer (randomized between 150ms to 300ms) when receiving a leader heartbeat.</li>
+<li>Replicate data to its followers for write requests and failure recovery. Note that this resets its heartbeat timer as well.</li>
+</ul>
+</li>
+<li>Handle read requests.</li>
+</ul>
+<p>An <code>AppendEntries</code> contains:</p>
+<ul>
+<li>Metadata
+<ul>
+<li>Follower node ID</li>
+<li>Leader term number</li>
+<li>Leader commit index (the highest/latest log entry index the leader has committed)</li>
+</ul>
+</li>
+<li>Payload
+<ul>
+<li>Write Ahead Log (WAL)
+<ul>
+<li>Previous entry (index + term number + key-value pair)</li>
+<li>Next entry (index + term number + key-value pair)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="write-request"><a class="zola-anchor" href="#write-request" aria-label="Anchor link for: write-request">Write request</a></h4>
+<ol>
+<li>A client sends a write request to the leader.</li>
+<li>The leader turns the request into a log entry (index + term number + key-value pair), appending the log entry to its WAL file on disk, and then sends out an <code>AppendEntries</code> to each follower.</li>
+<li>A follower receives an <code>AppendEntries</code>, and continues with the below operations:
+<ol>
+<li>The follower checks if its log has an entry matches the previous entry.</li>
+<li>If the check succeeds, the follower adds the next entry to its log and replies with an acknowledgement.</li>
+<li>Otherwise, the follower fails the <code>AppendEntries</code> and the leader initiates the log repair process.
+<ol>
+<li>The leader repeats the loop of decrementing the log previous entry and retrying the <code>AppendEntries</code> RPC, until the previous entry finally matches an entry in the follower's log.</li>
+<li>The leader forcefully synchronizes all subsequent log entries to the follower.</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>If the leader receives acknowledgements from a majority of the followers (<code>ceil((node number + 1) / 2)</code>), it continues with the below operations.
+<ol>
+<li>It marks the log entry as committed, and applies the log entry to its BoltDB (single-instance file-based key-value store).</li>
+<li>It updates its key-value cache and key-disk-location index.</li>
+<li>It replies to the client with a success message.</li>
+<li>It updates the leader commit index field in its subsequent <code>AppendEntries</code>. Any follower that receives an <code>AppendEntries</code> uses the leader commit index to apply the entries to its BoltDB.</li>
+</ol>
+</li>
+<li>Otherwise, it fails the client's write request.</li>
+</ol>
+<p>Due to the frequent writes to the log, etcd's performance heavily relies on the disk I/O speed so SSDs are often the top choice for it.</p>
+<h4 id="read-request"><a class="zola-anchor" href="#read-request" aria-label="Anchor link for: read-request">Read request</a></h4>
+<ol>
+<li>A client sends a read request to the leader.</li>
+<li>The leader ensures its leader position via the leader lease.
+<ul>
+<li>The leader periodically issues a lease for itself via its heartbeat.</li>
+<li>The lease stays valid for a short time (150 ms) and during the lease period, the leader is guaranteed to be the current leader.</li>
+</ul>
+</li>
+<li>It checks the key-value cache. If the key is in the cache, it replies to the client.</li>
+<li>Otherwise, it checks the key-disk-location index. If the key is in the index, it reads the value from the BoltDB and replies to the client. It also updates the key-value cache.</li>
+<li>Otherwise, it searches in the BoltDB. If the key is in the BoltDB, it reads the value from the BoltDB, and replies to the client. It also updates the key-value cache and key-disk-location index.</li>
+<li>Otherwise, it fails the client's read request.</li>
+</ol>
+<h4 id="leader-election"><a class="zola-anchor" href="#leader-election" aria-label="Anchor link for: leader-election">Leader election</a></h4>
+<p>A leader can be generated via the leader election process:</p>
+<ol>
+<li>States
+<ol>
+<li>Every node starts with the follower state and the term number of 0, and has its own election timer.</li>
+<li>If the node hasn't received an <code>AppendEntries</code> message from a leader and the election timer expires, it assumes the leader is down and transitions itself from a follower into a candidate. It increments its current term number by 1 and resets the election timer.</li>
+</ol>
+</li>
+<li>Voting
+<ol>
+<li>The candidate votes for itself for the current term number (each node has one vote for a given term number), and sends out the <code>RequestVote</code> message to others to ask for their votes.</li>
+<li>From the perspective of a <code>RequestVote</code> receiver, it performs the following operations after receiving the message:
+<ol>
+<li>The receiver checks if the requesting candidate's term number is greater than or equal to the receiver's current term number. If the requesting candidate's term number is higher, the receiver updates its term number and steps down to become a follower.</li>
+<li>The receiver checks if it has not yet voted in its current term.</li>
+<li>The receivers checks that whether the requesting candidate's WAL is at least as up-to-date as the receiver's WAL by comparing the last log index and term number.</li>
+<li>If all three checks pass, the receiver grants the vote and resets its election timer. Otherwise, it rejects the <code>RequestVote</code> with its current term number.</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Winning
+<ol>
+<li>If a candidate receives votes from a majority of the nodes, it becomes the new leader. If two candidates get the same votes, neither of them satisfies the majority vote rule so no leader is elected. Every node watches its election timer and starts another round of leader election after the timer expires (the timer is randomized to avoid indefinite staleness).</li>
+</ol>
+</li>
+<li>Heartbeat
+<ol>
+<li>The new leader starts sending out its heartbeat constantly.</li>
+</ol>
+</li>
+</ol>
+<h5 id="disconnection-and-reconnection"><a class="zola-anchor" href="#disconnection-and-reconnection" aria-label="Anchor link for: disconnection-and-reconnection">Disconnection and reconnection</a></h5>
+<p>If a follower disconnects from the cluster and no longer receives the leader heartbeat, it transitions to a candidate, incrementing its term number, and resets the election timer. Because it is isolated from the others, it cannot get enough votes to become a leader. The election timer eventually expires and it restarts the leader election process. This election failure loop can make this isolated node having a large term number.</p>
+<p>When the node reconnects to the cluster, if its term number is larger than the cluster leader's, it rejects the <code>AppendEntries</code> from the leader with its own term number, forcing the leader to update its own term number and reverts to the follower state.</p>
+<p>The cluster becomes leaderless and waits for a node to start its leader election.</p>
+<h4 id="scaling"><a class="zola-anchor" href="#scaling" aria-label="Anchor link for: scaling">Scaling</a></h4>
+<p>The requirement for a leader to coordinate all writes and secure a quorum for commitment creates a bottleneck, limiting throughput and increasing latency.</p>
+<h4 id="write-optimization"><a class="zola-anchor" href="#write-optimization" aria-label="Anchor link for: write-optimization">Write optimization</a></h4>
+<ul>
+<li>Vertical scaling
+<ul>
+<li>Use Non-Volatile Memory express (NVMe) SSDs for cluster nodes as WAL disk sync is sensitive to disk I/O throughput and latency.</li>
+<li>Use high-speed network as the network round-trip time is a major component of write latency.</li>
+<li>Enable dynamic write request batching such that the leader can put multiple requests into a single large log entry before doing data replication, amortizing the disk sync and networking cost.</li>
+</ul>
+</li>
+</ul>
+<h4 id="read-optimization"><a class="zola-anchor" href="#read-optimization" aria-label="Anchor link for: read-optimization">Read optimization</a></h4>
+<ul>
+<li>Adding learner
+<ul>
+<li>A learner is a node that only does data replication.</li>
+<li>It doesn't participate in any voting.</li>
+<li>The leader doesn't wait for a learner's acknowledgement of the <code>AppendEntries</code> before commiting the WAL entry.</li>
+<li>This increase read throughput without sacrificing write latency.</li>
+</ul>
+</li>
+<li>Sharding
+<ul>
+<li>Split the entire dataset into smaller shards.</li>
+<li>Each shard is handled by an independent Raft cluster.</li>
+<li>Requests are routed to the correct shard based on key range or directory.</li>
+</ul>
+</li>
+</ul>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;development-cycle&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;go&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Container
+  </div>
+  <div class="header-metadata">
+    
+      
+        Jan  2, 2026 · 972 words · 5 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/container/#runc">Runc </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/container/#containerd">Containerd </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/container/#ctr">Ctr </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/container/#cri-o">CRI-O </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/container/#kubernetes">Kubernetes </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/container/#kubectl">Kubectl </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/container/#dockerd">Dockerd </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/container/#docker">Docker </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/container/#dockerfile">Dockerfile</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/container/#filesystem-layers">Filesystem layers</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/container/#networking">Networking</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/container/#docker-compose">Docker Compose</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/container/#docker-vs-local">Docker vs local</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/container/#cost">Cost</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/container/#image-size">Image size</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/container/#security">Security</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/container/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>A container is a process or a group of processes running with its own namespace for process ID (PID), cgroup, mount, user ID (UID), Inter-Process Communication (IPC), network, environment variable, etc. Through these namespace configurations, the container process sees itself as isolated.</p>
+<span id="continue-reading"></span><h2 id="runc"><a class="zola-anchor" href="#runc" aria-label="Anchor link for: runc">Runc</a></h2>
+<p>Runc is a low-level runtime that implements the Open Container Initiative (OCI) standard and provides the functionalities for containers to interact with Linux kernel features like cgroup.</p>
+<h2 id="containerd"><a class="zola-anchor" href="#containerd" aria-label="Anchor link for: containerd">Containerd</a></h2>
+<p>Containerd is a high-level runtime that administers the lifecycle of containers including image transfer (no image building), and container supervision (start, stop, restart). It uses runc to implement the Container Runtime Interface (CRI). It supports simple networking like the host mode which allows a container to access the host's network. For more complex networking features we can choose an implementation of the Container Network Interface (CNI) like Calico.</p>
+<h2 id="ctr"><a class="zola-anchor" href="#ctr" aria-label="Anchor link for: ctr">Ctr</a></h2>
+<p>Ctr is a client tool for containerd management.</p>
+<h2 id="cri-o"><a class="zola-anchor" href="#cri-o" aria-label="Anchor link for: cri-o">CRI-O</a></h2>
+<p>CRI-O is another high-level runtime that implements the CRI. It was built for container management on Kubernetes.</p>
+<h2 id="kubernetes"><a class="zola-anchor" href="#kubernetes" aria-label="Anchor link for: kubernetes">Kubernetes</a></h2>
+<p><a href="https://teyuanliu.github.io/blog/kubernetes/">Kubernetes</a> is a high-level container orchestrator that can use either CRI-O or containerd for CRI.</p>
+<h2 id="kubectl"><a class="zola-anchor" href="#kubectl" aria-label="Anchor link for: kubectl">Kubectl</a></h2>
+<p>Kubectl is a client tool for Kubernetes management.</p>
+<h2 id="dockerd"><a class="zola-anchor" href="#dockerd" aria-label="Anchor link for: dockerd">Dockerd</a></h2>
+<p>Dockerd is a high-level container engine that uses containerd for CRI.</p>
+<h2 id="docker"><a class="zola-anchor" href="#docker" aria-label="Anchor link for: docker">Docker</a></h2>
+<p>Docker is a full-featured image and container management tool. Its Docker engine uses dockerd.</p>
+<h3 id="dockerfile"><a class="zola-anchor" href="#dockerfile" aria-label="Anchor link for: dockerfile">Dockerfile</a></h3>
+<p>Docker can create a new Docker image using a Dockerfile and a context. Newer Docker versions on certain OS support building cross-platform images like building arm64 images on amd64 CPU architecture.</p>
+<h3 id="filesystem-layers"><a class="zola-anchor" href="#filesystem-layers" aria-label="Anchor link for: filesystem-layers">Filesystem layers</a></h3>
+<p>When building a container image, the final image is composed of a group of stacked, immutable filesystem layers. Each instruction like <code>FROM</code>, <code>COPY/ADD</code>, and <code>RUN</code> in the Dockerfile produces a new layer. Note that <code>CMD</code> and <code>ENTRYPOINT</code> don't create filesystem layers but update the image config. Each layer is a tarball of the layer's file changes, stored in <code>/var/lib/docker/overlay2/</code> for Docker and <code>/var/lib/containerd/</code> for Containerd.</p>
+<p>The filesystem layers of an example image look like this:</p>
+<ol>
+<li>Read-only image layer (<code>FROM python</code>)</li>
+<li>Read-only image layer (<code>COPY requirements .</code>)</li>
+<li>Read-only image layer (<code>RUN pip install requirements</code>)</li>
+<li>Writable container filesystem</li>
+<li>Merged view presented to processes</li>
+</ol>
+<p>During the build of each layer:</p>
+<ol>
+<li>Docker creates a temporary container from the previous layer.</li>
+<li>Execute the command in that container. Note that file deletion is achieved via whiteout to tell the next layer to hide the deleted file.</li>
+<li>Capture the filesystem difference and save that as a new compressed layer.</li>
+<li>Commit the layer and delete the temporary container.</li>
+</ol>
+<p>Layers that already exist in the registry (verified via digest) are not uploaded again during <code>docker push</code> so good layering (ordering plus command aggregating) enables small pushes and fast CI/CD.</p>
+<h3 id="networking"><a class="zola-anchor" href="#networking" aria-label="Anchor link for: networking">Networking</a></h3>
+<p>Docker offers 4 drivers to provide container-to-container networking.</p>
+<ul>
+<li>The bridge driver enables egress from the container to the host, network, or the internet, but disables ingress access.</li>
+<li>The host driver allows the container to share the host's networking configuration.</li>
+<li>The overlay driver connects multiple hosts in a Docker Swarm and drives containers to run and communicate with each other on different hosts.</li>
+<li>The macvlan driver assigns a MAC address (data-link layer) to a container so it appears as a separate physical network device on the host.</li>
+</ul>
+<h3 id="docker-compose"><a class="zola-anchor" href="#docker-compose" aria-label="Anchor link for: docker-compose">Docker Compose</a></h3>
+<p>Docker Compose is a tool for creating and running applications across multiple containers via YAML file configuration.</p>
+<h3 id="docker-vs-local"><a class="zola-anchor" href="#docker-vs-local" aria-label="Anchor link for: docker-vs-local">Docker vs local</a></h3>
+<table><thead><tr><th>Feature</th><th>Docker</th><th>Local</th></tr></thead><tbody>
+<tr><td>Isolation</td><td>Yes</td><td>No</td></tr>
+<tr><td>Dependency conflict</td><td>No</td><td>Possible</td></tr>
+<tr><td>Security</td><td>Higher</td><td>Lower</td></tr>
+<tr><td>Version control</td><td>Yes</td><td>No</td></tr>
+<tr><td>Portability</td><td>Yes</td><td>No</td></tr>
+<tr><td>Speed</td><td>Slow</td><td>Fast</td></tr>
+<tr><td>Debug</td><td>Hard</td><td>Easy</td></tr>
+<tr><td>Use case</td><td>Integration test</td><td>Code development</td></tr>
+</tbody></table>
+<h3 id="cost"><a class="zola-anchor" href="#cost" aria-label="Anchor link for: cost">Cost</a></h3>
+<p>Using Docker for applications comes with different costs:</p>
+<ul>
+<li>Time for image building, transfer and deployment</li>
+<li>Money for image transfer and storage</li>
+<li>Application response latency overhead</li>
+</ul>
+<h4 id="image-size"><a class="zola-anchor" href="#image-size" aria-label="Anchor link for: image-size">Image size</a></h4>
+<p>We can reduce Docker image size by:</p>
+<ul>
+<li>Include only what is needed.
+<ul>
+<li>Multi-stage build
+<ul>
+<li>Build stage
+<ul>
+<li>Install necessary dependencies and create a standalone executable.</li>
+</ul>
+</li>
+<li>Runtime stage
+<ul>
+<li>Copy over the executable from the build stage and set entry-point to it.</li>
+</ul>
+</li>
+<li>Use the minimal base image for each stage like slim for build stage, and scratch for runtime stage.</li>
+</ul>
+</li>
+<li>Use .dockerignore to exclude unnecessary files.</li>
+<li>Use a distroless image.</li>
+</ul>
+</li>
+<li>Increase cache utilization.
+<ul>
+<li>Optimize layer order by running dependency installation commands first such that code changes don't invalidate the cached dependency install layers.</li>
+</ul>
+</li>
+<li>Minimize the number of layers.
+<ul>
+<li>Aggregate multiple run commands together.</li>
+</ul>
+</li>
+</ul>
+<p>Smaller images are nice, but be aware of some possible pitfalls.</p>
+<p>For example, we can use the Pyinstaller to bundle the bytecode of our Python application and its dependencies, plus the Python interpreter binary into a single executable, and reduce the image size by 50%. But we may find out that:</p>
+<ul>
+<li>Some dependencies like the certificate aren't bundled properly and require manual fix. This can grow indefinitely as more dependencies are added to the application.</li>
+<li>Image build time increases by 82% because the application code and the dependency have to be sorted out, compiled to bytecode, and compressed.</li>
+<li>Application response latency increases by 8% due to loss of module caching and optimization specific to Python native environment.</li>
+</ul>
+<p>Therefore, be mindful of these caveats and consider using this kind of bundler only when image size is the bottleneck of the system.</p>
+<h3 id="security"><a class="zola-anchor" href="#security" aria-label="Anchor link for: security">Security</a></h3>
+<p>Here are some tips to increase security when using Docker:</p>
+<ul>
+<li>Avoid hardcoding secrets into the Dockerfile. Instead, bring in secrets as environment variables or mounted files during runtime.</li>
+<li>Restrict IP and port access to block dangerous communication.</li>
+<li>Run the application as a non-root user so even when someone gains access to the container the security risk is limited.</li>
+</ul>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+<ul>
+<li><a href="https://earthly.dev/blog/chroot/">Containers are chroot with a Marketing Budget</a></li>
+<li><a href="https://earthly.dev/blog/containerd-vs-docker/">Comparing Container Runtimes: containerd vs. Docker</a></li>
+</ul>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;caching&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;database&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

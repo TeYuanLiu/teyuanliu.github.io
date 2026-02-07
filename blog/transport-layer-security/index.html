@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Transport Layer Security
+  </div>
+  <div class="header-metadata">
+    
+      
+        Jan  2, 2026 · 1488 words · 8 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/transport-layer-security/#features">Features </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/transport-layer-security/#confidentiality">Confidentiality</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/transport-layer-security/#integrity">Integrity</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/transport-layer-security/#authentication">Authentication</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/transport-layer-security/#approach-1">Approach #1</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/transport-layer-security/#approach-2">Approach #2</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/transport-layer-security/#summary">Summary</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/transport-layer-security/#references">References</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>Transport Layer Security (TLS), is a popular protocol for secure data transmission between client and server. It is derived from a deprecated protocol called Secure Socket Layer (SSL).</p>
+<span id="continue-reading"></span><h2 id="features"><a class="zola-anchor" href="#features" aria-label="Anchor link for: features">Features</a></h2>
+<p>It provides features like confidentiality, integrity, and authentication. We can interpret these 3 properties as the following:</p>
+<ul>
+<li>Confidentiality
+<ul>
+<li>Conceals the message content.</li>
+</ul>
+</li>
+<li>Integrity
+<ul>
+<li>Checks whether the message content has been modified by a third party.</li>
+</ul>
+</li>
+<li>Authentication
+<ul>
+<li>Ensures the identity of the party on the other side is genuine.</li>
+</ul>
+</li>
+</ul>
+<p>Let's go over these 3 attributes and see how TLS achieves them.</p>
+<h3 id="confidentiality"><a class="zola-anchor" href="#confidentiality" aria-label="Anchor link for: confidentiality">Confidentiality</a></h3>
+<p>Confidentiality, or data hiding, is usually achieved through encryption. An encryption operation converts your message from human-readable plaintext into an encoded format known as cipher text, which looks like a sequence of random characters in human eyes. Such Encryption is done by scrambling your message using mathematical functions based on a key, which is usually a number. Decryption is done in a similar a way.</p>
+<p>In symmetric key cryptography, we have one single key used for both encryption and decryption.</p>
+<p>On the other hand, in public key cryptography, we have a key pair consists of a public key and a private key. The key pair is mathematically related so that whatever is encrypted with a public or private key can only be decrypted by its counterpart. We cannot use a public key to encrypt something and then decrypt it with the same public key.</p>
+<h3 id="integrity"><a class="zola-anchor" href="#integrity" aria-label="Anchor link for: integrity">Integrity</a></h3>
+<p>Integrity, is often accomplished by Hash-based Message Authentication Code (HMAC). Let's start from just using a hash function and see how it helps on data integrity.</p>
+<p>First, the server and the client agree on a common hash function, for example SHA256. Then, whenever the server is gonna send out a message to the client, it first computes the hash of the message using SHA256, and then appends the hash to the message, forming a bundle. After then, the server sends this bundle to the client.</p>
+<p>Once the client receives the bundle which contains both the message and the hash of the message, the client computes its own hash using the message such that it can compare the newly-generated hash with the one inside the bundle. If the two match, then we are pretty sure the message was not tampered along the way... are we?</p>
+<p>If an attacker finds a way to intercept the bundle sent from the server, alter the message, and then forward the tampered bundle to the client. The client will immediately know the message was modified as the generated hash won't match the one inside the bundle.</p>
+<p>But what if the attacker didn't change the message and instead replaced the bundle with the attacker's own bundle, in which the hash was generated using SHA256 as well?</p>
+<p>When the client receives the bundle and checks it, everything just looks good, however the entire bundle is not from the server but the attacker. This is a scenario which shows how important authentication is. No matter how much effort you put into data confidentiality or integrity, if the data itself is not authentic, it is just worthless.</p>
+<h3 id="authentication"><a class="zola-anchor" href="#authentication" aria-label="Anchor link for: authentication">Authentication</a></h3>
+<p>So, how can we know whether the bundle is coming from the one we intend to communicate with?</p>
+<p>To tackle this, HMAC employs not only a hash function but also a shared key. Before data transmission, a preliminary process called key exchange takes place between the server and the client. Only these two parties who participate in the key exchange know the shared key. This shared key is then used for message encryption and decryption during the communication.</p>
+<p>Using a shared key does ensure data authentication to some extent. But what if this is the first time the client interacts with the server? The client doesn't know with whom it is doing the key exchange process. It may be the expected server, or it may be someone else.</p>
+<p>Is there a way for the client to authenticate the server without exchanging credentials?</p>
+<p>TLS certificate is the answer. Recall the public/private key pair we discussed in public key cryptography. TLS uses these keys to authenticate a server to a client. A certificate is basically a public key with some metadata such as expiration date.</p>
+<p>Now, here is a simple way to authenticate the server to the client.</p>
+<h4 id="approach-1"><a class="zola-anchor" href="#approach-1" aria-label="Anchor link for: approach-1">Approach #1</a></h4>
+<ol>
+<li>The client sends a hello message to the server. The message contains which TLS version and which cipher suites the client supports, and a sequence of random bytes called the client random.</li>
+<li>The server puts its public key together with some metadata to form a certificate. A hash of the certificate is generated, encrypted with its private key, and then appended to the certificate. The server sends a packet containing the certificate, the cipher suite chosen by the server, and another sequence of random bytes known as the server random, to the client.</li>
+<li>The client decrypts the encrypted certificate hash using the public key inside the certificate. Then the client calculates its own certificate hash to compare the newly-generated one with the one in the message. If they are equal the certificate is valid and the server public key is authentic.</li>
+<li>The client sends one more sequence of random bytes, known as the premaster secret, which is encrypted with the server public key, to the server.</li>
+<li>The server decrypts and gets the premaster secret.</li>
+<li>Both the client and server generate the session key, which is a symmetric key, based on the client random, the server random, and the premaster secret. The generated session keys should be the same.</li>
+<li>The client sends a finished message encrypted with the session key.</li>
+<li>The server responds with a finished message encrypted with the session key.</li>
+<li>The handshake is completed and the data transfer continues using the session key.</li>
+</ol>
+<p>The encrypted certificate hash appended to the certificate is called a digital signature. In the above scenario, the server digitally signed its own certificate, and this is called a self-signed certificate.</p>
+<p>Approach #1 has a flaw that we have seen before. If an attacker manages to replace the bundle with the attacker's, the client can't tell the difference.</p>
+<p>This is when a third-party kicks in and provides a way to solve it.</p>
+<p>A Certification Authority (CA) now claims it can help authenticate others to make sure nobody impersonates anyone. The CA first releases a certificate which contains its public key to the crowd by bundling it with operating systems and browsers. The CA then makes an agreement with the server to help sign the server certificate, and this brings us to the second approach.</p>
+<h4 id="approach-2"><a class="zola-anchor" href="#approach-2" aria-label="Anchor link for: approach-2">Approach #2</a></h4>
+<ol>
+<li>The client sends a hello message to the server. The message contains which TLS version and which cipher suites the client supports, and the client random.</li>
+<li>The server puts its public key together with some metadata to form a certificate, then sends the certificate to the CA.</li>
+<li>The CA generates a hash of the received certificate, and then encrypts it with the CA private key, forming a digital signature. It then appends the digital signature to the certificate and returns it to the server.</li>
+<li>The server sends the certificate along with the cipher suite chosen by the server and the server random to the client.</li>
+<li>The client decrypts the digital signature using the CA public key to get the server certificate hash. Then the client calculates the certificate hash and compare the newly-generated one with the one obtained from the digital signature. If they are equal the certificate is valid and the server public key is authentic.</li>
+<li>The client sends the premaster secret, which is encrypted with the server public key, to the server.</li>
+<li>The server decrypts and gets the premaster secret.</li>
+<li>Both the client and server generate the session key based on the client random, the server random, and the premaster secret. The generated session keys should be the same.</li>
+<li>The client sends a finished message encrypted with the session key.</li>
+<li>The server responds with a finished message encrypted with the session key.</li>
+<li>The handshake is completed and the data transfer continues using the session key.</li>
+</ol>
+<h3 id="summary"><a class="zola-anchor" href="#summary" aria-label="Anchor link for: summary">Summary</a></h3>
+<p>Congratulations! We have learned all 3 properties of TLS and how the TLS handshake is done. It is kind of exciting for me to get into how TLS works and the steps of handshake as I was thinking of possible security issues of web apps and the ways to address them. Network security is really a big topic nowadays and we have just scratched the surface of it, so keep on learning more!</p>
+<h3 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h3>
+<ul>
+<li><a href="https://medium.com/talpor/ssl-tls-authentication-explained-86f00064280">SSL/TLS beginner's tutorial</a></li>
+<li><a href="https://sectigo.com/resource-library/public-key-vs-private-key">Public Keys and Private Keys in Public Key Cryptography</a></li>
+<li><a href="https://www.cloudflare.com/learning/ssl/what-happens-in-a-tls-handshake/">What happens in a TLS handshake?</a></li>
+</ul>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;testing&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;visual-studio-code&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

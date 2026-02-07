@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    System Architecture
+  </div>
+  <div class="header-metadata">
+    
+      
+        Dec 27, 2025 · 820 words · 5 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/system-architecture/#monolithic">Monolithic </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/system-architecture/#microservice">Microservice </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/system-architecture/#cap-theorem">CAP theorem</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/system-architecture/#troubleshooting">Troubleshooting</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/system-architecture/#tradeoff">Tradeoff </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/system-architecture/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>Here we discuss the monolithic architecture, which is a tightly-coupled software running on a single physical server or Virtual Machine (VM) that handles the end-to-end workflow. Then we talk about the microservice architecture, which consists of many services running independently on different servers and connected via a network.</p>
+<span id="continue-reading"></span><h2 id="monolithic"><a class="zola-anchor" href="#monolithic" aria-label="Anchor link for: monolithic">Monolithic</a></h2>
+<p>The monolithic architecture is about building a system as a single, indivisible unit. All components of the system are tightly coupled.</p>
+<p>Because the components reside in the same place, it has several benefits:</p>
+<ul>
+<li>Development is intuitive as coordination among components is obvious.</li>
+<li><a href="https://teyuanliu.github.io/blog/testing/">Testing</a> is easy because the application has one codebase and can be tested end-to-end as a single unit.</li>
+<li>Deploying, monitoring, and maintaining is straightforward as we can run a single <a href="https://teyuanliu.github.io/blog/container/">container</a> or VM to host the application with configuration stored as environment variables.</li>
+<li>Performance like latency is very good since we are doing in-process calls.</li>
+<li>Data is consistent because we have only one database to interact with.</li>
+</ul>
+<p>This architecture well fits the use case like building a prototype. However, as time goes by and the application grows bigger in terms of number of features and users, certain drawbacks gradually emerge:</p>
+<ul>
+<li>If one component crashes, it brings down the entire application. This exposes the system's lack of fault tolerance and thus low reliability. Low reliability hurts the uptime and deteriorates availability.</li>
+<li>Scaling a specific component independently, which may require more resources than others, is impossible because everything is bundled as one unit so we are forced to scale all components together. Plus, vertical scaling (upgrading to a more powerful machine) hits certain limit because even the world's most powerful machine has compute and memory constraint.</li>
+<li>Flexibility is restrained as changing a part of the system requires redeployment of the entire application, not to mention that changing one component can produce bugs in other components.</li>
+</ul>
+<p>These downsides bring us to another architecture, microservice, which is the foundation for distributed systems.</p>
+<h2 id="microservice"><a class="zola-anchor" href="#microservice" aria-label="Anchor link for: microservice">Microservice</a></h2>
+<p>The microservice architecture breaks down the application into small, loosely coupled, independently deployable microservices. Each service is responsible for a specific business functionality and communicates with other services through APIs.</p>
+<p>The microservice architecture addresses some of the pain points of the monolithic architecture:</p>
+<ul>
+<li>Availability and reliability are higher because we can have multiple copies of the same service running simultaneously, so one service replica's failure doesn't necessarily bring down the whole application.</li>
+<li>Individual services can be scaled independently based on demand. Horizontal scaling (adding more machines) unlocks the capability of handling large volume of requests.</li>
+<li>The flexibility of changing each service independently allows more agile development.</li>
+</ul>
+<p>However, just like a coin has two sides, the microservice architecture overcomes the monolithic architecture's shortcomings, but struggles to match the monolithic architecture's strengths:</p>
+<ul>
+<li>Development is more difficult because there are multiple codebases to manage and the coordination among services requires service discovery, load balancing and inter-service communication.</li>
+<li>Testing is more complicated as we need to test each component's functionality and the integration among services.</li>
+<li>Deploying, monitoring, and maintaining many services need robust operation practices and tools.</li>
+<li>Performance like latency is not great due to the delay brought by communication between services over the network.</li>
+<li>Data consistency is challenging to maintain across multiple services.</li>
+</ul>
+<h3 id="cap-theorem"><a class="zola-anchor" href="#cap-theorem" aria-label="Anchor link for: cap-theorem">CAP theorem</a></h3>
+<p>The CAP theorem focuses on the consistency, availability, and partition tolerance tradeoff of the microservice architecture. It says we can only achieve two out of the three guarantees at any given time:</p>
+<ul>
+<li>Consistency (C)
+<ul>
+<li>Every request receives either the latest data or an error.</li>
+</ul>
+</li>
+<li>Availability (A)
+<ul>
+<li>Every request receives a response without error but the response may contain obsolete data.</li>
+</ul>
+</li>
+<li>Partition Tolerance (P)
+<ul>
+<li>The system continues to operate even if there are network partitions, which means some servers lost connection to others.</li>
+</ul>
+</li>
+</ul>
+<p>In the microservice architecture, partition tolerance is a requirement because network failures happen all the time, so we have to choose between consistency and availability.</p>
+<ul>
+<li>CP
+<ul>
+<li>Preferring consistency over availability, thus the requests hitting the isolated servers fail with an error because the system cannot return the latest data.</li>
+</ul>
+</li>
+<li>AP
+<ul>
+<li>Preferring availability over consistency, thus the requests hitting the isolated servers receive possibly obsolete data.</li>
+</ul>
+</li>
+</ul>
+<h3 id="troubleshooting"><a class="zola-anchor" href="#troubleshooting" aria-label="Anchor link for: troubleshooting">Troubleshooting</a></h3>
+<p>Because the microservice architecture brings in the time dimension complexity, we have to deal with race condition issues besides the common misconfiguration or Out-Of-Memory (OOM) issue.</p>
+<h2 id="tradeoff"><a class="zola-anchor" href="#tradeoff" aria-label="Anchor link for: tradeoff">Tradeoff</a></h2>
+<p>To sum up, the microservice architecture provides good:</p>
+<ul>
+<li>Availability</li>
+<li>Reliability</li>
+<li>Scalability</li>
+<li>Flexibility</li>
+</ul>
+<p>But faces challenges for:</p>
+<ul>
+<li>Development</li>
+<li>Testing</li>
+<li>Deployment</li>
+<li>Monitoring</li>
+<li>Maintenance</li>
+<li>Performance</li>
+<li>Data consistency</li>
+</ul>
+<p>When choosing the architecture for our system, it all comes down to the question: which set of metrics matters?</p>
+<p>If our product needs high availability, reliability, scalability, or flexibility, we will choose the microservice architecture, otherwise, the monolithic architecture is a better choice.</p>
+<p>In reality we often have a fixture of both. We can apply the microservice architecture to components that need availability, reliability, scalability, or flexibility, while grouping others into a monolithic component.</p>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;security&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;system-design&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Zola
+  </div>
+  <div class="header-metadata">
+    
+      
+        Dec 28, 2025 · 1852 words · 10 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/zola/#content">Content </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/zola/#section">Section</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#front-matter">Front matter</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#sorting">Sorting</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#asset-colocation">Asset colocation</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#static-assets">Static assets</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#pagination">Pagination</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#drafting">Drafting</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/zola/#page">Page</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#front-matter-1">Front matter</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/zola/#shortcode">Shortcode</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#limitations">Limitations</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#shortcode-without-body-and-arguments">Shortcode without body and arguments</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#shortcode-with-body-and-without-arguments">Shortcode with body and without arguments</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#shortcode-without-body-and-with-arguments">Shortcode without body and with arguments</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#shortcode-with-body-and-arguments">Shortcode with body and arguments</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#escaping">Escaping</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#example">Example</a>
+                          
+                            <ul>
+                              
+                                <li>
+                                  <a href="https://teyuanliu.github.io/blog/zola/#youtube">YouTube</a>
+                                </li>
+                              
+                                <li>
+                                  <a href="https://teyuanliu.github.io/blog/zola/#books">Books</a>
+                                </li>
+                              
+                            </ul>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#extra-variables">Extra variables</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/zola/#link">Link</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#anchor-link">Anchor link</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#internal-link">Internal link</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/zola/#table-of-contents">Table of contents</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/zola/#syntax-highlighting">Syntax highlighting</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#inline-vs-classed-highlighting">Inline vs classed highlighting</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/zola/#annotations">Annotations</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/zola/#taxonomies">Taxonomies</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/zola/#search">Search</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/zola/#sass">Sass</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/zola/#template">Template </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/zola/#standard-template">Standard template</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/zola/#custom-template">Custom template</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/zola/#section-1">Section</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/zola/#page-1">Page</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/zola/#table-of-contents-1">Table of contents</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/zola/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>Zola is a static site generator (SSG) written in <a href="https://www.rust-lang.org/">Rust</a> and uses the <a href="https://keats.github.io/tera/">Tera</a> template engine. Zola uses <a href="https://github.com/raphlinus/pulldown-cmark#pulldown-cmark">pulldown-cmark</a> to parse content written in <a href="https://commonmark.org/">CommonMark</a> specification of <a href="https://www.markdownguide.org/">Markdown</a>. Zola prioritizes ease of use, super fast build, simple templating, and is suitable for minimalistic and fast dev blog.</p>
+<span id="continue-reading"></span><h2 id="content"><a class="zola-anchor" href="#content" aria-label="Anchor link for: content">Content</a></h2>
+<h3 id="section"><a class="zola-anchor" href="#section" aria-label="Anchor link for: section">Section</a></h3>
+<p>Zola uses the directory structure to determine the site structure. Each child directory in the <code>content</code> directory represents a section if it contains an <code>_index.md</code> file. The <code>_index.md</code> file stores both the metadata and the content of a section. For example, the content in <code>content/blog/_index.md</code> is shown on <code>https://mywebsite.com/blog/</code>. If a directory doesn't contain an <code>_index.md</code> file, no section will be created, but Markdown files within that directory will still create pages (known as orphan pages). Note that the <code>content</code> directory itself creates a main content section, regardless the existence of an <code>_index.md</code> file inside the directory, and if <code>content/_index.md</code> is created, its content is shown on <code>https://mywebsite.com/</code>.</p>
+<h4 id="front-matter"><a class="zola-anchor" href="#front-matter" aria-label="Anchor link for: front-matter">Front matter</a></h4>
+<p>The TOML front matter is used to embed <a href="https://www.getzola.org/documentation/content/section/#front-matter">a set of metadata</a> at the beginning of a file enclosed by triple pluses (<code>+++</code>). Content added after the closing <code>+++</code> will be parsed as Markdown and accessible through the <code>section.content</code> variable in the templates.</p>
+<p>YAML front matter formatted by triple minuses (<code>---</code>) is also supported.</p>
+<h4 id="sorting"><a class="zola-anchor" href="#sorting" aria-label="Anchor link for: sorting">Sorting</a></h4>
+<p>Posts will be iterated over in the order specified by the <code>sort_by</code> variable set in the <code>_index.md</code> file of the section. The <code>sort_by</code> variable can be set to one of these values: <code>date</code>, <code>update_date</code>, <code>title</code>, <code>title_bytes</code>, <code>weight</code>, <code>slug</code>, or <code>none</code>.</p>
+<h4 id="asset-colocation"><a class="zola-anchor" href="#asset-colocation" aria-label="Anchor link for: asset-colocation">Asset colocation</a></h4>
+<p>Zola supports asset colocation with sections and pages.</p>
+<p>A page with co-located assets should be placed as an <code>index.md</code> in a dedicated directory (<code>content/blog/foo/index.md</code>) instead of in the section directory (<code>content/blog/foo.md</code>). By default, the page slug will be the directory name and thus its permalink will be <code>https://mywebsite.com/blog/foo/</code>.</p>
+<p>All non-Markdown files added in a section/page directory will be copied alongside the generated page when the site is built, which allows accessing them with a relative path. Note that we can use <code>ignored_content</code> in the config file to ignore selected asset files.</p>
+<h4 id="static-assets"><a class="zola-anchor" href="#static-assets" aria-label="Anchor link for: static-assets">Static assets</a></h4>
+<p>All files/directories placed in the <code>static</code> directory will be copied to the <code>public</code> directory. These files won't be parsed as Markdown files.</p>
+<p>A common use case is putting site-wide assets (CSS files, site logos and JavaScript files) under <code>static</code> and use an absolute path to access the assets.</p>
+<p>Note that zola supports colocation between <code>content</code> and <code>static</code> if the subpaths are the same. That is, we can use relative path to access <code>static/blog/zola/logo.svg</code> from <code>content/blog/zola/index.md</code>.</p>
+<h4 id="pagination"><a class="zola-anchor" href="#pagination" aria-label="Anchor link for: pagination">Pagination</a></h4>
+<p>Enable pagination for a section's pages by setting <code>paginate_by</code> to a positive number.</p>
+<h4 id="drafting"><a class="zola-anchor" href="#drafting" aria-label="Anchor link for: drafting">Drafting</a></h4>
+<p>Sections and pages can be drafted by setting the <code>draft</code> option in the front matter. When a section is drafted its descendants like subsections, pages, and assets will not be processed unless the <code>--drafts</code> flag is passed.</p>
+<h3 id="page"><a class="zola-anchor" href="#page" aria-label="Anchor link for: page">Page</a></h3>
+<p>A page is any Markdown file that is not <code>_index.md</code> within the <code>content</code> directory. Note that a <code>index.md</code> file will generate a page with the name of its directory. For example <code>content/about/index.md</code> will create a page at <code>https://mywebsite.com/about</code>.</p>
+<h4 id="front-matter-1"><a class="zola-anchor" href="#front-matter-1" aria-label="Anchor link for: front-matter-1">Front matter</a></h4>
+<p>We can set the <a href="https://www.getzola.org/documentation/content/page/#front-matter">page front matter</a> as well.</p>
+<h3 id="shortcode"><a class="zola-anchor" href="#shortcode" aria-label="Anchor link for: shortcode">Shortcode</a></h3>
+<p>Zola borrows the concept of shortcode from WordPress to cover two distinct use cases:</p>
+<ul>
+<li>Inject more complex HTML like inline HTML or styling.</li>
+<li>Display external data in a page's body without repetitive tasks.</li>
+</ul>
+<h4 id="limitations"><a class="zola-anchor" href="#limitations" aria-label="Anchor link for: limitations">Limitations</a></h4>
+<p>Shortcode has several limitations:</p>
+<ul>
+<li>The shortcode name and any argument name can only contain letters, numbers, and underscores (<code>^[A-Za-z_][A-Za-z_0-9]+$</code>).</li>
+<li>The argument parentheses are required.</li>
+<li>All arguments are required.</li>
+<li>Shortcodes are rendered before the page's Markdown is parsed so they don't have access to Tera variables, the page's table or contents, or global functions like <code>get_page</code>, <code>get_section</code>, <code>get_taxonomy</code>, etc.</li>
+<li>Concatenation and other operators are unavailable.</li>
+</ul>
+<p>If a shortcode is invalid it will get rendered directly into the final HTML instead of being processed.</p>
+<h4 id="shortcode-without-body-and-arguments"><a class="zola-anchor" href="#shortcode-without-body-and-arguments" aria-label="Anchor link for: shortcode-without-body-and-arguments">Shortcode without body and arguments</a></h4>
+<p>One basic shortcode example is a shortcode without body and arguments. We can create a file named <code>withoutbodywithoutarguments.html</code> in the <code>templates/shortcodes</code> directory, which has the following content.
+<div class="code-block-tag">
+  templates&#x2F;shortcodes&#x2F;withoutbodywithoutarguments.html
+</div></p>
+<pre data-lang="html" style="background-color:#2b303b;color:#c0c5ce;" class="language-html "><code class="language-html" data-lang="html"><span>&lt;</span><span style="color:#bf616a;">div</span><span>&gt;
+</span><span>    My message.
+</span><span>&lt;/</span><span style="color:#bf616a;">div</span><span>&gt;
+</span></code></pre>
+<p>Zola will recognize this template as a shortcode named <code>withoutbodywithoutarguments</code>. We can then use it in any Markdown file as if it was a Tera function in a variable block.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>{{ withoutbodywithoutarguments() }}
+</span></code></pre>
+<h4 id="shortcode-with-body-and-without-arguments"><a class="zola-anchor" href="#shortcode-with-body-and-without-arguments" aria-label="Anchor link for: shortcode-with-body-and-without-arguments">Shortcode with body and without arguments</a></h4>
+<p>We can create a file named <code>withbodywithoutarguments.html</code> in the <code>templates/shortcodes</code> directory, which has the following content.
+<div class="code-block-tag">
+  templates&#x2F;shortcodes&#x2F;withbodywithoutarguments.html
+</div></p>
+<pre data-lang="html" style="background-color:#2b303b;color:#c0c5ce;" class="language-html "><code class="language-html" data-lang="html"><span>&lt;</span><span style="color:#bf616a;">div</span><span>&gt;
+</span><span>    {{ body }}
+</span><span>&lt;/</span><span style="color:#bf616a;">div</span><span>&gt;
+</span></code></pre>
+<p>And then use it in any Markdown files.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>{% withbodywithoutarguments() %}
+</span><span>My message.
+</span><span>{% end %}
+</span></code></pre>
+<h4 id="shortcode-without-body-and-with-arguments"><a class="zola-anchor" href="#shortcode-without-body-and-with-arguments" aria-label="Anchor link for: shortcode-without-body-and-with-arguments">Shortcode without body and with arguments</a></h4>
+<p>Shortcode accepts five types of arguments:</p>
+<ul>
+<li>string surrounded by single quotes, double quotes, or backticks</li>
+<li>bool that is either <code>true</code> or <code>false</code></li>
+<li>integer</li>
+<li>float</li>
+<li>array of any kind of value except array itself so we cannot have nested arrays</li>
+</ul>
+<p>Malformed values will be silently ignored.</p>
+<p>We can create a file named <code>withoutbodywitharguments.html</code> in the <code>templates/shortcodes</code> directory, which has the following content.
+<div class="code-block-tag">
+  templates&#x2F;shortcodes&#x2F;withoutbodywitharguments.html
+</div></p>
+<pre data-lang="html" style="background-color:#2b303b;color:#c0c5ce;" class="language-html "><code class="language-html" data-lang="html"><span>&lt;</span><span style="color:#bf616a;">div</span><span>&gt;
+</span><span>    {{ message }}
+</span><span>&lt;/</span><span style="color:#bf616a;">div</span><span>&gt;
+</span></code></pre>
+<p>And then use it in any Markdown files.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>{{ withoutbodywitharguments(message=&quot;My message&quot;) }}
+</span></code></pre>
+<h4 id="shortcode-with-body-and-arguments"><a class="zola-anchor" href="#shortcode-with-body-and-arguments" aria-label="Anchor link for: shortcode-with-body-and-arguments">Shortcode with body and arguments</a></h4>
+<p>We can create a file named <code>withbodywitharguments.html</code> in the <code>templates/shortcodes</code> directory, which has the following content.
+<div class="code-block-tag">
+  templates&#x2F;shortcodes&#x2F;withbodywitharguments.html
+</div></p>
+<pre data-lang="html" style="background-color:#2b303b;color:#c0c5ce;" class="language-html "><code class="language-html" data-lang="html"><span>&lt;</span><span style="color:#bf616a;">div</span><span>&gt;
+</span><span>    {{ body }}
+</span><span>    {{ message }}
+</span><span>&lt;/</span><span style="color:#bf616a;">div</span><span>&gt;
+</span></code></pre>
+<p>And then use it in any Markdown files.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>{% withbodywitharguments(message=&quot;My message&quot;) %}
+</span><span>My body.
+</span><span>{% end %}
+</span></code></pre>
+<h4 id="escaping"><a class="zola-anchor" href="#escaping" aria-label="Anchor link for: escaping">Escaping</a></h4>
+<p>We can escape rendering content that looks like a shortcode by using <code>{{/*</code> and <code>*/}}</code> instead of <code>{{</code> and <code>}}</code>, and <code>{%/*</code> and <code>*/%}</code> instead of <code>{%</code> and <code>%}</code>.</p>
+<h4 id="example"><a class="zola-anchor" href="#example" aria-label="Anchor link for: example">Example</a></h4>
+<h5 id="youtube"><a class="zola-anchor" href="#youtube" aria-label="Anchor link for: youtube">YouTube</a></h5>
+<p>We can put a <code>youtube.html</code> file in the <code>templates/shortcodes</code> directory with the below content.
+<div class="code-block-tag">
+  templates&#x2F;shortcodes&#x2F;youtube.html
+</div></p>
+<pre data-lang="html" style="background-color:#2b303b;color:#c0c5ce;" class="language-html "><code class="language-html" data-lang="html"><span>&lt;</span><span style="color:#bf616a;">div </span><span style="color:#d08770;">{% if class %}class</span><span>=&quot;</span><span style="color:#a3be8c;">{{class}}</span><span>&quot;</span><span style="color:#d08770;">{% endif %}</span><span>&gt;
+</span><span>    &lt;</span><span style="color:#bf616a;">iframe
+</span><span>        </span><span style="color:#d08770;">src</span><span>=&quot;</span><span style="color:#a3be8c;">https://www.youtube.com/embed/{{id}}{% if autoplay %}?autoplay=1{% endif %}</span><span>&quot;
+</span><span>        </span><span style="color:#d08770;">webkitallowfullscreen
+</span><span>        </span><span style="color:#d08770;">mozallowfullscreen
+</span><span>        </span><span style="color:#d08770;">allowfullscreen</span><span>&gt;
+</span><span>    &lt;/</span><span style="color:#bf616a;">iframe</span><span>&gt;
+</span><span>&lt;/</span><span style="color:#bf616a;">div</span><span>&gt;
+</span></code></pre>
+<p>Zola now recognizes this template as the <code>youtube</code> shortcode that wraps an iframe pointing to a YouTube URL in a <code>&lt;div&gt;</code>.</p>
+<p>The Markdown renderer wraps an inline HTML node into a paragraph but we can disable this behavior by wrapping the shortcode in a <code>&lt;div&gt;</code>.</p>
+<h5 id="books"><a class="zola-anchor" href="#books" aria-label="Anchor link for: books">Books</a></h5>
+<p>We can create <code>books.md</code> in <code>templates/shortcodes</code> with the below content.
+<div class="code-block-tag">
+  templates&#x2F;shortcodes&#x2F;books.md
+</div></p>
+<pre data-lang="md" style="background-color:#2b303b;color:#c0c5ce;" class="language-md "><code class="language-md" data-lang="md"><span>{% set data = load_data(path=path) -%}
+</span><span>{% for book in data.books %}
+</span><span style="color:#8fa1b3;">### {{ book.title }}
+</span><span>{{ book.description | safe }}
+</span><span>{% endfor %}
+</span></code></pre>
+<p>Zola creates a shortcode <code>books</code> that takes in the <code>path</code> argument, which points to a <code>.toml</code> file, so it can load lists of books with titles and descriptions.</p>
+<h4 id="extra-variables"><a class="zola-anchor" href="#extra-variables" aria-label="Anchor link for: extra-variables">Extra variables</a></h4>
+<ul>
+<li><code>nth</code>
+<ul>
+<li>Every shortcode can access the number of times this shortcode has been invoked in the current Markdown file in the <code>nth</code> variable. This is useful when implementing custom markup for side-notes.</li>
+</ul>
+</li>
+<li><code>lang</code>
+<ul>
+<li>Every shortcode can access the current language in the <code>lang</code> variable.</li>
+</ul>
+</li>
+<li><code>page</code> or <code>section</code>
+<ul>
+<li>Every shortcode can access a slightly stripped down version of the <code>page</code> and <code>section</code> variable in the normal templates.</li>
+<li>A useful attribute to <code>page</code> in shortcodes is <code>colocated_path</code>, which can be used to aggregate the directory path and the name of a colocated asset.</li>
+</ul>
+</li>
+</ul>
+<h3 id="link"><a class="zola-anchor" href="#link" aria-label="Anchor link for: link">Link</a></h3>
+<p>When rendering the Markdown content, each heading will be automatically assigned a unique id, obtained by converting the heading text to a slug through processes like whitespace replacement and special character stripping.</p>
+<p>We can manually specify an id as well as CSS classes using a <code>{#id-placeholder .class-placeholder}</code> suffix in the heading line.</p>
+<h4 id="anchor-link"><a class="zola-anchor" href="#anchor-link" aria-label="Anchor link for: anchor-link">Anchor link</a></h4>
+<p>We can generate anchor link for a heading by setting the <code>insert_anchor_links</code> variable on the section front matter page.</p>
+<h4 id="internal-link"><a class="zola-anchor" href="#internal-link" aria-label="Anchor link for: internal-link">Internal link</a></h4>
+<p>To link to a page or a heading in a page, create a link using <code>@/</code> to point to the target Markdown file and <code>#</code> for the target heading. Note that the path to the file starts from the <code>content</code> directory (therefore <code>@/blog/post.md</code> links to <code>content/blog/post.md</code>).</p>
+<p>Broken internal links are treated as errors.</p>
+<h3 id="table-of-contents"><a class="zola-anchor" href="#table-of-contents" aria-label="Anchor link for: table-of-contents">Table of contents</a></h3>
+<p>Each section or page automatically generates a table of contents for itself based on the headers generated with Markdown and is available in the template through variables like <code>page.toc</code> and <code>section.toc</code>.</p>
+<h3 id="syntax-highlighting"><a class="zola-anchor" href="#syntax-highlighting" aria-label="Anchor link for: syntax-highlighting">Syntax highlighting</a></h3>
+<p>We can enable Zola's built-in syntax highlighting by configuring it in <code>config.toml</code>.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>highlight_code = true
+</span></code></pre>
+<p>Below is a list of supported languages and their short-names.</p>
+<ul>
+<li>Shell: sh</li>
+<li>Bourne Again Shell (bash): bash</li>
+<li>C: c</li>
+<li>C++: c++, cpp</li>
+<li>CSS: css</li>
+<li>Dockerfile: dockerfile</li>
+<li>Go: go</li>
+<li>GraphQL: graphql, gql</li>
+<li>HTML: html</li>
+<li>Java: java</li>
+<li>JavaScript: js</li>
+<li>JSON: json</li>
+<li>Kotlin: kt</li>
+<li>Makefile: makefile, make</li>
+<li>Markdown: markdown, md</li>
+<li>PHP: php</li>
+<li>Python: py</li>
+<li>Rust: rs</li>
+<li>SCSS: scss</li>
+<li>SQL: sql</li>
+<li>Swift: swift</li>
+<li>TOML: toml, tml</li>
+<li>TypeScript: ts</li>
+<li>YAML: yaml, yml</li>
+</ul>
+<h4 id="inline-vs-classed-highlighting"><a class="zola-anchor" href="#inline-vs-classed-highlighting" aria-label="Anchor link for: inline-vs-classed-highlighting">Inline vs classed highlighting</a></h4>
+<p>We can choose to use a highlighting scheme to get the colors directly encoded in the html file, or use the <code>css</code> color scheme to apply the CSS class definitions and thus enable dynamic switching of the highlighting theme.</p>
+<h4 id="annotations"><a class="zola-anchor" href="#annotations" aria-label="Anchor link for: annotations">Annotations</a></h4>
+<p>We can use additional annotations to customize how code blocks are displayed:</p>
+<ul>
+<li><code>linenos</code> to enable line numbering.</li>
+<li><code>linenostart</code> to specify the line number of the first line.</li>
+<li><code>hl_lines</code> to highlight lines.</li>
+<li><code>hide_lines</code> to hide lines.</li>
+<li><code>name</code> to specify a name the code block is associated with.</li>
+</ul>
+<h3 id="taxonomies"><a class="zola-anchor" href="#taxonomies" aria-label="Anchor link for: taxonomies">Taxonomies</a></h3>
+<p>Taxonomies are a way for us to group content according to custom-defined categories.</p>
+<ul>
+<li>A taxonomy is a category that can be used to group content.</li>
+<li>A term is a specific group within a taxonomy.</li>
+<li>A value is a piece of content that can be associated with a term.</li>
+</ul>
+<h3 id="search"><a class="zola-anchor" href="#search" aria-label="Anchor link for: search">Search</a></h3>
+<p>Zola can build a search index from the sections and pages content to be used by a JavaScript library such as elasticlunr or fuse.</p>
+<h3 id="sass"><a class="zola-anchor" href="#sass" aria-label="Anchor link for: sass">Sass</a></h3>
+<p><a href="https://teyuanliu.github.io/blog/web-application/#sass">Sass</a> is a popular CSS preprocessor that adds special features like variables and nested rules to facilitate the maintenance of large sets of CSS rules.</p>
+<h2 id="template"><a class="zola-anchor" href="#template" aria-label="Anchor link for: template">Template</a></h2>
+<p>Zola uses the Tera template engine.</p>
+<p>Here are a few variables available on all templates except feeds and the sitemap:</p>
+<ul>
+<li><code>config</code></li>
+<li><code>current_path</code></li>
+<li><code>current_url</code></li>
+<li><code>lang</code></li>
+</ul>
+<h3 id="standard-template"><a class="zola-anchor" href="#standard-template" aria-label="Anchor link for: standard-template">Standard template</a></h3>
+<p>Zola looks for three standard templates:</p>
+<ul>
+<li><code>index.html</code> which is applied to the site homepage</li>
+<li><code>section.html</code> which is applied to all sections (any HTML page generated by creating a directory within the <code>content</code> directory)</li>
+<li><code>page.html</code> which is applied to all pages (any HTML page generated by creating an Markdown file within the <code>content</code> directory)</li>
+</ul>
+<p>The homepage is a section so <code>index.html</code> also has access to the section variables just like <code>section.html</code>. The <code>page.html</code> template has access to the page variables.</p>
+<h3 id="custom-template"><a class="zola-anchor" href="#custom-template" aria-label="Anchor link for: custom-template">Custom template</a></h3>
+<p>We can create custom templates by creating an HTML file inside the <code>templates</code> directory (or its subdirectories). A custom template will be used when its path within the <code>templates</code> directory is explicitly specified in a page's <code>template</code> front-matter variable (or if it is included in another template that is applied).</p>
+<h3 id="section-1"><a class="zola-anchor" href="#section-1" aria-label="Anchor link for: section-1">Section</a></h3>
+<p>By default, Zola tries to load <code>templates/index.html</code> for <code>content/_index.md</code> and <code>templates/section.html</code> for other <code>_index.md</code> files.</p>
+<p>Here are some common section variables available in the template:</p>
+<ul>
+<li>title</li>
+<li>content</li>
+<li>pages</li>
+</ul>
+<h3 id="page-1"><a class="zola-anchor" href="#page-1" aria-label="Anchor link for: page-1">Page</a></h3>
+<p>Here are some common page variables available in the template:</p>
+<ul>
+<li>title</li>
+<li>content</li>
+<li>toc</li>
+<li>date</li>
+<li>updated</li>
+<li>reading_time</li>
+<li>lower</li>
+<li>higher</li>
+<li>draft</li>
+<li>description</li>
+<li>summary</li>
+<li>taxonomies</li>
+</ul>
+<h3 id="table-of-contents-1"><a class="zola-anchor" href="#table-of-contents-1" aria-label="Anchor link for: table-of-contents-1">Table of contents</a></h3>
+<p>Both section and page template have a <code>toc</code> variable that corresponds to an array of headers. A header has the following fields:</p>
+<ul>
+<li>title</li>
+<li>children</li>
+<li>level</li>
+<li>id</li>
+<li>permalink</li>
+</ul>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;web-application&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

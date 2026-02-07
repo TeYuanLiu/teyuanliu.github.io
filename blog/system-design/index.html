@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    System Design
+  </div>
+  <div class="header-metadata">
+    
+      
+        Feb  3, 2026 · 1012 words · 6 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/system-design/#functional-requirement-scope">Functional requirement (scope) </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/system-design/#non-functional-requirement">Non-functional requirement </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/system-design/#system-layout">System layout </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/system-design/#minimal-design">Minimal design</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/system-design/#client-server-communication">Client-server communication</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/system-design/#server-bottleneck">Server bottleneck</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/system-design/#os-setting-limit-customization">OS setting limit customization</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/system-design/#server-vertical-scale-up">Server vertical scale up</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/system-design/#server-horizontal-scale-out">Server horizontal scale out</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/system-design/#database-bottleneck">Database bottleneck</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/system-design/#availability-and-reliability-bottleneck">Availability and reliability bottleneck</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/system-design/#external-api-rate-limit-bottleneck">External API rate limit bottleneck</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/system-design/#tradeoff">Tradeoff </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/system-design/#next-step">Next step </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/system-design/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>Ok, we want to build a software system for example a web application, but where should we start?</p>
+<p>Well, let's first think about the functional and non-functional requirements of our product. This gives us a list of questions to answer.</p>
+<span id="continue-reading"></span><h2 id="functional-requirement-scope"><a class="zola-anchor" href="#functional-requirement-scope" aria-label="Anchor link for: functional-requirement-scope">Functional requirement (scope)</a></h2>
+<ul>
+<li>What features do we provide?</li>
+<li>What does the storage schema look like?</li>
+</ul>
+<h2 id="non-functional-requirement"><a class="zola-anchor" href="#non-functional-requirement" aria-label="Anchor link for: non-functional-requirement">Non-functional requirement</a></h2>
+<ul>
+<li>
+<p>Performance metrics</p>
+<ul>
+<li>Response Time (RT)
+<ul>
+<li>Time duration in seconds from request start to response received.</li>
+</ul>
+</li>
+<li>Queries Per Second (QPS)
+<ul>
+<li>Number of incoming requests per second.</li>
+</ul>
+</li>
+<li>Concurrency
+<ul>
+<li>Number of simultaneous active requests.</li>
+<li>Concurrency = max(QPS, QPS * RT)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Scalability</p>
+<ul>
+<li>Traffic
+<ul>
+<li>How many users in total?</li>
+<li>How many concurrent users at maximum?</li>
+<li>How many concurrent writes at maximum?</li>
+<li>How many concurrent reads at maximum?</li>
+<li>What is the latency requirement?
+<ul>
+<li>Latency
+<ul>
+<li>1   ns for cache</li>
+<li>100 ns for memory</li>
+<li>100 us for Non-Volatile Memory express (NVMe) drive</li>
+<li>1   ms for Hard-Disk Drive (HDD)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Storage
+<ul>
+<li>How much storage is needed for 5 years?</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Availability</p>
+<ul>
+<li>What is the service uptime requirement?</li>
+</ul>
+</li>
+<li>
+<p>Reliability</p>
+<ul>
+<li>What is the fault tolerance requirement?</li>
+<li>What is the data durability requirement?</li>
+</ul>
+</li>
+</ul>
+<h2 id="system-layout"><a class="zola-anchor" href="#system-layout" aria-label="Anchor link for: system-layout">System layout</a></h2>
+<p>After clarifying the functional and non-functional requirements of the system, we move on to sketching out the system layout.</p>
+<p>Unless the non-functional requirements demand a system that supports millions or even billions of concurrent users and requests upfront, we want to start with a minimal design.</p>
+<p>Forget about microservices, load-balancing, auto-scaling, message queue, async-processing, distributed storage, or big data. We simply don't need them.</p>
+<p>When deciding whether we should add a specific component to our system, keep asking ourselves: will anything break if we don't add this component? If nothing actually breaks, that component is something we don't need to include in our system.</p>
+<p>This practice minimizes the system complexity and thus the operational cost.</p>
+<h3 id="minimal-design"><a class="zola-anchor" href="#minimal-design" aria-label="Anchor link for: minimal-design">Minimal design</a></h3>
+<p>Start with one monolithic server and one database.</p>
+<p>In general, CRUD applications are I/O-bound and a server can handle around 10 K Requests Per Second (RPS).</p>
+<p>If the application is CPU-bound, the concurrency is limited by the number of logical cores of the server (CPU socket count x physical cores per socket x logical cores per physical core). An enterprise-grade server can have up to 1 K logical cores (8 x 64 x 2).</p>
+<p>The basic system design layout looks like the following.</p>
+<ul>
+<li>Client</li>
+<li>Server
+<ul>
+<li>Business logic</li>
+</ul>
+</li>
+<li>Database</li>
+</ul>
+<h3 id="client-server-communication"><a class="zola-anchor" href="#client-server-communication" aria-label="Anchor link for: client-server-communication">Client-server communication</a></h3>
+<p>We use <a href="https://teyuanliu.github.io/blog/network-protocol/#rest">Representational State Transfer (REST)</a> to build the Application Programming Interface (API) for client-server communication. It is easy to write, read, and maintain. Take care of timeout and error handling via retry with jittered exponential backoff.</p>
+<h3 id="server-bottleneck"><a class="zola-anchor" href="#server-bottleneck" aria-label="Anchor link for: server-bottleneck">Server bottleneck</a></h3>
+<p>As the application gains more users, the server struggles to handle that many concurrent requests and users start to feel the response latency increase. Concurrency becomes the bottleneck of our system due to the OS setting limits or system memory shortage.</p>
+<h4 id="os-setting-limit-customization"><a class="zola-anchor" href="#os-setting-limit-customization" aria-label="Anchor link for: os-setting-limit-customization">OS setting limit customization</a></h4>
+<p>If the bottleneck is caused by the OS setting limits, we can tune those limits such as the open file descriptor number limit and the TCP stack depth limit. For example, we can lift the open file descriptor number limit from 1 K to 100 K.</p>
+<h4 id="server-vertical-scale-up"><a class="zola-anchor" href="#server-vertical-scale-up" aria-label="Anchor link for: server-vertical-scale-up">Server vertical scale up</a></h4>
+<p>If the bottleneck is caused by the system memory shortage, we can upgrade the server to a larger instance with more system memory.</p>
+<h4 id="server-horizontal-scale-out"><a class="zola-anchor" href="#server-horizontal-scale-out" aria-label="Anchor link for: server-horizontal-scale-out">Server horizontal scale out</a></h4>
+<p>If OS setting limit customization and server vertical scale up don't fully resolve the concurrency bottleneck, we then need to horizontally scale out the server to a server cluster. We use a load balancer to distribute the request traffic among the servers.</p>
+<ul>
+<li>Client</li>
+<li>Load balancer</li>
+<li>Server cluster
+<ul>
+<li>Server
+<ul>
+<li>Business logic</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Database</li>
+</ul>
+<h3 id="database-bottleneck"><a class="zola-anchor" href="#database-bottleneck" aria-label="Anchor link for: database-bottleneck">Database bottleneck</a></h3>
+<p>As more data is stored in the database and more transactions happen at the same time, the database transaction latency rises to an unacceptable level and becomes the bottleneck of our system.</p>
+<p>We can resolve this via <a href="https://teyuanliu.github.io/blog/database/#read">adding a database cache, Content Delivery Network (CDN), and client-side cache</a>.</p>
+<ul>
+<li>Client
+<ul>
+<li>Client-side cache</li>
+</ul>
+</li>
+<li>CDN</li>
+<li>Load balancer</li>
+<li>Server cluster
+<ul>
+<li>Server
+<ul>
+<li>Business logic</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Database cache</li>
+<li>Database</li>
+</ul>
+<p>See more about read and write transaction scaling in the <a href="https://teyuanliu.github.io/blog/database/">database post</a>.</p>
+<h3 id="availability-and-reliability-bottleneck"><a class="zola-anchor" href="#availability-and-reliability-bottleneck" aria-label="Anchor link for: availability-and-reliability-bottleneck">Availability and reliability bottleneck</a></h3>
+<p>As our monolithic system grows bigger in size, it will face the <a href="https://teyuanliu.github.io/blog/system-architecture/#monolithic">availability and reliability challenge</a>. We need to refactor the system to use the microservice architecture. We use an API gateway to filter requests and route them to different services, and for each service we have a load balancer to distribute traffic among many service replicas.</p>
+<ul>
+<li>Client
+<ul>
+<li>Client-side cache</li>
+</ul>
+</li>
+<li>CDN</li>
+<li>API gateway</li>
+<li>Service
+<ul>
+<li>Load balancer</li>
+<li>Service replica
+<ul>
+<li>Business logic</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Database cache</li>
+<li>Database</li>
+</ul>
+<h3 id="external-api-rate-limit-bottleneck"><a class="zola-anchor" href="#external-api-rate-limit-bottleneck" aria-label="Anchor link for: external-api-rate-limit-bottleneck">External API rate limit bottleneck</a></h3>
+<p>If a service depends on an external API and that external API has a rate limit, we can use a message queue to control the request sending rate based on the rate limit in a centralized fashion.</p>
+<ul>
+<li>Client
+<ul>
+<li>Client-side cache</li>
+</ul>
+</li>
+<li>CDN</li>
+<li>API gateway</li>
+<li>Service
+<ul>
+<li>Load balancer</li>
+<li>Service replica
+<ul>
+<li>Business logic</li>
+</ul>
+</li>
+<li>Message queue</li>
+</ul>
+</li>
+<li>Database cache</li>
+<li>Database</li>
+</ul>
+<h2 id="tradeoff"><a class="zola-anchor" href="#tradeoff" aria-label="Anchor link for: tradeoff">Tradeoff</a></h2>
+<ul>
+<li>Availability (assuming load staying within capacity)
+<ul>
+<li>Service uptime
+<ul>
+<li>Redundancy</li>
+<li>Self-healing</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Reliability (assuming load staying within capacity)
+<ul>
+<li>Logic execution correctness
+<ul>
+<li>Input validation</li>
+<li>Isolation (cell-based design)</li>
+<li>Retry</li>
+<li>Request idempotency
+<ul>
+<li>GET/PUT/DELETE are usually idempotent.</li>
+<li>Use POST with idempotency keys.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Data durability</li>
+</ul>
+</li>
+<li>Scalability
+<ul>
+<li>Server
+<ul>
+<li>Fixed server number vs auto-scaling</li>
+<li>Single-region deployment vs multi-region deployment</li>
+<li>No rate limit vs rate limit</li>
+<li>Fixed quality vs graceful quality degradation</li>
+<li>Direct server exposure vs API gateway</li>
+<li>Direct server serving vs CDN serving</li>
+<li>Polling vs long-polling vs webhooks</li>
+<li>Server vs serverless</li>
+<li>Stateful vs stateless
+<ul>
+<li>Stateless services don't store user data like user sessions inside their own storage. User data is stored in a centralized storage such that users can have the same session despite hitting different service replicas. This makes services easier to scale horizontally.</li>
+</ul>
+</li>
+<li>Server-side caching vs client-side caching</li>
+<li>Batch processing vs stream processing</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="next-step"><a class="zola-anchor" href="#next-step" aria-label="Anchor link for: next-step">Next step</a></h2>
+<p>Once we have decided how we structure the system, we can go ahead with the <a href="https://teyuanliu.github.io/blog/development-cycle/">development cycle</a>.</p>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;system-architecture&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;testing&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Rust
+  </div>
+  <div class="header-metadata">
+    
+      
+        Dec 27, 2025 · 175 words · 1 min read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/rust/#setup">Setup </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/rust/#execution-flow">Execution flow </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/rust/#compiler">Compiler</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/rust/#dependency-management">Dependency management </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/rust/#memory-management">Memory management </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/rust/#adoption-challenge">Adoption challenge </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/rust/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p><a href="https://www.rust-lang.org/">Rust</a> is a system language that uses an ownership and borrowing system enforced at compile time to ensure memory safety without needing a garbage collector.</p>
+<span id="continue-reading"></span><h2 id="setup"><a class="zola-anchor" href="#setup" aria-label="Anchor link for: setup">Setup</a></h2>
+<p>Rust has its installation management tool <code>rustup</code>, compiler <code>rustc</code> and package manager <code>cargo</code>.</p>
+<h2 id="execution-flow"><a class="zola-anchor" href="#execution-flow" aria-label="Anchor link for: execution-flow">Execution flow</a></h2>
+<ol>
+<li>The Rust compiler converts the Rust code into the Low-Level Virtual Machine (LLVM) Intermediate Representation (IR), which is a platform-independent representation.</li>
+<li>The LLVM optimizes and translates the IR to the assembly code specific to our CPU architecture.</li>
+<li>The assembler compiles the assembly into a binary.</li>
+<li>The machine executes the binary.</li>
+</ol>
+<h3 id="compiler"><a class="zola-anchor" href="#compiler" aria-label="Anchor link for: compiler">Compiler</a></h3>
+<p>Rust prevents memory bugs by having a compiler that checks for different types of <a href="https://teyuanliu.github.io/blog/c/#common-memory-bugs">segmentation fault</a>.</p>
+<p>Note that Rust has an <code>unsafe</code> keyword, which can bypass compiler checks and allow potential memory corruption if misused like raw pointer dereferencing.</p>
+<h2 id="dependency-management"><a class="zola-anchor" href="#dependency-management" aria-label="Anchor link for: dependency-management">Dependency management</a></h2>
+<h2 id="memory-management"><a class="zola-anchor" href="#memory-management" aria-label="Anchor link for: memory-management">Memory management</a></h2>
+<h2 id="adoption-challenge"><a class="zola-anchor" href="#adoption-challenge" aria-label="Anchor link for: adoption-challenge">Adoption challenge</a></h2>
+<ul>
+<li>Slower bug fix and feature delivery due to steep learning curve for memory ownership and borrow checker</li>
+<li>Limited tools and hiring pool</li>
+</ul>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;python&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;security&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

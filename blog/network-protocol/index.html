@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Network protocol
+  </div>
+  <div class="header-metadata">
+    
+      
+        Feb  3, 2026 · 284 words · 2 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/network-protocol/#tcp">TCP </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/network-protocol/#udp">UDP </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/network-protocol/#quic">QUIC </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/network-protocol/#http">HTTP </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/network-protocol/#http-1-1">HTTP&#x2F;1.1</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/network-protocol/#http-2">HTTP&#x2F;2</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/network-protocol/#http-3">HTTP&#x2F;3</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/network-protocol/#https">HTTPS </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/network-protocol/#rest">REST </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/network-protocol/#protocol-tree">Protocol tree </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/network-protocol/#large-data-transmission">Large data transmission </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/network-protocol/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>Network protocols define how data moves.</p>
+<span id="continue-reading"></span><h2 id="tcp"><a class="zola-anchor" href="#tcp" aria-label="Anchor link for: tcp">TCP</a></h2>
+<p>Transmission Control Protocol (TCP) is a transport layer protocol that ensures reliable delivery.</p>
+<h2 id="udp"><a class="zola-anchor" href="#udp" aria-label="Anchor link for: udp">UDP</a></h2>
+<p>User Datagram Protocol (UDP) is a transport layer protocol that sacrifices reliability for speed.</p>
+<h2 id="quic"><a class="zola-anchor" href="#quic" aria-label="Anchor link for: quic">QUIC</a></h2>
+<p>QUIC is a transport layer protocol based on UDP that provides reliable delivery with speed.</p>
+<h2 id="http"><a class="zola-anchor" href="#http" aria-label="Anchor link for: http">HTTP</a></h2>
+<p>HyperText Transfer Protocol (HTTP) is a communication protocol that defines a set of rules for transferring hypertext data between a client and a server.</p>
+<h3 id="http-1-1"><a class="zola-anchor" href="#http-1-1" aria-label="Anchor link for: http-1-1">HTTP/1.1</a></h3>
+<p>HTTP/1.1 brought in persistent TCP connections and methods like PUT and DELETE.</p>
+<h3 id="http-2"><a class="zola-anchor" href="#http-2" aria-label="Anchor link for: http-2">HTTP/2</a></h3>
+<p>HTTP/2 introduced multiplexing, which enables multiple requests to share one connection.</p>
+<h3 id="http-3"><a class="zola-anchor" href="#http-3" aria-label="Anchor link for: http-3">HTTP/3</a></h3>
+<p>HTTP/3 utilizes QUIC, which is based on UDP instead of TCP, this reduces latency while guarantees delivery reliability.</p>
+<h2 id="https"><a class="zola-anchor" href="#https" aria-label="Anchor link for: https">HTTPS</a></h2>
+<p>HyperText Transfer Protocol Secure (HTTPS) is HTTP with <a href="https://teyuanliu.github.io/blog/transport-layer-security/">Transport Layer Security (TLS)</a>.</p>
+<h2 id="rest"><a class="zola-anchor" href="#rest" aria-label="Anchor link for: rest">REST</a></h2>
+<p>Representational State Transfer (REST) is a set of design constraints shown below that ensures a decoupled, efficient, and scalable system.</p>
+<ul>
+<li>Client-server
+<ul>
+<li>Separate the user interface from data storage and processing.</li>
+</ul>
+</li>
+<li>Uniform interface
+<ul>
+<li>Use consistent resource naming format across the API to give each resource a unique address.</li>
+</ul>
+</li>
+<li>Stateless
+<ul>
+<li>Each request contains all the information needed to process it.</li>
+</ul>
+</li>
+</ul>
+<p>REST can utilize any communication protocol to satisfy the constraints but most systems use HTTP under the hood.</p>
+<h2 id="protocol-tree"><a class="zola-anchor" href="#protocol-tree" aria-label="Anchor link for: protocol-tree">Protocol tree</a></h2>
+<ul>
+<li>TCP
+<ul>
+<li>HTTP/1.1 and HTTP/2
+<ul>
+<li>REST</li>
+<li>GraphQL</li>
+<li>gRPC</li>
+</ul>
+</li>
+<li>WebSocket</li>
+</ul>
+</li>
+<li>UDP
+<ul>
+<li>HTTP/3 (QUIC)
+<ul>
+<li>gRPC</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="large-data-transmission"><a class="zola-anchor" href="#large-data-transmission" aria-label="Anchor link for: large-data-transmission">Large data transmission</a></h2>
+<ol>
+<li>Fragment large data into multiple packets and send them separately.</li>
+<li>Develop a streaming protocol for large data.</li>
+<li>Use different data transmission type for metadata and objects.</li>
+<li>Develop a cadence to send large data during low-volume time.</li>
+</ol>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;markdown&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;postgresql&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

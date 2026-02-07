@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    PostgreSQL
+  </div>
+  <div class="header-metadata">
+    
+      
+        Jan 25, 2026 · 1544 words · 8 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/postgresql/#system-architecture">System architecture </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/postgresql/#database-creation-and-deletion">Database creation and deletion </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/postgresql/#database-operations">Database operations </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/postgresql/#psql">Psql</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/postgresql/#sql">SQL</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#data-name">Data name</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#data-types">Data types</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#sql-command">SQL command</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#comment">Comment</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#table-creation">Table creation</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#table-deletion">Table deletion</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#row-creation">Row creation</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#row-read">Row read</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#table-join">Table join</a>
+                          
+                            <ul>
+                              
+                                <li>
+                                  <a href="https://teyuanliu.github.io/blog/postgresql/#self-join">Self join</a>
+                                </li>
+                              
+                                <li>
+                                  <a href="https://teyuanliu.github.io/blog/postgresql/#inner-join">Inner join</a>
+                                </li>
+                              
+                                <li>
+                                  <a href="https://teyuanliu.github.io/blog/postgresql/#full-outer-join">Full Outer join</a>
+                                </li>
+                              
+                                <li>
+                                  <a href="https://teyuanliu.github.io/blog/postgresql/#exclusive-outer-join">Exclusive outer join</a>
+                                </li>
+                              
+                                <li>
+                                  <a href="https://teyuanliu.github.io/blog/postgresql/#left-outer-join">Left outer join</a>
+                                </li>
+                              
+                                <li>
+                                  <a href="https://teyuanliu.github.io/blog/postgresql/#exclusive-left-outer-join">Exclusive left outer join</a>
+                                </li>
+                              
+                                <li>
+                                  <a href="https://teyuanliu.github.io/blog/postgresql/#right-outer-join">Right outer join</a>
+                                </li>
+                              
+                                <li>
+                                  <a href="https://teyuanliu.github.io/blog/postgresql/#exclusive-right-outer-join">Exclusive right outer join</a>
+                                </li>
+                              
+                            </ul>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#aggregate-function">Aggregate function</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#subquery">Subquery</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#group-by-having">Group by having</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#filter">Filter</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#row-update">Row update</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#row-deletion">Row deletion</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#view">View</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#foreign-key-referential-integrity">Foreign key referential integrity</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#transaction">Transaction</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#window-function">Window function</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#execution-order">Execution order</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/postgresql/#inheritance">Inheritance</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/postgresql/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>PostgreSQL is an open-source relational database.</p>
+<span id="continue-reading"></span><h2 id="system-architecture"><a class="zola-anchor" href="#system-architecture" aria-label="Anchor link for: system-architecture">System architecture</a></h2>
+<ul>
+<li>Server
+<ul>
+<li>Root server process
+<ul>
+<li>This is the manager process that creates a connection server process for each client connection and administers its lifecycle.</li>
+</ul>
+</li>
+<li>Connection server process
+<ul>
+<li>This is the process that communicates with a client via a TCP/IP network connection, managing database files, and performs database actions on behalf of the client.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Client
+<ul>
+<li>A client can be a text-oriented tool, a graphical application, or a web server.</li>
+</ul>
+</li>
+</ul>
+<h2 id="database-creation-and-deletion"><a class="zola-anchor" href="#database-creation-and-deletion" aria-label="Anchor link for: database-creation-and-deletion">Database creation and deletion</a></h2>
+<p>A project often uses one database. We can use the binaries provided by PostgreSQL to create or delete a database.</p>
+<ul>
+<li>Create a database. A database name must start with an alphabetic character and is limited to 63 bytes in length.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">createdb </span><span>&lt;DATABASE_NAME&gt;
+</span></code></pre>
+</li>
+<li>Delete a database. This removes all associated database files.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">dropdb </span><span>&lt;DATABASE_NAME&gt;
+</span></code></pre>
+</li>
+</ul>
+<h2 id="database-operations"><a class="zola-anchor" href="#database-operations" aria-label="Anchor link for: database-operations">Database operations</a></h2>
+<p>After creating a database, we can interact with the database using Structured Query Language (SQL) commands via the following ways.</p>
+<ul>
+<li>Use the PostgreSQL interactive terminal, psql.</li>
+<li>Use a driver to connect a custom application to the database.</li>
+</ul>
+<h3 id="psql"><a class="zola-anchor" href="#psql" aria-label="Anchor link for: psql">Psql</a></h3>
+<p>We can run <code>psql</code> to start a terminal.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">psql </span><span>&lt;DATABASE_NAME&gt;    </span><span style="color:#65737e;"># Assume DATABASE_NAME is mydb.
+</span><span>
+</span><span style="color:#bf616a;">mydb</span><span>=&gt; SELECT </span><span style="color:#bf616a;">current_date</span><span>; </span><span style="color:#65737e;"># Print the current date.
+</span><span>
+</span><span style="color:#bf616a;">mydb</span><span>=&gt; </span><span style="color:#96b5b4;">\h   </span><span style="color:#65737e;"># Get help.
+</span><span>
+</span><span style="color:#bf616a;">mydb</span><span>=&gt; </span><span style="color:#96b5b4;">\d   </span><span style="color:#65737e;"># Get the list of tables and sequences.
+</span><span>
+</span><span style="color:#bf616a;">mydb</span><span>=&gt; </span><span style="color:#96b5b4;">\d</span><span>t  </span><span style="color:#65737e;"># Get the list of tables.
+</span><span>
+</span><span style="color:#bf616a;">mydb</span><span>=&gt; </span><span style="color:#96b5b4;">\i </span><span style="color:#bf616a;">commands.sql  </span><span style="color:#65737e;"># Read and execute the commands.sql file.
+</span><span>
+</span><span style="color:#bf616a;">mydb</span><span>=&gt; </span><span style="color:#96b5b4;">\q   </span><span style="color:#65737e;"># Exit the terminal.
+</span></code></pre>
+<h3 id="sql"><a class="zola-anchor" href="#sql" aria-label="Anchor link for: sql">SQL</a></h3>
+<p>We can use SQL commands to interact with a database, but what is inside a database? A database consists of one or multiple tables.</p>
+<ul>
+<li>Table
+<ul>
+<li>A table is used to store relational data.</li>
+</ul>
+</li>
+<li>Column
+<ul>
+<li>A column has a specific data name and data type. A table has a set of columns that group data with different name and type together. Taking a user data table for example, one column can be name and another column can be email. Note that the columns of a table have a fixed order.</li>
+</ul>
+</li>
+<li>Row
+<ul>
+<li>A row is like a record in the table. In the user data table example, a row represents a user, and those column entries of that row are the name, the email, and other information of that user. Note that the rows of a table aren't guaranteed to have a fixed order.</li>
+</ul>
+</li>
+</ul>
+<h4 id="data-name"><a class="zola-anchor" href="#data-name" aria-label="Anchor link for: data-name">Data name</a></h4>
+<p>A table has its name. A column also has its name.</p>
+<p>In PostgreSQL, using unquoted names is a best practice for naming.</p>
+<p>Unquoted names must begin with a letter or an underscore. Subsequent characters can be letters, digits, underscores, or dollar signs. Unquoted names are automatically folded to lowercase so it is recommended to just use lowercase letters.</p>
+<p>We can use arbitrary characters like uppercase letter, spaces and hyphens for naming if we enclose the name in double quotes. However, this is a poor practice because we then have to use double quotes everywhere.</p>
+<p>Double quotes are used for identifiers like table and column names that contain reserved keywords, special characters or spaces.</p>
+<p>Single quotes are used for string literals.</p>
+<h4 id="data-types"><a class="zola-anchor" href="#data-types" aria-label="Anchor link for: data-types">Data types</a></h4>
+<p>Each column has its own data type, and here is a list of the standard SQL data types.</p>
+<ul>
+<li>smallint (2 bytes)</li>
+<li>integer/int (4 bytes)</li>
+<li>bigint (8 bytes)</li>
+<li>real (4 bytes)
+<ul>
+<li>single-precision floating-point number</li>
+</ul>
+</li>
+<li>double precision (8 bytes)
+<ul>
+<li>double-precision floating-point number</li>
+</ul>
+</li>
+<li>char(N) (1 byte length metadata overhead + actual data length)
+<ul>
+<li>string with a fixed length of N</li>
+<li>padding with blank</li>
+<li>Each character can use 1 to 4 bytes.</li>
+<li>data size limit is 1 GB</li>
+</ul>
+</li>
+<li>varchar(N) (1 byte length metadata overhead + actual data length)
+<ul>
+<li>variable-length string up to N characters in length</li>
+<li>Each character can use 1 to 4 bytes.</li>
+<li>data size limit is 1 GB</li>
+</ul>
+</li>
+<li>text
+<ul>
+<li>string with no length limit</li>
+<li>Each character can use 1 to 4 bytes.</li>
+<li>data size limit is 1 GB</li>
+</ul>
+</li>
+<li>date (4 bytes)
+<ul>
+<li>date only</li>
+</ul>
+</li>
+<li>time (8 bytes)
+<ul>
+<li>time of day only</li>
+</ul>
+</li>
+<li>timestamp (8 bytes)
+<ul>
+<li>date and time without time zone</li>
+</ul>
+</li>
+<li>timestamptz (8 bytes)
+<ul>
+<li>date and time with time zone</li>
+</ul>
+</li>
+<li>interval (16 bytes)
+<ul>
+<li>3 fields of months, days, seconds</li>
+</ul>
+</li>
+</ul>
+<h4 id="sql-command"><a class="zola-anchor" href="#sql-command" aria-label="Anchor link for: sql-command">SQL command</a></h4>
+<p>SQL commands ignore extra spaces.</p>
+<h4 id="comment"><a class="zola-anchor" href="#comment" aria-label="Anchor link for: comment">Comment</a></h4>
+<p>Use <code>--</code> before a comment and everything is ignored up to the end of the line.</p>
+<h4 id="table-creation"><a class="zola-anchor" href="#table-creation" aria-label="Anchor link for: table-creation">Table creation</a></h4>
+<p>Assume we want to create a gym user table.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">CREATE TABLE </span><span style="color:#8fa1b3;">user</span><span> (
+</span><span>    id </span><span style="color:#b48ead;">int</span><span> generated by </span><span style="color:#b48ead;">default </span><span>as identity </span><span style="color:#b48ead;">primary key</span><span>,
+</span><span>    name </span><span style="color:#b48ead;">varchar</span><span>(</span><span style="color:#d08770;">100</span><span>),
+</span><span>    email </span><span style="color:#b48ead;">varchar</span><span>(</span><span style="color:#d08770;">254</span><span>) unique,
+</span><span>    height_m </span><span style="color:#b48ead;">real</span><span>,
+</span><span>    weight_kg </span><span style="color:#b48ead;">real</span><span>,
+</span><span>    creation_date </span><span style="color:#b48ead;">date default </span><span style="color:#96b5b4;">current_date
+</span><span>);
+</span></code></pre>
+<h4 id="table-deletion"><a class="zola-anchor" href="#table-deletion" aria-label="Anchor link for: table-deletion">Table deletion</a></h4>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">DROP TABLE</span><span> user;
+</span></code></pre>
+<h4 id="row-creation"><a class="zola-anchor" href="#row-creation" aria-label="Anchor link for: row-creation">Row creation</a></h4>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#65737e;">-- Explicit columns
+</span><span style="color:#65737e;">-- The column order can be altered.
+</span><span style="color:#65737e;">-- Any unrequired column can be omitted.
+</span><span style="color:#b48ead;">INSERT INTO</span><span> user (name, email, height_m, weight_kg, creation_date) </span><span style="color:#b48ead;">VALUES</span><span> (&#39;</span><span style="color:#a3be8c;">Bob</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">bob@gmail.com</span><span>&#39;, </span><span style="color:#d08770;">1</span><span>.</span><span style="color:#d08770;">8</span><span>, </span><span style="color:#d08770;">70</span><span>, &#39;</span><span style="color:#a3be8c;">2024-12-23</span><span>&#39;);
+</span><span>
+</span><span style="color:#65737e;">-- Shorter version
+</span><span style="color:#b48ead;">INSERT INTO</span><span> user </span><span style="color:#b48ead;">VALUES</span><span> (&#39;</span><span style="color:#a3be8c;">Bob</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">bob@gmail.com</span><span>&#39;, </span><span style="color:#d08770;">1</span><span>.</span><span style="color:#d08770;">8</span><span>, </span><span style="color:#d08770;">70</span><span>, &#39;</span><span style="color:#a3be8c;">2024-12-23</span><span>&#39;);
+</span></code></pre>
+<p>We can use the <code>COPY</code> keyword to load data from text files too.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span>COPY user </span><span style="color:#b48ead;">FROM </span><span>&#39;</span><span style="color:#a3be8c;">/tmp/user.txt</span><span>&#39;;
+</span></code></pre>
+<h4 id="row-read"><a class="zola-anchor" href="#row-read" aria-label="Anchor link for: row-read">Row read</a></h4>
+<p>We use the <code>SELECT</code> statement to query data from a table. The <code>SELECT</code> statement has 3 parts.</p>
+<ul>
+<li>Select list
+<ul>
+<li>List the columns or expressions to be returned.</li>
+<li>Parsed from the entries after the keyword <code>SELECT</code></li>
+</ul>
+</li>
+<li>Table list
+<ul>
+<li>List the tables from which to retrieve the data.</li>
+<li>Parsed from the entries after the keyword <code>FROM</code></li>
+</ul>
+</li>
+<li>Row qualification
+<ul>
+<li>Specify any row filtering criteria.</li>
+<li>Parsed from the entries after the keyword <code>WHERE</code></li>
+<li>Optional</li>
+</ul>
+</li>
+</ul>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#65737e;">-- Select all columns from the user table without row filtering criteria.
+</span><span style="color:#b48ead;">SELECT </span><span style="color:#bf616a;">* </span><span style="color:#b48ead;">FROM</span><span> user;
+</span><span>
+</span><span style="color:#65737e;">-- Select the name column and bmi expression from the user table without row filtering criteria.
+</span><span style="color:#b48ead;">SELECT</span><span> name, weight_kg/(height_m</span><span style="color:#bf616a;">*</span><span>height_m) AS bmi </span><span style="color:#b48ead;">FROM</span><span> user;
+</span><span>
+</span><span style="color:#65737e;">-- Select the name and height_m column from the user table with a qualification specifying that only rows with height_m &gt; 1.8 and weight_kg &lt; 70 are wanted. Remove rows with duplicate names. The result should be ordered by name in descending order.
+</span><span style="color:#b48ead;">SELECT DISTINCT</span><span> name, height_m </span><span style="color:#b48ead;">FROM</span><span> user </span><span style="color:#b48ead;">WHERE</span><span> height_m &gt; </span><span style="color:#d08770;">1</span><span>.</span><span style="color:#d08770;">8 </span><span>AND weight_kg &lt; </span><span style="color:#d08770;">70 </span><span style="color:#b48ead;">ORDER BY</span><span> name </span><span style="color:#b48ead;">DESC</span><span>;
+</span></code></pre>
+<ul>
+<li>Use <code>*</code> to select all columns.</li>
+<li>Use <code>AS</code> to relabel a output column.</li>
+<li>Use <code>AND</code>, <code>OR</code>, and <code>NOT</code> in the <code>WHERE</code> qualification expression.</li>
+<li>Use <code>ORDER by</code> to sort the returned result.</li>
+</ul>
+<h4 id="table-join"><a class="zola-anchor" href="#table-join" aria-label="Anchor link for: table-join">Table join</a></h4>
+<p>Assume we also have a gym course enrollment table that links a course to each enrolled user.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">CREATE TABLE </span><span style="color:#8fa1b3;">course_enrollment</span><span> (
+</span><span>    id </span><span style="color:#b48ead;">int</span><span> generated by </span><span style="color:#b48ead;">default </span><span>as identity </span><span style="color:#b48ead;">primary key</span><span>,
+</span><span>    course_name </span><span style="color:#b48ead;">varchar</span><span>(</span><span style="color:#d08770;">100</span><span>),
+</span><span>    user_name </span><span style="color:#b48ead;">varchar</span><span>(</span><span style="color:#d08770;">100</span><span>),
+</span><span>    creation_date </span><span style="color:#b48ead;">date default </span><span style="color:#96b5b4;">current_date
+</span><span>);
+</span></code></pre>
+<p>Then we can make join queries to access multiple tables at once, or access the same table in such a way that multiple rows of the table are processed at the same time.</p>
+<p>In a join query, it is good practice to qualify all column names so that the query won't fail if a duplicate column name exists in the query. We can relabel the tables with aliases to save some typing.</p>
+<h5 id="self-join"><a class="zola-anchor" href="#self-join" aria-label="Anchor link for: self-join">Self join</a></h5>
+<p>A self join is joining a table against itself.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">SELECT </span><span style="color:#d08770;">u1</span><span>.</span><span style="color:#d08770;">name</span><span>, </span><span style="color:#d08770;">u1</span><span>.</span><span style="color:#d08770;">height_m </span><span>AS u1_height, </span><span style="color:#d08770;">u2</span><span>.</span><span style="color:#d08770;">name</span><span>, </span><span style="color:#d08770;">u2</span><span>.</span><span style="color:#d08770;">height_m </span><span>AS u2_height </span><span style="color:#b48ead;">FROM</span><span> user u1 </span><span style="color:#b48ead;">JOIN</span><span> user u2 ON </span><span style="color:#d08770;">u1</span><span>.</span><span style="color:#d08770;">height_m </span><span>&lt; </span><span style="color:#d08770;">u2</span><span>.</span><span style="color:#d08770;">height_m</span><span>;
+</span></code></pre>
+<h5 id="inner-join"><a class="zola-anchor" href="#inner-join" aria-label="Anchor link for: inner-join">Inner join</a></h5>
+<p>We can inner join the user table and the course enrollment table in a SQL query. Only the rows that have matching values in the <code>user_name</code>/<code>name</code> column in the <code>course_enrollment</code>/<code>user</code> table are returned.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">SELECT </span><span style="color:#d08770;">ce</span><span>.</span><span style="color:#d08770;">course_name</span><span>, </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">name</span><span>, </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">email </span><span style="color:#b48ead;">FROM</span><span> course_enrollment ce </span><span style="color:#b48ead;">JOIN</span><span> user u ON </span><span style="color:#d08770;">ce</span><span>.</span><span style="color:#d08770;">user_name </span><span>= </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">name</span><span>;
+</span></code></pre>
+<h5 id="full-outer-join"><a class="zola-anchor" href="#full-outer-join" aria-label="Anchor link for: full-outer-join">Full Outer join</a></h5>
+<p>For outer joins, columns with missing data are substituted with null values.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">SELECT </span><span style="color:#d08770;">ce</span><span>.</span><span style="color:#d08770;">course_name</span><span>, </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">name</span><span>, </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">email </span><span style="color:#b48ead;">FROM</span><span> course_enrollment ce FULL OUTER </span><span style="color:#b48ead;">JOIN</span><span> user u ON </span><span style="color:#d08770;">ce</span><span>.</span><span style="color:#d08770;">user_name </span><span>= </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">name</span><span>;
+</span></code></pre>
+<h5 id="exclusive-outer-join"><a class="zola-anchor" href="#exclusive-outer-join" aria-label="Anchor link for: exclusive-outer-join">Exclusive outer join</a></h5>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">SELECT </span><span style="color:#d08770;">ce</span><span>.</span><span style="color:#d08770;">course_name</span><span>, </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">name</span><span>, </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">email </span><span style="color:#b48ead;">FROM</span><span> course_enrollment ce FULL OUTER </span><span style="color:#b48ead;">JOIN</span><span> user u ON </span><span style="color:#d08770;">ce</span><span>.</span><span style="color:#d08770;">user_name </span><span>= </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">name </span><span style="color:#b48ead;">WHERE </span><span style="color:#d08770;">course_enrollment</span><span>.</span><span style="color:#d08770;">user_name </span><span>IS </span><span style="color:#d08770;">NULL </span><span>OR </span><span style="color:#d08770;">user</span><span>.</span><span style="color:#d08770;">name </span><span>IS </span><span style="color:#d08770;">NULL</span><span>;
+</span></code></pre>
+<h5 id="left-outer-join"><a class="zola-anchor" href="#left-outer-join" aria-label="Anchor link for: left-outer-join">Left outer join</a></h5>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">SELECT </span><span style="color:#d08770;">ce</span><span>.</span><span style="color:#d08770;">course_name</span><span>, </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">name</span><span>, </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">email </span><span style="color:#b48ead;">FROM</span><span> course_enrollment ce </span><span style="color:#b48ead;">LEFT OUTER JOIN</span><span> user u ON </span><span style="color:#d08770;">ce</span><span>.</span><span style="color:#d08770;">user_name </span><span>= </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">name</span><span>;
+</span></code></pre>
+<h5 id="exclusive-left-outer-join"><a class="zola-anchor" href="#exclusive-left-outer-join" aria-label="Anchor link for: exclusive-left-outer-join">Exclusive left outer join</a></h5>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">SELECT </span><span style="color:#d08770;">ce</span><span>.</span><span style="color:#d08770;">course_name</span><span>, </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">name</span><span>, </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">email </span><span style="color:#b48ead;">FROM</span><span> course_enrollment ce </span><span style="color:#b48ead;">LEFT OUTER JOIN</span><span> user u ON </span><span style="color:#d08770;">ce</span><span>.</span><span style="color:#d08770;">user_name </span><span>= </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">name </span><span style="color:#b48ead;">WHERE </span><span style="color:#d08770;">user</span><span>.</span><span style="color:#d08770;">name </span><span>IS </span><span style="color:#d08770;">NULL</span><span>;
+</span></code></pre>
+<h5 id="right-outer-join"><a class="zola-anchor" href="#right-outer-join" aria-label="Anchor link for: right-outer-join">Right outer join</a></h5>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">SELECT </span><span style="color:#d08770;">ce</span><span>.</span><span style="color:#d08770;">course_name</span><span>, </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">name</span><span>, </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">email </span><span style="color:#b48ead;">FROM</span><span> course_enrollment ce </span><span style="color:#b48ead;">RIGHT OUTER JOIN</span><span> user u ON </span><span style="color:#d08770;">ce</span><span>.</span><span style="color:#d08770;">user_name </span><span>= </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">name</span><span>;
+</span></code></pre>
+<h5 id="exclusive-right-outer-join"><a class="zola-anchor" href="#exclusive-right-outer-join" aria-label="Anchor link for: exclusive-right-outer-join">Exclusive right outer join</a></h5>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">SELECT </span><span style="color:#d08770;">ce</span><span>.</span><span style="color:#d08770;">course_name</span><span>, </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">name</span><span>, </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">email </span><span style="color:#b48ead;">FROM</span><span> course_enrollment ce </span><span style="color:#b48ead;">RIGHT OUTER JOIN</span><span> user u ON </span><span style="color:#d08770;">ce</span><span>.</span><span style="color:#d08770;">user_name </span><span>= </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">name </span><span style="color:#b48ead;">WHERE </span><span style="color:#d08770;">course_enrollment</span><span>.</span><span style="color:#d08770;">user_name </span><span>IS </span><span style="color:#d08770;">NULL</span><span>;
+</span></code></pre>
+<h4 id="aggregate-function"><a class="zola-anchor" href="#aggregate-function" aria-label="Anchor link for: aggregate-function">Aggregate function</a></h4>
+<p>An aggregate function computes a single result from multiple input rows. Here are some common functions.</p>
+<ul>
+<li>count</li>
+<li>sum</li>
+<li>avg</li>
+<li>min</li>
+<li>max</li>
+</ul>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#65737e;">-- Get the max height from the user table.
+</span><span style="color:#b48ead;">SELECT </span><span style="color:#96b5b4;">max</span><span>(height_m) </span><span style="color:#b48ead;">FROM</span><span> user;
+</span></code></pre>
+<h4 id="subquery"><a class="zola-anchor" href="#subquery" aria-label="Anchor link for: subquery">Subquery</a></h4>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#65737e;">-- Get the user who has the max height using a subquery.
+</span><span style="color:#b48ead;">SELECT</span><span> name </span><span style="color:#b48ead;">FROM</span><span> user </span><span style="color:#b48ead;">WHERE</span><span> height_m = (</span><span style="color:#b48ead;">SELECT </span><span style="color:#96b5b4;">max</span><span>(height_m) </span><span style="color:#b48ead;">FROM</span><span> user)
+</span></code></pre>
+<h4 id="group-by-having"><a class="zola-anchor" href="#group-by-having" aria-label="Anchor link for: group-by-having">Group by having</a></h4>
+<p>We can use <code>GROUP BY</code> to group multiple rows into one.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#65737e;">-- Get the user name and number of course enrollments for each user.
+</span><span style="color:#b48ead;">SELECT</span><span> user_name, </span><span style="color:#96b5b4;">count</span><span>(</span><span style="color:#bf616a;">*</span><span>) </span><span style="color:#b48ead;">FROM</span><span> course_enrollment </span><span style="color:#b48ead;">GROUP BY</span><span> user_name;
+</span></code></pre>
+<p>We can further filter the grouped rows with <code>HAVING</code>.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#65737e;">-- Get the user name and number of course enrollments for users who have more than 2 course enrollments.
+</span><span style="color:#b48ead;">SELECT</span><span> user_name, </span><span style="color:#96b5b4;">count</span><span>(</span><span style="color:#bf616a;">*</span><span>) </span><span style="color:#b48ead;">FROM</span><span> course_enrollment </span><span style="color:#b48ead;">GROUP BY</span><span> user_name HAVING </span><span style="color:#96b5b4;">count</span><span>(</span><span style="color:#bf616a;">*</span><span>) &gt; </span><span style="color:#d08770;">2</span><span>;
+</span></code></pre>
+<h4 id="filter"><a class="zola-anchor" href="#filter" aria-label="Anchor link for: filter">Filter</a></h4>
+<p>The <code>FILTER</code> removes rows from the input of the particular aggregate function that it is attached to.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#65737e;">-- Get the user name and number of course enrollments created after 2025-12-24 for each user.
+</span><span style="color:#b48ead;">SELECT</span><span> user_name, </span><span style="color:#96b5b4;">count</span><span>(</span><span style="color:#bf616a;">*</span><span>) FILTER (</span><span style="color:#b48ead;">WHERE</span><span> creation_date &gt; &#39;</span><span style="color:#a3be8c;">2025-12-24</span><span>&#39;) </span><span style="color:#b48ead;">FROM</span><span> course_enrollment </span><span style="color:#b48ead;">GROUP BY</span><span> user_name;
+</span></code></pre>
+<h4 id="row-update"><a class="zola-anchor" href="#row-update" aria-label="Anchor link for: row-update">Row update</a></h4>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">UPDATE</span><span> course_enrollment </span><span style="color:#b48ead;">SET</span><span> creation_date = &#39;</span><span style="color:#a3be8c;">2025-12-24</span><span>&#39; </span><span style="color:#b48ead;">WHERE</span><span> creation_date = &#39;</span><span style="color:#a3be8c;">2025-12-25</span><span>&#39;;
+</span></code></pre>
+<h4 id="row-deletion"><a class="zola-anchor" href="#row-deletion" aria-label="Anchor link for: row-deletion">Row deletion</a></h4>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">DELETE FROM</span><span> course_enrollment </span><span style="color:#b48ead;">WHERE</span><span> course_name = &#39;</span><span style="color:#a3be8c;">cardio</span><span>&#39;;
+</span></code></pre>
+<p>Note that deletion without a qualification results in the deletion of all rows in the table.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#65737e;">-- This delete all rows in the course enrollment table.
+</span><span style="color:#b48ead;">DELETE FROM</span><span> course_enrollment;
+</span></code></pre>
+<h4 id="view"><a class="zola-anchor" href="#view" aria-label="Anchor link for: view">View</a></h4>
+<p>We can create a view based on a query for reuse.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">CREATE VIEW </span><span>course_enrollment_email_view </span><span style="color:#8fa1b3;">AS
+</span><span>    </span><span style="color:#b48ead;">SELECT </span><span style="color:#d08770;">ce</span><span>.</span><span style="color:#d08770;">course_name</span><span>, </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">name</span><span>, </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">email
+</span><span>        </span><span style="color:#b48ead;">FROM</span><span> course_enrollment ce
+</span><span>        </span><span style="color:#b48ead;">JOIN</span><span> user u
+</span><span>        ON </span><span style="color:#d08770;">ce</span><span>.</span><span style="color:#d08770;">user_name </span><span>= </span><span style="color:#d08770;">u</span><span>.</span><span style="color:#d08770;">name</span><span>;
+</span><span>
+</span><span style="color:#b48ead;">SELECT </span><span style="color:#bf616a;">* </span><span style="color:#b48ead;">FROM</span><span> course_enrollment_email_view
+</span></code></pre>
+<h4 id="foreign-key-referential-integrity"><a class="zola-anchor" href="#foreign-key-referential-integrity" aria-label="Anchor link for: foreign-key-referential-integrity">Foreign key referential integrity</a></h4>
+<p>Often times we want to make sure that a foreign key column of a table do have a matching entry in that foreign key table. This is called the referential integrity.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">CREATE TABLE </span><span style="color:#8fa1b3;">user</span><span> (
+</span><span>    id </span><span style="color:#b48ead;">int</span><span> generated by </span><span style="color:#b48ead;">default </span><span>as identity </span><span style="color:#b48ead;">primary key</span><span>,
+</span><span>    name </span><span style="color:#b48ead;">varchar</span><span>(</span><span style="color:#d08770;">100</span><span>),
+</span><span>    email </span><span style="color:#b48ead;">varchar</span><span>(</span><span style="color:#d08770;">254</span><span>) unique,
+</span><span>    height_m </span><span style="color:#b48ead;">real</span><span>,
+</span><span>    weight_kg </span><span style="color:#b48ead;">real</span><span>,
+</span><span>    creation_date </span><span style="color:#b48ead;">date default </span><span style="color:#96b5b4;">current_date
+</span><span>);
+</span><span>
+</span><span style="color:#b48ead;">CREATE TABLE </span><span style="color:#8fa1b3;">course_enrollment</span><span> (
+</span><span>    id </span><span style="color:#b48ead;">int</span><span> generated by </span><span style="color:#b48ead;">default </span><span>as identity </span><span style="color:#b48ead;">primary key</span><span>,
+</span><span>    course_name </span><span style="color:#b48ead;">varchar</span><span>(</span><span style="color:#d08770;">100</span><span>),
+</span><span>    user_id </span><span style="color:#b48ead;">int references</span><span> user(id),
+</span><span>    user_name </span><span style="color:#b48ead;">varchar</span><span>(</span><span style="color:#d08770;">100</span><span>),
+</span><span>    creation_date </span><span style="color:#b48ead;">date default </span><span style="color:#96b5b4;">current_date
+</span><span>);
+</span></code></pre>
+<h4 id="transaction"><a class="zola-anchor" href="#transaction" aria-label="Anchor link for: transaction">Transaction</a></h4>
+<p>A transaction is a single, all-or-nothing operation that consists of multiple statements. The intermediate state made by each statement of a transaction is invisible to other transactions. If any statement fails, the entire operation is canceled and no change is applied to the database, leaving the database intact.</p>
+<p>This is known as the atomic property. Here is an example of bundling multiple statements into one transaction block.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">BEGIN</span><span>;
+</span><span style="color:#65737e;">-- first statement
+</span><span style="color:#b48ead;">UPDATE</span><span> user </span><span style="color:#b48ead;">SET</span><span> creation_date = &#39;</span><span style="color:#a3be8c;">2025-12-24</span><span>&#39;
+</span><span>    </span><span style="color:#b48ead;">WHERE</span><span> creation_date = &#39;</span><span style="color:#a3be8c;">2025-12-25</span><span>&#39;;
+</span><span style="color:#65737e;">-- another one
+</span><span style="color:#b48ead;">COMMIT</span><span>;
+</span></code></pre>
+<p>If we don't want to commit the ongoing transaction, we can use <code>ROLLBACK</code> instead of <code>COMMIT</code>, and then all updates will be canceled.</p>
+<p>PostgreSQL treats every SQL statement as being executed within a transaction by implicitly wrapping every command with a <code>BEGIN</code> and, if successful, a <code>COMMIT</code>, or a <code>ROLLBACK</code> otherwise.</p>
+<p>We can use <code>SAVEPOINT</code> and <code>ROLLBACK TO</code> to keep the changes earlier than the savepoint and discard the rest. A savepoint can be released if it is no longer needed. Releasing or rolling back to a savepoint automatically releases all savepoints defined after it.</p>
+<h4 id="window-function"><a class="zola-anchor" href="#window-function" aria-label="Anchor link for: window-function">Window function</a></h4>
+<p>A window function performs a calculation across a set of rows called the window frame. If the <code>PARTITION BY</code> clause is supplied, the partition is the frame unless <code>ORDER BY</code> is supplied. If <code>ORDER BY</code> is supplied then the frame consists of all rows from the start of the partition up through the current row, plus any following rows that have value equal to the current row based on the <code>ORDER BY</code> clause.</p>
+<p>Unlike an aggregate function, a window function doesn't group the frame rows into one row.</p>
+<p>The <code>OVER</code> clause determines how the input rows are split up for processing by the window function. The <code>PARTITION BY</code> clause within <code>OVER</code> divides the rows into partitions. We can omit the <code>PARTITION BY</code> to operate on all rows. We can control the order of rows processed by the window function using <code>ORDER BY</code> within <code>OVER</code>.</p>
+<p>Window functions are permitted only in the <code>SELECT</code> list and the <code>ORDER BY</code> clause and are forbidden elsewhere because they execute after other clauses like <code>WHERE</code> or <code>GROUP BY</code>.</p>
+<p>We can use a sub-select if we need to filter rows after the window function's calculation.</p>
+<p>When we need to put multiple window functions inside a query, it is recommended to name each windowing in a <code>WINDOW</code> clause and then referenced in <code>OVER</code>.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#65737e;">-- Compare each user&#39;s weight with the average weight of the users with the same height.
+</span><span style="color:#b48ead;">SELECT</span><span> id, name, weight_kg, </span><span style="color:#96b5b4;">avg</span><span>(weight_kg), row_number() OVER (PARTITION BY height_m </span><span style="color:#b48ead;">ORDER BY</span><span> weight_kg) </span><span style="color:#b48ead;">FROM</span><span> user;
+</span></code></pre>
+<h4 id="execution-order"><a class="zola-anchor" href="#execution-order" aria-label="Anchor link for: execution-order">Execution order</a></h4>
+<ol>
+<li><code>WHERE</code> selects the rows.</li>
+<li>Aggregate function operate on group rows obtained from <code>GROUP BY</code>.</li>
+<li><code>HAVING</code> selects the group rows, often using aggregate functions.</li>
+<li>Window function</li>
+</ol>
+<h4 id="inheritance"><a class="zola-anchor" href="#inheritance" aria-label="Anchor link for: inheritance">Inheritance</a></h4>
+<p>Inheritance lets an inheriting table inherit columns from an inherited table.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">CREATE TABLE </span><span style="color:#8fa1b3;">cities</span><span> (
+</span><span>    name </span><span style="color:#b48ead;">text</span><span>,
+</span><span>    population </span><span style="color:#b48ead;">int</span><span>,
+</span><span>    elevation </span><span style="color:#b48ead;">int
+</span><span>);
+</span><span>
+</span><span style="color:#b48ead;">CREATE TABLE </span><span style="color:#8fa1b3;">capitals</span><span> (
+</span><span>    state </span><span style="color:#b48ead;">char</span><span>(</span><span style="color:#d08770;">2</span><span>) UNIQUE NOT </span><span style="color:#d08770;">NULL
+</span><span>) INHERITS (cities);
+</span></code></pre>
+<p>The date type of the column <code>name</code> is <code>text</code>, a native type for variable length character strings.</p>
+<p>If we want the query to be performed on just the inherited table, we can do the following.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">SELECT</span><span> name, elevation
+</span><span>    </span><span style="color:#b48ead;">FROM</span><span> ONLY cities
+</span><span>    </span><span style="color:#b48ead;">WHERE</span><span> elevation &gt; </span><span style="color:#d08770;">500</span><span>;
+</span></code></pre>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+<ul>
+<li><a href="https://www.postgresql.org/docs/current/tutorial.html">PostgreSQL tutorial</a></li>
+</ul>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;network-protocol&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;product&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>
