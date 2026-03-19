@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Go
+  </div>
+  <div class="header-metadata">
+    
+      
+        Feb  5, 2026 · 3676 words · 19 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#here-we-go">Here we Go </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#file">File</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#package">Package</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#module">Module</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#module-initialization">Module initialization</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#first-go-program">First Go program</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#expression-and-statement">Expression and statement</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#compile-and-run">Compile and run</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#variable">Variable </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#variable-declaration">Variable declaration</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#variable-naming-convention">Variable naming convention</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#primitive-variable-type">Primitive variable type</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#variable-type-conversion">Variable type conversion</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#array">Array</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#array-declaration">Array declaration</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#slice">Slice</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#slice-declaration">Slice declaration</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#slice-appending">Slice appending</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#map">Map</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#map-declaration">Map declaration</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#map-operation">Map operation</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#pointer">Pointer</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#address-operator">Address operator</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#dereference-operator">Dereference operator</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#constant">Constant </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#constant-declaration">Constant declaration</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#print">Print </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#flow-control">Flow control </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#loop">Loop</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#for-loop">For loop</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#for-range-loop">For-range loop</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#if-and-else">If and else</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#switch">Switch</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#defer">Defer</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#function">Function </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#function-declaration">Function declaration</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#function-parameter">Function parameter</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#function-return-value">Function return value</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#function-value">Function value</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#function-closure">Function closure</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#method">Method</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#generic-function">Generic function</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#type">Type </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#type-declaration">Type declaration</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#struct">Struct</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#struct-declaration">Struct declaration</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#struct-field-access">Struct field access</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#interface">Interface</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#empty-interface">Empty interface</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#interface-concrete-type-assertion">Interface concrete type assertion</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#interface-type-switch">Interface type switch</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#error-interface">Error interface</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#io-reader-interface">IO Reader interface</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#image-interface">Image interface</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#generic-type">Generic type</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#concurrency">Concurrency </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#goroutine">Goroutine</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#channel">Channel</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#channel-declaration">Channel declaration</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#channel-operation">Channel operation</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#channel-buffer">Channel buffer</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/go/#goroutine-select">Goroutine select</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#mutex">Mutex</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#context">Context </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#networking">Networking </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#command-line-interface-cli">Command Line Interface (CLI) </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#testing">Testing </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#dependency-management">Dependency management </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#downloading-remote-modules">Downloading remote modules</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#removing-all-downloaded-modules">Removing all downloaded modules</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#memory-management">Memory management </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/go/#common-memory-bugs">Common memory bugs</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#adoption-challenge">Adoption challenge </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/go/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.</p>
+<span id="continue-reading"></span><h2 id="here-we-go"><a class="zola-anchor" href="#here-we-go" aria-label="Anchor link for: here-we-go">Here we Go</a></h2>
+<h3 id="file"><a class="zola-anchor" href="#file" aria-label="Anchor link for: file">File</a></h3>
+<p>A Go file contains expressions and statements to perform some data processing.</p>
+<p>We use snake_case for Go file names because of compatibility across case-sensitive OS like Linux and case-insensitive OS like Windows and MacOS. Also, the Go compiler uses underscores for special file suffixes to control the build process. For example, the Go compiler sees <code>*_test.go</code> as test file and <code>*_linux.go</code> as file that can only be compiled on Linux.</p>
+<p>We use kebab-case for compiled binaries to be consistent with other shell tools.</p>
+<h3 id="package"><a class="zola-anchor" href="#package" aria-label="Anchor link for: package">Package</a></h3>
+<p>A package is a collection of Go files inside the same directory. Variables, constants, functions, and types defined under the same package are visible across all Go files in the package.</p>
+<p>We use lowercase single word for package names so the <code>user service</code> package becomes <code>userservice</code>.</p>
+<h3 id="module"><a class="zola-anchor" href="#module" aria-label="Anchor link for: module">Module</a></h3>
+<p>A module is a collection of packages. It is like a project or repository. A module contains all packages inside its root directory (the directory that has the <code>go.mod</code>), including those in the subdirectories, except any subdirectory that contains another <code>go.mod</code>, which therefore defines another module.</p>
+<h4 id="module-initialization"><a class="zola-anchor" href="#module-initialization" aria-label="Anchor link for: module-initialization">Module initialization</a></h4>
+<p>We use <code>go init mod &lt;MODULE_PATH&gt;</code> to initialize a module where <code>&lt;MODULE_PATH&gt;</code> is the path to our module on a repository platform like GitHub. We usually use a GitHub repository to host a module so the module path is <code>github.com/&lt;ORGANIZATION&gt;/&lt;REPOSITORY&gt;</code>. The module path also defines the import path prefix for all packages within the module.</p>
+<p>Running the command generates the <code>go.mod</code> file that stores the module path and the Go version we are using.
+<div class="code-block-tag">
+  go.mod
+</div></p>
+<pre data-lang="config" style="background-color:#2b303b;color:#c0c5ce;" class="language-config "><code class="language-config" data-lang="config"><span style="color:#bf616a;">module </span><span>&lt;MODULE_PATH&gt;
+</span><span style="color:#bf616a;">go </span><span>&lt;VERSION&gt;
+</span></code></pre>
+<h3 id="first-go-program"><a class="zola-anchor" href="#first-go-program" aria-label="Anchor link for: first-go-program">First Go program</a></h3>
+<p>We can create our first Go program by making a <code>here_we_go.go</code> file. Later on during the compile process, the Go compiler first converts this Go file into an assembly-like internal representation and then compiles the internal representation into a binary.</p>
+<p>In order to let the compile succeed, there must be a Go file (<code>here_we_go.go</code> in our case here) that not only belongs to the <code>main</code> package but also includes a <code>main</code> function such that the compiler can locate the entrypoint of the binary.</p>
+<div class="code-block-tag">
+  here_we_go.go
+</div><pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#65737e;">// Declare this file as part of the main package.
+</span><span style="color:#b48ead;">package </span><span style="color:#bf616a;">main
+</span><span>
+</span><span style="color:#65737e;">// Import the built-in fmt package for input/output.
+</span><span style="color:#b48ead;">import </span><span>(
+</span><span>    &quot;</span><span style="color:#a3be8c;">fmt</span><span>&quot;
+</span><span>)
+</span><span>
+</span><span style="color:#65737e;">// Declare the main function in the main package.
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#65737e;">// Print a line saying &quot;Here we Go!&quot;.
+</span><span>    </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(&quot;</span><span style="color:#a3be8c;">Here we Go!</span><span>&quot;)
+</span><span>}
+</span></code></pre>
+<h4 id="expression-and-statement"><a class="zola-anchor" href="#expression-and-statement" aria-label="Anchor link for: expression-and-statement">Expression and statement</a></h4>
+<p>A Go file consists of expressions and statements for the computer to read, parse, and execute instructions. Here is a comparison between the expression and statement.</p>
+<table><thead><tr><th>\</th><th>Expression</th><th>Statement</th></tr></thead><tbody>
+<tr><td>Purpose</td><td>To produce data</td><td>To execute an instruction</td></tr>
+<tr><td>Value returning</td><td>Yes</td><td>No</td></tr>
+<tr><td>Examples</td><td><code>5; a + b; len(array)</code></td><td><code>x = 5; if ... else ...; for ...; return value; import "fmt"; i++</code></td></tr>
+</tbody></table>
+<h4 id="compile-and-run"><a class="zola-anchor" href="#compile-and-run" aria-label="Anchor link for: compile-and-run">Compile and run</a></h4>
+<p>We can use the <code>go build</code> command to instruct the Go compiler to compile the working directory's Go files into a binary.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># Generate a binary named after the working directory.
+</span><span style="color:#bf616a;">go</span><span> build
+</span><span>
+</span><span style="color:#65737e;"># Generate a binary with the specified name.
+</span><span style="color:#bf616a;">go</span><span> build</span><span style="color:#bf616a;"> -o </span><span>&lt;BINARY_NAME&gt;
+</span></code></pre>
+<p>And then we can run the produced binary.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># Run the binary, assuming its name is here-we-go.
+</span><span style="color:#bf616a;">./here-we-go
+</span></code></pre>
+<p>Furthermore, we can combine the compile and run into one command <code>go run</code>.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># Generate an ephemeral binary go-buildxxx inside the temporary directory /tmp, running it, and deletes the binary after execution.
+</span><span style="color:#bf616a;">go</span><span> run here_we_go.go
+</span><span>
+</span><span style="color:#65737e;"># This also works as long as the working directory contains the Go file that includes the main package&#39;s main function.
+</span><span style="color:#bf616a;">go</span><span> run .
+</span></code></pre>
+<p>If we want to install the binary so we can run it anywhere, export the Go install path and install the binary.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># Locate the Go install path.
+</span><span style="color:#bf616a;">go</span><span> list</span><span style="color:#bf616a;"> -f </span><span>&#39;</span><span style="color:#a3be8c;">{{.Target}}</span><span>&#39;
+</span><span>
+</span><span style="color:#65737e;"># Export the path.
+</span><span style="color:#b48ead;">export </span><span style="color:#bf616a;">PATH</span><span>=$</span><span style="color:#bf616a;">PATH</span><span style="color:#a3be8c;">:</span><span>&lt;GO_INSTALL_PATH&gt;
+</span><span>
+</span><span style="color:#65737e;"># Compile and install the binary to the Go install path.
+</span><span style="color:#bf616a;">go</span><span> install
+</span></code></pre>
+<h2 id="variable"><a class="zola-anchor" href="#variable" aria-label="Anchor link for: variable">Variable</a></h2>
+<h3 id="variable-declaration"><a class="zola-anchor" href="#variable-declaration" aria-label="Anchor link for: variable-declaration">Variable declaration</a></h3>
+<p>The <code>var</code> statement declares a list of variables. It can be at package or function level.</p>
+<p>Go uses the <code>var &lt;VARIABLE_NAME&gt; &lt;VARIABLE_TYPE&gt;</code> declaration format for variables. This makes variable declaration easier to understand when comparing with C, especially for pointers.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">// Declare an integer pointer p in C.
+</span><span style="color:#b48ead;">int </span><span>*</span><span style="color:#8fa1b3;">p
+</span></code></pre>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#65737e;">// Declare an integer pointer p in Go.
+</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">p </span><span>*</span><span style="color:#b48ead;">int
+</span></code></pre>
+<p>Variables declared without an initial value are given their zero value.</p>
+<ul>
+<li><code>false</code> for boolean</li>
+<li><code>0</code> for numeric</li>
+<li><code>""</code> for string</li>
+<li><code>nil</code> for pointer</li>
+</ul>
+<p>We can declare a variable via the explicit way or its shorter version. Note that the shorter version is only available within a function so we must use the explicit way at the package level.</p>
+<p>The shorter version is more commonly used because it is more concise. When using the shorter version, Go can infer the variable type automatically from its initial value. When the variable initial value is an untyped numeric constant, the variable type is decided by Go based on the precision of the constant.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#65737e;">// Explicit declaration
+</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">i </span><span style="color:#b48ead;">int </span><span>= </span><span style="color:#d08770;">10  </span><span style="color:#65737e;">// The int type here can be omitted as Go can infer it from the initial value.
+</span><span>
+</span><span style="color:#65737e;">// Shorter version
+</span><span style="color:#bf616a;">i </span><span>:= </span><span style="color:#d08770;">10
+</span></code></pre>
+<h3 id="variable-naming-convention"><a class="zola-anchor" href="#variable-naming-convention" aria-label="Anchor link for: variable-naming-convention">Variable naming convention</a></h3>
+<p>The Go community has the naming convention of PascalCase for exported variables, functions, and camelCase for unexported variables, functions. For example, <code>Pi</code> is exported from the <code>math</code> package and can be accessed via <code>math.Pi</code>.</p>
+<h3 id="primitive-variable-type"><a class="zola-anchor" href="#primitive-variable-type" aria-label="Anchor link for: primitive-variable-type">Primitive variable type</a></h3>
+<ul>
+<li>Boolean
+<ul>
+<li>bool</li>
+</ul>
+</li>
+<li>Integer
+<ul>
+<li>int
+<ul>
+<li>32-bit or 64-bit based on system type</li>
+</ul>
+</li>
+<li>int8</li>
+<li>int16</li>
+<li>int32</li>
+<li>int64</li>
+</ul>
+</li>
+<li>Unsigned integer
+<ul>
+<li>uint
+<ul>
+<li>32-bit or 64-bit based on system type</li>
+</ul>
+</li>
+<li>uint8</li>
+<li>uint16</li>
+<li>uint32</li>
+<li>uint64</li>
+<li>uintptr
+<ul>
+<li>32-bit or 64-bit based on system type</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Floating number
+<ul>
+<li>float32</li>
+<li>float64</li>
+</ul>
+</li>
+<li>Complex number
+<ul>
+<li>complex64</li>
+<li>complex128</li>
+</ul>
+</li>
+<li>Byte
+<ul>
+<li>byte (alias of uint8)
+<ul>
+<li>Use <code>'&lt;BYTE&gt;'</code> for literal.</li>
+<li>Byte is an alias of uint8 and not int8 because people had already developed the habit of considering 0xFF as 255 not -1. This has increased the difficulty of detecting arithmetic overflow though.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Rune
+<ul>
+<li>rune (alias of int32, representing a Unicode code point)
+<ul>
+<li>Use <code>'&lt;RUNE&gt;'</code> for literal.</li>
+<li>Rune is an alias of int32 and not uint32 such that arithmetic overflow can be easily detected.</li>
+<li>UTF-8
+<ul>
+<li>A code point between 0 and 2047 is stored with 2 bytes. The first byte has a 3-bit header <code>110xxxxx</code> indicating the character start. The second byte has a 2-bit header <code>10xxxxxx</code> marking itself as a continuation byte. The <code>x</code> count is 11, and a 11-bit signed integer gives us the range of -2048 to 2047. For example, a code point with value 256 has the first byte as <code>11000100</code> and the second byte as <code>10000000</code>.</li>
+<li>A code point between 2048 and 65535 is stored with 3 bytes. The first byte has a 4-bit header <code>1110xxxx</code> indicating the character start. The second and third byte each has a 2-bit header <code>10xxxxxx</code> marking as a continuation byte. The <code>x</code> count is 16, and a 16-bit signed integer gives us the range of -65536 to 65535. For example, a code point with value 2048 has the first byte as <code>11100000</code>, the second byte as <code>10100000</code>, and the third byte as <code>10000000</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>String
+<ul>
+<li>string
+<ul>
+<li>Use <code>"&lt;STRING&gt;"</code> for literal.</li>
+<li>When working with a string, if you want the rune index as well as the rune value, it is recommended to first turn the string into a rune slice and then process it. If you only need the rune value, a <code>for _, r := range s {fmt.Printf("%c", r)}</code> is sufficient.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="variable-type-conversion"><a class="zola-anchor" href="#variable-type-conversion" aria-label="Anchor link for: variable-type-conversion">Variable type conversion</a></h3>
+<p>We can use the <code>T(v)</code> expression to convert a variable <code>v</code> to the type <code>T</code>.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#65737e;">// Explicit declaration
+</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">i </span><span style="color:#b48ead;">int </span><span>= </span><span style="color:#d08770;">2
+</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">f </span><span style="color:#b48ead;">float64 </span><span>= </span><span style="color:#bf616a;">float64</span><span>(</span><span style="color:#bf616a;">i</span><span>)
+</span><span>
+</span><span style="color:#65737e;">// Shorter version
+</span><span style="color:#bf616a;">i </span><span>:= </span><span style="color:#d08770;">2
+</span><span style="color:#bf616a;">f </span><span>:= </span><span style="color:#bf616a;">float64</span><span>(</span><span style="color:#bf616a;">i</span><span>)
+</span></code></pre>
+<h3 id="array"><a class="zola-anchor" href="#array" aria-label="Anchor link for: array">Array</a></h3>
+<p>An array is a contiguous chunk of memory that has a fixed length, so the length is part of its type.</p>
+<p>If the compiler thinks that an array is only accessed within a specific scope and its memory consumption is small (less than 64KB), it is stored on the stack and freed once out-of-scope.</p>
+<p>Otherwise, it is allocated on the heap, which is managed by Go's garbage collector. The Go garbage collector reclaims memory when it sees that an object is no longer reachable by any active part of the program.</p>
+<h4 id="array-declaration"><a class="zola-anchor" href="#array-declaration" aria-label="Anchor link for: array-declaration">Array declaration</a></h4>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#65737e;">// Declare an integer array with 2 in length. By default the elements are set to 0.
+</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">a </span><span>[</span><span style="color:#d08770;">2</span><span>]</span><span style="color:#b48ead;">int
+</span><span>
+</span><span style="color:#65737e;">// Declare an integer array with an array literal.
+</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">a </span><span>= [</span><span style="color:#d08770;">2</span><span>]</span><span style="color:#b48ead;">int</span><span>{</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Shorter version
+</span><span style="color:#bf616a;">a </span><span>:= [</span><span style="color:#d08770;">2</span><span>]</span><span style="color:#b48ead;">int</span><span>{</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Declare an integer array with an array literal with length-inferring.
+</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">a </span><span>= [...]</span><span style="color:#b48ead;">int</span><span>{</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Shorter version
+</span><span style="color:#bf616a;">a </span><span>:= [...]</span><span style="color:#b48ead;">int</span><span>{</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>}
+</span></code></pre>
+<h3 id="slice"><a class="zola-anchor" href="#slice" aria-label="Anchor link for: slice">Slice</a></h3>
+<p>A slice is dynamically-sized, flexible view into the elements of an array. When created, it is allocated on the stack.</p>
+<p>It contains:</p>
+<ul>
+<li>A pointer to the first element in the slice</li>
+<li>The length of the slice</li>
+<li>The capacity of the slice, which is the number of elements in the underlying array, counting from the first element in the slice</li>
+</ul>
+<p>If any slice still holds a pointer to its underlying array, the entire array remains in memory. Therefore, the way to release the array's memory is to set the slice to nil.</p>
+<p>If our slice is using a small portion of the underlying array, we can use the below methods to cut down memory cost.</p>
+<ul>
+<li>If the underlying array holds pointers to large data structures, we can explicitly set the pointers to nil to let the pointed-to data be garbage collected, even if the array itself remains.</li>
+<li>Copy the relevant elements to a new slice with a new underlying array and let the original one be garbage collected.</li>
+</ul>
+<h4 id="slice-declaration"><a class="zola-anchor" href="#slice-declaration" aria-label="Anchor link for: slice-declaration">Slice declaration</a></h4>
+<p>A slice literal is like an array literal without the length. During the slice literal declaration, Go creates the underlying array and builds a slice that references it.</p>
+<p>We can use the built-in <code>println</code> function to learn a slice's information.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#65737e;">// Declare an integer slice. By default its pointer = nil and length = capacity = 0.
+</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">s </span><span>[]</span><span style="color:#b48ead;">int
+</span><span>
+</span><span style="color:#65737e;">// Declare via a slice literal.
+</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">s </span><span>= []</span><span style="color:#b48ead;">int</span><span>{</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Shorter version
+</span><span style="color:#bf616a;">s </span><span>:= []</span><span style="color:#b48ead;">int</span><span>{</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Declare a slice with make so it has 2 in length and 4 in capacity.
+</span><span style="color:#65737e;">// Under the hood, it creates an array with 4 in length and sets the slice&#39;s pointer to point to the array&#39;s first element.
+</span><span style="color:#bf616a;">s </span><span>= </span><span style="color:#96b5b4;">make</span><span>([]</span><span style="color:#b48ead;">int</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">4</span><span>)
+</span><span>
+</span><span style="color:#65737e;">// Shorter version
+</span><span style="color:#bf616a;">s </span><span>:= </span><span style="color:#96b5b4;">make</span><span>([]</span><span style="color:#b48ead;">int</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">4</span><span>)
+</span><span>
+</span><span style="color:#65737e;">// Print the slice.
+</span><span style="color:#96b5b4;">println</span><span>(</span><span style="color:#bf616a;">s</span><span>)          </span><span style="color:#65737e;">// Print [2/4]0xa00001a120, where 2 for length, 4 for capacity, 0xa00001a120 for the pointer.
+</span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(</span><span style="color:#96b5b4;">len</span><span>(</span><span style="color:#bf616a;">s</span><span>)) </span><span style="color:#65737e;">// Print 2 for length
+</span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(</span><span style="color:#96b5b4;">cap</span><span>(</span><span style="color:#bf616a;">s</span><span>)) </span><span style="color:#65737e;">// Print 4 for capacity
+</span><span>
+</span><span style="color:#65737e;">// Declare a slice from an existing array
+</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">a </span><span>[</span><span style="color:#d08770;">2</span><span>]</span><span style="color:#b48ead;">int
+</span><span>
+</span><span style="color:#65737e;">// The following statements are equivalent.
+</span><span style="color:#bf616a;">s </span><span>:= </span><span style="color:#bf616a;">a</span><span>[:]
+</span><span style="color:#bf616a;">s </span><span>:= </span><span style="color:#bf616a;">a</span><span>[</span><span style="color:#d08770;">0</span><span>:]
+</span><span style="color:#bf616a;">s </span><span>:= </span><span style="color:#bf616a;">a</span><span>[:</span><span style="color:#d08770;">2</span><span>]
+</span><span style="color:#bf616a;">s </span><span>:= </span><span style="color:#bf616a;">a</span><span>[</span><span style="color:#d08770;">0</span><span>:</span><span style="color:#d08770;">2</span><span>]
+</span></code></pre>
+<h4 id="slice-appending"><a class="zola-anchor" href="#slice-appending" aria-label="Anchor link for: slice-appending">Slice appending</a></h4>
+<p>We can append one or multiple elements or even another slice to the end of a slice. If the slice's capacity is exceeded, meaning the underlying array doesn't have the space to accommodate all elements, Go creates another array (usually doubling the array length), copying the elements into it, and updates the slice to use the new array.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#bf616a;">s1 </span><span>:= []</span><span style="color:#b48ead;">int</span><span>{</span><span style="color:#d08770;">1</span><span>}          </span><span style="color:#65737e;">// s1 = {1}
+</span><span style="color:#bf616a;">s1 </span><span>= </span><span style="color:#96b5b4;">append</span><span>(</span><span style="color:#bf616a;">s1</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">3</span><span>)   </span><span style="color:#65737e;">// s1 = {1, 2, 3}
+</span><span style="color:#bf616a;">s2 </span><span>:= []</span><span style="color:#b48ead;">int</span><span>{</span><span style="color:#d08770;">4</span><span>}          </span><span style="color:#65737e;">// s2 = {4}
+</span><span style="color:#bf616a;">s1 </span><span>= </span><span style="color:#96b5b4;">append</span><span>(</span><span style="color:#bf616a;">s1</span><span>, </span><span style="color:#bf616a;">s2</span><span>...)  </span><span style="color:#65737e;">// s1 = {1, 2, 3, 4}
+</span></code></pre>
+<h3 id="map"><a class="zola-anchor" href="#map" aria-label="Anchor link for: map">Map</a></h3>
+<p>A map is used to store key-value pairs. Its zero value is nil and has no keys or the ability to accept new keys.</p>
+<h4 id="map-declaration"><a class="zola-anchor" href="#map-declaration" aria-label="Anchor link for: map-declaration">Map declaration</a></h4>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#65737e;">// Declare an integer-to-string map. This is meaningless because it&#39;s a nil map and cannot accept new keys.
+</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">m </span><span style="color:#b48ead;">map</span><span>[</span><span style="color:#b48ead;">int</span><span>]</span><span style="color:#b48ead;">string
+</span><span>
+</span><span style="color:#65737e;">// Declare via a map literal.
+</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">m </span><span>= </span><span style="color:#b48ead;">map</span><span>[</span><span style="color:#b48ead;">int</span><span>]</span><span style="color:#b48ead;">string</span><span>{</span><span style="color:#d08770;">1</span><span>: &quot;</span><span style="color:#a3be8c;">one</span><span>&quot;}
+</span><span>
+</span><span style="color:#65737e;">// Shorter version
+</span><span style="color:#bf616a;">m </span><span>:= </span><span style="color:#b48ead;">map</span><span>[</span><span style="color:#b48ead;">int</span><span>]</span><span style="color:#b48ead;">string</span><span>{</span><span style="color:#d08770;">1</span><span>: &quot;</span><span style="color:#a3be8c;">one</span><span>&quot;}
+</span><span>
+</span><span style="color:#65737e;">// Declare a map with make.
+</span><span style="color:#bf616a;">m </span><span>:= </span><span style="color:#96b5b4;">make</span><span>(</span><span style="color:#b48ead;">map</span><span>[</span><span style="color:#b48ead;">int</span><span>]</span><span style="color:#b48ead;">string</span><span>)
+</span></code></pre>
+<p>When using a map literal to declare a map, we can omit the top-level value type if it is a type name.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">type </span><span>Vertex </span><span style="color:#b48ead;">struct </span><span>{
+</span><span>    </span><span style="color:#bf616a;">X</span><span>, </span><span style="color:#bf616a;">Y </span><span style="color:#b48ead;">int
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Explicit value type
+</span><span style="color:#bf616a;">m </span><span>:= </span><span style="color:#b48ead;">map</span><span>[</span><span style="color:#b48ead;">string</span><span>]</span><span style="color:#b48ead;">Vertex</span><span>{
+</span><span>    &quot;</span><span style="color:#a3be8c;">Go</span><span>&quot;: </span><span style="color:#bf616a;">Vertex</span><span>{</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>},
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Shorter version
+</span><span style="color:#bf616a;">m </span><span>:= </span><span style="color:#b48ead;">map</span><span>[</span><span style="color:#b48ead;">string</span><span>]</span><span style="color:#b48ead;">Vertex</span><span>{
+</span><span>    &quot;</span><span style="color:#a3be8c;">Go</span><span>&quot;: {</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>},
+</span><span>}
+</span></code></pre>
+<h4 id="map-operation"><a class="zola-anchor" href="#map-operation" aria-label="Anchor link for: map-operation">Map operation</a></h4>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#65737e;">// Insert or update a key-value pair.
+</span><span style="color:#bf616a;">m</span><span>[</span><span style="color:#bf616a;">key</span><span>] = </span><span style="color:#bf616a;">value
+</span><span>
+</span><span style="color:#65737e;">// Retrieve the value of a key.
+</span><span style="color:#bf616a;">value </span><span>:= </span><span style="color:#bf616a;">m</span><span>[</span><span style="color:#bf616a;">key</span><span>]
+</span><span>
+</span><span style="color:#65737e;">// Delete a key-value pair
+</span><span style="color:#96b5b4;">delete</span><span>(</span><span style="color:#bf616a;">m</span><span>, </span><span style="color:#bf616a;">key</span><span>)
+</span><span>
+</span><span style="color:#65737e;">// Test a key&#39;s existence.
+</span><span style="color:#bf616a;">value</span><span>, </span><span style="color:#bf616a;">ok </span><span>:= </span><span style="color:#bf616a;">m</span><span>[</span><span style="color:#bf616a;">key</span><span>]
+</span><span style="color:#65737e;">// If the key is in m, ok is true.
+</span><span style="color:#65737e;">// Otherwise, the value is the value type&#39;s zero value, and ok is false.
+</span></code></pre>
+<h3 id="pointer"><a class="zola-anchor" href="#pointer" aria-label="Anchor link for: pointer">Pointer</a></h3>
+<p>A pointer is a variable that stores a memory address, usually the memory address of another variable. With a pointer, we can work on a large struct directly inside different functions without the need to copy and pass the object around.</p>
+<h4 id="address-operator"><a class="zola-anchor" href="#address-operator" aria-label="Anchor link for: address-operator">Address operator</a></h4>
+<p>We can use the address operator <code>&amp;</code> to get the memory address of a variable.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#bf616a;">i </span><span>:= </span><span style="color:#d08770;">2
+</span><span style="color:#bf616a;">p </span><span>:= &amp;</span><span style="color:#bf616a;">i
+</span></code></pre>
+<h4 id="dereference-operator"><a class="zola-anchor" href="#dereference-operator" aria-label="Anchor link for: dereference-operator">Dereference operator</a></h4>
+<p>We can use the dereference operator <code>*</code> to access the pointed-to variable.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#bf616a;">i </span><span>:= </span><span style="color:#d08770;">2
+</span><span style="color:#bf616a;">p </span><span>:= &amp;</span><span style="color:#bf616a;">i
+</span><span>*</span><span style="color:#bf616a;">p </span><span>= </span><span style="color:#d08770;">4  </span><span style="color:#65737e;">// Now i has value 4.
+</span></code></pre>
+<h2 id="constant"><a class="zola-anchor" href="#constant" aria-label="Anchor link for: constant">Constant</a></h2>
+<h3 id="constant-declaration"><a class="zola-anchor" href="#constant-declaration" aria-label="Anchor link for: constant-declaration">Constant declaration</a></h3>
+<p>Go uses the <code>const &lt;CONSTANT_NAME&gt; &lt;CONSTANT_TYPE&gt;</code> declaration format for constants. Note that we cannot use the shorter version <code>:=</code> to declare a constant.</p>
+<p>Numeric constants are high-precision values. An untyped constant takes the type needed by its context.</p>
+<h2 id="print"><a class="zola-anchor" href="#print" aria-label="Anchor link for: print">Print</a></h2>
+<p>We often use the <code>Print</code>, <code>Println</code>, and <code>Printf</code> function from the built-in <code>fmt</code> package.</p>
+<ul>
+<li>Print
+<ul>
+<li>Aggregate passed-in parameters without adding space and new line character as delimiter, and print the result.</li>
+</ul>
+</li>
+<li>Println
+<ul>
+<li>Aggregate parameters, adding space and new line character, and print the result.</li>
+</ul>
+</li>
+<li>Printf
+<ul>
+<li>Aggregate parameters based on the passed-in template, without adding space and new line character, and print the result.</li>
+<li>%t for boolean</li>
+<li>%d for decimal number</li>
+<li>%g for floating-point number</li>
+<li>%c for Unicode code point character</li>
+<li>%s for string</li>
+<li>%v for default format</li>
+<li>%T for type</li>
+<li>%q for double-quoted string with special character escaping</li>
+<li>%w for error</li>
+<li>%b for binary</li>
+<li>%o for octal (base8)</li>
+<li>%x for hexadecimal (base16)</li>
+</ul>
+</li>
+</ul>
+<h2 id="flow-control"><a class="zola-anchor" href="#flow-control" aria-label="Anchor link for: flow-control">Flow control</a></h2>
+<h3 id="loop"><a class="zola-anchor" href="#loop" aria-label="Anchor link for: loop">Loop</a></h3>
+<h4 id="for-loop"><a class="zola-anchor" href="#for-loop" aria-label="Anchor link for: for-loop">For loop</a></h4>
+<p>A <code>for</code> loop has 3 components separated by semicolons.</p>
+<ol>
+<li>An initial statement is executed before the first iteration.</li>
+<li>A condition expression is evaluated before every iteration.</li>
+<li>A post statement is executed at the end of every iteration.</li>
+</ol>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">for </span><span style="color:#bf616a;">i </span><span>:= </span><span style="color:#d08770;">0</span><span>; </span><span style="color:#bf616a;">i </span><span>&lt; </span><span style="color:#d08770;">10</span><span>; </span><span style="color:#bf616a;">i</span><span>++ {
+</span><span>    </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(</span><span style="color:#bf616a;">i</span><span>)
+</span><span>}
+</span><span>
+</span><span style="color:#bf616a;">i </span><span>:= </span><span style="color:#d08770;">0
+</span><span style="color:#b48ead;">for </span><span style="color:#bf616a;">i </span><span>&lt; </span><span style="color:#d08770;">10 </span><span>{
+</span><span>    </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(</span><span style="color:#bf616a;">i</span><span>)
+</span><span>    </span><span style="color:#bf616a;">i</span><span>++
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Declare a for loop that runs forever.
+</span><span style="color:#b48ead;">for </span><span>{
+</span><span>    </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(&quot;</span><span style="color:#a3be8c;">Here we Go!</span><span>&quot;)
+</span><span>}
+</span></code></pre>
+<h4 id="for-range-loop"><a class="zola-anchor" href="#for-range-loop" aria-label="Anchor link for: for-range-loop">For-range loop</a></h4>
+<p>A <code>for-range</code> loop provides a concise way to iterate over a range, string, array, slice, or map. The basic syntax assigns iteration values to one or two variables, followed by the <code>range</code> keyword and then the collection.</p>
+<p>We can even use this to read a channel. Note that if we want to handle different values received from the channel separately, consider to use the <a href="https://teyuanliu.github.io/blog/go/#goroutine-select">goroutine select</a>.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#65737e;">// Loop over the index.
+</span><span style="color:#b48ead;">for </span><span style="color:#bf616a;">index </span><span>:= </span><span style="color:#b48ead;">range </span><span style="color:#bf616a;">collection
+</span><span>
+</span><span style="color:#65737e;">// Loop over both the index and value.
+</span><span style="color:#b48ead;">for </span><span style="color:#bf616a;">index</span><span>, </span><span style="color:#bf616a;">value </span><span>:= </span><span style="color:#b48ead;">range </span><span style="color:#bf616a;">collection
+</span><span>
+</span><span style="color:#65737e;">// Loop over the value.
+</span><span style="color:#b48ead;">for </span><span style="color:#bf616a;">_</span><span>, </span><span style="color:#bf616a;">value </span><span>:= </span><span style="color:#b48ead;">range </span><span style="color:#bf616a;">collection
+</span><span>
+</span><span style="color:#65737e;">// Loop over the value received from a channel.
+</span><span style="color:#b48ead;">for </span><span style="color:#bf616a;">value </span><span>:= </span><span style="color:#b48ead;">range </span><span style="color:#bf616a;">channel
+</span></code></pre>
+<table><thead><tr><th>Collection type</th><th>First value</th><th>Second value (optional)</th></tr></thead><tbody>
+<tr><td>Integer</td><td>Index (int)</td><td>Not applicable</td></tr>
+<tr><td>String</td><td>Index (int)</td><td>Rune (Unicode code point)</td></tr>
+<tr><td>Array or Slice</td><td>Index (int)</td><td>Element copy</td></tr>
+<tr><td>Map</td><td>Key</td><td>Value copy</td></tr>
+<tr><td>Channel</td><td>Element</td><td>Not applicable</td></tr>
+</tbody></table>
+<h3 id="if-and-else"><a class="zola-anchor" href="#if-and-else" aria-label="Anchor link for: if-and-else">If and else</a></h3>
+<p>An <code>if</code> statement has 2 components separated by a semicolon.</p>
+<ol>
+<li>An initial statement is executed first. Its variables stay in the scope of the <code>if</code> and <code>else</code>.</li>
+<li>A condition expression is then evaluated.</li>
+</ol>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">if </span><span style="color:#bf616a;">check </span><span>:= </span><span style="color:#d08770;">true</span><span>; </span><span style="color:#bf616a;">check </span><span>== </span><span style="color:#d08770;">true </span><span>{
+</span><span>    </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(&quot;</span><span style="color:#a3be8c;">Check is true.</span><span>&quot;)
+</span><span>} </span><span style="color:#b48ead;">else if </span><span style="color:#bf616a;">check </span><span>== </span><span style="color:#d08770;">false </span><span>{
+</span><span>    </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(&quot;</span><span style="color:#a3be8c;">Check is false.</span><span>&quot;)
+</span><span>} </span><span style="color:#b48ead;">else </span><span>{
+</span><span>    </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(&quot;</span><span style="color:#a3be8c;">Panic: check is not boolean.</span><span>&quot;)
+</span><span>}
+</span></code></pre>
+<h3 id="switch"><a class="zola-anchor" href="#switch" aria-label="Anchor link for: switch">Switch</a></h3>
+<p>A <code>switch</code> statement is a shorter way for flow control. It evaluates cases from top to bottom, and runs the first case whose value is equal to the condition expression.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">import </span><span>(
+</span><span>    &quot;</span><span style="color:#a3be8c;">fmt</span><span>&quot;
+</span><span>    &quot;</span><span style="color:#a3be8c;">runtime</span><span>&quot;
+</span><span>)
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Print</span><span>(&quot;</span><span style="color:#a3be8c;">Go runs on </span><span>&quot;)
+</span><span>    </span><span style="color:#b48ead;">switch </span><span style="color:#bf616a;">os </span><span>:= </span><span style="color:#bf616a;">runtime</span><span>.</span><span style="color:#bf616a;">GOOS</span><span>; </span><span style="color:#bf616a;">os </span><span>{
+</span><span>        </span><span style="color:#b48ead;">case </span><span>&quot;</span><span style="color:#a3be8c;">linux</span><span>&quot;:
+</span><span>            </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(&quot;</span><span style="color:#a3be8c;">Linux.</span><span>&quot;)
+</span><span>        </span><span style="color:#b48ead;">case </span><span>&quot;</span><span style="color:#a3be8c;">darwin</span><span>&quot;:
+</span><span>            </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(&quot;</span><span style="color:#a3be8c;">macOS.</span><span>&quot;)
+</span><span>        </span><span style="color:#b48ead;">case </span><span>&quot;</span><span style="color:#a3be8c;">windows</span><span>&quot;:
+</span><span>            </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(&quot;</span><span style="color:#a3be8c;">Windows.</span><span>&quot;)
+</span><span>        </span><span style="color:#b48ead;">default</span><span>:
+</span><span>            </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Printf</span><span>(&quot;</span><span style="color:#d08770;">%s</span><span style="color:#a3be8c;">.</span><span style="color:#96b5b4;">\n</span><span>&quot;, </span><span style="color:#bf616a;">os</span><span>)
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>Switch without condition is the same as <code>switch true</code> and is a clean way to write long if-then-else chains.</p>
+<h3 id="defer"><a class="zola-anchor" href="#defer" aria-label="Anchor link for: defer">Defer</a></h3>
+<p>A <code>defer</code> statement evaluates its function arguments immediately but postpones the function execution until the <code>defer</code> statement's surrounding function returns.</p>
+<p>Deferred function calls are pushed onto a stack and follows the Last-In-First-Out (LIFO) execution order.</p>
+<h2 id="function"><a class="zola-anchor" href="#function" aria-label="Anchor link for: function">Function</a></h2>
+<h3 id="function-declaration"><a class="zola-anchor" href="#function-declaration" aria-label="Anchor link for: function-declaration">Function declaration</a></h3>
+<p>Go uses the <code>func &lt;FUNCTION_NAME&gt;(&lt;FUNCTION_PARAMETER&gt;) &lt;RETURN_TYPE&gt;</code> declaration format for functions. This is also easier to understand comparing with C.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">// Declare a function f that takes an integer parameter and returns an integer in C.
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">f</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">p</span><span>)
+</span></code></pre>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#65737e;">// Declare a function f that takes an integer parameter and returns an integer in Go.
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">f</span><span>(</span><span style="color:#bf616a;">p </span><span style="color:#b48ead;">int</span><span>) </span><span style="color:#b48ead;">int
+</span></code></pre>
+<h3 id="function-parameter"><a class="zola-anchor" href="#function-parameter" aria-label="Anchor link for: function-parameter">Function parameter</a></h3>
+<p>When two or more consecutive named function parameters share a type, we can omit the type from all but the last.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#65737e;">// Declare a function add that takes two integer parameters and returns an integer.
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">add</span><span>(</span><span style="color:#bf616a;">x </span><span style="color:#b48ead;">int</span><span>, </span><span style="color:#bf616a;">y </span><span style="color:#b48ead;">int</span><span>) </span><span style="color:#b48ead;">int
+</span><span>
+</span><span style="color:#65737e;">// Shorter version
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">add</span><span>(</span><span style="color:#bf616a;">x</span><span>, </span><span style="color:#bf616a;">y </span><span style="color:#b48ead;">int</span><span>) </span><span style="color:#b48ead;">int
+</span></code></pre>
+<h3 id="function-return-value"><a class="zola-anchor" href="#function-return-value" aria-label="Anchor link for: function-return-value">Function return value</a></h3>
+<p>A function's return values may be named. If so, they are treated as variables defined at the top of the function. These return value names should be used to document the meaning of the return values. A <code>return</code> statement without arguments returns the named return values.</p>
+<p>We generally don't use named return values as they can decrease readability in longer functions.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">getXY</span><span>() (</span><span style="color:#bf616a;">x</span><span>, </span><span style="color:#bf616a;">y </span><span style="color:#b48ead;">int</span><span>) {
+</span><span>    </span><span style="color:#bf616a;">x </span><span>= </span><span style="color:#d08770;">1
+</span><span>    </span><span style="color:#bf616a;">y </span><span>= </span><span style="color:#d08770;">2
+</span><span>    </span><span style="color:#b48ead;">return
+</span><span>}
+</span></code></pre>
+<h3 id="function-value"><a class="zola-anchor" href="#function-value" aria-label="Anchor link for: function-value">Function value</a></h3>
+<p>Functions are values and can be passed around just like other values.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">compute</span><span>(</span><span style="color:#bf616a;">fn </span><span style="color:#b48ead;">func</span><span>(</span><span style="color:#b48ead;">float64</span><span>, </span><span style="color:#b48ead;">float64</span><span>) </span><span style="color:#b48ead;">float64</span><span>) </span><span style="color:#b48ead;">float64 </span><span>{
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">fn</span><span>(</span><span style="color:#d08770;">3</span><span>, </span><span style="color:#d08770;">4</span><span>)
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#bf616a;">hypot </span><span>:= </span><span style="color:#b48ead;">func</span><span>(</span><span style="color:#bf616a;">x</span><span>, </span><span style="color:#bf616a;">y </span><span style="color:#b48ead;">float64</span><span>) </span><span style="color:#b48ead;">float64 </span><span>{
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">math</span><span>.</span><span style="color:#bf616a;">Sqrt</span><span>(</span><span style="color:#bf616a;">x </span><span>* </span><span style="color:#bf616a;">x </span><span>+ </span><span style="color:#bf616a;">y </span><span>* </span><span style="color:#bf616a;">y</span><span>)
+</span><span>    }
+</span><span>    </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(</span><span style="color:#bf616a;">compute</span><span>(</span><span style="color:#bf616a;">hypot</span><span>))
+</span><span>}
+</span></code></pre>
+<h3 id="function-closure"><a class="zola-anchor" href="#function-closure" aria-label="Anchor link for: function-closure">Function closure</a></h3>
+<p>A closure is a function value that references variables from outside its body. Each closure is bound to its own external variables.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#65737e;">// fibonacciFactory is a function that returns
+</span><span style="color:#65737e;">// a fibonacci function, which is a closure, that returns
+</span><span style="color:#65737e;">// the next number in the Fibonacci series.
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">fibonacciFactory</span><span>() </span><span style="color:#b48ead;">func</span><span>() </span><span style="color:#b48ead;">int </span><span>{
+</span><span>    </span><span style="color:#bf616a;">i</span><span>, </span><span style="color:#bf616a;">pp</span><span>, </span><span style="color:#bf616a;">p </span><span>:= -</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">0</span><span>, </span><span style="color:#d08770;">1
+</span><span>    </span><span style="color:#bf616a;">fibonacci </span><span>:= </span><span style="color:#b48ead;">func</span><span>() </span><span style="color:#b48ead;">int </span><span>{
+</span><span>        </span><span style="color:#bf616a;">i </span><span>+= </span><span style="color:#d08770;">1
+</span><span>        </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">i </span><span>== </span><span style="color:#d08770;">0 </span><span>{
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0
+</span><span>        } </span><span style="color:#b48ead;">else if </span><span style="color:#bf616a;">i </span><span>== </span><span style="color:#d08770;">1 </span><span>{
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">1
+</span><span>        } </span><span style="color:#b48ead;">else </span><span>{
+</span><span>            </span><span style="color:#bf616a;">c </span><span>:= </span><span style="color:#bf616a;">pp </span><span>+ </span><span style="color:#bf616a;">p
+</span><span>            </span><span style="color:#bf616a;">pp </span><span>= </span><span style="color:#bf616a;">p
+</span><span>            </span><span style="color:#bf616a;">p </span><span>= </span><span style="color:#bf616a;">c
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">c
+</span><span>        }
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">fibonacci
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#bf616a;">f </span><span>:= </span><span style="color:#bf616a;">fibonacciFactory</span><span>()
+</span><span>    </span><span style="color:#b48ead;">for </span><span style="color:#bf616a;">i </span><span>:= </span><span style="color:#d08770;">0</span><span>; </span><span style="color:#bf616a;">i </span><span>&lt; </span><span style="color:#d08770;">10</span><span>; </span><span style="color:#bf616a;">i</span><span>++ {
+</span><span>        </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(</span><span style="color:#bf616a;">f</span><span>())
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h3 id="method"><a class="zola-anchor" href="#method" aria-label="Anchor link for: method">Method</a></h3>
+<p>A method is a function with a special receiver argument. We use the receiver argument to attach the function to a type, usually a struct. Note that the receiver type can't be a pointer and must be defined in the same package so we cannot declare a method with a receiver whose type is <code>int</code>.</p>
+<p>There are 2 kinds of receivers, the value receiver and the pointer receiver.</p>
+<ul>
+<li>Value receiver
+<ul>
+<li>The method operates on a copy of the receiver and is best for reads on small structs. It uses the <code>func (&lt;RECEIVER_NAME&gt; &lt;RECEIVER_TYPE&gt;) &lt;FUNCTION_NAME&gt;(&lt;FUNCTION_PARAMETER&gt;) &lt;RETURN_TYPE&gt;</code> declaration format. Note that we can pass in a receiver pointer and Go automatically dereferences the pointer, making a copy of the receiver, and runs the method.</li>
+</ul>
+</li>
+<li>Pointer receiver
+<ul>
+<li>The method operates on the original receiver via a pointer pointing to the receiver and is used for writes or reads on large structs. It uses the <code>func (&lt;RECEIVER_NAME&gt; *&lt;RECEIVER_TYPE&gt;) &lt;FUNCTION_NAME&gt;(&lt;FUNCTION_PARAMETER&gt;) &lt;RETURN_TYPE&gt;</code> declaration format. Note that we can pass in a receiver value and Go automatically gets its memory address and runs the method.</li>
+</ul>
+</li>
+</ul>
+<h3 id="generic-function"><a class="zola-anchor" href="#generic-function" aria-label="Anchor link for: generic-function">Generic function</a></h3>
+<p>A generic function can handle the same parameter of different types using type parameters.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#65737e;">// Declare a function that takes in a T-typed slice `s` and a T-typed variable `x`. The T type can be any type that fulfills the built-in comparable constraint.
+</span><span style="color:#65737e;">// The comparable constraint ensures that we can use a comparison operator like `==` on values of that type.
+</span><span style="color:#b48ead;">func </span><span style="color:#bf616a;">getIndex</span><span>[</span><span style="color:#bf616a;">T comparable</span><span>](</span><span style="color:#bf616a;">s </span><span>[]</span><span style="color:#b48ead;">T</span><span>, </span><span style="color:#bf616a;">x T</span><span>) </span><span style="color:#bf616a;">int
+</span></code></pre>
+<h2 id="type"><a class="zola-anchor" href="#type" aria-label="Anchor link for: type">Type</a></h2>
+<h3 id="type-declaration"><a class="zola-anchor" href="#type-declaration" aria-label="Anchor link for: type-declaration">Type declaration</a></h3>
+<p>Go uses the <code>type &lt;TYPE_NAME&gt; &lt;UNDERLYING_TYPE&gt;</code> declaration format for types.</p>
+<h3 id="struct"><a class="zola-anchor" href="#struct" aria-label="Anchor link for: struct">Struct</a></h3>
+<p>A struct is a collection of fields (variables).</p>
+<h4 id="struct-declaration"><a class="zola-anchor" href="#struct-declaration" aria-label="Anchor link for: struct-declaration">Struct declaration</a></h4>
+<p>A struct literal denotes a newly allocated struct value by listing the values of its fields.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">type </span><span>Vertex </span><span style="color:#b48ead;">struct </span><span>{
+</span><span>    </span><span style="color:#bf616a;">X </span><span style="color:#b48ead;">int
+</span><span>    </span><span style="color:#bf616a;">Y </span><span style="color:#b48ead;">int
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#bf616a;">v1 </span><span>:= </span><span style="color:#bf616a;">Vertex</span><span>{}      </span><span style="color:#65737e;">// By default X = 0 and Y = 0
+</span><span>    </span><span style="color:#bf616a;">v2 </span><span>:= </span><span style="color:#bf616a;">Vertex</span><span>{</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>}  </span><span style="color:#65737e;">// X = 1 and Y = 2
+</span><span>    </span><span style="color:#bf616a;">v3 </span><span>:= </span><span style="color:#bf616a;">Vertex</span><span>{</span><span style="color:#bf616a;">X</span><span>: </span><span style="color:#d08770;">3</span><span>}  </span><span style="color:#65737e;">// X = 3 and Y = 0
+</span><span>}
+</span></code></pre>
+<h4 id="struct-field-access"><a class="zola-anchor" href="#struct-field-access" aria-label="Anchor link for: struct-field-access">Struct field access</a></h4>
+<p>Struct fields are accessible via a dot. If we have a struct pointer, using a dot does the dereferencing automatically.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">type </span><span>Vertex </span><span style="color:#b48ead;">struct </span><span>{
+</span><span>    </span><span style="color:#bf616a;">X </span><span style="color:#b48ead;">int
+</span><span>    </span><span style="color:#bf616a;">Y </span><span style="color:#b48ead;">int
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#bf616a;">v </span><span>:= </span><span style="color:#bf616a;">Vertex</span><span>{</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>}
+</span><span>    </span><span style="color:#bf616a;">v</span><span>.</span><span style="color:#bf616a;">X </span><span>= </span><span style="color:#d08770;">3
+</span><span>    </span><span style="color:#bf616a;">p </span><span>:= &amp;</span><span style="color:#bf616a;">Vertex</span><span>{</span><span style="color:#d08770;">4</span><span>, </span><span style="color:#d08770;">5</span><span>}
+</span><span>    </span><span style="color:#bf616a;">p</span><span>.</span><span style="color:#bf616a;">Y </span><span>= </span><span style="color:#d08770;">6 </span><span style="color:#65737e;">// Same as (*p).Y = 6
+</span><span>}
+</span></code></pre>
+<h3 id="interface"><a class="zola-anchor" href="#interface" aria-label="Anchor link for: interface">Interface</a></h3>
+<p>An Interface defines a set of method signatures for other types to implement, achieving polymorphism (flexibility).</p>
+<p>An interface value is a tuple of a concrete value and the concrete type, and can hold any concrete type value as long as that concrete type implements those methods.</p>
+<p>Calling a method on an interface value effectively executes the same-named method of its concrete type value.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">type </span><span>I </span><span style="color:#b48ead;">interface </span><span>{
+</span><span>    </span><span style="color:#8fa1b3;">M</span><span>()
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">describe</span><span>(</span><span style="color:#bf616a;">i </span><span style="color:#b48ead;">I</span><span>) {
+</span><span>    </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Printf</span><span>(&quot;</span><span style="color:#a3be8c;">(</span><span style="color:#d08770;">%v</span><span style="color:#a3be8c;">, </span><span style="color:#d08770;">%T</span><span style="color:#a3be8c;">)</span><span style="color:#96b5b4;">\n</span><span>&quot;, </span><span style="color:#bf616a;">i</span><span>, </span><span style="color:#bf616a;">i</span><span>)
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">type </span><span>T </span><span style="color:#b48ead;">struct </span><span>{
+</span><span>    </span><span style="color:#bf616a;">S </span><span style="color:#b48ead;">string
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span>(</span><span style="color:#bf616a;">t </span><span>*</span><span style="color:#b48ead;">T</span><span>) </span><span style="color:#8fa1b3;">M</span><span>() {
+</span><span>    </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(</span><span style="color:#bf616a;">t</span><span>.</span><span style="color:#bf616a;">S</span><span>)
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">i </span><span style="color:#b48ead;">I
+</span><span>    </span><span style="color:#bf616a;">describe</span><span>(</span><span style="color:#bf616a;">i</span><span>) </span><span style="color:#65737e;">// (nil, nil)
+</span><span>    </span><span style="color:#bf616a;">i</span><span>.</span><span style="color:#bf616a;">M</span><span>()       </span><span style="color:#65737e;">// nil pointer dereference runtime error
+</span><span>
+</span><span>    </span><span style="color:#bf616a;">i </span><span>= &amp;</span><span style="color:#bf616a;">T</span><span>{&quot;</span><span style="color:#a3be8c;">Here we Go!</span><span>&quot;}
+</span><span>    </span><span style="color:#bf616a;">describe</span><span>(</span><span style="color:#bf616a;">i</span><span>) </span><span style="color:#65737e;">// (&amp;{&quot;Here we Go!&quot;}, *main.T)
+</span><span>    </span><span style="color:#bf616a;">i</span><span>.</span><span style="color:#bf616a;">M</span><span>()       </span><span style="color:#65737e;">// &quot;Here we Go!&quot;
+</span><span>}
+</span></code></pre>
+<p>If the concrete type value inside the interface value is a nil pointer, calling the method will result in a nil pointer dereference runtime error. Therefore, it's a good practice to write code to gracefully handle nil receiver method call.</p>
+<h4 id="empty-interface"><a class="zola-anchor" href="#empty-interface" aria-label="Anchor link for: empty-interface">Empty interface</a></h4>
+<p>An interface type that specifies no methods is an empty interface. An empty interface can hold values of any concrete type and is used to handle the concrete type value that is unknown at compile time but figured out at runtime.</p>
+<h4 id="interface-concrete-type-assertion"><a class="zola-anchor" href="#interface-concrete-type-assertion" aria-label="Anchor link for: interface-concrete-type-assertion">Interface concrete type assertion</a></h4>
+<p>An interface concrete type assertion checks if the interface value holds a value of the specified concrete type. If so, it returns the concrete type value and a true ok value. Otherwise, it returns the zero value of the specified concrete type and a false ok value.</p>
+<h4 id="interface-type-switch"><a class="zola-anchor" href="#interface-type-switch" aria-label="Anchor link for: interface-type-switch">Interface type switch</a></h4>
+<p>An interface type switch is a switch statement that uses types as cases, rather than values as cases.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">do</span><span>(</span><span style="color:#bf616a;">i </span><span style="color:#b48ead;">interface</span><span>{}) {
+</span><span>    </span><span style="color:#b48ead;">switch </span><span style="color:#bf616a;">v </span><span>:= </span><span style="color:#bf616a;">i</span><span>.(</span><span style="color:#b48ead;">type</span><span>) {
+</span><span>        </span><span style="color:#b48ead;">case </span><span style="color:#bf616a;">int</span><span>:
+</span><span>            </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Printf</span><span>(&quot;</span><span style="color:#a3be8c;">Twice </span><span style="color:#d08770;">%v</span><span style="color:#a3be8c;"> is </span><span style="color:#d08770;">%v</span><span style="color:#96b5b4;">\n</span><span>&quot;, </span><span style="color:#bf616a;">v</span><span>, </span><span style="color:#bf616a;">v</span><span>*</span><span style="color:#d08770;">2</span><span>)
+</span><span>        </span><span style="color:#b48ead;">case </span><span style="color:#bf616a;">string</span><span>:
+</span><span>            </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Printf</span><span>(&quot;</span><span style="color:#d08770;">%q</span><span style="color:#a3be8c;"> is </span><span style="color:#d08770;">%v</span><span style="color:#a3be8c;"> bytes long</span><span style="color:#96b5b4;">\n</span><span>&quot;, </span><span style="color:#bf616a;">v</span><span>, </span><span style="color:#96b5b4;">len</span><span>(</span><span style="color:#bf616a;">v</span><span>))
+</span><span>        </span><span style="color:#b48ead;">default</span><span>:
+</span><span>            </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Printf</span><span>(&quot;</span><span style="color:#a3be8c;">I don&#39;t know about type </span><span style="color:#d08770;">%T</span><span style="color:#a3be8c;">!</span><span style="color:#96b5b4;">\n</span><span>&quot;, </span><span style="color:#bf616a;">v</span><span>)
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h4 id="error-interface"><a class="zola-anchor" href="#error-interface" aria-label="Anchor link for: error-interface">Error interface</a></h4>
+<p>The built-in error type is an interface that requires an <code>Error() string</code> method. we can use <code>errors.New()</code> or <code>fmt.Errorf()</code> to quickly build an error value, or we can develop a custom error type.</p>
+<p>When implementing the method for a custom error type, we should use <code>fmt.Sprintf</code> on the error value's internal fields or the type-converted error value, rather than passing the error value back into the <code>fmt</code> function. This makes sure we don't create a recursion that leads to infinite looping.</p>
+<p>Any function call, including arithmetic operation, file read/write, and network request, may fail unexpectedly. Therefore, Go makes functions return two values: the result, and an error. This forces the caller to explicitly handle the potential failure immediately.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">type </span><span>MyError </span><span style="color:#b48ead;">struct </span><span>{
+</span><span>    </span><span style="color:#bf616a;">When time</span><span>.</span><span style="color:#b48ead;">Time
+</span><span>    </span><span style="color:#bf616a;">What </span><span style="color:#b48ead;">string
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span>(</span><span style="color:#bf616a;">e </span><span>*</span><span style="color:#b48ead;">MyError</span><span>) </span><span style="color:#8fa1b3;">Error</span><span>() </span><span style="color:#b48ead;">string </span><span>{
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Sprintf</span><span>(&quot;</span><span style="color:#a3be8c;">at </span><span style="color:#d08770;">%v</span><span style="color:#a3be8c;">, </span><span style="color:#d08770;">%s</span><span>&quot;,
+</span><span>        </span><span style="color:#bf616a;">e</span><span>.</span><span style="color:#bf616a;">When</span><span>, </span><span style="color:#bf616a;">e</span><span>.</span><span style="color:#bf616a;">What</span><span>)
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">run</span><span>() </span><span style="color:#b48ead;">error </span><span>{
+</span><span>    </span><span style="color:#b48ead;">return </span><span>&amp;</span><span style="color:#bf616a;">MyError</span><span>{
+</span><span>        </span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Now</span><span>(),
+</span><span>        &quot;</span><span style="color:#a3be8c;">it didn&#39;t work</span><span>&quot;,
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">err </span><span>:= </span><span style="color:#bf616a;">run</span><span>(); </span><span style="color:#bf616a;">err </span><span>!= </span><span style="color:#d08770;">nil </span><span>{
+</span><span>        </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(</span><span style="color:#bf616a;">err</span><span>)
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h4 id="io-reader-interface"><a class="zola-anchor" href="#io-reader-interface" aria-label="Anchor link for: io-reader-interface">IO Reader interface</a></h4>
+<p>The <code>io.Reader</code> interface has a <code>Read</code> method that populates the given byte slice with data and returns the number of bytes populated and an error value. It returns an <code>io.EOF</code> error when the stream ends.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">func </span><span>(</span><span style="color:#b48ead;">T</span><span>) </span><span style="color:#8fa1b3;">Read</span><span>(</span><span style="color:#bf616a;">b </span><span>[]</span><span style="color:#b48ead;">byte</span><span>) (</span><span style="color:#bf616a;">n </span><span style="color:#b48ead;">int</span><span>, </span><span style="color:#bf616a;">err </span><span style="color:#b48ead;">error</span><span>)
+</span></code></pre>
+<h4 id="image-interface"><a class="zola-anchor" href="#image-interface" aria-label="Anchor link for: image-interface">Image interface</a></h4>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">type </span><span>Image </span><span style="color:#b48ead;">interface </span><span>{
+</span><span>    </span><span style="color:#8fa1b3;">ColorModel</span><span>() </span><span style="color:#bf616a;">color</span><span>.</span><span style="color:#b48ead;">Model
+</span><span>    </span><span style="color:#8fa1b3;">Bounds</span><span>() </span><span style="color:#b48ead;">Rectangle
+</span><span>    </span><span style="color:#8fa1b3;">At</span><span>(</span><span style="color:#bf616a;">x</span><span>, </span><span style="color:#bf616a;">y </span><span style="color:#b48ead;">int</span><span>) </span><span style="color:#bf616a;">color</span><span>.</span><span style="color:#b48ead;">Color
+</span><span>}
+</span></code></pre>
+<h3 id="generic-type"><a class="zola-anchor" href="#generic-type" aria-label="Anchor link for: generic-type">Generic type</a></h3>
+<p>A generic type can hold values of any type.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#65737e;">// List represents a singly-linked list that holds
+</span><span style="color:#65737e;">// values of any type.
+</span><span style="color:#b48ead;">type </span><span>List[</span><span style="color:#bf616a;">T any</span><span>] </span><span style="color:#b48ead;">struct </span><span>{
+</span><span>    </span><span style="color:#bf616a;">next </span><span>*</span><span style="color:#b48ead;">List</span><span>[</span><span style="color:#bf616a;">T</span><span>]
+</span><span>    </span><span style="color:#bf616a;">val  </span><span style="color:#b48ead;">T
+</span><span>}
+</span></code></pre>
+<h2 id="concurrency"><a class="zola-anchor" href="#concurrency" aria-label="Anchor link for: concurrency">Concurrency</a></h2>
+<h3 id="goroutine"><a class="zola-anchor" href="#goroutine" aria-label="Anchor link for: goroutine">Goroutine</a></h3>
+<p>A goroutine is a lightweight (2 KB memory) thread managed by the Go runtime, whereas an OS thread (8 MB memory) is managed by the OS.</p>
+<p>Given a small number of OS threads (usually the number of logical cores), the Go runtime can schedule thousands of goroutines to run on these few threads.</p>
+<p>If a goroutine blocks because of waiting for I/O, the Go runtime scheduler swaps another runnable goroutine onto the thread.</p>
+<p>We can start running a function <code>f(x)</code> inside a goroutine using <code>go f(x)</code>, The evaluation of <code>f</code> and <code>x</code> happens in the current goroutine and the execution of <code>f(x)</code> happens in the new goroutine.</p>
+<h3 id="channel"><a class="zola-anchor" href="#channel" aria-label="Anchor link for: channel">Channel</a></h3>
+<p>Goroutines shared the same process memory so memory access must be synchronized. This is why we use channels.</p>
+<p>A channel is where goroutines synchronize data with each other.</p>
+<h4 id="channel-declaration"><a class="zola-anchor" href="#channel-declaration" aria-label="Anchor link for: channel-declaration">Channel declaration</a></h4>
+<p>We can use <code>make</code> to declare a channel.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#bf616a;">ch </span><span>:= </span><span style="color:#96b5b4;">make</span><span>(</span><span style="color:#b48ead;">chan int</span><span>)
+</span></code></pre>
+<h4 id="channel-operation"><a class="zola-anchor" href="#channel-operation" aria-label="Anchor link for: channel-operation">Channel operation</a></h4>
+<p>We can send and receive elements through a channel with the channel operator <code>&lt;-</code>.</p>
+<p>If we have one sender and that sender has no more elements to send, then it should call <code>close()</code> to shutdown the channel.</p>
+<p>If we have multiple senders, we should use <code>sync.WaitGroup</code> in the coordinator goroutine to wait for all senders to finish before closing the channel. Note that only a sender or coordinator should close the channel because sending to a closed channel causes a panic but receiving from a closed channel doesn't cause a panic.</p>
+<p>A receiver can test whether a channel has been closed by assigning a second parameter <code>ok</code> to the receive expression. If <code>ok</code> is <code>false</code> then the channel is closed.</p>
+<p>A receiver can use a <a href="https://teyuanliu.github.io/blog/go/#for-range-loop">for-range loop</a> <code>for i := range c</code> to receive elements from the <code>c</code> channel repeatedly until it is closed. Note that this blocks the receiver goroutine until the channel is closed. This is one of the occasions where we need to close the channel to let the the receiver goroutine be garbage collected. Other than this, we usually don't need to close a channel.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#bf616a;">ch </span><span>&lt;- </span><span style="color:#bf616a;">y         </span><span style="color:#65737e;">// Send the value of y to channel ch.
+</span><span style="color:#bf616a;">x </span><span>:= &lt;-</span><span style="color:#bf616a;">ch       </span><span style="color:#65737e;">// Receive an element from channel ch and use it to create x.
+</span><span style="color:#96b5b4;">close</span><span>(</span><span style="color:#bf616a;">ch</span><span>)       </span><span style="color:#65737e;">// A sender closes the ch channel.
+</span><span style="color:#bf616a;">z</span><span>, </span><span style="color:#bf616a;">ok </span><span>:= &lt;-</span><span style="color:#bf616a;">ch   </span><span style="color:#65737e;">// A receiver checks if the ch channel is closed via the ok variable.
+</span></code></pre>
+<p>Here is an example to use 2 goroutines to sum the numbers in a slice.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">sum</span><span>(</span><span style="color:#bf616a;">s </span><span>[]</span><span style="color:#b48ead;">int</span><span>, </span><span style="color:#bf616a;">c </span><span style="color:#b48ead;">chan int</span><span>) {
+</span><span>    </span><span style="color:#bf616a;">sum </span><span>:= </span><span style="color:#d08770;">0
+</span><span>    </span><span style="color:#b48ead;">for </span><span style="color:#bf616a;">_</span><span>, </span><span style="color:#bf616a;">v </span><span>:= </span><span style="color:#b48ead;">range </span><span style="color:#bf616a;">s </span><span>{
+</span><span>        </span><span style="color:#bf616a;">sum </span><span>+= </span><span style="color:#bf616a;">v
+</span><span>    }
+</span><span>    </span><span style="color:#bf616a;">c </span><span>&lt;- </span><span style="color:#bf616a;">sum
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#bf616a;">s </span><span>:= []</span><span style="color:#b48ead;">int</span><span>{</span><span style="color:#d08770;">7</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">8</span><span>, -</span><span style="color:#d08770;">9</span><span>, </span><span style="color:#d08770;">4</span><span>, </span><span style="color:#d08770;">0</span><span>}
+</span><span>
+</span><span>    </span><span style="color:#bf616a;">c </span><span>:= </span><span style="color:#96b5b4;">make</span><span>(</span><span style="color:#b48ead;">chan int</span><span>)
+</span><span>    </span><span style="color:#b48ead;">go </span><span style="color:#bf616a;">sum</span><span>(</span><span style="color:#bf616a;">s</span><span>[:</span><span style="color:#96b5b4;">len</span><span>(</span><span style="color:#bf616a;">s</span><span>)/</span><span style="color:#d08770;">2</span><span>], </span><span style="color:#bf616a;">c</span><span>)
+</span><span>    </span><span style="color:#b48ead;">go </span><span style="color:#bf616a;">sum</span><span>(</span><span style="color:#bf616a;">s</span><span>[</span><span style="color:#96b5b4;">len</span><span>(</span><span style="color:#bf616a;">s</span><span>)/</span><span style="color:#d08770;">2</span><span>:], </span><span style="color:#bf616a;">c</span><span>)
+</span><span>    </span><span style="color:#bf616a;">v </span><span>:= </span><span style="color:#d08770;">0
+</span><span>    </span><span style="color:#b48ead;">for </span><span style="color:#bf616a;">e </span><span>:= </span><span style="color:#b48ead;">range </span><span style="color:#bf616a;">c </span><span>{
+</span><span>        </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(</span><span style="color:#bf616a;">e</span><span>)
+</span><span>        </span><span style="color:#bf616a;">v </span><span>+= </span><span style="color:#bf616a;">e
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(</span><span style="color:#bf616a;">v</span><span>)
+</span><span>}
+</span></code></pre>
+<p>Here is a template for common workflows. Note the destructor goroutine that closes the channel to unblock the main function.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">type </span><span>Result </span><span style="color:#b48ead;">struct </span><span>{
+</span><span>    </span><span style="color:#bf616a;">ID </span><span style="color:#b48ead;">int
+</span><span>    </span><span style="color:#bf616a;">Value </span><span style="color:#b48ead;">int
+</span><span>    </span><span style="color:#bf616a;">Error </span><span style="color:#b48ead;">error
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#bf616a;">results </span><span>:= </span><span style="color:#96b5b4;">make</span><span>(</span><span style="color:#b48ead;">chan Result</span><span>)
+</span><span>    </span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">wg sync</span><span>.</span><span style="color:#b48ead;">WaitGroup
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">for </span><span style="color:#bf616a;">i </span><span>:= </span><span style="color:#b48ead;">range </span><span style="color:#d08770;">3 </span><span>{
+</span><span>        </span><span style="color:#bf616a;">wg</span><span>.</span><span style="color:#bf616a;">Go</span><span>(</span><span style="color:#b48ead;">func</span><span>() {
+</span><span>            </span><span style="color:#bf616a;">work</span><span>(</span><span style="color:#bf616a;">i</span><span>, </span><span style="color:#bf616a;">results</span><span>)
+</span><span>        })
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">go func</span><span>() {
+</span><span>        </span><span style="color:#bf616a;">wg</span><span>.</span><span style="color:#bf616a;">Wait</span><span>()
+</span><span>        </span><span style="color:#96b5b4;">close</span><span>(</span><span style="color:#bf616a;">results</span><span>)
+</span><span>    }()
+</span><span>    </span><span style="color:#b48ead;">for </span><span style="color:#bf616a;">res </span><span>:= </span><span style="color:#b48ead;">range </span><span style="color:#bf616a;">results </span><span>{
+</span><span>        </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(</span><span style="color:#bf616a;">res</span><span>)
+</span><span>    }
+</span><span>    </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(&quot;</span><span style="color:#a3be8c;">finished!</span><span>&quot;)
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">work</span><span>(</span><span style="color:#bf616a;">id </span><span style="color:#b48ead;">int</span><span>, </span><span style="color:#bf616a;">results </span><span style="color:#b48ead;">chan Result</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">id </span><span>% </span><span style="color:#d08770;">2 </span><span>== </span><span style="color:#d08770;">0 </span><span>{
+</span><span>        </span><span style="color:#bf616a;">results </span><span>&lt;- </span><span style="color:#bf616a;">Result</span><span>{</span><span style="color:#bf616a;">ID</span><span>: </span><span style="color:#bf616a;">id</span><span>, </span><span style="color:#bf616a;">Value</span><span>: </span><span style="color:#bf616a;">id </span><span>* </span><span style="color:#d08770;">10</span><span>, </span><span style="color:#bf616a;">Error</span><span>: </span><span style="color:#d08770;">nil</span><span>}
+</span><span>    } </span><span style="color:#b48ead;">else </span><span>{
+</span><span>        </span><span style="color:#bf616a;">results </span><span>&lt;- </span><span style="color:#bf616a;">Result</span><span>{</span><span style="color:#bf616a;">ID</span><span>: </span><span style="color:#bf616a;">id</span><span>, </span><span style="color:#bf616a;">Error</span><span>: </span><span style="color:#bf616a;">errors</span><span>.</span><span style="color:#bf616a;">New</span><span>(&quot;</span><span style="color:#a3be8c;">remainder is 1</span><span>&quot;)}
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h4 id="channel-buffer"><a class="zola-anchor" href="#channel-buffer" aria-label="Anchor link for: channel-buffer">Channel buffer</a></h4>
+<p>A buffer is a channel's internal queue. By default the buffer length is 0, so a send blocks a goroutine until the element it's sending is received by another goroutine. Same for the read, a read blocks a goroutine until another goroutine sends an element to the channel for it to receive.</p>
+<p>We can use the second argument of <code>make</code> to set the buffer length.</p>
+<p>A send doesn't block a goroutine if the number of elements in the channel is less than the buffer length. Otherwise, the send blocks the goroutine. A read works in a similar way.</p>
+<h4 id="goroutine-select"><a class="zola-anchor" href="#goroutine-select" aria-label="Anchor link for: goroutine-select">Goroutine select</a></h4>
+<p>Goroutine select is used for cases like signal handling alongside receiving values from a channel. The <code>select</code> statement pauses the current goroutine until it can execute one of its communication cases. If multiple are ready, it randomly choose one of them to execute.</p>
+<p>We can specify a <code>default</code> case for it to send or receive without blocking when other cases are not ready yet.</p>
+<p>If the select statement is in the main function, we can label the outer loop and break that loop when the result channel is closed.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#bf616a;">ctx</span><span>, </span><span style="color:#bf616a;">cancel </span><span>:= </span><span style="color:#bf616a;">context</span><span>.</span><span style="color:#bf616a;">WithTimeout</span><span>(</span><span style="color:#bf616a;">context</span><span>.</span><span style="color:#bf616a;">Background</span><span>(), </span><span style="color:#d08770;">4 </span><span>* </span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Second</span><span>)
+</span><span>	</span><span style="color:#b48ead;">defer </span><span style="color:#bf616a;">cancel</span><span>()
+</span><span>
+</span><span>    </span><span style="color:#bf616a;">results </span><span>:= </span><span style="color:#96b5b4;">make</span><span>(</span><span style="color:#b48ead;">chan int</span><span>)
+</span><span>    </span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">wg sync</span><span>.</span><span style="color:#b48ead;">WaitGroup
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">for </span><span style="color:#bf616a;">i </span><span>:= </span><span style="color:#b48ead;">range </span><span style="color:#d08770;">3 </span><span>{
+</span><span>        </span><span style="color:#bf616a;">wg</span><span>.</span><span style="color:#bf616a;">Go</span><span>(</span><span style="color:#b48ead;">func</span><span>() {
+</span><span>            </span><span style="color:#bf616a;">multiplyBy10</span><span>(</span><span style="color:#bf616a;">i</span><span>, </span><span style="color:#bf616a;">ctx</span><span>, </span><span style="color:#bf616a;">results</span><span>)
+</span><span>        })
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">go func</span><span>() {
+</span><span>        </span><span style="color:#bf616a;">wg</span><span>.</span><span style="color:#bf616a;">Wait</span><span>()
+</span><span>        </span><span style="color:#96b5b4;">close</span><span>(</span><span style="color:#bf616a;">results</span><span>)
+</span><span>    }()
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">for </span><span style="color:#bf616a;">result </span><span>:= </span><span style="color:#bf616a;">results </span><span>{
+</span><span>        </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Printf</span><span>(&quot;</span><span style="color:#a3be8c;">Received result: </span><span style="color:#d08770;">%d</span><span style="color:#96b5b4;">\n</span><span>&quot;, </span><span style="color:#bf616a;">result</span><span>)
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">multiplyBy10</span><span>(</span><span style="color:#bf616a;">i </span><span style="color:#b48ead;">int</span><span>, </span><span style="color:#bf616a;">ctx context</span><span>.</span><span style="color:#b48ead;">Context</span><span>, </span><span style="color:#bf616a;">results </span><span style="color:#b48ead;">chan int</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">select </span><span>{
+</span><span>        </span><span style="color:#b48ead;">case </span><span>&lt;- </span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">After</span><span>(</span><span style="color:#d08770;">2 </span><span>* </span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Second</span><span>):
+</span><span>            </span><span style="color:#bf616a;">results </span><span>&lt;- </span><span style="color:#bf616a;">i </span><span>* </span><span style="color:#d08770;">10
+</span><span>        </span><span style="color:#b48ead;">case </span><span>&lt;- </span><span style="color:#bf616a;">ctx</span><span>.</span><span style="color:#bf616a;">Done</span><span>():
+</span><span>            </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Printf</span><span>(&quot;</span><span style="color:#a3be8c;">Stopped due to context cancellation: </span><span style="color:#d08770;">%v</span><span>&quot;, </span><span style="color:#bf616a;">ctx</span><span>.</span><span style="color:#bf616a;">Err</span><span>())
+</span><span>        </span><span style="color:#b48ead;">default</span><span>:
+</span><span>            </span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Sleep</span><span>(</span><span style="color:#d08770;">500 </span><span>* </span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Millisecond</span><span>)
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h3 id="mutex"><a class="zola-anchor" href="#mutex" aria-label="Anchor link for: mutex">Mutex</a></h3>
+<p>We use Mutual-exclusion (Mutex) to let a variable be accessed by one goroutine at a time. Go provides the <code>sync.Mutex</code> type and its methods, <code>Lock</code>, and <code>Unlock</code>, to achieve this.</p>
+<h2 id="context"><a class="zola-anchor" href="#context" aria-label="Anchor link for: context">Context</a></h2>
+<p>Contexts propagate cancellation and timeouts across service calls, preventing resource leaks and allowing for graceful shutdowns.</p>
+<ul>
+<li>context.Context
+<ul>
+<li>context.Background()</li>
+<li>context.TODO()</li>
+<li>context.WithCancel()</li>
+<li>context.WithTimeout()</li>
+</ul>
+</li>
+</ul>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">work</span><span>() {
+</span><span>    </span><span style="color:#bf616a;">ctx</span><span>, </span><span style="color:#bf616a;">cancel </span><span>:= </span><span style="color:#bf616a;">context</span><span>.</span><span style="color:#bf616a;">WithTimeout</span><span>(</span><span style="color:#bf616a;">context</span><span>.</span><span style="color:#bf616a;">Background</span><span>(), </span><span style="color:#d08770;">2 </span><span>* </span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Second</span><span>) </span><span style="color:#65737e;">// The timer of ctx starts ticking here.
+</span><span>    </span><span style="color:#b48ead;">defer </span><span style="color:#bf616a;">cancel</span><span>()
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">select </span><span>{
+</span><span>        </span><span style="color:#b48ead;">case </span><span>&lt;- </span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">after</span><span>(</span><span style="color:#d08770;">1 </span><span>* </span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Second</span><span>):
+</span><span>            </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(&quot;</span><span style="color:#a3be8c;">Finished work successfully.</span><span>&quot;)
+</span><span>        </span><span style="color:#b48ead;">case </span><span>&lt;- </span><span style="color:#bf616a;">ctx</span><span>.</span><span style="color:#bf616a;">Done</span><span>():
+</span><span>            </span><span style="color:#bf616a;">fmt</span><span>.</span><span style="color:#bf616a;">Println</span><span>(&quot;</span><span style="color:#a3be8c;">Timed out:</span><span>&quot;, </span><span style="color:#bf616a;">ctx</span><span>.</span><span style="color:#bf616a;">Err</span><span>())
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h2 id="networking"><a class="zola-anchor" href="#networking" aria-label="Anchor link for: networking">Networking</a></h2>
+<ul>
+<li>net/http package for REST API server and client</li>
+<li>encoding/json package for data serialization/deserialization</li>
+<li>gopkg.in/yaml.v2 package for parsing YAML</li>
+<li>Create your own custom <code>http.Client</code> because <code>http.DefaultClient</code> has no timeout and may be modified by imported dependencies.</li>
+<li>Reuse the same client for connection pool sharing.</li>
+<li>Close the response body to prevent file descriptor exhaustion.</li>
+</ul>
+<h2 id="command-line-interface-cli"><a class="zola-anchor" href="#command-line-interface-cli" aria-label="Anchor link for: command-line-interface-cli">Command Line Interface (CLI)</a></h2>
+<ul>
+<li>spf13/cobra package for building CLI tools</li>
+<li>viper package for reading YAML/JSON configuration files, environment variables, and flags</li>
+<li>log/slog package for structured logging</li>
+</ul>
+<h2 id="testing"><a class="zola-anchor" href="#testing" aria-label="Anchor link for: testing">Testing</a></h2>
+<ul>
+<li>testing package for unit tests</li>
+</ul>
+<h2 id="dependency-management"><a class="zola-anchor" href="#dependency-management" aria-label="Anchor link for: dependency-management">Dependency management</a></h2>
+<h3 id="downloading-remote-modules"><a class="zola-anchor" href="#downloading-remote-modules" aria-label="Anchor link for: downloading-remote-modules">Downloading remote modules</a></h3>
+<p>In each Go file, we use the <code>import</code> keyword to import packages from both local module and remote modules. To download a remote module and record its version in our <code>go.mod</code>. We use the <code>go mod tidy</code> command to add the missing module and also remove unneeded modules.</p>
+<p>If two different modules have packages with the same name, we have to use alias for at least one of the package to avoid conflicting import.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">import </span><span>(
+</span><span>    &quot;</span><span style="color:#a3be8c;">example.com/module1/x</span><span>&quot;
+</span><span>    </span><span style="color:#bf616a;">m2x </span><span>&quot;</span><span style="color:#a3be8c;">example.com/module2/x</span><span>&quot; </span><span style="color:#65737e;">// Alias example.com/module2/x to m2x.
+</span><span>)
+</span></code></pre>
+<h3 id="removing-all-downloaded-modules"><a class="zola-anchor" href="#removing-all-downloaded-modules" aria-label="Anchor link for: removing-all-downloaded-modules">Removing all downloaded modules</a></h3>
+<p>Use <code>go clean -modcache</code> to remove all downloaded modules.</p>
+<h2 id="memory-management"><a class="zola-anchor" href="#memory-management" aria-label="Anchor link for: memory-management">Memory management</a></h2>
+<h3 id="common-memory-bugs"><a class="zola-anchor" href="#common-memory-bugs" aria-label="Anchor link for: common-memory-bugs">Common memory bugs</a></h3>
+<ul>
+<li>Invalid memory address or nil pointer dereference
+<ul>
+<li>An invalid memory address or nil pointer dereference error occurs when a program tries to access a memory region it is not allowed to.</li>
+</ul>
+</li>
+</ul>
+<h2 id="adoption-challenge"><a class="zola-anchor" href="#adoption-challenge" aria-label="Anchor link for: adoption-challenge">Adoption challenge</a></h2>
+<ul>
+<li>Goroutine race condition</li>
+<li>Memory leak as goroutine is blocked waiting on an inactive channel</li>
+<li>Limited tools and hiring pool</li>
+</ul>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;etcd&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;javascript&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

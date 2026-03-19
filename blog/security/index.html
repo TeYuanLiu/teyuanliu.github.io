@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Security
+  </div>
+  <div class="header-metadata">
+    
+      
+        Dec 27, 2025 · 173 words · 1 min read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/security/#package-security">Package security </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/security/#pre-run">Pre-run</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/security/#runtime">Runtime</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/security/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>Software security measures are essential to prevent malicious actions.</p>
+<span id="continue-reading"></span><h2 id="package-security"><a class="zola-anchor" href="#package-security" aria-label="Anchor link for: package-security">Package security</a></h2>
+<p>Here are some steps to ensure security when using external packages.</p>
+<h3 id="pre-run"><a class="zola-anchor" href="#pre-run" aria-label="Anchor link for: pre-run">Pre-run</a></h3>
+<ul>
+<li>Search for suspicious code in package repository.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">grep -i -E </span><span>&#39;</span><span style="color:#a3be8c;">requests|http|socket|upload|post|get</span><span>&#39;</span><span style="color:#bf616a;"> -r</span><span> .
+</span></code></pre>
+</li>
+</ul>
+<h3 id="runtime"><a class="zola-anchor" href="#runtime" aria-label="Anchor link for: runtime">Runtime</a></h3>
+<p>We can monitor the application's file access pattern and network requests at runtime.</p>
+<ol>
+<li>Build a Docker image that contains the application.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span> build</span><span style="color:#bf616a;"> -t </span><span>&lt;IMAGE_NAME&gt; .
+</span></code></pre>
+</li>
+<li>Start a container using the image (mount a workspace volume if needed).<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span> run</span><span style="color:#bf616a;"> -it --rm -v </span><span>&quot;$</span><span style="color:#bf616a;">PWD</span><span style="color:#a3be8c;">/workspace</span><span>&quot;:/workspace &lt;IMAGE_NAME&gt; bash
+</span></code></pre>
+</li>
+<li>Run and monitor the application at runtime.
+<ul>
+<li>Inside the container
+<ul>
+<li>File access
+<ul>
+<li>Install and run <code>strace</code> to trace file operations when running the application.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">strace -e</span><span> trace=openat,read,write &lt;APPLICATION&gt;
+</span></code></pre>
+</li>
+<li>Look for file paths outside of <code>/workspace</code> to identify suspicious file access.</li>
+</ul>
+</li>
+<li>Network request
+<ul>
+<li>Install and run <code>tcpdump</code> to monitor network activity.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> tcpdump</span><span style="color:#bf616a;"> -i</span><span> any</span><span style="color:#bf616a;"> -n</span><span> port 80 or port 443
+</span></code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Outside the container
+<ul>
+<li>File access
+<ul>
+<li>Install and run <code>inotify</code> to monitor what files the container accesses.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">inotifywait -m -r </span><span>$</span><span style="color:#bf616a;">PWD</span><span>/workspace
+</span></code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Run the application with restricted access.
+<ul>
+<li>Use <code>--read-only</code> to prevent writes beyond the volume.</li>
+<li>Use <code>--network=none</code> to prevent network access.</li>
+<li>Use <code>--cap-drop=ALL</code> to strip extra privileges.</li>
+<li>Use <code>--security-opt no-new-privileges:true</code> to prevent privilege escalation.</li>
+</ul>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span> run</span><span style="color:#bf616a;"> --rm -it </span><span>\
+</span><span style="color:#bf616a;">    --read-only </span><span>\
+</span><span style="color:#bf616a;">    --network</span><span>=none \
+</span><span style="color:#bf616a;">    --cap-drop</span><span>=All \
+</span><span style="color:#bf616a;">    --security-opt</span><span> no-new-privileges:true \
+</span><span style="color:#bf616a;">    -v </span><span>&quot;$</span><span style="color:#bf616a;">PWD</span><span style="color:#a3be8c;">/workspace</span><span>&quot;:/workspace \
+</span><span>    &lt;IMAGE_NAME&gt; bash
+</span></code></pre>
+</li>
+</ol>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;rust&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;system-architecture&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Linux
+  </div>
+  <div class="header-metadata">
+    
+      
+        Feb  5, 2026 · 3419 words · 18 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/linux/#origin">Origin </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/linux/#distribution">Distribution </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/linux/#bootup">Bootup </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/linux/#namespace">Namespace </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/linux/#namespace-types">Namespace types</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/linux/#process">Process </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/linux/#rings">Rings </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/linux/#gnu-and-shell">GNU and shell </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/linux/#frequently-used-bash-commands">Frequently-used Bash commands</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/linux/#filesystem">Filesystem </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/linux/#storage-devices-in-filesystem">Storage devices in filesystem</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/linux/#file-permissions">File permissions</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/linux/#encoding">Encoding</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/linux/#networking">Networking </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/linux/#routing-table">Routing table</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/linux/#network-address-translation-table">Network address translation table</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/linux/#network-device">Network device</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/linux/#network-device-type">Network device type</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/linux/#socket">Socket</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/linux/#traffic-flow">Traffic flow</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/linux/#ubuntu">Ubuntu </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/linux/#dual-boot">Dual boot</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/linux/#troubleshooting">Troubleshooting</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/linux/#package-manager">Package manager</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/linux/#set-up-development-environment">Set up development environment</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/linux/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.</p>
+<span id="continue-reading"></span><h2 id="origin"><a class="zola-anchor" href="#origin" aria-label="Anchor link for: origin">Origin</a></h2>
+<p>In 1970s, the Bell labs developed an OS named Unix, and it led to a standardization called Portable Operating System Interface (POSIX) to ensure compatibility among different systems.</p>
+<p>In 1987, an OS named Minix was developed based on Unix and gained popularity in the academic field. However, the redistribution of its code was restricted. This motivated a Finnish software developer, Linus Torvalds, to developed his own OS kernel, Linux, in 1991, using the C programming language.</p>
+<p>Linux was advertised as a free and open source software under the GNU (GNU's Not Unix) General Public License (GPL) 2.0 license. It was free to distribute, modify, and make money from it.</p>
+<h2 id="distribution"><a class="zola-anchor" href="#distribution" aria-label="Anchor link for: distribution">Distribution</a></h2>
+<p>A Linux distribution is a complete operating system built on top of the Linux kernel and each distribution has its own highly opinionated set of default software. Here are some famous distributions.</p>
+<ul>
+<li>Slackware
+<ul>
+<li>The original gangster from the 1990s.</li>
+</ul>
+</li>
+<li>Debian
+<ul>
+<li>The most popular distribution overall, including many variants like Ubuntu.</li>
+<li>Emphasize openness and ease of use.</li>
+<li>Use apt as the package manger.</li>
+<li>Use Gnome as the desktop environment.</li>
+</ul>
+</li>
+<li>Red Hat
+<ul>
+<li>Enterprise-maintained distribution that supports long-term maintenance.</li>
+<li>Use Dandified YUM (DNF) as the package manger.</li>
+</ul>
+</li>
+<li>Arch
+<ul>
+<li>A lightweight distribution thrives on simplicity.</li>
+<li>Use pacman as the package manger.</li>
+</ul>
+</li>
+</ul>
+<h2 id="bootup"><a class="zola-anchor" href="#bootup" aria-label="Anchor link for: bootup">Bootup</a></h2>
+<p>The kernel acts as a bridge between the hardware and software. When we press the power button of a computer:</p>
+<ul>
+<li>The UEFI/BIOS initializes the hardware.</li>
+<li>The UEFI/BIOS loads the first bootloader in the boot order.
+<ul>
+<li>If this is a Ubuntu computer, it should be the GRand Unified Bootloader (GRUB) bootloader at <code>/boot/efi/EFI/ubuntu/grubx64.efi</code> in the Ubuntu partition.</li>
+<li>If this is a Windows computer, it should be the Windows bootloader at <code>/Windows/Boot/EFI/bootmgfw.efi</code> in the Windows partition.</li>
+</ul>
+</li>
+<li>The bootloader loads the kernel into the Random Access Memory (RAM).</li>
+<li>The kernel detects hardware devices like CPU, RAM, disk, network, etc, and executes the <code>init</code> system, which is often <code>systemd</code>, to start many subsystems.
+<ul>
+<li>Process management subsystem
+<ul>
+<li>Signal handling</li>
+<li>Process/thread creation and termination</li>
+<li>Process scheduler (Linux kernel)</li>
+</ul>
+</li>
+<li>Memory management subsystem
+<ul>
+<li>Virtual memory
+<ul>
+<li>The kernel utilizes virtual memory to allocate and de-allocate memory in RAM or disk for every process.</li>
+</ul>
+</li>
+<li>Paging page replacement</li>
+<li>Page cache</li>
+</ul>
+</li>
+<li>I/O subsystem
+<ul>
+<li>Virtual filesystem
+<ul>
+<li>The kernel utilizes a virtual filesystem to interact with files on different devices.</li>
+<li>The kernel utilizes drivers to interact with different peripheral devices.</li>
+<li>Terminal
+<ul>
+<li>Line discipline</li>
+<li>Character device drivers</li>
+</ul>
+</li>
+<li>Filesystems
+<ul>
+<li>Generic block layer</li>
+<li>I/O scheduler (Linux kernel)</li>
+<li>Block device drivers</li>
+</ul>
+</li>
+<li>Sockets
+<ul>
+<li>Netfilter / Nftables</li>
+<li>Network protocols</li>
+<li>Packet scheduler (Linux kernel)</li>
+<li>Network device drivers</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>IPOs dispatcher</li>
+</ul>
+</li>
+<li>Once initialized, the kernel starts applications in the user space and lets the user to log in.</li>
+</ul>
+<h2 id="namespace"><a class="zola-anchor" href="#namespace" aria-label="Anchor link for: namespace">Namespace</a></h2>
+<p>A Linux namespace is a kernel-defined logical box that holds a specific software resource for a process or a group of processes within the namespace. A namespace creates a lightweight and isolated environment.</p>
+<h3 id="namespace-types"><a class="zola-anchor" href="#namespace-types" aria-label="Anchor link for: namespace-types">Namespace types</a></h3>
+<ul>
+<li>Process ID (PID)
+<ul>
+<li>Isolate process IDs.</li>
+<li>Each namespace has its own PID 1 process.</li>
+</ul>
+</li>
+<li>Control group (cgroup)
+<ul>
+<li>Isolate resource limits.</li>
+<li>Each namespace has its own cgroup for resources like CPU, memory and I/O.</li>
+</ul>
+</li>
+<li>Mount
+<ul>
+<li>Isolate the filesystem.</li>
+<li>Each namespace has its own root filesystem mount-point.</li>
+</ul>
+</li>
+<li>Network
+<ul>
+<li>Isolate the IP address (65536 ports), network devices, routing table, iptables (firewall, Network Address Translation (NAT), mangle table).</li>
+</ul>
+</li>
+<li>Inter-Process Communication (IPC)
+<ul>
+<li>Isolate the shared memory, message queues, and semaphores (resource counter to prevent race condition).</li>
+</ul>
+</li>
+<li>User ID (UID)
+<ul>
+<li>Isolate user and group IDs.</li>
+<li>Each namespace has its own UID 0 user (root) and it is mapped to a different UID on the system.</li>
+</ul>
+</li>
+<li>Environment variable
+<ul>
+<li>Isolate environment variables.</li>
+</ul>
+</li>
+<li>UTS
+<ul>
+<li>Isolate the hostname and domain name.</li>
+<li>Each namespace has its own hostname.</li>
+</ul>
+</li>
+<li>Time
+<ul>
+<li>Isolate system clocks.</li>
+</ul>
+</li>
+</ul>
+<h2 id="process"><a class="zola-anchor" href="#process" aria-label="Anchor link for: process">Process</a></h2>
+<p>A process is a running instance of a program that consists of an isolated memory address space and the execution of some code. When we execute a command like <code>ls</code> or <code>python script.py</code>, the Linux kernel creates a process to execute the code.</p>
+<p>Each process is given the following resources.</p>
+<ul>
+<li>A unique identifier called a Process ID (PID)</li>
+<li>A process view. It by default inherits the parent process's process view. If the parent process is the shell, it can see all the processes on the system.</li>
+<li>A cgroup for CPU, memory, I/O access and limit. It by default inherits the parent process's cgroup. If the parent process is the shell, it can use as much CPU and memory as the system has available. Tools like Systemd or Docker creates a new cgroup, defining the CPU/memory limits, and assigns a process to it.</li>
+<li>A filesystem view. It by default inherits the parent process's filesystem. If the parent process is the shell, it can see all the files on the system. Docker uses containerd, which uses runc, to run <code>chroot</code> to change the root directory of each container process for an isolated filesystem view.</li>
+<li>A network namespace for an IP address (65536 ports), network devices (loopback, eth0, wlan0), routing table, and iptables like filter table (firewall), Network Address Translation (NAT) table, and mangle table (for packet modification). It by default inherits the parent process's network namespace. If the parent process is the shell, it can use the system network namespace. Docker creates a new network namespace for each new container and assigns the container process to it.</li>
+</ul>
+<p>Processes have a parent-child hierarchy as a parent process can start a child process.</p>
+<h2 id="rings"><a class="zola-anchor" href="#rings" aria-label="Anchor link for: rings">Rings</a></h2>
+<p>Linux uses rings to administer operation privileges.</p>
+<ul>
+<li>The kernel is in ring 0, which has the highest level of privilege.</li>
+<li>The user operates in ring 3, which has the lowest level of privilege.</li>
+<li>The system call interface let a user to move from ring 3 to ring 0 and make System Call (SYSCALL) to do things like writing a file in the filesystem.</li>
+<li>The GNU Library for C (GLIBC) provides SYSCALL wrappers, called functions, to C application such that applications can make function calls and run SYSCALLs under the hood.</li>
+</ul>
+<h2 id="gnu-and-shell"><a class="zola-anchor" href="#gnu-and-shell" aria-label="Anchor link for: gnu-and-shell">GNU and shell</a></h2>
+<p>In 1983, Richard Stallman started the GNU project to provide binaries that make the kernel useful.</p>
+<ul>
+<li>A terminal is a graphical user interface, which lets us interact with a shell.</li>
+<li>A shell is a command interpreter and serves as a layer of protection between the kernel and user space. It takes in a command and call the corresponding binary in <code>/bin</code> to start a process executing that binary, which is doing the real work.</li>
+<li>A user can directly type and execute commands on a terminal or write a shell script to group commands together and then execute the script.</li>
+<li>Nowadays we have different shell options like SH (the original one), BASH, RBASH, DASH, and ZSH. They all use the same binaries in <code>/bin</code> but each option varies in terms of command and script syntax, execution speed performance, auto-completion, syntax-highlighting, and customization flexibility.</li>
+<li>We can run <code>cat /etc/shells</code> to see what shell options are available on our machine. Below is an example output.<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>/bin/sh
+</span><span>/usr/bin/sh
+</span><span>/bin/bash
+</span><span>/use/bin/bash
+</span><span>/bin/rbash
+</span><span>/use/bin/rbash
+</span><span>/usr/bin/dash
+</span></code></pre>
+We can also run <code>echo $SHELL</code> to see our current shell or <code>echo $0</code> to see the active shell process.</li>
+</ul>
+<h3 id="frequently-used-bash-commands"><a class="zola-anchor" href="#frequently-used-bash-commands" aria-label="Anchor link for: frequently-used-bash-commands">Frequently-used Bash commands</a></h3>
+<ul>
+<li>Print a string to the standard output.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">echo </span><span>&quot;</span><span style="color:#a3be8c;">&lt;STRING&gt;</span><span>&quot;
+</span></code></pre>
+</li>
+<li>Create a new file.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">touch </span><span>&lt;FILE_NAME&gt;
+</span></code></pre>
+</li>
+<li>See a binary's manual.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">man </span><span>&lt;COMMAND&gt;
+</span></code></pre>
+</li>
+<li>Print the location of a binary.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">which </span><span>&lt;BINARY&gt;
+</span></code></pre>
+</li>
+<li>List files in the current directory.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">ls
+</span></code></pre>
+</li>
+<li>Print a file's content.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cat </span><span>&lt;FILE_NAME&gt;
+</span></code></pre>
+</li>
+<li>Print a file's metadata.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">stat </span><span>&lt;FILE_NAME&gt;
+</span></code></pre>
+</li>
+<li>Remove a file.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">rm </span><span>&lt;FILE_NAME&gt;
+</span></code></pre>
+</li>
+<li>Redirect the standard output to a file.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">echo </span><span>&quot;</span><span style="color:#a3be8c;">Hello, world!</span><span>&quot; &gt; &lt;FILE_NAME&gt;
+</span></code></pre>
+</li>
+<li>Redirect a file's content to the standard output.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">echo </span><span>&quot;$</span><span style="color:#a3be8c;">(</span><span>&lt; &lt;</span><span style="color:#a3be8c;">FILE_NAME</span><span>&gt;</span><span style="color:#a3be8c;">)</span><span>&quot;
+</span></code></pre>
+</li>
+<li>Pass the output of a command as the input of another command with pipe.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cat</span><span> error.log | </span><span style="color:#bf616a;">sort </span><span>| </span><span style="color:#bf616a;">uniq </span><span style="color:#65737e;"># Sort and de-duplicate the lines in `error.log.
+</span></code></pre>
+</li>
+<li>Print the current user's name.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">whoami
+</span></code></pre>
+</li>
+<li>Print the current user's User ID (UID).<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">id -u
+</span></code></pre>
+</li>
+<li>Switch to the superuser.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">su
+</span></code></pre>
+</li>
+<li>Execute a command as the superuser.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo </span><span>&lt;COMMAND&gt;
+</span></code></pre>
+</li>
+<li>List the current user's privilege.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo -l
+</span></code></pre>
+</li>
+<li>Print the current user's Group ID (GID).<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">id -g
+</span></code></pre>
+</li>
+<li>Make a new directory.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">mkdir </span><span>&lt;DIRECTORY_NAME&gt;
+</span></code></pre>
+</li>
+<li>Change directory to a directory.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">cd </span><span>&lt;DIRECTORY_PATH&gt;
+</span></code></pre>
+</li>
+<li>Print the working directory's path.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">pwd
+</span></code></pre>
+</li>
+<li>List binaries' storage locations.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">echo </span><span>$</span><span style="color:#bf616a;">PATH
+</span></code></pre>
+</li>
+<li>Set an environment variable's value.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#b48ead;">export </span><span>&lt;ENVIRONMENT_VARIABLE&gt;=&lt;VALUE&gt;
+</span></code></pre>
+</li>
+<li>Customize the bashrc file.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">nano ~</span><span>/.bashrc
+</span></code></pre>
+</li>
+<li>Change a file's permissions.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">chmod </span><span style="color:#b48ead;">[</span><span>u/g/o/a</span><span style="color:#b48ead;">][</span><span>+/-/=</span><span style="color:#b48ead;">][</span><span>r/w/x</span><span style="color:#b48ead;">] </span><span>&lt;FILE_NAME&gt;`
+</span><span style="color:#bf616a;">chmod</span><span> a+r &lt;FILE_NAME&gt;` </span><span style="color:#65737e;"># Grant everyone the read access.
+</span></code></pre>
+</li>
+<li>Change a file's owner.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">chown </span><span>&lt;USER_NAME&gt; &lt;FILE_NAME&gt;
+</span></code></pre>
+</li>
+<li>Change a file's group.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">chgrp </span><span>&lt;GROUP_NAME&gt; &lt;FILE_NAME&gt;
+</span></code></pre>
+</li>
+<li>List processes.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">ps </span><span style="color:#65737e;"># or htop
+</span></code></pre>
+</li>
+<li>Run a script in the background.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span>&lt;SCRIPT_NAME&gt; &amp;
+</span></code></pre>
+</li>
+<li>Schedule script execution.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">crontab
+</span></code></pre>
+</li>
+<li>Kill a process gracefully by sending a <code>SIGTERM</code> signal.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">kill </span><span>&lt;PROCESS_ID&gt;
+</span></code></pre>
+</li>
+<li>Kill a process forcefully by sending a <code>SIGKILL</code> signal.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">kill</span><span> -9 &lt;PROCESS_ID&gt;
+</span></code></pre>
+</li>
+<li>Search text.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">grep
+</span></code></pre>
+</li>
+<li>Modify text.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sed
+</span></code></pre>
+</li>
+<li>Archive a directory of files into one single file.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">tar -cvf</span><span> archive.tar /path/to/files
+</span></code></pre>
+</li>
+<li>Compress a file.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">gzip</span><span> file
+</span></code></pre>
+</li>
+<li>Archive a directory of files into one single file and then compress it.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">tar -czvf</span><span> archive.tar.gz /path/to/files
+</span><span style="color:#bf616a;">or
+</span><span style="color:#bf616a;">zip</span><span> archive.zip /path/to/files
+</span></code></pre>
+</li>
+<li>Get the IDs of the processes that are listening or talking to a port.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> lsof</span><span style="color:#bf616a;"> -t -i</span><span>:&lt;PORT_NUMBER&gt;
+</span></code></pre>
+</li>
+<li>Kill the processes that are listening or talking to a port.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> kill</span><span style="color:#bf616a;"> -9 </span><span>$(</span><span style="color:#bf616a;">sudo</span><span> lsof</span><span style="color:#bf616a;"> -t -i</span><span>:&lt;PORT_NUMBER&gt;)
+</span></code></pre>
+</li>
+<li>Print a package's details from available repositories.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">apt</span><span> show &lt;PACKAGE&gt;
+</span></code></pre>
+</li>
+<li>Check if a package is installed.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">dpkg -s </span><span>&lt;PACKAGE&gt;
+</span></code></pre>
+</li>
+<li>Search for a filename from installed packages.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">dpkg -S </span><span>&lt;FILE_PATH&gt;
+</span></code></pre>
+</li>
+<li>List files installed from <code>&lt;PACKAGE&gt;</code>.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">dpkg -L </span><span>&lt;PACKAGE&gt;
+</span></code></pre>
+</li>
+<li>List package locations relevant to <code>Python3</code>.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">python3 -m</span><span> site
+</span></code></pre>
+<ul>
+<li>Debian's package manager <code>apt</code> installs packages to <code>dist-packages</code> like <code>/usr/local/lib/python3.12/dist-packages/</code>.</li>
+<li>Any third party tool like pip installs packages to <code>site-packages</code>.</li>
+</ul>
+</li>
+<li>Add the current user to a group.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> usermod</span><span style="color:#bf616a;"> -aG </span><span>&lt;GROUP&gt; $</span><span style="color:#bf616a;">USER
+</span></code></pre>
+</li>
+<li>Clean boot entries.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> efibootmgr </span><span style="color:#65737e;"># List boot entries.
+</span><span style="color:#bf616a;">sudo</span><span> efibootmgr</span><span style="color:#bf616a;"> -b </span><span>&lt;BOOTNUM&gt; -B
+</span><span style="color:#bf616a;">lsblk </span><span style="color:#65737e;"># Or use `sudo fdisk -l` to find the EFI partition.
+</span><span style="color:#bf616a;">sudo</span><span> mount /dev/sdXY /mnt
+</span><span style="color:#bf616a;">ls</span><span> /mnt/EFI/
+</span><span style="color:#bf616a;">sudo</span><span> rm</span><span style="color:#bf616a;"> -r</span><span> /mnt/EFI/&lt;DIRECTORY_TO_BE_DELETED&gt;
+</span><span style="color:#bf616a;">sudo</span><span> umount /mnt
+</span></code></pre>
+</li>
+</ul>
+<h2 id="filesystem"><a class="zola-anchor" href="#filesystem" aria-label="Anchor link for: filesystem">Filesystem</a></h2>
+<p>Linux's ext4 filesystem follows the Filesystem Hierarchy Standard (FHS) 3 specification and has the following structure:</p>
+<ul>
+<li><code>/</code>: Root</li>
+<li><code>/bin</code>: Essential binaries like <code>ls</code></li>
+<li><code>/sbin</code>: Superuser's essential binaries like <code>mount</code></li>
+<li><code>/lib</code>: Shared code between binaries</li>
+<li><code>/usr/bin</code>: Non-essential installed binaries</li>
+<li><code>/usr/local/bin</code>: Locally compiled binaries separated from binaries installed by a system package manager</li>
+<li><code>/etc</code>: Editable text configurations</li>
+<li><code>/home/user</code>: User workspace</li>
+<li><code>/boot</code>: Files needed to boot the system like the Linux kernel</li>
+<li><code>/dev</code>: External devices like disks</li>
+<li><code>/opt</code>: Optional binaries</li>
+<li><code>/var</code>: Logs and cache files</li>
+<li><code>/tmp</code>: Temporary files</li>
+<li><code>/proc</code>: A filesystem created in memory to keep track of running processes</li>
+</ul>
+<h3 id="storage-devices-in-filesystem"><a class="zola-anchor" href="#storage-devices-in-filesystem" aria-label="Anchor link for: storage-devices-in-filesystem">Storage devices in filesystem</a></h3>
+<ul>
+<li>A storage devices is displayed with a name like “sda” in Linux filesystem.</li>
+<li>The “sd” stands for Small Computer System Interface (SCSI) Disk, which is a data transfer protocol succeeded by other protocols like Serial Advanced Technology Attachment (SATA) and Non-Volatile Memory express (NVMe). Therefore, a disk with name prefixed with "sd" may be either a SATA or a NVMe drive.</li>
+<li>The next letter indicates the device order, so “sda” means the first detected disk and “sdb” means the second one.</li>
+<li>Each partition on the disk is given a number, so “sda1” is the first partition on the first disk.</li>
+</ul>
+<h3 id="file-permissions"><a class="zola-anchor" href="#file-permissions" aria-label="Anchor link for: file-permissions">File permissions</a></h3>
+<ul>
+<li>We can list the permission setting of a file by running <code>ls -l &lt;FILE_NAME&gt;</code>, and see the symbolic permission string like <code>-rw-r--r--</code>.
+<ul>
+<li>The first character indicates whether the file is a file <code>-</code> or a directory <code>d</code>.</li>
+<li>The second to fourth characters form the first triplet and it represents the owner's permissions.
+<ul>
+<li>The owner is the user who created the file.</li>
+<li>The first character in the triplet means the read permission, which shows whether the owner can read the file's content.</li>
+<li>The second character in the triplet is the write permission, which shows whether the owner can edit the file's content.</li>
+<li>The last character in the triplet is the execute permission, which shows whether the owner can execute the file as a binary.</li>
+<li>If the "r", "w", and "x" letters are shown, it means those privileges are granted, but if there is a dash it means the permission is not granted.</li>
+</ul>
+</li>
+<li>The fifth to seventh characters make up the second triplet and represents the group's permission.
+<ul>
+<li>The group is a group of users sharing the same set of permissions on this file.</li>
+<li>The three characters, just like those in the owner's setting, represent the read, write and execute permission.</li>
+</ul>
+</li>
+<li>The eighth to tenth characters shape the and last triplet and indicate the permissions of others.
+<ul>
+<li>This includes every user that is neither the owner nor a user in the group.</li>
+<li>The three characters, just like those in the owner's setting, represent the read, write and execute permission.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Permissions can be presented in other formats.
+<ul>
+<li>Symbolic permissions <code>rwx</code> can be seen as <code>111</code> in binary because all the bits are set, and we can convert binary <code>111</code> to number  <code>7</code>. Therefore, a symbolic permission string <code>-rwxr-xr-x</code> can be converted to the number <code>755</code>.</li>
+</ul>
+</li>
+<li>Setuid, Setgid, and sticky bit provide additional control over a file or directory.
+<ul>
+<li>Setuid
+<ul>
+<li>Set the Setuid bit on an executable file allows the file to be run with the permission of the file owner instead of the user actually running it. A symbolic permission string example is <code>-rwsr-xr-x</code>.</li>
+<li>One example is the <code>/usr/bin/passwd</code> file, which has <code>-rwsr-xr-x</code> permissions to let users edit sensitive system files to set their passwords.</li>
+</ul>
+</li>
+<li>Setgid
+<ul>
+<li>The Setgid bit works in the way similar to Setuid and allows the file to be run with the group’s permission rather than the user actually running it. A symbolic permissions string example is <code>drwxrwsr-x</code>.</li>
+<li>One example is setting the Setgid on a directory to ensure the files created within the directory have the same permission setting as the directory, allowing team members to work together on a project.</li>
+</ul>
+</li>
+<li>Sticky bit
+<ul>
+<li>The Sticky bit is set on a directory when we want to make sure only the directory owner and the root user can delete the directory. A symbolic permissions string example is <code>drwxrwxrwt</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="encoding"><a class="zola-anchor" href="#encoding" aria-label="Anchor link for: encoding">Encoding</a></h3>
+<ul>
+<li>ASCII
+<ul>
+<li>ASCII is created as a mapping table to map a character like A-Z, 0-9, or common symbol to a number stored in 1 byte. Given a ASCII character, we use ASCII to transform/encode it into a number such that it can be stored as a byte on a computer. We also use ASCII to decode a byte back to its ASCII character.</li>
+</ul>
+</li>
+<li>Unicode
+<ul>
+<li>Unicode is a character set extending ASCII characters and aims to include every used character on Earth inside it.</li>
+</ul>
+</li>
+<li>UTF-8
+<ul>
+<li>UTF-8 is the mapping table similar to ASCII that does the encoding/decoding for Unicode characters.</li>
+</ul>
+</li>
+</ul>
+<h2 id="networking"><a class="zola-anchor" href="#networking" aria-label="Anchor link for: networking">Networking</a></h2>
+<h3 id="routing-table"><a class="zola-anchor" href="#routing-table" aria-label="Anchor link for: routing-table">Routing table</a></h3>
+<p>A routing table stores a list of route entries. Each route entry has the following information.</p>
+<ul>
+<li>Destination Internet Protocol (IP) Classless Inter-Domain Routing (CIDR)</li>
+<li>Next hop IP address</li>
+<li>Network device</li>
+</ul>
+<h3 id="network-address-translation-table"><a class="zola-anchor" href="#network-address-translation-table" aria-label="Anchor link for: network-address-translation-table">Network address translation table</a></h3>
+<p>A NAT table stores the request ID to device private IP mapping, and is often used by routers.</p>
+<p>NAT is a proxy that manages the outbound traffic of the private network. For an outbound request from a device on the private network, it uses the NAT table to record the request ID to device private IP mapping, and then replaces the request's source private IP with its own public IP.</p>
+<p>When it receives a response, it use the NAT table to redirect the response to the device.</p>
+<h3 id="network-device"><a class="zola-anchor" href="#network-device" aria-label="Anchor link for: network-device">Network device</a></h3>
+<p>A network device (network interface) is an abstract interface for data transmission. Its driver registers itself with the kernel and the kernel adds it to the network namespace. It acts as a bridge between the kernel and the physical hardware like an Ethernet port or Wi-Fi card, and provides a standardized way for the kernel to send and receive data. A network device is not a file, unlike many other Linux objects such as disks (/dev/sda) or serial ports (/dev/ttys0).</p>
+<h4 id="network-device-type"><a class="zola-anchor" href="#network-device-type" aria-label="Anchor link for: network-device-type">Network device type</a></h4>
+<ul>
+<li>Physical device (hardware + software)
+<ul>
+<li>Each Ethernet device on a systemd machine has the name based on its physical location like <code>enp3s0f1</code> (Ethernet PCI bus 3 slot 0 function 1). Legacy naming looks like <code>eth0</code>.</li>
+<li>Each wireless device on a systemd machine has the name based on its physical location like <code>wlp2s0</code> (wireless Lan PCI bus 2 slot 0). Legacy naming looks like <code>wlan0</code>.</li>
+</ul>
+</li>
+<li>Virtual device (software-only)
+<ul>
+<li>Loopback, <code>lo</code>, is the virtual device that allows the computer to connect to itself at <code>127.0.0.1</code> or <code>localhost</code>.</li>
+<li>Bridge, <code>br0</code>, acts like a virtual network switch that connects multiple network devices together.</li>
+<li>Tunnel, <code>tun0</code>, is used by VPNs to pass traffic from the kernel to a user-space application.</li>
+<li>Virtual ethernet, <code>veth</code>, is used by the Container Runtime Interface (CRI) to link a container to the host.</li>
+</ul>
+</li>
+</ul>
+<h3 id="socket"><a class="zola-anchor" href="#socket" aria-label="Anchor link for: socket">Socket</a></h3>
+<p>A socket is a file in Linux that serves as a software endpoint for sending and receiving data. Its external address is defined by a combination of an IP address, a port number, and a protocol.</p>
+<h3 id="traffic-flow"><a class="zola-anchor" href="#traffic-flow" aria-label="Anchor link for: traffic-flow">Traffic flow</a></h3>
+<p>When our application on Linux wants to send a request to a remote server.</p>
+<ol>
+<li>Application layer
+<ul>
+<li>Our application sends the request to the kernel.</li>
+</ul>
+</li>
+<li>Transport layer
+<ul>
+<li>The kernel encapsulates the request into a segment by adding TCP headers to the request.</li>
+</ul>
+</li>
+<li>Network layer
+<ul>
+<li>The kernel builds a packet from the segment by wrapping it with IP headers. It then forwards the packet to the specific network device like <code>eth0</code>.</li>
+</ul>
+</li>
+<li>Data link layer
+<ul>
+<li>The network device driver packages the packet into a frame.</li>
+</ul>
+</li>
+<li>Physical layer
+<ul>
+<li>The network device driver converts the frame into electronic signals and hands over the signals to a physical Network Interface Card (NIC) for transmission and the NIC sends it out.</li>
+</ul>
+</li>
+</ol>
+<h2 id="ubuntu"><a class="zola-anchor" href="#ubuntu" aria-label="Anchor link for: ubuntu">Ubuntu</a></h2>
+<h3 id="dual-boot"><a class="zola-anchor" href="#dual-boot" aria-label="Anchor link for: dual-boot">Dual boot</a></h3>
+<p>Assume we have a computer already installed with Windows, then we can install Ubuntu alongside it. Below are the steps of installation.</p>
+<ol>
+<li>Make a bootable USB drive.
+<ol>
+<li>Download the latest LTS Ubuntu Desktop ISO image from the <a href="https://ubuntu.com/download/desktop">official website</a>.</li>
+<li>Use a software like <a href="https://rufus.ie/downloads/">Rufus</a> to write the ISO image to an USB drive.</li>
+</ol>
+</li>
+<li>Create a disk partition.
+<ol>
+<li>Use the Windows built-in disk management software to create an unallocated partition.</li>
+</ol>
+</li>
+<li>Reboot from the USB drive and install Ubuntu.
+<ol>
+<li>Restart the computer and select the USB drive for booting. Follow the prompted instructions to install the system.</li>
+<li>After the installation, reboot the computer.</li>
+<li>During the installation process, I connected it to the Internet and updated the installer when asked. I did not install any other third party software.</li>
+</ol>
+</li>
+<li>Done!</li>
+</ol>
+<h4 id="troubleshooting"><a class="zola-anchor" href="#troubleshooting" aria-label="Anchor link for: troubleshooting">Troubleshooting</a></h4>
+<p>Here is a list of issues and their resolution I encountered in the past.</p>
+<ul>
+<li>Reconfigure boot order.
+<ol>
+<li>When booting up the computer, if we enter the GRUB rescue terminal instead of the GRUB boot menu (which lets us select between Ubuntu and Windows), this means the Unified Extensible Firmware Interface (UEFI)/BIOS has found a GRUB bootloader, but it is NOT the one in the Ubuntu partition we have installed.</li>
+</ol>
+<ul>
+<li>A temporary fix we can do in the rescue terminal right away is to look for the Ubuntu partition and use it for current booting.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span> </span><span style="color:#65737e;"># Iterate over every (hdx,gpty) until we find an existing (hdx,gpty)/boot/grub directory.
+</span><span style="color:#bf616a;">ls</span><span> (hd0,gpt1)</span><span style="color:#bf616a;">/boot/grub
+</span><span> </span><span style="color:#65737e;"># Let&#39;s say (hd1,gpt4)/boot/grub is what we have found.
+</span><span style="color:#96b5b4;">set</span><span> root=(hd1,gpt4)
+</span><span style="color:#96b5b4;">set</span><span> prefix=(hd1,gpt4)</span><span style="color:#bf616a;">/boot/grub
+</span><span style="color:#bf616a;">insmod</span><span> normal </span><span style="color:#65737e;"># insmod = insert module
+</span><span style="color:#bf616a;">normal
+</span></code></pre>
+</li>
+<li>A permanent fix is to reboot the computer, pressing the UEFI/BIOS key (F2 in Acer and Dell, F10 in HP) and rearrange the bootloader order to prioritize the one located in the Ubuntu partition.</li>
+</ul>
+</li>
+<li>Fix secondary display issue.
+<ul>
+<li>After logging into the system, if we find the secondary display has problems like no signal or white screen, it's probably because the Nvidia driver is not installed. We can fix it by installing the driver.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">ubuntu-drivers</span><span> devices </span><span style="color:#65737e;"># List recommended drivers.
+</span><span style="color:#bf616a;">sudo</span><span> apt install nvidia-driver-&lt;DRIVER_VERSION&gt; </span><span style="color:#65737e;"># Or use &quot;sudo ubuntu-drivers autoinstall&quot; to install recommended drivers.
+</span><span style="color:#bf616a;">reboot </span><span style="color:#65737e;"># Reboot to apply the changes.
+</span></code></pre>
+</li>
+</ul>
+</li>
+<li>Fix root fs mount failure.
+<ul>
+<li>When we boot up the computer, if we see error message like "kernel panic - unable to mount root fs on unknown-block(0,0)", this means the current kernel's initramfs is broken. We can fix it by updating the initramfs.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span> </span><span style="color:#65737e;"># Reboot. Choose &quot;Advanced options for Ubuntu&quot;.
+</span><span> </span><span style="color:#65737e;"># Log into the system with another kernel.
+</span><span style="color:#bf616a;">sudo</span><span> update-initramfs</span><span style="color:#bf616a;"> -u -k </span><span>&lt;BROKEN_INITRAMFS_KERNEL_VERSION&gt;
+</span><span style="color:#bf616a;">sudo</span><span> update-grub
+</span><span style="color:#bf616a;">reboot
+</span></code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="package-manager"><a class="zola-anchor" href="#package-manager" aria-label="Anchor link for: package-manager">Package manager</a></h3>
+<p>Ubuntu's maintainer, Canonical, has created its own package manager called <code>Snap</code> to live besides the Debian's <code>APT</code>. Below is a comparison.</p>
+<table><thead><tr><th>Feature</th><th>APT</th><th>Snap</th></tr></thead><tbody>
+<tr><td>Source</td><td>Debian repos</td><td>Snapcraft store</td></tr>
+<tr><td>Format</td><td><code>.deb</code></td><td><code>.snap</code></td></tr>
+<tr><td>Size</td><td>Small</td><td>Large</td></tr>
+<tr><td>Install method</td><td><code>apt install</code></td><td><code>snap install</code></td></tr>
+<tr><td>Install location</td><td><code>/usr</code></td><td><code>/snap</code> (mounted via loop devices)</td></tr>
+<tr><td>Isolation</td><td>No (shared system libs)</td><td>Yes (sandboxed with own libs)</td></tr>
+<tr><td>Dependency conflict</td><td>Probable</td><td>No</td></tr>
+<tr><td>Security</td><td>Community</td><td>Canonical</td></tr>
+<tr><td>Speed</td><td>Fast install &amp; launch</td><td>Slower install &amp; launch (due to sandboxing)</td></tr>
+<tr><td>Debug</td><td>Easy</td><td>Hard</td></tr>
+<tr><td>Customize</td><td>Easy</td><td>Hard</td></tr>
+<tr><td>Latest version</td><td>No</td><td>Yes</td></tr>
+<tr><td>Auto updates</td><td>No</td><td>Yes (in background)</td></tr>
+</tbody></table>
+<p>To sum up, use APT unless we need sandboxing, auto-updates, or the latest version of a software.</p>
+<h3 id="set-up-development-environment"><a class="zola-anchor" href="#set-up-development-environment" aria-label="Anchor link for: set-up-development-environment">Set up development environment</a></h3>
+<p>Here are the steps I take to set up my development environment.</p>
+<ol>
+<li>Install Google Chrome.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> apt install ./google-chrome-stable_current_amd64.deb
+</span></code></pre>
+</li>
+<li>Install LibreOffice.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> apt install libreoffice
+</span></code></pre>
+</li>
+<li>Install Visual Studio Code.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> apt install ./code_x.x.x_amd64.deb
+</span></code></pre>
+</li>
+<li>Install cURL.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> apt install curl
+</span></code></pre>
+</li>
+<li>Install Rust.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">curl --proto </span><span>&#39;</span><span style="color:#a3be8c;">=https</span><span>&#39;</span><span style="color:#bf616a;"> --tlsv1</span><span>.2 https://sh.rustup.rs</span><span style="color:#bf616a;"> -sSf </span><span>| </span><span style="color:#bf616a;">sh
+</span></code></pre>
+</li>
+<li>Install Git and configure identity and SSH keys.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> apt install git
+</span><span style="color:#bf616a;">git</span><span> config –global user.email &lt;EMAIL&gt;
+</span><span style="color:#bf616a;">ssh-keygen -t</span><span> ed25519</span><span style="color:#bf616a;"> -C</span><span> “&lt;COMMENT&gt;”
+</span><span style="color:#96b5b4;">eval</span><span> “$(</span><span style="color:#bf616a;">ssh-agent -s</span><span>)”
+</span><span style="color:#bf616a;">ssh-add ~</span><span>/.ssh/id_ed25519
+</span></code></pre>
+</li>
+<li>Install Zola.
+<ul>
+<li>Compile from source<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> clone git@github.com:getzola/zola.git
+</span><span style="color:#96b5b4;">cd</span><span> zola
+</span><span style="color:#bf616a;">cargo</span><span> install –path . –locked
+</span></code></pre>
+</li>
+<li>Or use snap package manager<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">snap</span><span> install</span><span style="color:#bf616a;"> --edge</span><span> zola
+</span></code></pre>
+</li>
+</ul>
+</li>
+<li>Install Docker.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> apt install docker.io
+</span></code></pre>
+</li>
+<li>Install FFmpeg.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> apt install ffmpeg
+</span></code></pre>
+</li>
+<li>Install MuseScore3.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> apt install musescore3
+</span></code></pre>
+</li>
+<li>Install nvidia-container-toolkit.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">curl -fsSL</span><span> https://nvidia.github.io/libnvidia-container/gpgkey | </span><span style="color:#bf616a;">sudo</span><span> gpg</span><span style="color:#bf616a;"> --dearmor -o</span><span> /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
+</span><span>&amp;&amp; </span><span style="color:#bf616a;">curl -s -L</span><span> https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+</span><span>    </span><span style="color:#bf616a;">sed </span><span>&#39;</span><span style="color:#a3be8c;">s#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g</span><span>&#39; | \
+</span><span>    </span><span style="color:#bf616a;">sudo</span><span> tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+</span><span>
+</span><span style="color:#bf616a;">sudo</span><span> apt update
+</span><span style="color:#bf616a;">sudo</span><span> apt install</span><span style="color:#bf616a;"> -y</span><span> nvidia-container-toolkit
+</span><span style="color:#bf616a;">sudo</span><span> systemctl restart docker
+</span><span style="color:#bf616a;">sudo</span><span> docker run</span><span style="color:#bf616a;"> --rm --gpus</span><span> all nvidia/cuda:12.2.0-base-ubuntu22.04 nvidia-smi </span><span style="color:#65737e;"># Verify nvidia-container-toolkit installation.
+</span></code></pre>
+</li>
+<li>Install python3.12-venv.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> apt install python3.12-venv`
+</span></code></pre>
+</li>
+<li>Install Go
+<ol>
+<li>Download the latest archive from the <a href="https://go.dev/doc/install">Go official website</a>.</li>
+<li>Extract the files at <code>/user/local</code>.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> tar</span><span style="color:#bf616a;"> -C</span><span> /usr/local</span><span style="color:#bf616a;"> -xzf</span><span> go&lt;MAJOR&gt;.&lt;MINOR&gt;.&lt;PATCH&gt;.linux-amd64.tar.gz
+</span></code></pre>
+</li>
+<li>Add this to the <code>.bashrc</code> file.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">PATH</span><span>=&quot;$</span><span style="color:#bf616a;">PATH</span><span style="color:#a3be8c;">:/usr/local/go/bin</span><span>&quot;
+</span></code></pre>
+</li>
+<li>Open a new terminal and verify the installation.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">go</span><span> version
+</span></code></pre>
+</li>
+</ol>
+</li>
+<li>Install pre-commit<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> apt install pre-commit`
+</span></code></pre>
+</li>
+<li>Install PostgreSQL<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> apt install postgresql
+</span></code></pre>
+</li>
+<li>Install Vim<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> apt install vim
+</span></code></pre>
+</li>
+<li>Install python3-venv<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> apt install python3-venv
+</span></code></pre>
+</li>
+</ol>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+<ul>
+<li><a href="https://www.freecodecamp.org/news/how-to-dual-boot-windows-10-and-ubuntu-linux-dual-booting-tutorial/">How to dual boot Windows 10 and Ubuntu</a></li>
+</ul>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;learning-coding&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;markdown&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

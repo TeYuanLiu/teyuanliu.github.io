@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Markdown
+  </div>
+  <div class="header-metadata">
+    
+      
+        Dec 27, 2025 · 552 words · 3 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/markdown/#syntax">Syntax </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/markdown/#capitalization">Capitalization </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/markdown/#table-of-contents-toc">Table of contents (TOC) </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/markdown/#document-layout">Document layout </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/markdown/#character-line-limit">Character line limit </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/markdown/#exception">Exception</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/markdown/#heading">Heading </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/markdown/#unique-and-complete-heading-name">Unique and complete heading name</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/markdown/#single-h1-heading">Single H1 heading</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/markdown/#list">List </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/markdown/#lazy-numbering">Lazy numbering</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/markdown/#nested-list-spacing">Nested list spacing</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/markdown/#code">Code </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/markdown/#inline">Inline</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/markdown/#code-block">Code block</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/markdown/#escape-newline">Escape newline</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/markdown/#code-block-within-list">Code block within list</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/markdown/#link">Link </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/markdown/#relative-path-link">Relative path link</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/markdown/#informative-markdown-link-title">Informative Markdown link title</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/markdown/#reference">Reference </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/markdown/#reference-link">Reference link</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/markdown/#reference-link-definition">Reference link definition</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/markdown/#image">Image </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/markdown/#table">Table </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/markdown/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>Markdown is a simple way to format text. Here I documented some best practices I found in the <a href="https://google.github.io/styleguide/docguide/style.html">Google Markdown style guide</a>.</p>
+<span id="continue-reading"></span><h2 id="syntax"><a class="zola-anchor" href="#syntax" aria-label="Anchor link for: syntax">Syntax</a></h2>
+<p>Read the <a href="https://commonmark.org/help/">Commonmark</a> or <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown cheatsheet</a>.</p>
+<h2 id="capitalization"><a class="zola-anchor" href="#capitalization" aria-label="Anchor link for: capitalization">Capitalization</a></h2>
+<p>Use the original name of a software product, preserving its capitalization.</p>
+<h2 id="table-of-contents-toc"><a class="zola-anchor" href="#table-of-contents-toc" aria-label="Anchor link for: table-of-contents-toc">Table of contents (TOC)</a></h2>
+<p>Place the TOC before the first H2 heading.</p>
+<h2 id="document-layout"><a class="zola-anchor" href="#document-layout" aria-label="Anchor link for: document-layout">Document layout</a></h2>
+<p>Here is a good example of the document layout.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span># Document Title
+</span><span>
+</span><span>Short introduction.
+</span><span>
+</span><span>TOC
+</span><span>
+</span><span>## Topic
+</span><span>
+</span><span>Content.
+</span><span>
+</span><span>## References
+</span><span>
+</span><span>* Link-to-more-info
+</span></code></pre>
+<h2 id="character-line-limit"><a class="zola-anchor" href="#character-line-limit" aria-label="Anchor link for: character-line-limit">Character line limit</a></h2>
+<p>Markdown content follows the residual convention of an 80-character line limit.</p>
+<h3 id="exception"><a class="zola-anchor" href="#exception" aria-label="Anchor link for: exception">Exception</a></h3>
+<p>Exceptions to the 80-character rule include:</p>
+<ul>
+<li>Headings</li>
+<li>Links</li>
+<li>Code blocks</li>
+<li>Tables</li>
+</ul>
+<h2 id="heading"><a class="zola-anchor" href="#heading" aria-label="Anchor link for: heading">Heading</a></h2>
+<h3 id="unique-and-complete-heading-name"><a class="zola-anchor" href="#unique-and-complete-heading-name" aria-label="Anchor link for: unique-and-complete-heading-name">Unique and complete heading name</a></h3>
+<p>Use unique and fully descriptive names for each heading, even for sub-sections, as anchor links are automatically-constructed from them.</p>
+<p>Prefer:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>## Foo
+</span><span>### Foo summary
+</span><span>### Foo example
+</span></code></pre>
+<p>over:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>## Foo
+</span><span>### Summary
+</span><span>### Example
+</span></code></pre>
+<h3 id="single-h1-heading"><a class="zola-anchor" href="#single-h1-heading" aria-label="Anchor link for: single-h1-heading">Single H1 heading</a></h3>
+<p>Only the document title and nothing else should use the H1 heading.</p>
+<h2 id="list"><a class="zola-anchor" href="#list" aria-label="Anchor link for: list">List</a></h2>
+<h3 id="lazy-numbering"><a class="zola-anchor" href="#lazy-numbering" aria-label="Anchor link for: lazy-numbering">Lazy numbering</a></h3>
+<p>For a long list that may change its list item order, lazy numbering saves the time for updating list item numbers. In other cases, using explicit numbering is ok.</p>
+<h3 id="nested-list-spacing"><a class="zola-anchor" href="#nested-list-spacing" aria-label="Anchor link for: nested-list-spacing">Nested list spacing</a></h3>
+<p>When nesting lists, use a 4-space indent for both numbered and bulleted lists. When lists are not nested and small, one space can suffice for both cases.</p>
+<h2 id="code"><a class="zola-anchor" href="#code" aria-label="Anchor link for: code">Code</a></h2>
+<h3 id="inline"><a class="zola-anchor" href="#inline" aria-label="Anchor link for: inline">Inline</a></h3>
+<p>Use inline code when referring to a short code quotation, field name, or file type.</p>
+<h3 id="code-block"><a class="zola-anchor" href="#code-block" aria-label="Anchor link for: code-block">Code block</a></h3>
+<p>For a code quotation longer than a single line, use a fenced code block for language syntax highlighting support, less ambiguity, and better search result.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>```python
+</span><span>def hello_world():
+</span><span>    print(&quot;Hello, world!&quot;)
+</span><span>```
+</span></code></pre>
+<h3 id="escape-newline"><a class="zola-anchor" href="#escape-newline" aria-label="Anchor link for: escape-newline">Escape newline</a></h3>
+<p>Escape any newline with a backslash for shell commands as they are most likely will be copied and pasted into a terminal.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>```shell
+</span><span>foo --bar=longlonglonglonglonglonglongvalue \
+</span><span>--baz=longlonglonglonglonglonglongvalue
+</span><span>```
+</span></code></pre>
+<h3 id="code-block-within-list"><a class="zola-anchor" href="#code-block-within-list" aria-label="Anchor link for: code-block-within-list">Code block within list</a></h3>
+<p>Indent the code block within a list to preserve the list structure.</p>
+<h2 id="link"><a class="zola-anchor" href="#link" aria-label="Anchor link for: link">Link</a></h2>
+<p>Shorten a link if it's too long as a long link is difficult to read and may break the 80-character wrapping.</p>
+<h3 id="relative-path-link"><a class="zola-anchor" href="#relative-path-link" aria-label="Anchor link for: relative-path-link">Relative path link</a></h3>
+<p>Avoid using a relative path that requires a <code>../</code> inside the link. Use a relative path for a same-directory file is ok.</p>
+<h3 id="informative-markdown-link-title"><a class="zola-anchor" href="#informative-markdown-link-title" aria-label="Anchor link for: informative-markdown-link-title">Informative Markdown link title</a></h3>
+<p>Give a link a meaningful title and avoid using "here", "link", or duplicating the target URL as doing so gives basically zero information.</p>
+<h2 id="reference"><a class="zola-anchor" href="#reference" aria-label="Anchor link for: reference">Reference</a></h2>
+<h3 id="reference-link"><a class="zola-anchor" href="#reference-link" aria-label="Anchor link for: reference-link">Reference link</a></h3>
+<p>Use a reference link when an inline link's length decreases the readability of the surrounding text, or when the link is used multiple times.</p>
+<h3 id="reference-link-definition"><a class="zola-anchor" href="#reference-link-definition" aria-label="Anchor link for: reference-link-definition">Reference link definition</a></h3>
+<p>Put the definition of a reference link at the end of the section in which it's first used, and right before the next heading. This practice prevents "footnote overload" at the bottom of the file, which makes it difficult to pick out the relevant link destination. However, a reference link that is used in multiple sections should go to the end of the document to prevent potential link dangling.</p>
+<h2 id="image"><a class="zola-anchor" href="#image" aria-label="Anchor link for: image">Image</a></h2>
+<p>Use an image only if it's easier to show a reader something than to describe it such as a flowchart of UI.</p>
+<h2 id="table"><a class="zola-anchor" href="#table" aria-label="Anchor link for: table">Table</a></h2>
+<p>Use a table when the data distribution is relatively uniform across two dimensions and there are many parallel items with distinct attributes. Otherwise, subheading plus list is often suffice to present the same information.</p>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;linux&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;network-protocol&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Development Cycle
+  </div>
+  <div class="header-metadata">
+    
+      
+        Feb  3, 2026 · 806 words · 5 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/development-cycle/#development-flow">Development flow </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/development-cycle/#comparison">Comparison</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/development-cycle/#development-cycle">Development cycle </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/development-cycle/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>Let's talk about software development prioritization as well as the development cycle.</p>
+<span id="continue-reading"></span><h2 id="development-flow"><a class="zola-anchor" href="#development-flow" aria-label="Anchor link for: development-flow">Development flow</a></h2>
+<p>When developing a software system, should we choose to build it in a bottom-up fashion, starting from low-level components, or should we follow a top-down style, starting from high-level features? Here is the comparison.</p>
+<h3 id="comparison"><a class="zola-anchor" href="#comparison" aria-label="Anchor link for: comparison">Comparison</a></h3>
+<ul>
+<li>Bottom-up
+<ul>
+<li>Focus on low-level components.</li>
+<li>Steps
+<ol>
+<li>Implement low-level components.</li>
+<li>Assemble low-level components to build high-level features and then the entire system.</li>
+</ol>
+</li>
+<li>Pros
+<ul>
+<li>Higher modularity encourages code reuse.</li>
+<li>Testing and debugging are easier.</li>
+</ul>
+</li>
+<li>Cons
+<ul>
+<li>Spending time building components that turn out to be unnecessary or misaligned with the system goal.</li>
+<li>Integration complexity might arise if components have mismatched interfaces or assumptions.</li>
+</ul>
+</li>
+<li>Use cases
+<ul>
+<li>Reusable libraries or tools that will be integrated into multiple projects.</li>
+<li>Research-heavy projects where the feasibility of fundamental algorithms must be tested early.</li>
+<li>The system requires robust, well-tested components that will serve as the backbone of the system.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Top-down
+<ul>
+<li>Focus on high-level features.</li>
+<li>Steps
+<ol>
+<li>Define system goal, user experience, high-level features, and system architecture.</li>
+<li>Implement high-level features with fake low-level components.</li>
+<li>Implement low-level components.</li>
+</ol>
+</li>
+<li>Pros
+<ul>
+<li>Focus on the big picture, ensuring all components align with the system goal.</li>
+<li>Faster prototyping.</li>
+</ul>
+</li>
+<li>Cons
+<ul>
+<li>Risk of over-engineering.</li>
+<li>Testing of high-level features relies on the assumption rather than the actual behavior of low-level components.</li>
+<li>Debugging of high-level feature is hard because the system is more complex.</li>
+<li>Issues of low-level component surface at the end of development. If a low-level component fails to satisfy the predefined requirements, it is cumbersome to modify the high-level design.</li>
+</ul>
+</li>
+<li>Use cases
+<ul>
+<li>The system has a well-defined set of requirements and a clear vision.</li>
+<li>Projects that need rapid prototypes to validate ideas or get early user feedback.</li>
+<li>System development involves multiple people and high-level design can guide the distribution of tasks.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Hybrid
+<ul>
+<li>Focus on balancing between high-level features and low-level components.</li>
+<li>Steps
+<ol>
+<li>Define system goal, user experience, high-level features, and system architecture.</li>
+<li>Implement low-level components.</li>
+<li>Assemble low-level components to build high-level features and then the entire system.</li>
+</ol>
+</li>
+<li>Pros
+<ul>
+<li>Higher modularity encourages code reuse.</li>
+<li>Testing and debugging are easier.</li>
+<li>Focus on the big picture, ensuring all components align with the system goal.</li>
+</ul>
+</li>
+<li>Cons
+<ul>
+<li>Integration complexity might arise if components have mismatched interfaces or assumptions.</li>
+<li>Risk of over-engineering.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Use cases
+<ul>
+<li>Complex systems requiring quick feedback.</li>
+</ul>
+</li>
+</ul>
+<p>No matter which way of prioritization we choose, here are some tips:</p>
+<ul>
+<li>Implement things when we actually need them, never when we just foresee that we will need them. It is hard for less experienced developers to appreciate how rarely development for future requirements turns out net-positive.</li>
+</ul>
+<p>Now we have figured out our priorities, and we are ready to talk about the development cycle.</p>
+<h2 id="development-cycle"><a class="zola-anchor" href="#development-cycle" aria-label="Anchor link for: development-cycle">Development cycle</a></h2>
+<ol>
+<li>Create development tasks based on requirements (plan).</li>
+<li>Prioritize development tasks based on impact to engineer hour cost ratio, achieving high Return-On-investment (ROI).</li>
+<li>Synchronize with customers on the tradeoff between time and feature quality/quantity, and delivery deadlines. Emphasize safety over delivery speed.</li>
+<li>Pick up development tasks from the backlog and put them into a two-week sprint.</li>
+<li>Develop and commit the source code into the code repository (code).
+<ul>
+<li>Prefer many small Pull Requests (PR) over one large PR.
+<ul>
+<li>Choose among feature addition, bug fix, and refactoring but not two or more.</li>
+<li>Colleagues are more willing to review many small PRs rather than one giant PR.</li>
+<li>Get feedback early to revise architecture design before spending too much time and energy on less impactful things.</li>
+<li>Smaller PR works well with Continuous Integration / Continuous Delivery (CI/CD) and testing.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Build the binary (build).</li>
+<li>Conduct the unit test (test).</li>
+<li>If the build passes the unit test, store it into the artifactory and deploy it into the development environment, otherwise, go back to step 3.</li>
+<li>Conduct the integration test.</li>
+<li>If the build passes the integration test, deploy it into the Quality Assurance (QA) environment, otherwise, go back to step 3.</li>
+<li>Conduct the QA test which includes version-specific test, regression test, cross-version test and performance test.</li>
+<li>If the build passes the QA test, deploy it into the UAT environment, otherwise, go back to step 3.</li>
+<li>Conduct the User Acceptance Testing (UAT).</li>
+<li>If the build passes the UAT verification, promote it to a release candidate.</li>
+<li>Make the release and deploy the build into the production environment (deploy).
+<ul>
+<li>Git branch management</li>
+<li>Semantic versioning</li>
+<li>Release schedule</li>
+<li>End-of-life schedule</li>
+</ul>
+</li>
+<li>Monitor the production environment and watch for alerts. Escalate issues if needed (monitor).
+<ul>
+<li>Error logging</li>
+<li>Performance metric monitoring</li>
+<li>Failure alerting</li>
+<li>User feedback collection</li>
+</ul>
+</li>
+<li>Write documentation (document).
+<ul>
+<li>Versioned documentation</li>
+<li>Migration guide</li>
+</ul>
+</li>
+</ol>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;database&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;etcd&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

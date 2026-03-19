@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Programming Language
+  </div>
+  <div class="header-metadata">
+    
+      
+        Dec 27, 2025 · 328 words · 2 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/programming-language/#type">Type </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/programming-language/#layout">Layout </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/programming-language/#syntax">Syntax </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/programming-language/#for-loop-vs-while-loop">For loop vs while loop</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/programming-language/#execution-flow">Execution flow </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/programming-language/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>We use programming languages to talk to computers, but how does it work? Here we discuss a few concepts about programming languages including types, syntax, and execution flow.</p>
+<span id="continue-reading"></span><h2 id="type"><a class="zola-anchor" href="#type" aria-label="Anchor link for: type">Type</a></h2>
+<p>Static type means the type of every variable is known at compile-time, while dynamic type indicates that some variables have unknown type at compile-time, and are figured out later during run-time.</p>
+<h2 id="layout"><a class="zola-anchor" href="#layout" aria-label="Anchor link for: layout">Layout</a></h2>
+<p>In a source code file, we can organize the code as the following for better readability.</p>
+<ol>
+<li>Dependency imports</li>
+<li>Global constants</li>
+<li>Global variables</li>
+<li>Type definition A which is based on type definition B</li>
+<li>Type definition B</li>
+<li>Function definition A which is based on function definition B</li>
+<li>Function definition B</li>
+</ol>
+<h2 id="syntax"><a class="zola-anchor" href="#syntax" aria-label="Anchor link for: syntax">Syntax</a></h2>
+<h3 id="for-loop-vs-while-loop"><a class="zola-anchor" href="#for-loop-vs-while-loop" aria-label="Anchor link for: for-loop-vs-while-loop">For loop vs while loop</a></h3>
+<ul>
+<li>Use the <code>for</code> loop when we know how many times we are looping.</li>
+<li>Use the <code>while</code> loop when we don't know beforehand how many times we will loop.</li>
+</ul>
+<h2 id="execution-flow"><a class="zola-anchor" href="#execution-flow" aria-label="Anchor link for: execution-flow">Execution flow</a></h2>
+<p>Human readable source code has to go through a sequence of operations to become electronic signals on a silicon chip.</p>
+<ul>
+<li>Source code to binary
+<ul>
+<li>Assembly
+<ul>
+<li>The assembler compiles the assembly code like <code>ADD R0, R1</code> into the binary like <code>0001 0000 0001</code>.</li>
+</ul>
+</li>
+<li>C
+<ul>
+<li>The GNU Compiler Collection (GCC) converts C code into the assembly specific to our CPU architecture like x86_64, amd64, or arm64.</li>
+<li>The assembler compiles the assembly into a group of binaries, also called object files.</li>
+<li>The linker combines the object files and libraries into the final binary.</li>
+</ul>
+</li>
+<li>English
+<ul>
+<li>The English compiler converts a set of English sentences into a binary.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Binary to electrical signal
+<ul>
+<li>The CPU executes the binary by running electronic signals inside the logic gates.
+<ul>
+<li>Fetch
+<ul>
+<li>Fetch an instruction from memory.</li>
+</ul>
+</li>
+<li>Decode
+<ul>
+<li>Decode the instruction's operation and operands.</li>
+</ul>
+</li>
+<li>Execute
+<ul>
+<li>Execute the Arithmetic Logic Unit (ALU) operation or control flow adjustment.</li>
+</ul>
+</li>
+<li>Memory
+<ul>
+<li>Access memory to perform load (memory to register) or store (register to memory) operation.</li>
+</ul>
+</li>
+<li>Writeback
+<ul>
+<li>Save the result of the instruction execution to the register.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;product&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;python&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

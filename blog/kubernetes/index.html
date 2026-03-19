@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- Font Awesome -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Kubernetes
+  </div>
+  <div class="header-metadata">
+    
+      
+        Dec 27, 2025 · 2029 words · 11 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/kubernetes/#cluster">Cluster </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/kubernetes/#node">Node </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/kubernetes/#control-plane">Control-plane</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/kubernetes/#api-server">API server</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/kubernetes/#etcd">Etcd</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/kubernetes/#controller-manager">Controller manager</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/kubernetes/#scheduler">Scheduler</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/kubernetes/#worker-node">Worker node</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/kubernetes/#kubelet">Kubelet</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/kubernetes/#kube-proxy">Kube-proxy</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/kubernetes/#pod">Pod </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/kubernetes/#pod-creation">Pod creation</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/kubernetes/#pod-deletion">Pod deletion</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/kubernetes/#container">Container</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/kubernetes/#container-command-and-arguments">Container command and arguments</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/kubernetes/#container-resource-request-and-limit">Container resource request and limit</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/kubernetes/#container-liveness-and-readiness">Container liveness and readiness</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/kubernetes/#sidecar-container">Sidecar container</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/kubernetes/#deployment">Deployment </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/kubernetes/#replicaset">ReplicaSet </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/kubernetes/#statefulset">StatefulSet </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/kubernetes/#networking">Networking </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/kubernetes/#service">Service</a>
+                  
+                    <ul>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/kubernetes/#clusterip">ClusterIP</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/kubernetes/#nodeport">NodePort</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/kubernetes/#loadbalancer">LoadBalancer</a>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/kubernetes/#pod-to-service-networking">Pod-to-service networking</a>
+                          
+                            <ul>
+                              
+                                <li>
+                                  <a href="https://teyuanliu.github.io/blog/kubernetes/#kube-proxy-networking">kube-proxy networking</a>
+                                </li>
+                              
+                                <li>
+                                  <a href="https://teyuanliu.github.io/blog/kubernetes/#istio-service-mesh-networking">Istio service mesh networking</a>
+                                </li>
+                              
+                            </ul>
+                          
+                        </li>
+                      
+                        <li>
+                          <a href="https://teyuanliu.github.io/blog/kubernetes/#external-to-service-networking">External to service networking</a>
+                          
+                        </li>
+                      
+                    </ul>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/kubernetes/#storage">Storage </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/kubernetes/#pvc-creation">PVC creation</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/kubernetes/#pvc-deletion">PVC deletion</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/kubernetes/#operation">Operation </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/kubernetes/#observability">Observability </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/kubernetes/#prometheus">Prometheus</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/kubernetes/#grafana">Grafana</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/kubernetes/#alertmanager">Alertmanager</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/kubernetes/#auto-scaling">Auto-scaling</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/kubernetes/#security">Security </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/kubernetes/#client">Client </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/kubernetes/#controller">Controller </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/kubernetes/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>Kubernetes is a <a href="https://teyuanliu.github.io/blog/container/">container</a> orchestration engine for containerized application management and provides features like high availability, complex auto-scaling, automatic rollout and rollback, custom scheduling, and service mesh.</p>
+<span id="continue-reading"></span><h2 id="cluster"><a class="zola-anchor" href="#cluster" aria-label="Anchor link for: cluster">Cluster</a></h2>
+<p>We need a group of machines to set up a Kubernetes cluster. Each machine has its own CPUs, memory, disk storage, OS, and network device.</p>
+<h2 id="node"><a class="zola-anchor" href="#node" aria-label="Anchor link for: node">Node</a></h2>
+<p>A Kubernetes node usually has one cluster-internal IP and one cluster-external IP.</p>
+<h3 id="control-plane"><a class="zola-anchor" href="#control-plane" aria-label="Anchor link for: control-plane">Control-plane</a></h3>
+<h4 id="api-server"><a class="zola-anchor" href="#api-server" aria-label="Anchor link for: api-server">API server</a></h4>
+<h4 id="etcd"><a class="zola-anchor" href="#etcd" aria-label="Anchor link for: etcd">Etcd</a></h4>
+<p>See more about <a href="https://teyuanliu.github.io/blog/etcd/">etcd</a>.</p>
+<h4 id="controller-manager"><a class="zola-anchor" href="#controller-manager" aria-label="Anchor link for: controller-manager">Controller manager</a></h4>
+<p>The controller manager is a process that runs built-in Kubernetes controllers (node controller, namespace controller, etc) inside it. For high availability, multiple instances of the controller manager run on the cluster but only one of them is elected as the leader at any given time to avoid conflicting actions.</p>
+<h4 id="scheduler"><a class="zola-anchor" href="#scheduler" aria-label="Anchor link for: scheduler">Scheduler</a></h4>
+<h3 id="worker-node"><a class="zola-anchor" href="#worker-node" aria-label="Anchor link for: worker-node">Worker node</a></h3>
+<h4 id="kubelet"><a class="zola-anchor" href="#kubelet" aria-label="Anchor link for: kubelet">Kubelet</a></h4>
+<h4 id="kube-proxy"><a class="zola-anchor" href="#kube-proxy" aria-label="Anchor link for: kube-proxy">Kube-proxy</a></h4>
+<p>Kube-proxy is a Kubernetes network component running on each node as a pod under the <code>kube-system</code> namespace. It implements networking for services like ClusterIP, NodePort, and LoadBalancer. It configures each node's iptables to set up the mapping between a service’s ClusterIP to the service's backend pod IPs.</p>
+<h2 id="pod"><a class="zola-anchor" href="#pod" aria-label="Anchor link for: pod">Pod</a></h2>
+<p>A Pod is the smallest deployable unit in Kubernetes and contains a group of containers that share the same Linux namespaces. A pod contains the following:</p>
+<ul>
+<li>Pause container
+<ul>
+<li>Runs the <code>pause</code> command to sleep forever.</li>
+<li>Serves as a pod’s root container with Process ID (PID) 1 and owns the Linux namespaces such that the pod can persist even if other application containers have exit. Its lifecycle is bounded with the pod’s lifecycle.</li>
+<li>All other containers start with <code>–net=container:&lt;PAUSE_CONTAINER_ID&gt;</code> to share the network namespace.</li>
+</ul>
+</li>
+<li>Linux namespaces (PID, cgroup, mount, network, etc)</li>
+<li>Container Network Interface (CNI) configuration</li>
+<li>Persistent volume and mount-point</li>
+</ul>
+<h3 id="pod-creation"><a class="zola-anchor" href="#pod-creation" aria-label="Anchor link for: pod-creation">Pod creation</a></h3>
+<ol>
+<li>A user sends a pod creation request to the API server.</li>
+<li>The API server performs authentication, authorization, admission control (validation/mutating), writing a pod with empty <code>nodeName</code> into the etcd, and then updates the user about the pod creation.</li>
+<li>The scheduler watches the API server for any pod with empty <code>nodeName</code>, scheduling the pod to a node, and then updates the API server about the pod scheduling.</li>
+<li>The kubelet on the assigned node watches the API server for any assigned pod with the matching <code>nodeName</code>, working with the Container Runtime Interface (CRI) plugin to create the pod, and then updates the API server about the pod and container creation.</li>
+</ol>
+<h3 id="pod-deletion"><a class="zola-anchor" href="#pod-deletion" aria-label="Anchor link for: pod-deletion">Pod deletion</a></h3>
+<ol>
+<li>A user sends a pod deletion request to the API server.</li>
+<li>The API server performs authentication, authorization, admission control (validation/mutating), updating the pod with its <code>deletionTimestamp</code> set to the current time in the etcd, and then updates the user about the pod deletion.</li>
+<li>The endpoint controller watches the API server for any pod with its <code>deletionTimestamp</code> set, removing the pod's IP address from any service endpoint that includes it, and then updates the API server about the pod's IP removal.</li>
+<li>The kubelet on the node where the pod is running watches the API server for any pod with its <code>deletionTimestamp</code> set, working with the CRI plugin to delete the pod (<code>SIGTERM</code> or <code>SIGKILL</code>), and then updates the API server about the pod and container deletion.</li>
+<li>The API server removes the pod object from the etcd.</li>
+</ol>
+<h3 id="container"><a class="zola-anchor" href="#container" aria-label="Anchor link for: container">Container</a></h3>
+<p>See more about <a href="https://teyuanliu.github.io/blog/container/">container</a>.</p>
+<h4 id="container-command-and-arguments"><a class="zola-anchor" href="#container-command-and-arguments" aria-label="Anchor link for: container-command-and-arguments">Container command and arguments</a></h4>
+<p>The pod's <code>command</code> field replaces the container's <code>ENTRYPOINT</code> and <code>args</code> field replaces <code>CMD</code>.</p>
+<h4 id="container-resource-request-and-limit"><a class="zola-anchor" href="#container-resource-request-and-limit" aria-label="Anchor link for: container-resource-request-and-limit">Container resource request and limit</a></h4>
+<p>The resource request defines the guaranteed resource amount that will be given to the container. The scheduler uses resource request to determine which node to schedule for a pod.</p>
+<p>The resource limit defines the maximum amount of resource a container can use. A container hitting the limits can cause CPU throttling or Out-Of-Memory (OOM) kill.</p>
+<p>Setting both request and limit to 2x of the average resource usage is a good starting point. If the average usage is unknown, cloud providers like GCP recommends 1 CPU and 4Gi memory.</p>
+<p>If a resource's request is missing but its limit is set, the Kubernetes API server will copy the limit to the request.</p>
+<p>Missing both request and limit configuration may cause that too many pods are scheduled on the same node, throttling the CPUs and using up memory. If cluster autoscaler is enabled, this may result in unnecessary scale-out and lead to a waste of resource/money.</p>
+<h4 id="container-liveness-and-readiness"><a class="zola-anchor" href="#container-liveness-and-readiness" aria-label="Anchor link for: container-liveness-and-readiness">Container liveness and readiness</a></h4>
+<p>Kubernetes relies on a liveness probe to know if a container is alive or needs a restart, and readiness probe to know if a container is ready to serve requests or stop sending requests to the container’s pod.</p>
+<h4 id="sidecar-container"><a class="zola-anchor" href="#sidecar-container" aria-label="Anchor link for: sidecar-container">Sidecar container</a></h4>
+<p>A sidecar container is usually managed via a mutating webhook to run alongside the application container and provides various functionalities.</p>
+<ul>
+<li>Networking
+<ul>
+<li>Istio envoy proxy for routing</li>
+</ul>
+</li>
+<li>Observability
+<ul>
+<li>Promtail agent/Fluent-Bit agent for logs forwarding</li>
+<li>Kube-state-metrics exporter for exposing Kubernetes object metrics in Prometheus format</li>
+<li>OpenTelemetry collector for collecting and forwarding telemetry data</li>
+<li>Datadog agent for collecting logs, metrics, and traces</li>
+</ul>
+</li>
+<li>Security
+<ul>
+<li>Falco sidecar for monitoring runtime security</li>
+<li>Cert-manager sidecar for periodic TLS certificate renewing</li>
+</ul>
+</li>
+<li>Storage
+<ul>
+<li>Redis sidecar for local data caching and periodic write-back to the database</li>
+</ul>
+</li>
+</ul>
+<h2 id="deployment"><a class="zola-anchor" href="#deployment" aria-label="Anchor link for: deployment">Deployment</a></h2>
+<h2 id="replicaset"><a class="zola-anchor" href="#replicaset" aria-label="Anchor link for: replicaset">ReplicaSet</a></h2>
+<h2 id="statefulset"><a class="zola-anchor" href="#statefulset" aria-label="Anchor link for: statefulset">StatefulSet</a></h2>
+<h2 id="networking"><a class="zola-anchor" href="#networking" aria-label="Anchor link for: networking">Networking</a></h2>
+<p>A Kubernetes cluster has the following:</p>
+<ul>
+<li>A pod Classless Inter-Domain Routing (CIDR) allocated by the CNI. The CNI allocates each node's pod CIDR and assigns each pod's IP. It also creates a <code>cni0</code> network device on each node to communicate with the <code>veth0</code> network device inside a container. The pod CIDR to network device mapping on each node is stored inside the node's routing table.</li>
+<li>A service CIDR allocated by a service mesh like kube-proxy or Istio. The service CIDR contains virtual IPs without the corresponding network devices.</li>
+</ul>
+<p>Whenever a node joins the cluster, the CNI configures the node's:</p>
+<ul>
+<li>Pod CIDR</li>
+<li>Routing table</li>
+<li>Network device like virtual ethernet <code>veth</code></li>
+<li>Virtual eXtensible Local-Area Network (VXLAN) tunnels</li>
+</ul>
+<p>Whenever a pod is created, the CNI sets up the pod's:</p>
+<ul>
+<li>Network namespace
+<ul>
+<li>Network device</li>
+<li>Routing table</li>
+<li>Iptables
+<ul>
+<li>Filter table (firewall)
+<ul>
+<li>A CNI like Calico uses the filter table to implement NetworkPolicy and allow traffic from a pod to another.</li>
+</ul>
+</li>
+<li>Name Address Translation (NAT) table</li>
+<li>Mangle table (packet modification)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="service"><a class="zola-anchor" href="#service" aria-label="Anchor link for: service">Service</a></h3>
+<h4 id="clusterip"><a class="zola-anchor" href="#clusterip" aria-label="Anchor link for: clusterip">ClusterIP</a></h4>
+<p>ClusterIP is the default Kubernetes service type for exposing applications. It provides a stable internal IP for cluster-only access.</p>
+<h4 id="nodeport"><a class="zola-anchor" href="#nodeport" aria-label="Anchor link for: nodeport">NodePort</a></h4>
+<p>NodePort exposes the service on a static port on each node's IP, allowing external access through the port but not automatically load-balancing across nodes.</p>
+<h4 id="loadbalancer"><a class="zola-anchor" href="#loadbalancer" aria-label="Anchor link for: loadbalancer">LoadBalancer</a></h4>
+<p>LoadBalancer relies on a cloud provider to create an external load balancer that directs traffic to the service and provides a single, stable external IP address.</p>
+<h4 id="pod-to-service-networking"><a class="zola-anchor" href="#pod-to-service-networking" aria-label="Anchor link for: pod-to-service-networking">Pod-to-service networking</a></h4>
+<h5 id="kube-proxy-networking"><a class="zola-anchor" href="#kube-proxy-networking" aria-label="Anchor link for: kube-proxy-networking">kube-proxy networking</a></h5>
+<p>Here is what happens when a pod makes a request to a service:</p>
+<ol>
+<li>The application in a pod makes a request to <code>https://service.namespace.svc.cluster.local</code>.</li>
+<li>The pod needs to contact the Domain Name Service (DNS) first to get the service ClusterIP. It checks its DNS configuration file and finds the CoreDNS service ClusterIP.</li>
+<li>The pod creates a DNS packet inside its network namespace.<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>Src IP = Pod IP (e.g., 10.244.1.5)
+</span><span>Dst IP = CoreDNS service ClusterIP (e.g., 10.96.123.45)
+</span></code></pre>
+</li>
+<li>The pod sends the packet to the host's network namespace via <code>veth</code>.</li>
+<li>The host's kernel intercepts the packet using iptables rules configured by kube-proxy and rewrites the destination IP from the CoreDNS service ClusterIP to a CoreDNS pod IP (selected via random or round-robin).<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>10.96.123.45:443 -&gt; 10.244.2.7:443
+</span></code></pre>
+</li>
+<li>The host's kernel sends out the packet to the CoreDNS pod's host.</li>
+<li>The CoreDNS pod's host receives the packet and forwards it to the CoreDNS pod's network namespace via <code>veth</code>.</li>
+<li>The CoreDNS pod processes the packet and sends back a response containing the service ClusterIP.</li>
+<li>The pod receives the service ClusterIP and then goes through the same process as before to send a request to the service.</li>
+</ol>
+<h5 id="istio-service-mesh-networking"><a class="zola-anchor" href="#istio-service-mesh-networking" aria-label="Anchor link for: istio-service-mesh-networking">Istio service mesh networking</a></h5>
+<ol>
+<li>The pod creates a packet inside its network namespace.</li>
+<li>The Istio proxy sidecar container running inside the same pod decides which service backend pod IP to use and rewrites the destination IP from the service ClusterIP to a backend pod IP.</li>
+</ol>
+<h4 id="external-to-service-networking"><a class="zola-anchor" href="#external-to-service-networking" aria-label="Anchor link for: external-to-service-networking">External to service networking</a></h4>
+<p>Extended from the above, here is what happens when an external client makes a request to a service on the cluster.</p>
+<ol>
+<li>The external client sends the request packet to the ingress gateway.</li>
+<li>The ingress gateway forwards the packet to a virtual service.</li>
+<li>The virtual service sends the packet to the corresponding service.</li>
+</ol>
+<h2 id="storage"><a class="zola-anchor" href="#storage" aria-label="Anchor link for: storage">Storage</a></h2>
+<p>Kubernetes uses the Persistent Volume Claim (PVC) to manage storage.</p>
+<h3 id="pvc-creation"><a class="zola-anchor" href="#pvc-creation" aria-label="Anchor link for: pvc-creation">PVC creation</a></h3>
+<ol>
+<li>A user sends a PVC creation request to the API server.</li>
+<li>The API server performs authentication, authorization, admission control (validation/mutating), writing an unbound PVC into the etcd, and then updates the user about the PVC creation.</li>
+<li>The Container Storage Interface (CSI) controller watches the API server for any unbound PVC, working with a storage system to create a directory as a volume on the storage system's filesystem, and then sends a Persistent Volume (PV) creation request to the API server. The request contains metadata like volume ID, driver details, and <code>claimRef</code> for PVC bound.</li>
+<li>The API server performs authentication, authorization, admission control (validation/mutating), writing a PV into the etcd, updating the PVC's bound status, and then updates the CSI controller about the PV creation.</li>
+</ol>
+<h3 id="pvc-deletion"><a class="zola-anchor" href="#pvc-deletion" aria-label="Anchor link for: pvc-deletion">PVC deletion</a></h3>
+<ol>
+<li>A user sends a PVC deletion request to the API server.</li>
+<li>The API server performs authentication, authorization, admission control (validation/mutating), setting the PVC's deletion status into the etcd, and then updates the user about the PVC deletion.</li>
+<li>The CSI controller watches the API server for any PVC deletion, working with the storage system to remove the directory from the filesystem, and then updates the API server about the PVC and PV deletion.</li>
+<li>The API server removes the PVC and PV from the etcd.</li>
+</ol>
+<h2 id="operation"><a class="zola-anchor" href="#operation" aria-label="Anchor link for: operation">Operation</a></h2>
+<p>Here is an example directory structure of applying GitOps via ArgoCD application and kustomization files.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>-   bootstrap
+</span><span>    -   clusters
+</span><span>        -   base
+</span><span>            -   kustomization.yaml
+</span><span>            -   cluster-application.yaml // Watches bootstrap/clusters/base itself.
+</span><span>            -   argocd-application.yaml // Watches bootstrap/argocd/base.
+</span><span>            -   argocd-app-project.yaml
+</span><span>            -   root-application.yaml // Watches applications/clusters/&lt;overlay&gt;.
+</span><span>        -   overlays
+</span><span>            -   test
+</span><span>                -   kustomization.yaml
+</span><span>            -   production
+</span><span>    -   argocd
+</span><span>        -   base
+</span><span>            -   kustomization.yaml
+</span><span>            -   deployment.yaml
+</span><span>            -   service.yaml
+</span><span>        -   overlays
+</span><span>            -   test
+</span><span>                -   kustomization.yaml
+</span><span>            -   production
+</span><span>-   applications
+</span><span>    -   catalog
+</span><span>        -   app-1
+</span><span>            -   base
+</span><span>                -   kustomization.yaml
+</span><span>                -   application.yaml // Watches manifests/app-1/base
+</span><span>            -   overlays
+</span><span>                -   test
+</span><span>                    -   kustomization.yaml
+</span><span>                -   production
+</span><span>    -   clusters
+</span><span>        -   test
+</span><span>            -   kustomization.yaml // A tailored list of applications available at
+</span><span>                                    // applications/catalog/.
+</span><span>        -   production
+</span><span>-   manifests
+</span><span>    -   app-1
+</span><span>        -   base
+</span><span>            -   kustomization.yaml
+</span><span>            -   deployment.yaml
+</span><span>            -   service.yaml
+</span><span>        -   overlays
+</span><span>            -   test
+</span><span>                -   kustomization.yaml
+</span><span>            -   production
+</span></code></pre>
+<h2 id="observability"><a class="zola-anchor" href="#observability" aria-label="Anchor link for: observability">Observability</a></h2>
+<h3 id="prometheus"><a class="zola-anchor" href="#prometheus" aria-label="Anchor link for: prometheus">Prometheus</a></h3>
+<p>Prometheus is a metric processing framework that pulls metrics periodically from a service metric/exporter endpoint and stores them in its Time-Series DataBase (TSDB).</p>
+<p>We can deploy the kube-prometheus-stack helm chart as a starting point. It includes Prometheus, Grafana, community-built Grafana dashboards, community-built Prometheus alerting rules, and Alertmanager.</p>
+<p>To start using it, we may create a <code>ServiceMonitor</code> manifest and set its release label to <code>prometheus</code> to register the metric endpoint to Prometheus.</p>
+<p>If an alerting rule is configured, Prometheus runs its PromQL query periodically to see if the alerting rule fires. If so, it pushes the alert event to a downstream service like Alertmanager.</p>
+<h3 id="grafana"><a class="zola-anchor" href="#grafana" aria-label="Anchor link for: grafana">Grafana</a></h3>
+<p>Grafana is a dashboard framework that pulls data from Prometheus via GraphQL queries for data visualization according to JSON file configurations.</p>
+<h3 id="alertmanager"><a class="zola-anchor" href="#alertmanager" aria-label="Anchor link for: alertmanager">Alertmanager</a></h3>
+<p>Alertmanager is an alerting framework which receives alert events from Prometheus, grouping, inhibiting, silencing alerts, and then propagates them to a downstream notification service like Slack or GoAlert.</p>
+<h3 id="auto-scaling"><a class="zola-anchor" href="#auto-scaling" aria-label="Anchor link for: auto-scaling">Auto-scaling</a></h3>
+<ul>
+<li>Vertical pod autoscaler (VPA)
+<ul>
+<li>Adjusts the pod resource request/limit based on the resource usage. It recreates the pod without changing the replica count.</li>
+<li>Suits stateful workloads which might face synchronization issues if scaling horizontally.</li>
+</ul>
+</li>
+<li>Horizontal pod autoscaler (HPA)
+<ul>
+<li>Scales the number of pod replicas based on CPU or memory utilization, or an object metric like queue length, or a custom metric.</li>
+<li>Suits stateless workloads.</li>
+</ul>
+</li>
+<li>Kubernetes event-driven autoscaler (KEDA)
+<ul>
+<li>Scales the number of pod replicas based on an external event like the Kafka lag, message queue length, and HTTP request rate.</li>
+<li>Supports scale-to-zero.</li>
+<li>Uses HPA behind the scenes.</li>
+<li>Suits stateless/event-driven workloads.</li>
+</ul>
+</li>
+<li>Knative pod autoscaler (KPA)
+<ul>
+<li>Scales the number of pod replicas based on concurrency and request-per-second (RPS).</li>
+<li>Supports rapid scale-out and scale-to-zero.</li>
+<li>Suits stateless workloads with spiky traffic.</li>
+</ul>
+</li>
+<li>Cluster Autoscaler (CA)
+<ul>
+<li>Scales the number of nodes when a pod is pending as unschedulable due to insufficient cluster capacity.</li>
+</ul>
+</li>
+</ul>
+<h2 id="security"><a class="zola-anchor" href="#security" aria-label="Anchor link for: security">Security</a></h2>
+<h2 id="client"><a class="zola-anchor" href="#client" aria-label="Anchor link for: client">Client</a></h2>
+<ul>
+<li>k8s.io/client-go module's clientset for Kubernetes standard resource CRUD operations</li>
+<li>dynamic client for Kubernetes custom resource CRUD operations</li>
+</ul>
+<h2 id="controller"><a class="zola-anchor" href="#controller" aria-label="Anchor link for: controller">Controller</a></h2>
+<ul>
+<li>k8s.io/client-go/tools/cache package's informer for Kubernetes resource watching</li>
+<li>sigs.k8s.io/controller-runtime module for building Kubernetes controllers</li>
+</ul>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;javascript&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;learning-coding&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>
