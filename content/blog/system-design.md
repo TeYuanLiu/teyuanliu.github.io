@@ -1,7 +1,7 @@
 +++
 title = "System Design"
 date = 2025-04-25
-updated = 2026-02-03
+updated = 2026-03-18
 +++
 
 Ok, we want to build a software system for example a web application, but where should we start?
@@ -23,7 +23,7 @@ Well, let's first think about the functional and non-functional requirements of 
         -   Number of incoming requests per second.
     -   Concurrency
         -   Number of simultaneous active requests.
-        -   Concurrency = max(QPS, QPS * RT)
+        -   Concurrency = max(1, RT) * QPS
 
 -   Scalability
     -   Traffic
@@ -59,7 +59,7 @@ This practice minimizes the system complexity and thus the operational cost.
 
 ### Minimal design
 
-Start with one monolithic server and one database.
+Start with one server and one database.
 
 In general, CRUD applications are I/O-bound and a server can handle around 10 K Requests Per Second (RPS).
 
@@ -78,11 +78,11 @@ We use [Representational State Transfer (REST)](@/blog/network-protocol.md#rest)
 
 ### Server bottleneck
 
-As the application gains more users, the server struggles to handle that many concurrent requests and users start to feel the response latency increase. Concurrency becomes the bottleneck of our system due to the OS setting limits or system memory shortage.
+As the application gains more users, the server struggles to handle that many concurrent requests and users start to feel the response latency increase. Concurrency becomes the bottleneck of our system due to the OS settings or system memory shortage.
 
-#### OS setting limit customization
+#### OS setting customization
 
-If the bottleneck is caused by the OS setting limits, we can tune those limits such as the open file descriptor number limit and the TCP stack depth limit. For example, we can lift the open file descriptor number limit from 1 K to 100 K.
+If the bottleneck is caused by the OS settings, we can tune those settings such as the open file descriptor number limit and the TCP stack depth limit. For example, we can lift the open file descriptor number limit from 1 K to 100 K.
 
 #### Server vertical scale up
 
@@ -90,7 +90,7 @@ If the bottleneck is caused by the system memory shortage, we can upgrade the se
 
 #### Server horizontal scale out
 
-If OS setting limit customization and server vertical scale up don't fully resolve the concurrency bottleneck, we then need to horizontally scale out the server to a server cluster. We use a load balancer to distribute the request traffic among the servers.
+If OS setting customization and server vertical scale up don't fully resolve the concurrency bottleneck, we then need to horizontally scale out the server to a server cluster. We use a load balancer to distribute the request traffic among the servers.
 
 -   Client
 -   Load balancer
@@ -103,7 +103,17 @@ If OS setting limit customization and server vertical scale up don't fully resol
 
 As more data is stored in the database and more transactions happen at the same time, the database transaction latency rises to an unacceptable level and becomes the bottleneck of our system.
 
-We can resolve this via [adding a database cache, Content Delivery Network (CDN), and client-side cache](@/blog/database.md#read).
+#### Database setting customization
+
+Customizing database settings is a good way to start optimizing a database. We can increase the `max_connections` from 100 to 200, `shared_buffers` from 128 MB to 4 GB, etc. By tuning a few parameters (`max_connections`, `shared_buffers`, `min_wal_size`, `max_wal_size`, `random_page_cost`, `effective_cache_size`, `maintenance_work_mem`, `work_mem`, `max_parallel_workers_per_gather`), we can get around 30% performance boost. If we fine-tune all parameters, the performance boost will be 2x or even 3x.
+
+#### Database vertical scale up
+
+We can upgrade the database server to a larger instance with more system memory.
+
+#### Database caching
+
+[Adding a database cache, Content Delivery Network (CDN), and client-side cache](@/blog/database.md#read) can increase the read performance.
 
 -   Client
     -   Client-side cache
@@ -114,6 +124,10 @@ We can resolve this via [adding a database cache, Content Delivery Network (CDN)
         -   Business logic
 -   Database cache
 -   Database
+
+#### Database sharding
+
+The most effective approach to boost write performance is through database sharding.
 
 See more about read and write transaction scaling in the [database post](@/blog/database.md).
 
