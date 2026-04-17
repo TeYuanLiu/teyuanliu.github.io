@@ -1,7 +1,7 @@
 +++
 title = "PostgreSQL"
 date = 2025-12-23
-updated = 2026-04-16
+updated = 2026-04-17
 +++
 
 PostgreSQL is an open-source relational database.
@@ -143,6 +143,10 @@ CREATE TABLE user (
 );
 ```
 
+##### Table primary key
+
+We usually use a surrogate key like an auto-increment integer ID as the table primary key, rather than using a natural key such as a string. This avoids potential technical debt because the value of a surrogate key never changes while the value of a natural key may change in the future. If we choose the natural key path and then a value change happens, we will need to update everything related to it, from primary key in the original table, foreign key in other tables, and indexes.
+
 #### Table deletion
 
 ```sql
@@ -166,6 +170,20 @@ We can use the `COPY` keyword to load data from text files too.
 ```sql
 COPY user FROM '/tmp/user.txt';
 ```
+
+##### Temporary relational data creation in Go
+
+When we need a temporary data structure to hold some relational data, we can do either Common Table Expression (CTE) with `unnest` or temporary table with `CopyFrom`.
+
+-   CTE with `unnest`
+    -   Faster for 10 K rows or below due to no Data Definition Language (DDL) overhead
+    ```sql
+    SELECT unnest($1::int[]) AS data
+    ```
+-   Temporary table with `CopyFrom`
+    -   Faster for 10 K rows or above due to higher throughput from binary copy
+    -   Analyzable and indexable by query planner
+    -   Need `ON COMMIT DROP` in the query to delete the temporary table when the transaction finishes. Otherwise, the database connection keeps the table and will throw `relation already exists` error if the connection is used to run the same query.
 
 #### Row read
 
