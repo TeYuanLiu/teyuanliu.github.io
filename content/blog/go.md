@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-02-05
+updated = 2026-04-16
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -249,6 +249,8 @@ It contains:
 -   The length of the slice
 -   The capacity of the slice, which is the number of elements in the underlying array, counting from the first element in the slice
 
+Because a slice is lightweight and super cheap to copy, we usually pass it around by value.
+
 If any slice still holds a pointer to its underlying array, the entire array remains in memory. Therefore, the way to release the array's memory is to set the slice to nil.
 
 If our slice is using a small portion of the underlying array, we can use the below methods to cut down memory cost.
@@ -302,6 +304,44 @@ s1 := []int{1}          // s1 = {1}
 s1 = append(s1, 2, 3)   // s1 = {1, 2, 3}
 s2 := []int{4}          // s2 = {4}
 s1 = append(s1, s2...)  // s1 = {1, 2, 3, 4}
+```
+
+### Heap
+
+We can use the `container/heap` package to implement a min heap. It requires us to implement the `Len`, `Less`, `Swap`, `Push`, and `Pop` function for the `container/heap` package to use.
+
+```go
+type IntHeap []int
+
+func (h IntHeap) Len() int {
+    return len(h)
+}
+
+func (h IntHeap) Less(i, j int) bool {
+    return h[i] < h[j]
+}
+
+func (h IntHeap) Swap(i, j int) {
+    h[i], h[j] = h[j], h[i]
+}
+
+func (h *IntHeap) Push(x any) {
+    *h = append(*h, x.(int))
+}
+
+func (h *IntHeap) Pop() any {
+    n := len(*h)
+    last := (*h)[n - 1]
+    *h = (*h)[: n - 1]
+    return last
+}
+
+func main() {
+    h := &IntHeap{}
+    heap.Init(h)
+    heap.Push(h, 1)
+    s := heap.Pop(h)
+}
 ```
 
 ### Map
@@ -405,13 +445,14 @@ We often use the `Print`, `Println`, and `Printf` function from the built-in `fm
     -   %g for floating-point number
     -   %c for Unicode code point character
     -   %s for string
-    -   %v for default format
-    -   %T for type
     -   %q for double-quoted string with special character escaping
+    -   %p for pointer
+    -   %T for type
     -   %w for error
     -   %b for binary
     -   %o for octal (base8)
     -   %x for hexadecimal (base16)
+    -   %v for default format
 
 ## Flow control
 
@@ -547,6 +588,41 @@ func add(x, y int) int
 ```
 
 ### Function return value
+
+When a function returns a value, it copies the value from the variable within the function and passes it to the outer world.
+
+```go
+func main() {
+    value := returnValue()
+	fmt.Printf("value stored at %p\n", &value) // memory address 2
+}
+
+func returnValue() bool {
+	value := true
+	fmt.Printf("value stored at %p\n", &value) // memory address 1
+	return value
+}
+```
+
+The same holds for pointer returning. But note that `value` now lives on the heap instead of stack for access across different frames on the call stack.
+
+```go
+func main() {
+	pointer := returnPointer()
+	fmt.Printf("pointer pointing to %p\n", pointer) // memory address 1
+	fmt.Printf("pointer stored at %p\n", &pointer)  // memory address 3
+}
+
+func returnPointer() *bool {
+	value := true
+	pointer := &value
+	fmt.Printf("pointer pointing to %p\n", pointer) // memory address 1
+	fmt.Printf("pointer stored at %p\n", &pointer) // memory address 2
+	return pointer
+}
+```
+
+A function usually returns a value when the returned value is small or immutable. On the other hand, it returns a pointer when the returned value is large, to avoid costly copying, or a resource like API client, database connection, or a file, that shouldn't be copied.
 
 A function's return values may be named. If so, they are treated as variables defined at the top of the function. These return value names should be used to document the meaning of the return values. A `return` statement without arguments returns the named return values.
 

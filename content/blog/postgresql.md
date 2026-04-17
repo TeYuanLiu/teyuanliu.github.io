@@ -1,7 +1,7 @@
 +++
 title = "PostgreSQL"
 date = 2025-12-23
-updated = 2026-01-25
+updated = 2026-04-16
 +++
 
 PostgreSQL is an open-source relational database.
@@ -58,8 +58,12 @@ mydb=> \q   # Exit the terminal.
 
 ### SQL
 
-We can use SQL commands to interact with a database, but what is inside a database? A database consists of one or multiple tables.
+We can use SQL commands to interact with a database, but what is inside a database?
 
+First we encounter schemas. We can think of schemas as directories in a file system, isolating a group of files from other groups. Then, inside a schema we see tables, and they are like the spreadsheet files that store our data.
+
+-   Schema
+    -   A schema groups tables together and provides isolation.
 -   Table
     -   A table is used to store relational data.
 -   Column
