@@ -51,8 +51,14 @@ sudo systemctl reload-or-restart postgresql
 \du # List all roles.
 \l # List all databases.
 \l+ # List all databases with extra details.
+\dn # List all schemas in the current database.
+\dn+ # List all schemas in the current database with privilege details.
 \d # List all tables and sequences in the current database.
 \dt # List all tables in the current database.
+\z <TABLE> # List privileges of the table.
+\z public.* # List privileges for all tables in the public schema.
+\df # List all functions in the current database.
+\df+ # List all functions in the current database with privilege details.
 \i commands.sql # Read and execute the commands.sql file.
 \q # Exit psql.
 ```
