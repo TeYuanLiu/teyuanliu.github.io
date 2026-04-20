@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date = 2025-04-17
-updated = 2026-02-05
+updated = 2026-04-19
 +++
 
 Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.
@@ -193,10 +193,6 @@ In 1983, Richard Stallman started the GNU project to provide binaries that make 
     ```bash
     id -u
     ```
--   Switch to the superuser.
-    ```bash
-    su
-    ```
 -   Execute a command as the superuser.
     ```bash
     sudo <COMMAND>
@@ -204,6 +200,14 @@ In 1983, Richard Stallman started the GNU project to provide binaries that make 
 -   List the current user's privilege.
     ```bash
     sudo -l
+    ```
+-   Switch to the superuser with non-login shell which gives the superuser permissions but keeps the current working directory and environment variables.
+    ```bash
+    sudo su
+    ```
+-   Switch to the superuser with login shell which gives the superuser permissions, changing working directory to the superuser's home directory, and resets the environment variables to the superuser's settings.
+    ```bash
+    sudo su -
     ```
 -   Print the current user's Group ID (GID).
     ```bash

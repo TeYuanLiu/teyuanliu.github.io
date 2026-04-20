@@ -1,11 +1,15 @@
 +++
 title = "PostgreSQL"
 date = 2025-12-23
-updated = 2026-04-17
+updated = 2026-04-19
 +++
 
 PostgreSQL is an open-source relational database.
 <!-- more -->
+
+## Installation
+
+Read the [official documentation for installation on Ubuntu or other OS](https://www.postgresql.org/download/linux/ubuntu/).
 
 ## System architecture
 
@@ -17,50 +21,80 @@ PostgreSQL is an open-source relational database.
 -   Client
     -   A client can be a text-oriented tool, a graphical application, or a web server.
 
-## Database creation and deletion
+## Role
 
-A project often uses one database. We can use the binaries provided by PostgreSQL to create or delete a database.
+A role is like an account. PostgreSQL by default creates a role, `postgres`, with superuser privilege. The superuser privilege lets it bypass all safety checks so using it comes with high risk, as we may accidentally delete things. It is recommended to use the `postgres` role to create a custom role with the least privilege needed and use the custom role to interact with PostgreSQL.
 
--   Create a database. A database name must start with an alphabetic character and is limited to 63 bytes in length.
-    ```bash
-    createdb <DATABASE_NAME>
-    ```
--   Delete a database. This removes all associated database files.
-    ```bash
-    dropdb <DATABASE_NAME>
-    ```
+### Role creation
 
-## Database operations
+Start a PostgreSQL interactive terminal, psql, and create the target role using Structured Query Language (SQL).
 
-After creating a database, we can interact with the database using Structured Query Language (SQL) commands via the following ways.
-
--   Use the PostgreSQL interactive terminal, psql.
--   Use a driver to connect a custom application to the database.
-
-### Psql
-
-We can run `psql` to start a terminal.
 ```bash
-psql <DATABASE_NAME>    # Assume DATABASE_NAME is mydb.
-
-mydb=> SELECT current_date; # Print the current date.
-
-mydb=> \h   # Get help.
-
-mydb=> \d   # Get the list of tables and sequences.
-
-mydb=> \dt  # Get the list of tables.
-
-mydb=> \i commands.sql  # Read and execute the commands.sql file.
-
-mydb=> \q   # Exit the terminal.
+sudo -i -u postgres psql # Execute psql as user postgres and database postgres.
+postgres=# CREATE ROLE <ROLE> WITH LOGIN PASSWORD <PASSWORD> CREATEROLE CREATEDB;
+postgres=# \du # List all roles.
+postgres=# \q # Exit psql.
 ```
 
-### SQL
+Add an entry to pg_hba.conf (`/etc/postgresql/<VERSION>/main/pg_hba.conf` for ubuntu) to enable the connection to server.
 
-We can use SQL commands to interact with a database, but what is inside a database?
+```bash
+sudo vim /etc/postgresql/<VERSION>/main/pg_hba.conf
+# Append "local <DATABASE> <ROLE> scram-sha-256" to the end of the file.
+sudo systemctl reload-or-restart postgresql
+```
 
-First we encounter schemas. We can think of schemas as directories in a file system, isolating a group of files from other groups. Then, inside a schema we see tables, and they are like the spreadsheet files that store our data.
+### PSQL commands
+
+```bash
+\h # Get help.
+\du # List all roles.
+\l # List all databases.
+\l+ # List all databases with extra details.
+\d # List all tables and sequences in the current database.
+\dt # List all tables in the current database.
+\i commands.sql # Read and execute the commands.sql file.
+\q # Exit psql.
+```
+
+### Role deletion
+
+We drop the objects owned by the target role in each database.
+
+```bash
+psql -U <ROLE> -d <DATABASE>
+<DATABASE>=# DROP OWNED BY <ROLE>;
+```
+
+Then, we drop the target role.
+
+```bash
+sudo -i -u postgres psql
+postgres=# DROP ROLE <ROLE>;
+```
+
+### Role management tree
+
+{% mermaid() %}
+flowchart TB
+    postgres --> project-admin
+    project-admin --> project-app
+{% end %}
+
+-   postgres
+    -   Create and manage the project-admin role for each project.
+    -   Have privileges like superuser, createrole, createdb, replication, bypass Row-Level Security (RLS).
+-   project-admin
+    -   Create and manage the project-app role, database, schema, table, column privilege grant, RLS.
+    -   Have privileges like createrole, createdb.
+-   project-app
+    -   Provide the role for application to connect and interact with the database.
+
+## Database
+
+Database is like a container with multiple layers to store and organize our data. Let's see what's inside a database.
+
+First we encounter schemas. We can think of schemas as directories in a file system, isolating a group of files from other groups. Inside a schema we see tables, which are like spreadsheet files that actually store our data.
 
 -   Schema
     -   A schema groups tables together and provides isolation.
@@ -71,7 +105,37 @@ First we encounter schemas. We can think of schemas as directories in a file sys
 -   Row
     -   A row is like a record in the table. In the user data table example, a row represents a user, and those column entries of that row are the name, the email, and other information of that user. Note that the rows of a table aren't guaranteed to have a fixed order.
 
-#### Data name
+### Database creation
+
+We can start a psql terminal to create a database. A database name must start with an alphabetic character and is limited to 63 bytes in length.
+
+```bash
+psql -U <ROLE> -d postgres
+postgres=# CREATE DATEBASE <DATABASE>;
+```
+
+Or we can use the binary provided by PostgreSQL to create a database.
+
+```bash
+createdb <DATABASE>
+```
+
+### Database deletion
+
+We can start a psql terminal to delete a database.
+
+```bash
+psql -U <ROLE> -d postgres
+postgres=# DROP DATEBASE <DATABASE>;
+```
+
+Or we can use the binary provided by PostgreSQL to delete a database.
+
+```bash
+dropdb <DATABASE>
+```
+
+### Data name
 
 A table has its name. A column also has its name.
 
@@ -85,7 +149,7 @@ Double quotes are used for identifiers like table and column names that contain 
 
 Single quotes are used for string literals.
 
-#### Data types
+### Data types
 
 Each column has its own data type, and here is a list of the standard SQL data types.
 
@@ -120,15 +184,15 @@ Each column has its own data type, and here is a list of the standard SQL data t
 -   interval (16 bytes)
     -   3 fields of months, days, seconds
 
-#### SQL command
+### Space in SQL command
 
 SQL commands ignore extra spaces.
 
-#### Comment
+### SQL comment
 
 Use `--` before a comment and everything is ignored up to the end of the line.
 
-#### Table creation
+### Table creation
 
 Assume we want to create a gym user table.
 
@@ -143,17 +207,17 @@ CREATE TABLE user (
 );
 ```
 
-##### Table primary key
+#### Table primary key
 
 We usually use a surrogate key like an auto-increment integer ID as the table primary key, rather than using a natural key such as a string. This avoids potential technical debt because the value of a surrogate key never changes while the value of a natural key may change in the future. If we choose the natural key path and then a value change happens, we will need to update everything related to it, from primary key in the original table, foreign key in other tables, and indexes.
 
-#### Table deletion
+### Table deletion
 
 ```sql
 DROP TABLE user;
 ```
 
-#### Row creation
+### Row creation
 
 ```sql
 -- Explicit columns
@@ -171,7 +235,7 @@ We can use the `COPY` keyword to load data from text files too.
 COPY user FROM '/tmp/user.txt';
 ```
 
-##### Temporary relational data creation in Go
+#### Temporary relational data creation in Go
 
 When we need a temporary data structure to hold some relational data, we can do either Common Table Expression (CTE) with `unnest` or temporary table with `CopyFrom`.
 
@@ -185,7 +249,7 @@ When we need a temporary data structure to hold some relational data, we can do 
     -   Analyzable and indexable by query planner
     -   Need `ON COMMIT DROP` in the query to delete the temporary table when the transaction finishes. Otherwise, the database connection keeps the table and will throw `relation already exists` error if the connection is used to run the same query.
 
-#### Row read
+### Row read
 
 We use the `SELECT` statement to query data from a table. The `SELECT` statement has 3 parts.
 -   Select list
@@ -215,7 +279,7 @@ SELECT DISTINCT name, height_m FROM user WHERE height_m > 1.8 AND weight_kg < 70
 -   Use `AND`, `OR`, and `NOT` in the `WHERE` qualification expression.
 -   Use `ORDER by` to sort the returned result.
 
-#### Table join
+### Table join
 
 Assume we also have a gym course enrollment table that links a course to each enrolled user.
 
@@ -232,7 +296,7 @@ Then we can make join queries to access multiple tables at once, or access the s
 
 In a join query, it is good practice to qualify all column names so that the query won't fail if a duplicate column name exists in the query. We can relabel the tables with aliases to save some typing.
 
-##### Self join
+#### Self join
 
 A self join is joining a table against itself.
 
@@ -240,7 +304,7 @@ A self join is joining a table against itself.
 SELECT u1.name, u1.height_m AS u1_height, u2.name, u2.height_m AS u2_height FROM user u1 JOIN user u2 ON u1.height_m < u2.height_m;
 ```
 
-##### Inner join
+#### Inner join
 
 We can inner join the user table and the course enrollment table in a SQL query. Only the rows that have matching values in the `user_name`/`name` column in the `course_enrollment`/`user` table are returned.
 
@@ -248,7 +312,7 @@ We can inner join the user table and the course enrollment table in a SQL query.
 SELECT ce.course_name, u.name, u.email FROM course_enrollment ce JOIN user u ON ce.user_name = u.name;
 ```
 
-##### Full Outer join
+#### Full Outer join
 
 For outer joins, columns with missing data are substituted with null values.
 
@@ -256,37 +320,37 @@ For outer joins, columns with missing data are substituted with null values.
 SELECT ce.course_name, u.name, u.email FROM course_enrollment ce FULL OUTER JOIN user u ON ce.user_name = u.name;
 ```
 
-##### Exclusive outer join
+#### Exclusive outer join
 
 ```sql
 SELECT ce.course_name, u.name, u.email FROM course_enrollment ce FULL OUTER JOIN user u ON ce.user_name = u.name WHERE course_enrollment.user_name IS NULL OR user.name IS NULL;
 ```
 
-##### Left outer join
+#### Left outer join
 
 ```sql
 SELECT ce.course_name, u.name, u.email FROM course_enrollment ce LEFT OUTER JOIN user u ON ce.user_name = u.name;
 ```
 
-##### Exclusive left outer join
+#### Exclusive left outer join
 
 ```sql
 SELECT ce.course_name, u.name, u.email FROM course_enrollment ce LEFT OUTER JOIN user u ON ce.user_name = u.name WHERE user.name IS NULL;
 ```
 
-##### Right outer join
+#### Right outer join
 
 ```sql
 SELECT ce.course_name, u.name, u.email FROM course_enrollment ce RIGHT OUTER JOIN user u ON ce.user_name = u.name;
 ```
 
-##### Exclusive right outer join
+#### Exclusive right outer join
 
 ```sql
 SELECT ce.course_name, u.name, u.email FROM course_enrollment ce RIGHT OUTER JOIN user u ON ce.user_name = u.name WHERE course_enrollment.user_name IS NULL;
 ```
 
-#### Aggregate function
+### Aggregate function
 
 An aggregate function computes a single result from multiple input rows. Here are some common functions.
 
@@ -301,14 +365,14 @@ An aggregate function computes a single result from multiple input rows. Here ar
 SELECT max(height_m) FROM user;
 ```
 
-#### Subquery
+### Subquery
 
 ```sql
 -- Get the user who has the max height using a subquery.
 SELECT name FROM user WHERE height_m = (SELECT max(height_m) FROM user)
 ```
 
-#### Group by having
+### Group by having
 
 We can use `GROUP BY` to group multiple rows into one.
 
@@ -324,7 +388,7 @@ We can further filter the grouped rows with `HAVING`.
 SELECT user_name, count(*) FROM course_enrollment GROUP BY user_name HAVING count(*) > 2;
 ```
 
-#### Filter
+### Filter
 
 The `FILTER` removes rows from the input of the particular aggregate function that it is attached to.
 
@@ -333,13 +397,13 @@ The `FILTER` removes rows from the input of the particular aggregate function th
 SELECT user_name, count(*) FILTER (WHERE creation_date > '2025-12-24') FROM course_enrollment GROUP BY user_name;
 ```
 
-#### Row update
+### Row update
 
 ```sql
 UPDATE course_enrollment SET creation_date = '2025-12-24' WHERE creation_date = '2025-12-25';
 ```
 
-#### Row deletion
+### Row deletion
 
 ```sql
 DELETE FROM course_enrollment WHERE course_name = 'cardio';
@@ -352,7 +416,7 @@ Note that deletion without a qualification results in the deletion of all rows i
 DELETE FROM course_enrollment;
 ```
 
-#### View
+### View
 
 We can create a view based on a query for reuse.
 
@@ -366,7 +430,7 @@ CREATE VIEW course_enrollment_email_view AS
 SELECT * FROM course_enrollment_email_view
 ```
 
-#### Foreign key referential integrity
+### Foreign key referential integrity
 
 Often times we want to make sure that a foreign key column of a table do have a matching entry in that foreign key table. This is called the referential integrity.
 
@@ -389,7 +453,7 @@ CREATE TABLE course_enrollment (
 );
 ```
 
-#### Transaction
+### Transaction
 
 A transaction is a single, all-or-nothing operation that consists of multiple statements. The intermediate state made by each statement of a transaction is invisible to other transactions. If any statement fails, the entire operation is canceled and no change is applied to the database, leaving the database intact.
 
@@ -410,7 +474,7 @@ PostgreSQL treats every SQL statement as being executed within a transaction by 
 
 We can use `SAVEPOINT` and `ROLLBACK TO` to keep the changes earlier than the savepoint and discard the rest. A savepoint can be released if it is no longer needed. Releasing or rolling back to a savepoint automatically releases all savepoints defined after it.
 
-#### Window function
+### Window function
 
 A window function performs a calculation across a set of rows called the window frame. If the `PARTITION BY` clause is supplied, the partition is the frame unless `ORDER BY` is supplied. If `ORDER BY` is supplied then the frame consists of all rows from the start of the partition up through the current row, plus any following rows that have value equal to the current row based on the `ORDER BY` clause.
 
@@ -429,14 +493,14 @@ When we need to put multiple window functions inside a query, it is recommended 
 SELECT id, name, weight_kg, avg(weight_kg), row_number() OVER (PARTITION BY height_m ORDER BY weight_kg) FROM user;
 ```
 
-#### Execution order
+### Execution order
 
 1.  `WHERE` selects the rows.
 1.  Aggregate function operate on group rows obtained from `GROUP BY`.
 1.  `HAVING` selects the group rows, often using aggregate functions.
 1.  Window function
 
-#### Inheritance
+### Inheritance
 
 Inheritance lets an inheriting table inherit columns from an inherited table.
 

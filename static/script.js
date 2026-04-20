@@ -4,6 +4,7 @@ function app() {
   setFooterCopyright()
   setNavigation()
   removeLastPageItemBorder()
+  setMermaid()
 }
 
 function setFooterCopyright() {
@@ -53,4 +54,18 @@ function removeLastPageItemBorder() {
     const lastPageItem = pageItems[pageItems.length - 1]
     lastPageItem.style.border = "none"
   }
+}
+
+async function runMermaid() {
+  const mermaidElements = document.querySelectorAll(".mermaid")
+  if (mermaidElements.length > 0) {
+    await mermaid.run({
+      nodes: mermaidElements
+    })
+  }
+}
+
+function setMermaid() {
+  mermaid.initialize({startOnLoad: false})
+  document.addEventListener("DOMContentLoaded", runMermaid);
 }
