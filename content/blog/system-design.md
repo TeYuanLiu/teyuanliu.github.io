@@ -1,7 +1,7 @@
 +++
 title = "System Design"
 date = 2025-04-25
-updated = 2026-03-18
+updated = 2026-04-21
 +++
 
 Ok, we want to build a software system for example a web application, but where should we start?
@@ -51,11 +51,15 @@ After clarifying the functional and non-functional requirements of the system, w
 
 Unless the non-functional requirements demand a system that supports millions or even billions of concurrent users and requests upfront, we want to start with a minimal design.
 
-Forget about microservices, load-balancing, auto-scaling, message queue, async-processing, distributed storage, or big data. We simply don't need them.
+Forget about microservices, load-balancing, auto-scaling, message queue, distributed storage, or big data. We simply don't need them.
+
+Asynchronous processing architecture with task manager and task workers may still be useful though.
 
 When deciding whether we should add a specific component to our system, keep asking ourselves: will anything break if we don't add this component? If nothing actually breaks, that component is something we don't need to include in our system.
 
-This practice minimizes the system complexity and thus the operational cost.
+This practice minimizes the system complexity and thus the operational cost of fighting against hidden abstractions. The smaller the tech stack, the better.
+
+I always admire the beauty of simplicity.
 
 ### Minimal design
 

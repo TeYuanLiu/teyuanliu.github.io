@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-04-16
+updated = 2026-04-21
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -892,6 +892,14 @@ If a goroutine blocks because of waiting for I/O, the Go runtime scheduler swaps
 
 We can start running a function `f(x)` inside a goroutine using `go f(x)`, The evaluation of `f` and `x` happens in the current goroutine and the execution of `f(x)` happens in the new goroutine.
 
+#### Goroutine profiler
+
+Go's built-in profiler `pprof` can start a http server and let we inspect how many goroutines are running and which line of code started them. We can set it up with the below steps.
+
+1.  Add `import _ "net/http/pprof"`.
+2.  Register the handler function to an existing HTTP ServeMux with `http.HandleFunc("/debug/pprof/", pprof.Index)`. Otherwise, run it in a side server with `go func() {http.ListenAndServe("localhost:6060", nil)}()`.
+3.  Visit `http://localhost:6060/debug/pprof/goroutine?debug=1`.
+
 ### Channel
 
 Goroutines shared the same process memory so memory access must be synchronized. This is why we use channels.
@@ -1031,12 +1039,12 @@ func main() {
 
 func multiplyBy10(i int, ctx context.Context, results chan int) {
     select {
-        case <- time.After(2 * time.Second):
-            results <- i * 10
-        case <- ctx.Done():
-            fmt.Printf("Stopped due to context cancellation: %v", ctx.Err())
-        default:
-            time.Sleep(500 * time.Millisecond)
+    case <- time.After(2 * time.Second):
+        results <- i * 10
+    case <- ctx.Done():
+        fmt.Printf("Stopped due to context cancellation: %v", ctx.Err())
+    default:
+        time.Sleep(500 * time.Millisecond)
     }
 }
 ```
@@ -1047,7 +1055,9 @@ We use Mutual-exclusion (Mutex) to let a variable be accessed by one goroutine a
 
 ## Context
 
-Contexts propagate cancellation and timeouts across service calls, preventing resource leaks and allowing for graceful shutdowns.
+Contexts propagate request-scoped data, cancellation and timeout signals across service calls, preventing resource leaks and allowing for graceful shutdowns.
+
+We can use `context.Cause()` for context cancel visibility but we till have to be aware of nested timeouts and the complexity brought by cross-service propagation.
 
 -   context.Context
     -   context.Background()
@@ -1061,32 +1071,60 @@ func work() {
     defer cancel()
 
     select {
-        case <- time.after(1 * time.Second):
-            fmt.Println("Finished work successfully.")
-        case <- ctx.Done():
-            fmt.Println("Timed out:", ctx.Err())
+    case <- time.after(1 * time.Second):
+        fmt.Println("Finished work successfully.")
+    case <- ctx.Done():
+        fmt.Println("Timed out:", ctx.Err())
     }
 }
 ```
 
-## Networking
+## Logging
 
--   net/http package for REST API server and client
--   encoding/json package for data serialization/deserialization
--   gopkg.in/yaml.v2 package for parsing YAML
--   Create your own custom `http.Client` because `http.DefaultClient` has no timeout and may be modified by imported dependencies.
--   Reuse the same client for connection pool sharing.
--   Close the response body to prevent file descriptor exhaustion.
+-   Use `log/slog` for structured logging.
+-   Using `uber-go/zap` or `rs/zerolog` is often too excessive unless for truly large-scale applications.
+
+## Configuration
+
+-   Use `os.LookupEnv` or `caarlos0/env` for environment variables parsing and `gopkg.in/yaml.v3` for YAML files.
+-   Using `spf13/viper` to manage YAML/JSON configuration files, environment variables, flags, is often an overkill unless for truly large-scale applications.
+
+## Validation
+
+-   Use custom validation functions to accommodate business validation logic directly.
+-   Using `go-playground/validator` makes it hard to handle business logic and fields depending on each others.
+
+## Dependency injection
+
+-   Use custom functions for struct creation and dependency injection.
+-   Using `google/wire` creates generated-code debugging issue and extra build step.
 
 ## Command Line Interface (CLI)
 
--   spf13/cobra package for building CLI tools
--   viper package for reading YAML/JSON configuration files, environment variables, and flags
--   log/slog package for structured logging
+-   Use `flag` for flag parsing and `switch` statement for subcommands.
+-   Using `spf13/cobra` is often too much unless for truly large-scale applications.
+
+## Database
+
+-   Use `pgx` for PostgreSQL.
+-   If we need boilerplate code reduction, use `database/sql` with or without extensions like `sqlx`.
+-   Using too many abstractions like `go-gorm/gorm` often leads to N+1 problem and abstraction debugging difficulty.
+
+## Networking
+
+-   `encoding/json` package for data serialization/deserialization
+-   `net/http` for REST API server and client
+-   Default server with default ServeMux are usually sufficient but we can create custom ones too with `http.NewServeMux` and `http.Server`.
+-   Create your own custom `http.Client` because `http.DefaultClient` has no timeout and may be modified by imported dependencies. Reuse the same client for connection pool sharing.
+-   Close the response body to prevent file descriptor exhaustion.
+
+-   Using `gorilla/mux` is obsolete since the release of the updated `net/http` in Go 1.22.
+-   `go-chi/chi` is still valuable for complex routing.
 
 ## Testing
 
--   testing package for unit tests
+-   `testing` with interface-based mocking
+-   `stretchr/testify` for call tracking and more readable test assertions
 
 ## Dependency management
 
