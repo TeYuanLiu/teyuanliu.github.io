@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date = 2025-04-17
-updated = 2026-04-19
+updated = 2026-04-22
 +++
 
 Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.
@@ -622,6 +622,10 @@ Here are the steps I take to set up my development environment.
 1.  Install python3-venv
     ```bash
     sudo apt install python3-venv
+    ```
+1.  Install graphviz for go pprof visualization
+    ```bash
+    sudo apt install graphviz
     ```
 
 ## References

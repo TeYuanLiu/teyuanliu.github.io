@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-04-21
+updated = 2026-04-22
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1114,10 +1114,9 @@ func work() {
 
 -   `encoding/json` package for data serialization/deserialization
 -   `net/http` for REST API server and client
--   Default server with default ServeMux are usually sufficient but we can create custom ones too with `http.NewServeMux` and `http.Server`.
+-   Default server with default ServeMux is usually sufficient but we can create custom ones too with `http.NewServeMux` and `http.Server`.
 -   Create your own custom `http.Client` because `http.DefaultClient` has no timeout and may be modified by imported dependencies. Reuse the same client for connection pool sharing.
 -   Close the response body to prevent file descriptor exhaustion.
-
 -   Using `gorilla/mux` is obsolete since the release of the updated `net/http` in Go 1.22.
 -   `go-chi/chi` is still valuable for complex routing.
 
@@ -1152,6 +1151,30 @@ Use `go clean -modcache` to remove all downloaded modules.
 -   Invalid memory address or nil pointer dereference
     -   An invalid memory address or nil pointer dereference error occurs when a program tries to access a memory region it is not allowed to.
 
+### Memory optimization
+
+-   Unbound map and bytes (1333 MB to 500 MB, saving 60%)
+    -   Original creates a new map per request and then marshals map to bytes.
+    -   Optimized writes formatted string to bytes with byte buffer pool.
+-   Inefficient string concatenation (saving 300 MB)
+    -   Original uses string concatenation with `+`.
+    -   Optimized uses `strings.Builder` to reuse memory.
+-   Excessive struct slice capacity
+    -   Original returns a slice with array of excessive capacity size due to capacity growing.
+    -   Optimized returns a slice with array of the exact capacity size.
+-   Value receiver method for large struct (saving 1 GB)
+    -   Original uses value receiver for large struct.
+    -   Optimized uses pointer receiver for it.
+-   Unbound goroutine (saving 1.5GB)
+    -   Original creates a new goroutine per channel element received.
+    -   Optimized creates a worker pool and lets workers handle channel elements received.
+-   Infrequent garbage collection
+    -   Original uses the default 100 GCPercent, which triggers garbage collection when heap grows 100%.
+    -   Optimized uses 50 GCPercent, which triggers garbage collection when heap grows 50%.
+-   Unlimited cache size (saving 600 MB)
+    -   Original uses a map without size limit for caching.
+    -   Optimized uses a LRU cache with size limit.
+
 ## Adoption challenge
 
 -   Goroutine race condition
@@ -1159,3 +1182,6 @@ Use `go clean -modcache` to remove all downloaded modules.
 -   Limited tools and hiring pool
 
 ## References
+
+-   [A tour of Go](https://go.dev/tour/welcome/1)
+-   [How I reduced memory usage in a Go service by 40%](https://medium.com/@yaninyzwitty/how-i-reduced-memory-usage-in-a-go-service-by-40-0b54c0e16555)
