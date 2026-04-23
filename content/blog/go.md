@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-04-22
+updated = 2026-04-23
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -755,11 +755,11 @@ func main() {
 
 ### Interface
 
-An Interface defines a set of method signatures for other types to implement, achieving polymorphism (flexibility).
+An Interface defines a set of method signatures for other types to implement, achieving polymorphism (flexibility). An interface value and can hold any concrete type value as long as that concrete type implements those methods.
 
-An interface value is a tuple of a concrete value and the concrete type, and can hold any concrete type value as long as that concrete type implements those methods.
+For an interface with defined methods, one interface value contains a pointer pointing to its interface table, which contains a concrete type as well as a list of function pointers for the methods implementing the interface. The interface value also contains a pointer pointing to a concrete type value, which is a value of that concrete type.
 
-Calling a method on an interface value effectively executes the same-named method of its concrete type value.
+Calling a method on an interface value effectively executes the same-named method of its concrete type value. If the concrete type value inside the interface value is a nil pointer, calling the method will result in a nil pointer dereference runtime error. Therefore, it's a good practice to write code to gracefully handle nil receiver method call.
 
 ```go
 type I interface {
@@ -770,11 +770,19 @@ func describe(i I) {
     fmt.Printf("(%v, %T)\n", i, i)
 }
 
-type T struct {
+type T1 struct {
     S string
 }
 
-func (t *T) M() {
+func (t T1) M() {
+    fmt.Println(t.S)
+}
+
+type T2 struct {
+    S string
+}
+
+func (t *T2) M() {
     fmt.Println(t.S)
 }
 
@@ -783,13 +791,15 @@ func main() {
     describe(i) // (nil, nil)
     i.M()       // nil pointer dereference runtime error
 
-    i = &T{"Here we Go!"}
-    describe(i) // (&{"Here we Go!"}, *main.T)
+    i = T1{"Here we Go!"}
+    describe(i) // ({"Here we Go!"}, main.T1)
+    i.M()       // "Here we Go!"
+
+    i = &T2{"Here we Go!"}
+    describe(i) // (&{"Here we Go!"}, *main.T2)
     i.M()       // "Here we Go!"
 }
 ```
-
-If the concrete type value inside the interface value is a nil pointer, calling the method will result in a nil pointer dereference runtime error. Therefore, it's a good practice to write code to gracefully handle nil receiver method call.
 
 #### Empty interface
 
@@ -1057,13 +1067,17 @@ We use Mutual-exclusion (Mutex) to let a variable be accessed by one goroutine a
 
 Contexts propagate request-scoped data, cancellation and timeout signals across service calls, preventing resource leaks and allowing for graceful shutdowns.
 
-We can use `context.Cause()` for context cancel visibility but we till have to be aware of nested timeouts and the complexity brought by cross-service propagation.
+If we use one of the context with cause types like `context.WithCancelCause()`, we use `context.Cause()` for context cancel visibility, otherwise we use `ctx.Err()` given the context `ctx`. However, we till have to be aware of nested timeouts and the complexity brought by cross-service propagation.
 
 -   context.Context
     -   context.Background()
     -   context.TODO()
     -   context.WithCancel()
+    -   context.WithCancelCause()
     -   context.WithTimeout()
+    -   context.WithTimeoutCause()
+    -   context.WithDeadline()
+    -   context.WithDeadlineCause()
 
 ```go
 func work() {
@@ -1107,7 +1121,7 @@ func work() {
 ## Database
 
 -   Use `pgx` for PostgreSQL.
--   If we need boilerplate code reduction, use `database/sql` with or without extensions like `sqlx`.
+-   If we need boilerplate code reduction, use `sqlc-dev/sqlc` or `database/sql` with extensions like `sqlx`.
 -   Using too many abstractions like `go-gorm/gorm` often leads to N+1 problem and abstraction debugging difficulty.
 
 ## Networking
@@ -1153,27 +1167,27 @@ Use `go clean -modcache` to remove all downloaded modules.
 
 ### Memory optimization
 
+-   Unbound goroutine (saving 1.5GB)
+    -   Original creates a new goroutine per channel element received.
+    -   Optimized creates a worker pool and lets workers handle channel elements received.
+-   Value receiver method for large struct (saving 1 GB)
+    -   Original uses value receiver for large struct.
+    -   Optimized uses pointer receiver for it.
 -   Unbound map and bytes (1333 MB to 500 MB, saving 60%)
     -   Original creates a new map per request and then marshals map to bytes.
-    -   Optimized writes formatted string to bytes with byte buffer pool.
+    -   Optimized writes formatted string to a byte buffer in a pool.
 -   Inefficient string concatenation (saving 300 MB)
     -   Original uses string concatenation with `+`.
     -   Optimized uses `strings.Builder` to reuse memory.
 -   Excessive struct slice capacity
     -   Original returns a slice with array of excessive capacity size due to capacity growing.
     -   Optimized returns a slice with array of the exact capacity size.
--   Value receiver method for large struct (saving 1 GB)
-    -   Original uses value receiver for large struct.
-    -   Optimized uses pointer receiver for it.
--   Unbound goroutine (saving 1.5GB)
-    -   Original creates a new goroutine per channel element received.
-    -   Optimized creates a worker pool and lets workers handle channel elements received.
--   Infrequent garbage collection
-    -   Original uses the default 100 GCPercent, which triggers garbage collection when heap grows 100%.
-    -   Optimized uses 50 GCPercent, which triggers garbage collection when heap grows 50%.
 -   Unlimited cache size (saving 600 MB)
     -   Original uses a map without size limit for caching.
     -   Optimized uses a LRU cache with size limit.
+-   Infrequent garbage collection
+    -   Original uses the default 100 GCPercent, which triggers garbage collection when heap grows 100%.
+    -   Optimized uses 50 GCPercent, which triggers garbage collection when heap grows 50%.
 
 ## Adoption challenge
 
