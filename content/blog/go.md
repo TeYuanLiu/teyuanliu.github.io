@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-04-23
+updated = 2026-04-24
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -116,6 +116,10 @@ export PATH=$PATH:<GO_INSTALL_PATH>
 # Compile and install the binary to the Go install path.
 go install
 ```
+
+#### Panic stack trace
+
+If a panic occurs and crashes the program, Go prints the top of the call stack first, and then all the way to the program entrypoint, following a reverse chronological order (error -> main). The concept behind it is giving the most important log for debugging first.
 
 ## Variable
 
