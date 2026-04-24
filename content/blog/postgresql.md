@@ -1,7 +1,7 @@
 +++
 title = "PostgreSQL"
 date = 2025-12-23
-updated = 2026-04-19
+updated = 2026-04-23
 +++
 
 PostgreSQL is an open-source relational database.
@@ -44,24 +44,6 @@ sudo vim /etc/postgresql/<VERSION>/main/pg_hba.conf
 sudo systemctl reload-or-restart postgresql
 ```
 
-### PSQL commands
-
-```bash
-\h # Get help.
-\du # List all roles.
-\l # List all databases.
-\l+ # List all databases with extra details.
-\dn # List all schemas in the current database.
-\dn+ # List all schemas in the current database with privilege details.
-\d # List all tables and sequences in the current database.
-\dt # List all tables in the current database.
-\z <TABLE> # List privileges of the table.
-\z public.* # List privileges for all tables in the public schema.
-\df # List all functions in the current database.
-\df+ # List all functions in the current database with privilege details.
-\i commands.sql # Read and execute the commands.sql file.
-\q # Exit psql.
-```
 
 ### Role deletion
 
@@ -96,6 +78,24 @@ flowchart TB
 -   project-app
     -   Provide the role for application to connect and interact with the database.
 
+## PSQL commands
+
+```bash
+\h # Get help.
+\du # List all roles.
+\l # List all databases.
+\l+ # List all databases with extra details.
+\dn # List all schemas in the current database.
+\dn+ # List all schemas in the current database with privilege details.
+\d # List all tables and sequences in the current database.
+\dt # List all tables in the current database.
+\z <TABLE> # List privileges of the table.
+\z public.* # List privileges for all tables in the public schema.
+\df # List all functions in the current database.
+\df+ # List all functions in the current database with privilege details.
+\i commands.sql # Read and execute the commands.sql file.
+\q # Exit psql.
+```
 ## Database
 
 Database is like a container with multiple layers to store and organize our data. Let's see what's inside a database.
@@ -140,6 +140,38 @@ Or we can use the binary provided by PostgreSQL to delete a database.
 ```bash
 dropdb <DATABASE>
 ```
+
+### Schema
+
+### Table
+
+### Column
+
+### Row
+
+#### Row level security
+
+##### INSERT
+
+When the SQL contains `RETURNING`, PostgreSQL uses `AND` to group the `USING` clause of the `FOR ALL` policy, the `USING` clause of the `SELECT` policy to find the rows to be returned.
+
+##### SELECT
+
+PostgreSQL uses `AND` to group the `USING` clause of the `FOR ALL` policy, the `USING` clause of the `SELECT` policy, and the `WHERE` clause in the SQL to find the rows to be selected.
+
+##### Update
+
+A `UPDATE` operation is a two-step process behind the scenes.
+
+1.  PostgreSQL uses `AND` to group the `USING` clause of the `FOR ALL` policy, the `USING` clause of the `SELECT` policy, the `USING` clause of the `UPDATE` policy, and the `WHERE` clause in the SQL to find the rows to be updated.
+2.  Once a row is found, it uses the `WITH CHECK` clause of the `UPDATE` policy to validate the new data.
+
+##### Delete
+
+A `DELETE` operation is a two-step process behind the scenes.
+
+1.  PostgreSQL uses `AND` to group the `USING` clause of the `FOR ALL` policy, the `USING` clause of the `SELECT` policy, the `USING` clause of the `DELETE` policy, and the `WHERE` clause in the SQL to find the rows to be updated.
+2.  Once a row is found, it deleteS the row.
 
 ### Data name
 
