@@ -202,6 +202,7 @@ The Go community has the naming convention of PascalCase for exported variables,
     -   string
         -   Use `"<STRING>"` for literal.
         -   When working with a string, if you want the rune index as well as the rune value, it is recommended to first turn the string into a rune slice and then process it. If you only need the rune value, a `for _, r := range s {fmt.Printf("%c", r)}` is sufficient.
+        -   A string variable is stored as a pointer pointing to its data and length, so we should almost always pass it by value.
 
 ### Variable type conversion
 
