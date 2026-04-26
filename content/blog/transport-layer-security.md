@@ -1,7 +1,7 @@
 +++
 title = "Transport Layer Security"
 date = 2025-11-29
-updated = 2026-01-02
+updated = 2026-04-26
 +++
 
 Transport Layer Security (TLS), is a popular protocol for secure data transmission between client and server. It is derived from a deprecated protocol called Secure Socket Layer (SSL).
@@ -21,7 +21,7 @@ Let's go over these 3 attributes and see how TLS achieves them.
 
 ### Confidentiality
 
-Confidentiality, or data hiding, is usually achieved through encryption. An encryption operation converts your message from human-readable plaintext into an encoded format known as cipher text, which looks like a sequence of random characters in human eyes. Such Encryption is done by scrambling your message using mathematical functions based on a key, which is usually a number. Decryption is done in a similar a way.
+Confidentiality, or data hiding, is usually achieved through encryption. An encryption operation converts our message from human-readable plaintext into an encoded format known as cipher text, which looks like a sequence of random characters in human eyes. Such Encryption is done by scrambling your message using mathematical functions based on a key, which is usually a number. Decryption is done in a similar a way.
 
 In symmetric key cryptography, we have one single key used for both encryption and decryption.
 
@@ -39,7 +39,7 @@ If an attacker finds a way to intercept the bundle sent from the server, alter t
 
 But what if the attacker didn't change the message and instead replaced the bundle with the attacker's own bundle, in which the hash was generated using SHA256 as well?
 
-When the client receives the bundle and checks it, everything just looks good, however the entire bundle is not from the server but the attacker. This is a scenario which shows how important authentication is. No matter how much effort you put into data confidentiality or integrity, if the data itself is not authentic, it is just worthless.
+When the client receives the bundle and checks it, everything just looks good, however the entire bundle is not from the server but the attacker. This is a scenario which shows how important authentication is. No matter how much effort we put into data confidentiality or integrity, if the data itself is not authentic, it is just worthless.
 
 ### Authentication
 

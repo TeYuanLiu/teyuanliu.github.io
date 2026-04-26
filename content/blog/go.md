@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-04-24
+updated = 2026-04-26
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -201,7 +201,7 @@ The Go community has the naming convention of PascalCase for exported variables,
 -   String
     -   string
         -   Use `"<STRING>"` for literal.
-        -   When working with a string, if you want the rune index as well as the rune value, it is recommended to first turn the string into a rune slice and then process it. If you only need the rune value, a `for _, r := range s {fmt.Printf("%c", r)}` is sufficient.
+        -   When working with a string, if we want the rune index as well as the rune value, it is recommended to first turn the string into a rune slice and then process it. If we only need the rune value, a `for _, r := range s {fmt.Printf("%c", r)}` is sufficient.
         -   A string variable is stored as a pointer pointing to its data and length, so we should almost always pass it by value.
 
 ### Variable type conversion
@@ -1134,7 +1134,7 @@ func work() {
 -   `encoding/json` package for data serialization/deserialization
 -   `net/http` for REST API server and client
 -   Default server with default ServeMux is usually sufficient but we can create custom ones too with `http.NewServeMux` and `http.Server`.
--   Create your own custom `http.Client` because `http.DefaultClient` has no timeout and may be modified by imported dependencies. Reuse the same client for connection pool sharing.
+-   Create our own custom `http.Client` because `http.DefaultClient` has no timeout and may be modified by imported dependencies. Reuse the same client for connection pool sharing.
 -   Close the response body to prevent file descriptor exhaustion.
 -   Using `gorilla/mux` is obsolete since the release of the updated `net/http` in Go 1.22.
 -   `go-chi/chi` is still valuable for complex routing.

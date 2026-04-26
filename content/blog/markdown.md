@@ -1,7 +1,7 @@
 +++
 title = "Markdown"
 date = 2025-04-13
-updated = 2025-12-27
+updated = 2026-04-26
 +++
 
 Markdown is a simple way to format text. Here I documented some best practices I found in the [Google Markdown style guide].
@@ -83,6 +83,10 @@ over:
 Only the document title and nothing else should use the H1 heading.
 
 ## List
+
+### List item spacing
+
+List items should be on adjacent rows and contain indented content to prevent broken formatting.
 
 ### Lazy numbering
 

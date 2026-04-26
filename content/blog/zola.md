@@ -1,7 +1,7 @@
 +++
 title = "Zola"
 date = 2025-04-13
-updated = 2025-12-28
+updated = 2026-04-26
 +++
 
 Zola is a static site generator (SSG) written in [Rust](https://www.rust-lang.org/) and uses the [Tera](https://keats.github.io/tera/) template engine. Zola uses [pulldown-cmark](https://github.com/raphlinus/pulldown-cmark#pulldown-cmark) to parse content written in [CommonMark](https://commonmark.org/) specification of [Markdown](https://www.markdownguide.org/). Zola prioritizes ease of use, super fast build, simple templating, and is suitable for minimalistic and fast dev blog.
@@ -313,7 +313,6 @@ The homepage is a section so `index.html` also has access to the section variabl
 ### Custom template
 
 We can create custom templates by creating an HTML file inside the `templates` directory (or its subdirectories). A custom template will be used when its path within the `templates` directory is explicitly specified in a page's `template` front-matter variable (or if it is included in another template that is applied).
-
 
 ### Section
 
