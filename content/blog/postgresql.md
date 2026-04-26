@@ -1,7 +1,7 @@
 +++
 title = "PostgreSQL"
 date = 2025-12-23
-updated = 2026-04-23
+updated = 2026-04-25
 +++
 
 PostgreSQL is an open-source relational database.
@@ -153,25 +153,25 @@ dropdb <DATABASE>
 
 ##### INSERT
 
-When the SQL contains `RETURNING`, PostgreSQL uses `AND` to group the `USING` clause of the `FOR ALL` policy, the `USING` clause of the `SELECT` policy to find the rows to be returned.
+When the SQL contains `RETURNING`, PostgreSQL creates a filter by using `AND` to group the `USING` clause of the `FOR ALL` policy, and the `USING` clause of the `SELECT` policy. It applies this filter first and then finds the rows to be returned.
 
 ##### SELECT
 
-PostgreSQL uses `AND` to group the `USING` clause of the `FOR ALL` policy, the `USING` clause of the `SELECT` policy, and the `WHERE` clause in the SQL to find the rows to be selected.
+PostgreSQL creates a filter by using `AND` to group the `USING` clause of the `FOR ALL` policy, and the `USING` clause of the `SELECT` policy. It applies this filter first and then processes the `WHERE` clause in the SQL to find the rows to be selected.
 
 ##### Update
 
 A `UPDATE` operation is a two-step process behind the scenes.
 
-1.  PostgreSQL uses `AND` to group the `USING` clause of the `FOR ALL` policy, the `USING` clause of the `SELECT` policy, the `USING` clause of the `UPDATE` policy, and the `WHERE` clause in the SQL to find the rows to be updated.
-2.  Once a row is found, it uses the `WITH CHECK` clause of the `UPDATE` policy to validate the new data.
+1.  PostgreSQL creates a filter by using `AND` to group the `USING` clause of the `FOR ALL` policy, the `USING` clause of the `SELECT` policy, and the `USING` clause of the `UPDATE` policy. It applies this filter first and then processes the `WHERE` clause in the SQL to find the rows to be updated.
+2.  Once a row is found, it validates the new data with the `WITH CHECK` clause of the `UPDATE` policy to determine if the update is accepted.
 
 ##### Delete
 
 A `DELETE` operation is a two-step process behind the scenes.
 
-1.  PostgreSQL uses `AND` to group the `USING` clause of the `FOR ALL` policy, the `USING` clause of the `SELECT` policy, the `USING` clause of the `DELETE` policy, and the `WHERE` clause in the SQL to find the rows to be updated.
-2.  Once a row is found, it deleteS the row.
+1.  PostgreSQL creates a filter by using `AND` to group the `USING` clause of the `FOR ALL` policy, the `USING` clause of the `SELECT` policy, and the `USING` clause of the `DELETE` policy. It applies this filter first and then processes the `WHERE` clause in the SQL to find the rows to be deleted.
+2.  Once a row is found, it deletes the row.
 
 ### Data name
 
