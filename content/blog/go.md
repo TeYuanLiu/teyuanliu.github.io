@@ -760,11 +760,11 @@ func main() {
 
 ### Interface
 
-An Interface defines a set of method signatures for other types to implement, achieving polymorphism (flexibility). An interface value and can hold any concrete type value as long as that concrete type implements those methods.
+An Interface defines a set of method signatures for other types to implement, achieving polymorphism (flexibility). An interface value can hold any concrete type value as long as that concrete type implements those methods.
 
-For an interface with defined methods, one interface value contains a pointer pointing to its interface table, which contains a concrete type as well as a list of function pointers for the methods implementing the interface. The interface value also contains a pointer pointing to a concrete type value, which is a value of that concrete type.
+Under the hood, an interface value is a header that contains a type pointer and a data pointer. The type pointer points to a concrete type, and the data pointer points to a value of that concrete type.
 
-Calling a method on an interface value effectively executes the same-named method of its concrete type value. If the concrete type value inside the interface value is a nil pointer, calling the method will result in a nil pointer dereference runtime error. Therefore, it's a good practice to write code to gracefully handle nil receiver method call.
+Calling a method on an interface value effectively executes the same-named method of its concrete type value. If the interface value's data pointer is nil, calling the method will result in a nil pointer dereference runtime error. Therefore, it's a good practice to write code to gracefully handle nil receiver method call.
 
 ```go
 type I interface {
@@ -1172,25 +1172,30 @@ Use `go clean -modcache` to remove all downloaded modules.
 
 ### Memory optimization
 
--   Unbound goroutine (saving 1.5GB)
-    -   Original creates a new goroutine per channel element received.
-    -   Optimized creates a worker pool and lets workers handle channel elements received.
--   Value receiver method for large struct (saving 1 GB)
-    -   Original uses value receiver for large struct.
-    -   Optimized uses pointer receiver for it.
--   Unbound map and bytes (1333 MB to 500 MB, saving 60%)
-    -   Original creates a new map per request and then marshals map to bytes.
-    -   Optimized writes formatted string to a byte buffer in a pool.
--   Inefficient string concatenation (saving 300 MB)
-    -   Original uses string concatenation with `+`.
-    -   Optimized uses `strings.Builder` to reuse memory.
--   Excessive struct slice capacity
-    -   Original returns a slice with array of excessive capacity size due to capacity growing.
-    -   Optimized returns a slice with array of the exact capacity size.
--   Unlimited cache size (saving 600 MB)
-    -   Original uses a map without size limit for caching.
-    -   Optimized uses a LRU cache with size limit.
--   Infrequent garbage collection
+-   Limit resource consumption.
+    -   Limit number of goroutine (saving 1.5GB).
+        -   Original creates a new goroutine per channel element received.
+        -   Optimized creates a worker pool and lets workers handle channel elements received.
+    -   Limit cache size (saving 600 MB).
+        -   Original uses a map without size limit for caching.
+        -   Optimized uses a LRU cache with size limit.
+-   Reuse memory allocation.
+    -   Use pointer receiver method for large struct (saving 1 GB).
+        -   Original uses value receiver for large struct.
+        -   Optimized uses pointer receiver for it.
+    -   Use byte buffer pool to construct string with high frequency (1333 MB to 500 MB, saving 833 MB, which is 60%).
+        -   Original creates a byte buffer per new request.
+        -   Optimized creates a byte buffer pool and gets a byte buffer from it per new request.
+    -   Use string builder to construct string with low frequency (saving 300 MB).
+        -   Original builds string with `+`.
+        -   Optimized builds string with `strings.Builder` to reuse memory.
+    -   Initialize slice with capacity.
+        -   Original uses empty slice without capacity initialization.
+        -   Original uses empty slice with capacity initialization.
+-   Use generic type instead of interface type.
+    -   Original uses interface type for function parameter, resulting allocation on heap for each interface to concrete type conversion.
+    -   Optimized uses generic type for function parameter, which is resolved at compile time.
+-   Increase garbage collection frequency.
     -   Original uses the default 100 GCPercent, which triggers garbage collection when heap grows 100%.
     -   Optimized uses 50 GCPercent, which triggers garbage collection when heap grows 50%.
 
