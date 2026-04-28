@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-04-26
+updated = 2026-04-27
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -758,6 +758,12 @@ func main() {
 }
 ```
 
+#### Empty struct type
+
+Empty struct type, `struct{}`, is a type that takes zero bytes of memory, and is the smallest possible data type in Go. Its type value is `struct{}{}`.
+
+It allows creating a set from a map with empty struct value type, or a channel purely for signaling.
+
 ### Interface
 
 An Interface defines a set of method signatures for other types to implement, achieving polymorphism (flexibility). An interface value can hold any concrete type value as long as that concrete type implements those methods.
@@ -808,7 +814,7 @@ func main() {
 
 #### Empty interface
 
-An interface type that specifies no methods is an empty interface. An empty interface can hold values of any concrete type and is used to handle the concrete type value that is unknown at compile time but figured out at runtime.
+An interface type that specifies no methods is an empty interface, `interface{}`, or `any`. An empty interface value, `interface{}{}`, or `any{}`, can hold any concrete type value and is used to handle the concrete type value that is unknown at compile time but figured out at runtime.
 
 #### Interface concrete type assertion
 
@@ -819,7 +825,7 @@ An interface concrete type assertion checks if the interface value holds a value
 An interface type switch is a switch statement that uses types as cases, rather than values as cases.
 
 ```go
-func do(i interface{}) {
+func do(i any) {
     switch v := i.(type) {
         case int:
             fmt.Printf("Twice %v is %v\n", v, v*2)
@@ -1016,7 +1022,7 @@ func work(id int, results chan Result) {
 
 A buffer is a channel's internal queue. By default the buffer length is 0, so a send blocks a goroutine until the element it's sending is received by another goroutine. Same for the read, a read blocks a goroutine until another goroutine sends an element to the channel for it to receive.
 
-We can use the second argument of `make` to set the buffer length.
+We can use the second argument of `make` to set the buffer length, and use `cap(ch)` for total buffer size (capacity), `len(ch)` for current buffered element count.
 
 A send doesn't block a goroutine if the number of elements in the channel is less than the buffer length. Otherwise, the send blocks the goroutine. A read works in a similar way.
 
@@ -1066,7 +1072,7 @@ func multiplyBy10(i int, ctx context.Context, results chan int) {
 
 ### Mutex
 
-We use Mutual-exclusion (Mutex) to let a variable be accessed by one goroutine at a time. Go provides the `sync.Mutex` type and its methods, `Lock`, and `Unlock`, to achieve this.
+We use Mutual-exclusion (Mutex) to ensure the exclusive access of a variable by one goroutine at a time. Go provides the `sync.Mutex` type and its methods, `Lock`, and `Unlock`, to achieve this.
 
 ## Context
 
@@ -1170,42 +1176,319 @@ Use `go clean -modcache` to remove all downloaded modules.
 -   Invalid memory address or nil pointer dereference
     -   An invalid memory address or nil pointer dereference error occurs when a program tries to access a memory region it is not allowed to.
 
-### Memory optimization
+## Production best practice
 
--   Limit resource consumption.
-    -   Limit number of goroutine (saving 1.5GB).
-        -   Original creates a new goroutine per channel element received.
-        -   Optimized creates a worker pool and lets workers handle channel elements received.
-    -   Limit cache size (saving 600 MB).
-        -   Original uses a map without size limit for caching.
-        -   Optimized uses a LRU cache with size limit.
--   Reuse memory allocation.
-    -   Use pointer receiver method for large struct (saving 1 GB).
-        -   Original uses value receiver for large struct.
-        -   Optimized uses pointer receiver for it.
-    -   Use byte buffer pool to construct string with high frequency (1333 MB to 500 MB, saving 833 MB, which is 60%).
-        -   Original creates a byte buffer per new request.
-        -   Optimized creates a byte buffer pool and gets a byte buffer from it per new request.
-    -   Use string builder to construct string with low frequency (saving 300 MB).
-        -   Original builds string with `+`.
-        -   Optimized builds string with `strings.Builder` to reuse memory.
-    -   Initialize slice with capacity.
-        -   Original uses empty slice without capacity initialization.
-        -   Original uses empty slice with capacity initialization.
--   Use generic type instead of interface type.
-    -   Original uses interface type for function parameter, resulting allocation on heap for each interface to concrete type conversion.
-    -   Optimized uses generic type for function parameter, which is resolved at compile time.
--   Increase garbage collection frequency.
-    -   Original uses the default 100 GCPercent, which triggers garbage collection when heap grows 100%.
-    -   Optimized uses 50 GCPercent, which triggers garbage collection when heap grows 50%.
+### Heap allocation minimization
+
+Heap allocation minimization reduces Garbage Collection (GC) work and thus decreases tail latency coming from GC pauses.
+
+- String concatenation
+    -   Direct concatenation (best heap allocation)
+        ```go
+        func concatenateStrings(a, b string) string {
+            return a + b
+        }
+        ```
+        -   Go creates a string slice from the string arguments on the stack (which is way cheaper than heap allocation) and calls [runtime.concatstrings](https://github.com/golang/go/blob/master/src/runtime/string.go#L29) to calculate the total length, creating a byte buffer for the final string, and write from the slice to it.
+        -   New heap allocation per function call is the byte buffer.
+    -   [String builder](https://github.com/golang/go/blob/master/src/strings/builder.go#L17) with predefined length (good heap allocation)
+        ```go
+        func concatenateStrings(a, b string) string {
+            var sb strings.Builder
+            sb.Grow(len(a) + len(b))
+            sb.WriteString(a)
+            sb.WriteString(b)
+            return sb.String()
+        }
+        ```
+        -   Go creates a string builder, growing its internal byte slice to the predefined length, writing from the string parameters to it, and uses `unsafe` to return its internal byte slice.
+        -   New heap allocation per function call is the string builder struct which includes its internal byte slice.
+    -   Byte buffer sync pool (worse heap allocation)
+        ```go
+        var bufferPool = sync.Pool{
+            New: func() any {return &bytes.Buffer{}},
+        }
+
+        func concatenateStrings(a, b string) string {
+            buffer := bufferPool.Get().(*bytes.Buffer)
+            buffer.Reset()
+            defer bufferPool.Put(buffer)
+            buffer.WriteString(a)
+            buffer.WriteString(b)
+            return buffer.String()
+        }
+        ```
+        -   Go creates a byte buffer sync pool, getting a buffer from the pool, writing the string parameters to the buffer, and copy from the buffer to a final string.
+        -   New heap allocation per function call is the final string. The byte buffer sync pool cost on heap is amortized among function calls.
+    -   Fmt.Sprintf (worst heap allocation)
+        ```go
+        func concatenateStrings(a, b string) string {
+            return fmt.Sprintf("%s%s", a, b)
+        }
+        ```
+        -   Go creates an `any` slice from the string parameters, getting a printer from the printer sync pool, using its method to parse the format verbs, writing the formatted data into the printer's internal buffer, and copy from the buffer to a final string.
+        -   New heap allocations per function call are the final string and the `any` slice for the string parameters. The printer sync pool cost on heap is amortized among function calls.
+-   String slice concatenation
+    -   Direct concatenation (worst heap allocation)
+        ```go
+        func concatenateStrings(strs []string) string {
+            final := strs[0]
+            for i = 1; i < len(strs); i++ {
+                final += strs[i]
+            }
+            return final
+        }
+        ```
+        -   In each iteration of the for loop, Go creates a string slice from the last `final` and `strs[i]` on stack, and calls `runtime.concatstrings` to calculate the total length, creating a byte buffer for the current `final`, and write from the slice to it.
+        -   New heap allocations per function call are the byte buffers created for all iterations.
+    -   [Strings join](https://github.com/golang/go/blob/master/src/strings/strings.go#L470) which is using string builder with predefined length under the hood (best heap allocation)
+        ```go
+        func concatenateStrings(strs []string) string {
+            return strings.Join(strs)
+        }
+
+        func concatenateStrings(strs []string) string {
+            var sb strings.Builder
+            l := 0
+            for _, s := range strs {
+                if l > maxInt - len(s) {
+                    panic("final string length too large")
+                }
+                l += len(s)
+            }
+            sb.Grow(l)
+            for _, s := range strs {
+                sb.WriteString(s)
+            }
+            return sb.String()
+        }
+        ```
+        -   Go creates a string builder, growing its internal byte slice to the predefined length, writing from the string slice to it with for loop, and uses `unsafe` to return its internal byte slice.
+        -   New heap allocation per function call is the string builder struct which includes its internal byte slice.
+    -   Byte buffer sync pool (good heap allocation)
+        ```go
+        var bufferPool = sync.Pool{
+            New: func() any {return &bytes.Buffer{}},
+        }
+
+        func concatenateStrings(strs []string) string {
+            buffer := bufferPool.Get().(*bytes.Buffer)
+            buffer.Reset()
+            defer bufferPool.Put(buffer)
+            for _, s := range strs {
+                buffer.WriteString(s)
+            }
+            return buffer.String()
+        }
+        ```
+        -   Go creates a byte buffer sync pool, getting a buffer from the pool, writing the strings to the buffer in a for loop, and copy from the buffer to a final string.
+        -   New heap allocation per function call is the final string. The byte buffer sync pool cost on heap is amortized among function calls.
+-   High frequency processing
+    -   Direct allocation (worse heap allocation)
+        ```go
+        func encodeData(data map[string]string) ([]byte, error) {
+            buffer := &bytes.Buffer{}
+            err := json.NewEncoder(buffer).Encode(data)
+            if err != nil {
+                return nil, err
+            }
+            return buffer.Bytes(), nil
+        }
+        ```
+        -   Go creates a byte buffer, writing the data to the buffer, and returns the buffer byte slice.
+        -   New heap allocation per function call is the byte buffer.
+    -   Byte buffer sync pool (good heap allocation)
+        ```go
+        var bufferPool = sync.Pool{
+            New: func() any {return &bytes.Buffer{}},
+        }
+
+        func encodeData(data map[string]string) ([]byte, error) {
+            buffer := bufferPool.Get().(*bytes.Buffer)
+            buffer.Reset()
+            defer bufferPool.Put(buffer)
+            err := json.NewEncoder(buffer).Encode(data)
+            if err != nil {
+                return nil, err
+            }
+            return buffer.Bytes(), nil
+        }
+        ```
+        -   Go creates a byte buffer sync pool, getting a buffer from the pool, writing the string to the buffer, and sends the buffer byte slice to the writer.
+        -   New heap allocation per function call is zero. The byte buffer sync pool cost on heap is amortized among function calls.
+        -   Its use cases include byte buffers, JSON encoders, request structs, and protobuf scratch space.
+-   Large struct method
+    -   Value receiver (worse heap allocation)
+        -   New heap allocation per function call is a copy of the large struct.
+    -   Pointer receiver (good heap allocation)
+        -   New heap allocation per function call is zero.
+-   Slice capacity initialization
+    -   Without initialization (worse heap allocation)
+        -   New heap allocations per function call are the intermediate slice arrays.
+    -   With initialization (good heap allocation)
+        -   New heap allocation per function call is the final slice array.
+-   Any type replacement with generic type
+    -   With any type function parameter (worse heap allocation)
+        ```go
+        func process(d any)
+        ```
+        -   New heap allocation per function call is the `any` slice for the string parameters.
+    -   With generic type function parameter (good heap allocation)
+        ```go
+        func process[T any] (d T)
+        ```
+        -   New heap allocation per function call is zero as the types are resolved at compile time.
+-   GC frequency tuning
+    -   With the default 100 GCPercent (worse heap allocation)
+        -   GC is triggered when heap grows 100%.
+    -   With the 50 GCPercent (good heap allocation)
+        -   GC is triggered when heap grows 50%.
+
+### Resource consumption limit
+
+-   Goroutine number limit
+    -   New goroutine per job (worse heap allocation)
+        ```go
+        func processJobs(jobs <-chan Job) {
+            for job range jobs {
+                go processJob(job)
+            }
+        }
+        ```
+        -   The number of goroutine depends on the job concurrency and can grow indefinitely.
+    -   Goroutine worker pool (good heap allocation)
+        ```go
+        func processJobs(jobs <-chan Job) {
+            var wg sync.WaitGroup
+            numWorkers := runtime.NumCPU()
+            for range numWorkers {
+                wg.Go(func () {
+                    for job := range jobs {
+                        processJob(job)
+                    }
+                })
+            }
+            wg.Wait()
+        }
+        ```
+        -   The number of goroutine is set to a predefined number.
+-   Cache size limit
+    -   Without size limit (worse heap allocation)
+        -   The cache size can grow indefinitely.
+    -   With size limit (good heap allocation)
+        -   The cache size has a limit.
+-   Semaphore
+    ```go
+    type Semaphore chan struct{}
+
+    func NewSemaphore(n int) Semaphore {
+        return make(Semaphore, n)
+    }
+
+    func (s Semaphore) Acquire() {
+        s <- struct{}{}
+    }
+
+    func (s Semaphore) Release() {
+        <-s
+    }
+
+    func main() {
+        numConnection := 10
+        s := NewSemaphore(numConnection)
+
+        var wg sync.WaitGroup
+        for i := range numConnection {
+            wg.Go(func() {
+                s.Acquire()
+                defer s.Release()
+                worker(i)
+            })
+        }
+        go func() {
+            wg.Wait()
+            close(out)
+        }()
+    }
+    ```
+    -   A semaphore is a signaling counter that allows a limited number of threads to access a resource. It is useful for rate-limiting API calls or database connections.
+
+### Asynchronous processing
+
+-   Asynchronous architecture
+    ```go
+    func process1(in <-chan int) <-chan int {
+        out := make(chan int, cap(in))
+        go func () {
+            defer close(out)
+            for num := range in {
+                out <- num
+            }
+        }()
+        return out
+    }
+
+    func process2(in <-chan int) <-chan int {
+        out := make(chan int, cap(in))
+        go func () {
+            defer close(out)
+            for num := range in {
+                out <- num
+            }
+        }()
+        return out
+    }
+
+    out1 := process1(in)
+    out2 := process2(out1)
+    ```
+-   Buffered channel
+    -   Use buffered channel to prevent blocking the sender.
+-   Distributed processing
+    ```go
+    func main() {
+        in := make(chan Job, 100)
+        out := make(chan Result, cap(in))
+        var wg sync.WaitGroup
+        numWorkers := 2
+        for range numWorkers {
+            wg.Go(func() {
+                worker(in, out)
+            })
+        }
+        go func() {
+            wg.Wait()
+            close(out)
+        }()
+        for n := range 100 {
+            in <- n
+        }
+        close(in)
+        for o := range out {
+            fmt.Println(o)
+        }
+        fmt.Println("finished!")
+    }
+
+    func worker(in <-chan int, out chan<- int) {
+        for n := range in {
+            out <- n
+        }
+    }
+    ```
+-   Cascading context cancellation
+    -   When the client disconnects, cancel upstream function calls.
 
 ## Adoption challenge
 
 -   Goroutine race condition
--   Memory leak as goroutine is blocked waiting on an inactive channel
+-   Heap leak as goroutine is blocked waiting on an inactive channel
 -   Limited tools and hiring pool
 
 ## References
 
 -   [A tour of Go](https://go.dev/tour/welcome/1)
 -   [How I reduced memory usage in a Go service by 40%](https://medium.com/@yaninyzwitty/how-i-reduced-memory-usage-in-a-go-service-by-40-0b54c0e16555)
+-   [These memory allocation patterns kill Go performance](https://medium.com/codex/these-memory-allocation-patterns-kill-go-performance-333f17df0901)
+-   [Go patterns that actually move the performance needle](https://medium.com/codex/go-patterns-that-actually-move-the-performance-needle-b66d24c00f25)
+-   [Fmt.Sprintf: Looks simple but will burn a hole in your pocket](https://dev.to/yudaph/fmtsprintf-looks-simple-but-will-burn-a-hole-in-your-pocket-h4h)
