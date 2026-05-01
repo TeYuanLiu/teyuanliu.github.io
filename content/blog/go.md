@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-04-29
+updated = 2026-04-30
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1073,14 +1073,6 @@ If a goroutine blocks because of waiting for I/O, the Go runtime scheduler swaps
 
 We can start running a function `f(x)` inside a goroutine using `go f(x)`, The evaluation of `f` and `x` happens in the current goroutine and the execution of `f(x)` happens in the new goroutine.
 
-#### Goroutine profiler
-
-Go's built-in profiler `pprof` can start a http server and let we inspect how many goroutines are running and which line of code started them. We can set it up with the below steps.
-
-1.  Add `import _ "net/http/pprof"`.
-2.  Register the handler function to an existing HTTP ServeMux with `http.HandleFunc("/debug/pprof/", pprof.Index)`. Otherwise, run it in a side server with `go func() {http.ListenAndServe("localhost:6060", nil)}()`.
-3.  Visit `http://localhost:6060/debug/pprof/goroutine?debug=1`.
-
 ### Channel
 
 Goroutines shared the same process memory so memory access must be synchronized. This is why we use channels.
@@ -1101,7 +1093,11 @@ We can send and receive elements through a channel with the channel operator `<-
 
 If we have one sender and that sender has no more elements to send, then it should call `close()` to shutdown the channel.
 
-If we have multiple senders, we should use `sync.WaitGroup` in the coordinator goroutine to wait for all senders to finish before closing the channel. Note that only a sender or coordinator should close the channel because sending to a closed channel causes a panic but receiving from a closed channel doesn't cause a panic.
+If we have multiple senders, we should use a coordinator goroutine to wait for all senders to finish via `sync.WaitGroup` and then close the channel.
+
+When the passed-in function of `sync.WaitGroup.Go()` panics, it does not call `sync.WaitGroup.Done()` but re-panics to [prevent the main goroutine from proceeding](https://github.com/golang/go/blob/95a0e5adc1e6c27769591de1bfaf520a3265adda/src/sync/waitgroup.go#L244-L250).
+
+Only a single sender or a coordinator goroutine should close the channel because sending to a closed channel causes a panic but receiving from a closed channel doesn't cause a panic.
 
 A receiver can test whether a channel has been closed by assigning a second parameter `ok` to the receive expression. If `ok` is `false` then the channel is closed.
 
@@ -1220,7 +1216,7 @@ out1 := process1(in)
 out2 := process2(out1)
 ```
 
-#### Goroutine select
+### Goroutine select
 
 Goroutine select is used for cases like signal handling alongside receiving values from a channel. The `select` statement pauses the current goroutine until it can execute one of its communication cases. If multiple are ready, it randomly choose one of them to execute.
 
@@ -1264,13 +1260,62 @@ func multiplyBy10(i int, ctx context.Context, results chan int) {
 }
 ```
 
+### Goroutine profiler
+
+Go's built-in profiler `pprof` can start a http server and let we inspect how many goroutines are running and which line of code started them. We can set it up with the below steps.
+
+1.  Add `import _ "net/http/pprof"`.
+2.  Register the handler function to an existing HTTP ServeMux with `http.HandleFunc("/debug/pprof/", pprof.Index)`. Otherwise, run it in a side server with `go func() {http.ListenAndServe("localhost:6060", nil)}()`.
+3.  Visit `http://localhost:6060/debug/pprof/goroutine?debug=1`.
+
 ### Mutex
 
 We use Mutual-exclusion (Mutex) to ensure the exclusive access of a variable by one goroutine at a time. Go provides the `sync.Mutex` type and its methods, `Lock`, and `Unlock`, to achieve this.
 
+```go
+var mu sync.Mutex
+
+go func() {
+    mu.Lock()
+    defer mu.Unlock()
+    process()
+}()
+```
+
+#### Mutex deadlock
+
+A Mutex deadlock is a situation that each one of the two goroutines is waiting for the resource held by the other one.
+
+```go
+var (
+    mu1 sync.Mutex
+    mu2 sync.Mutex
+)
+
+go func() {
+    mu1.Lock()
+    defer mu1.Unlock()
+    process()
+    mu2.Lock()
+    defer mu2.Unlock()
+}
+
+go func() {
+    mu2.Lock()
+    defer mu2.Unlock()
+    process()
+    mu1.Lock()
+    defer mu1.Unlock()
+}
+```
+
+One way to prevent the deadlock from happening is to establish a global lock ordering. If every goroutine has to lock `mu1` first and then `mu2`, no deadlock would happen.
+
 ### Semaphore
 
 A semaphore is a signaling counter that allows a limited number of goroutines to access a resource. It is useful for rate-limiting API calls or database connections.
+
+Mutex is like a semaphore with size one.
 
 ```go
 type Semaphore chan struct{}
