@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-04-30
+updated = 2026-05-04
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1310,6 +1310,10 @@ go func() {
 ```
 
 One way to prevent the deadlock from happening is to establish a global lock ordering. If every goroutine has to lock `mu1` first and then `mu2`, no deadlock would happen.
+
+#### Mutex blocking
+
+When our code makes an I/O call and writes the result to a shared resource via mutex, we should only lock the mutex during the write, such that other goroutines are not blocked by the I/O call.
 
 ### Semaphore
 
