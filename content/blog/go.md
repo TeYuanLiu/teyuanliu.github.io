@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-05-04
+updated = 2026-05-10
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1463,7 +1463,7 @@ Use `go clean -modcache` to remove all downloaded modules.
 ### Error handling
 
 -   [Server shutdown cancel context and request timeout context](#context)
--   Goroutine panic handling
+-   Goroutine panic recover
 -   Jittered exponential backoff retry
 
 ### Asynchronous processing
