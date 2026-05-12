@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-05-11
+updated = 2026-05-12
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -689,14 +689,14 @@ import (
 func main() {
     fmt.Print("Go runs on ")
     switch os := runtime.GOOS; os {
-        case "linux":
-            fmt.Println("Linux.")
-        case "darwin":
-            fmt.Println("macOS.")
-        case "windows":
-            fmt.Println("Windows.")
-        default:
-            fmt.Printf("%s.\n", os)
+    case "linux":
+        fmt.Println("Linux.")
+    case "darwin":
+        fmt.Println("macOS.")
+    case "windows":
+        fmt.Println("Windows.")
+    default:
+        fmt.Printf("%s.\n", os)
     }
 }
 ```
@@ -868,6 +868,41 @@ A generic function can handle the same parameter of different types using type p
 func getIndex[T comparable](s []T, x T) int
 ```
 
+### Function error handling
+
+Go addresses function error with an explicit and imperative approach. In general, a function is expected to return a pair of values. The first one is the result value and the other one is the error value. Go expects us to check and handle the error using `if err != nil {}` for every function call.
+
+Here are some tips for function error handling in [system architecture](#system-architecture).
+
+-   Handler layer (System boundary)
+    -   Log error.
+    -   Map system error or business error to response with `errors.Is()` and return it.
+-   Service layer
+    -   Define business errors.
+    -   Either wrap system error with context using `fmt.Errorf("failed to do something: %w", err)` and return it, or convert system error to business error with `errors.Is()` and return it.
+-   Infrastructure layer
+    -   Wrap system error with context and return it.
+-   Use custom error struct with logging tools in the observability system for debugging distributed Go services.
+    ```go
+        type AppError struct {
+            Message string
+            Error error
+        }
+
+        func (e *AppError) Error() string {
+            return fmt.Sprintf("%s", e.Message)
+        }
+
+        func (e *AppError) Unwrap() error {
+            return e.Error
+        }
+
+        return &AppError{
+            Message: "user not found",
+            Error: err
+        }
+    ```
+
 ## Type
 
 ### Type declaration
@@ -988,12 +1023,12 @@ An interface type switch is a switch statement that uses types as cases, rather 
 ```go
 func do(i any) {
     switch v := i.(type) {
-        case int:
-            fmt.Printf("Twice %v is %v\n", v, v*2)
-        case string:
-            fmt.Printf("%q is %v bytes long\n", v, len(v))
-        default:
-            fmt.Printf("I don't know about type %T!\n", v)
+    case int:
+        fmt.Printf("Twice %v is %v\n", v, v*2)
+    case string:
+        fmt.Printf("%q is %v bytes long\n", v, len(v))
+    default:
+        fmt.Printf("I don't know about type %T!\n", v)
     }
 }
 ```
@@ -1072,6 +1107,8 @@ Given a small number of OS threads (usually the number of logical cores), the Go
 If a goroutine blocks because of waiting for I/O, the Go runtime scheduler swaps another runnable goroutine onto the thread.
 
 We can start running a function `f(x)` inside a goroutine using `go f(x)`, The evaluation of `f` and `x` happens in the current goroutine and the execution of `f(x)` happens in the new goroutine.
+
+When a goroutine panics, it crashes the entire process.
 
 ### Channel
 
@@ -1385,39 +1422,83 @@ func work() {
 }
 ```
 
-## Logging
+## System architecture
+
+The goal of this system architecture is flexibility with minimum abstraction. It divides the system into 3 layers, handler, service, and infrastructure.
+
+Here is an application for user registration, login, and logout.
+
+```bash
+/cmd
+    /main
+        main.go
+/internal
+    /server
+        /rest.go
+    /domain
+        /user.go
+        /port.go
+    /database
+        /postgresql.go
+```
+
+Here are the 3 layers.
+
+-   Handler
+    -   Defined in `/internal/server/rest.go`
+    -   Decode request, calling service struct methods, and send response.
+    -   Take service struct pointers as dependencies.
+    -   We want to use the injected service struct methods rather than performing business logic in the handler for better flexibility. This makes creating and switching to a new handler much easier.
+-   Service
+    -   Defined in `/internal/domain/user.go`
+    -   Perform business logic by calling infrastructure interface methods.
+    -   Take infrastructure interface values as dependencies.
+    -   We want to use the injected infrastructure interface values instead of passing the infrastructure interface values to every struct method for better flexibility. If we want to add or remove an infrastructure interface value, we don't have to update the parameters of every service struct method.
+    -   Infrastructure interfaces are defined in `/internal/domain/port.go`.
+    -   Has no dependency on other packages created in the project.
+-   Infrastructure (database, API, etc)
+    -   Defined in `/internal/database/postgresql.go`
+    -   Implement the infrastructure interfaces.
+
+At last, `cmd/main/main.go` creates infrastructure interface values, service structs, and then the handler, injecting dependencies, and starts the handler.
+
+## Dependency management
+
+### Recommended dependencies
+
+#### Logging
 
 -   Use `log/slog` for structured logging.
 -   Using `uber-go/zap` or `rs/zerolog` is often too excessive unless for truly large-scale applications.
 
-## Configuration
+#### Configuration
 
 -   Use `os.LookupEnv` or `caarlos0/env` for environment variables parsing and `gopkg.in/yaml.v3` for YAML files.
 -   Using `spf13/viper` to manage YAML/JSON configuration files, environment variables, flags, is often an overkill unless for truly large-scale applications.
 
-## Validation
+#### Validation
 
 -   Use custom validation functions to accommodate business validation logic directly.
 -   Using `go-playground/validator` makes it hard to handle business logic and fields depending on each others.
 
-## Dependency injection
+#### Dependency injection
 
 -   Use custom constructor functions take in dependencies and create structs.
 -   Use the main function to call constructor functions and wire dependencies.
 -   Using `google/wire` creates generated-code debugging issue and extra build step.
 
-## Command Line Interface (CLI)
+#### Command Line Interface (CLI)
 
 -   Use `flag` for flag parsing and `switch` statement for subcommands.
 -   Using `spf13/cobra` is often too much unless for truly large-scale applications.
 
-## Database
+#### Database
 
 -   Use `pgx` for PostgreSQL.
 -   If we need boilerplate code reduction, use `sqlc-dev/sqlc` or `database/sql` with extensions like `sqlx`.
 -   Using too many abstractions like `go-gorm/gorm` often leads to N+1 problem and abstraction debugging difficulty.
 
-## Networking
+#### Networking
 
 -   `encoding/json` package for data serialization/deserialization
 -   `net/http` for REST API server and client
@@ -1427,12 +1508,10 @@ func work() {
 -   Using `gorilla/mux` is obsolete since the release of the updated `net/http` in Go 1.22.
 -   `go-chi/chi` is still valuable for complex routing.
 
-## Testing
+#### Testing
 
 -   `testing` with interface-based mocking
 -   `stretchr/testify` for call tracking and more readable test assertions
-
-## Dependency management
 
 ### Downloading remote modules
 
@@ -1459,13 +1538,6 @@ Use `go clean -modcache` to remove all downloaded modules.
     -   An invalid memory address or nil pointer dereference error occurs when a program tries to access a memory region it is not allowed to.
 
 ## Production best practice
-
-### Layered application
-
--   Handler-service-infrastructure layering
-    -   Handler decodes request, calling service method, and sends response.
-    -   Service deals with business logics by calling infrastructure method.
-    -   Infrastructure provides methods for service to use.
 
 ### Error handling
 
