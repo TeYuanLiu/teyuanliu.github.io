@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-05-10
+updated = 2026-05-11
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1459,6 +1459,13 @@ Use `go clean -modcache` to remove all downloaded modules.
     -   An invalid memory address or nil pointer dereference error occurs when a program tries to access a memory region it is not allowed to.
 
 ## Production best practice
+
+### Layered application
+
+-   Handler-service-infrastructure layering
+    -   Handler decodes request, calling service method, and sends response.
+    -   Service deals with business logics by calling infrastructure method.
+    -   Infrastructure provides methods for service to use.
 
 ### Error handling
 
