@@ -1,7 +1,7 @@
 +++
 title = "Container"
 date = 2025-04-20
-updated = 2026-04-28
+updated = 2026-05-16
 +++
 
 A container is a process or a group of processes running with its own namespace for process ID (PID), cgroup, mount, user ID (UID), Inter-Process Communication (IPC), network, environment variable, etc. Through these namespace configurations, the container process sees itself as isolated.
@@ -42,6 +42,10 @@ Docker is a full-featured image and container management tool. Its Docker engine
 ### Dockerfile
 
 Docker can create a new Docker image using a Dockerfile and a context. Newer Docker versions on certain OS support building cross-platform images like building arm64 images on amd64 CPU architecture.
+
+#### Execution PID
+
+Using the exec form `CMD ["./server"]` makes the `server` process PID 1, but using `CMD ./server` makes the `sh` process PID 1 and the `server` process a child process of the `sh` process.
 
 ### Filesystem layers
 
@@ -123,9 +127,15 @@ Therefore, be mindful of these caveats and consider using this kind of bundler o
 ### Security
 
 Here are some tips to increase security when using Docker:
+-   Pin the hash of the base image rather than its tag because a tag can be reassigned.
 -   Avoid hardcoding secrets into the Dockerfile. Instead, bring in secrets as environment variables or mounted files during runtime.
+-   Put RegEx pattern of environment files like configurations and secrets in the `.dockerignore` to prevent copying these files into container images by accident.
 -   Restrict IP and port access to block dangerous communication.
 -   Run the application as a non-root user so even when someone gains access to the container the security risk is limited.
+    ```bash
+    RUN addgroup -S appgroup && adduser -S appuser -G appuser
+    USER appuser
+    ```
 
 ## References
 

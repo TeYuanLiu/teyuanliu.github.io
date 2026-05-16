@@ -1,7 +1,7 @@
 +++
 title = "Kubernetes"
 date = 2025-05-01
-updated = 2025-12-27
+updated = 2026-05-16
 +++
 
 Kubernetes is a [container](@/blog/container.md) orchestration engine for containerized application management and provides features like high availability, complex auto-scaling, automatic rollout and rollback, custom scheduling, and service mesh.
@@ -292,6 +292,13 @@ Alertmanager is an alerting framework which receives alert events from Prometheu
     -   Scales the number of nodes when a pod is pending as unschedulable due to insufficient cluster capacity.
 
 ## Security
+
+-   Make root filesystem read only and run as non-root.
+    ```yaml
+    security_context:
+        read_only_root_filesystem: true
+        run_as_non_root: true
+    ```
 
 ## Client
 

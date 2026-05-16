@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-05-15
+updated = 2026-05-16
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -85,6 +85,11 @@ go build
 
 # Generate a binary with the specified name.
 go build -o <BINARY_NAME>
+# Or
+go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
+
+# Generate a binary such that it is independent from the host's C libraries and can run in a scratch container without the exec format error and no such file or directory error.
+CGO_ENABLE=0 GOOS=linux GOARCH=amd64 go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
 ```
 
 And then we can run the produced binary.
@@ -116,6 +121,30 @@ export PATH=$PATH:<GO_INSTALL_PATH>
 # Compile and install the binary to the Go install path.
 go install
 ```
+
+##### Build tag
+
+We can use build tags to mark the source file that should only be included during a local build and include the tag in the build command.
+
+```go
+//go:build local
+
+// The tag has to be at the top of the file and the second line must be a blank line.
+package main
+
+import _ "net/http/pprof"
+```
+
+```bash
+go build -tags="local" -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
+```
+
+##### Dockerfile
+
+Here are some tips for building binaries for Go programs via Dockerfile.
+
+-   Put `COPY go.mod go.sum` and `RUN go mod download` before `COPY . .` to prevent a change in a source file from invalidating the module download cache layer.
+
 
 #### Panic stack trace
 
@@ -1419,6 +1448,38 @@ func work() {
     case <- ctx.Done():
         fmt.Println("Timed out:", ctx.Err())
     }
+}
+```
+
+We often want to handle system signals like interrupt or terminate.
+
+```go
+func main() {
+    baseContext, baseCancel := signal.NotifyContext(context.Background(), syscall.SIGTERM, syscall.SIGINT)
+    defer baseCancel()
+
+	mainContext, mainCancel := context.WithCancelCause(baseContext)
+	defer mainCancel(errors.New("main context canceled"))
+
+    backgroundService := &domain.BackgroundService{}
+
+    backgroundService.Start(mainContext, mainCancel)
+
+    server := &http.Server{}
+
+    go func() {
+        err := server.ListenAndServe()
+        if err != nil && !errors.Is(err, http.ErrServerClose) {
+            log.Fatal(err)
+        }
+    }()
+
+    <-baseContext.Done()
+    baseCancel()
+
+    shutdownContext, shutdownCancel := context.WithTimeoutCause(context.Background(), 10 * time.Second, errors.New("shutdown context canceled"))
+    defer shutdownCancel()
+    server.Shutdown(shutdownContext)
 }
 ```
 
