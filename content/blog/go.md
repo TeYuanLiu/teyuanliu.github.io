@@ -1425,6 +1425,8 @@ func main() {
 
 Contexts propagate request-scoped data, cancellation and timeout signals across service calls, preventing resource leaks and allowing for graceful shutdowns.
 
+The creation of a context gives us the context and its cancel function. The cancel function closes the context.Done() channel under the hood and we can use the cancel function to cancel the context.
+
 If we use one of the context with cause types like `context.WithCancelCause()`, we use `context.Cause()` for context cancel visibility, otherwise we use `ctx.Err()` given the context `ctx`. However, we till have to be aware of nested timeouts and the complexity brought by cross-service propagation.
 
 -   context.Context
@@ -1451,7 +1453,7 @@ func work() {
 }
 ```
 
-We often want to handle system signals like interrupt or terminate.
+In general we want to handle OS signals like interrupt or terminate via `signal.NotifyContext`. Note that the cancel function given by `signal.NotifyContext` can yield back OS signal handling to the OS in addition to its context cancellation functionality. After the OS signal handling is given back to the OS, if we press `Ctrl + C` the second time, then the OS can kill the process by force. That's why we need to call it manually after `<-baseContext.Done()` as receiving an OS signal does cancel the context but the OS signal handling is still held by Go instead of the OS.
 
 ```go
 func main() {
