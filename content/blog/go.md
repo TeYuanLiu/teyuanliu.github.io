@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-05-12
+updated = 2026-05-15
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -872,7 +872,7 @@ func getIndex[T comparable](s []T, x T) int
 
 Go addresses function error with an explicit and imperative approach. In general, a function is expected to return a pair of values. The first one is the result value and the other one is the error value. Go expects us to check and handle the error using `if err != nil {}` for every function call.
 
-Here are some tips for function error handling in [system architecture](#system-architecture).
+Here are some tips for function error handling tailored for the [code structure in this post](#code-structure).
 
 -   Handler layer (System boundary)
     -   Log error.
@@ -1422,9 +1422,9 @@ func work() {
 }
 ```
 
-## System architecture
+## Code structure
 
-The goal of this system architecture is flexibility with minimum abstraction. It divides the system into 3 layers, handler, service, and infrastructure.
+The goal of this code structure is flexibility with minimum abstraction. It divides the system into 3 layers, handler, service, and infrastructure.
 
 Here is an application for user registration, login, and logout.
 
