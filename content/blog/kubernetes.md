@@ -48,6 +48,24 @@ A Pod is the smallest deployable unit in Kubernetes and contains a group of cont
 -   Container Network Interface (CNI) configuration
 -   Persistent volume and mount-point
 
+### Pod resource consumption
+
+A pod can consume different kinds of resources.
+
+-   CPU
+    -   Represent CPU core time share so 0.5 CPU means a CPU core spends 50% of its time running commands of the pod.
+-   Memory
+    -   Indicate memory for CPU, where Gi for Gibi (2^30) and G for Giga (10^9).
+-   GPU
+    -   A Nvidia A100 GPU with 80 GB GPU memory can be divided into 7 compute slices and 8 memory slices through Multi-Instance GPU (MIG) technology, so we can split one GPU into `1g.10gb`, `2g.20gb`, `3g.40gb`, and `7g.80gb` instances.
+-   Persistent volume
+    -   Imply storage backed by storage classes. Its lifecycle is independent of pods.
+    -   Have different access modes.
+        -   ReadWriteOnce (RWO) for read-write by a single node
+        -   ReadOnlyMany (ROX) for read-only by many nodes
+        -   ReadWriteMany (RWX) for read-write by many nodes
+        -   ReadWriteOncePod (RWOP) for read-write by a single pod
+
 ### Pod creation
 
 1.  A user sends a pod creation request to the API server.
@@ -271,7 +289,7 @@ Grafana is a dashboard framework that pulls data from Prometheus via GraphQL que
 
 Alertmanager is an alerting framework which receives alert events from Prometheus, grouping, inhibiting, silencing alerts, and then propagates them to a downstream notification service like Slack or GoAlert.
 
-### Auto-scaling
+## Auto-scaling
 
 -   Vertical pod autoscaler (VPA)
     -   Adjusts the pod resource request/limit based on the resource usage. It recreates the pod without changing the replica count.
