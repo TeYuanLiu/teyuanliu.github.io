@@ -1,33 +1,47 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-05-16
+updated = 2026-05-17
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
 <!-- more -->
 
-## Here we Go
+## File
 
-### File
+### File naming
 
-A Go file contains expressions and statements to perform some data processing.
+We use snake_case for Go file names.
 
-We use snake_case for Go file names because of compatibility across case-sensitive OS like Linux and case-insensitive OS like Windows and MacOS. Also, the Go compiler uses underscores for special file suffixes to control the build process. For example, the Go compiler sees `*_test.go` as test file and `*_linux.go` as file that can only be compiled on Linux.
+Due to compatibility across case-sensitive OS like Linux and case-insensitive OS like Windows and MacOS, it's safer to use lowercase in every name.
 
-We use kebab-case for compiled binaries to be consistent with other shell tools.
+Because the Go compiler uses underscores for special file suffixes to control the build process (`*_test.go` for test file and `*_linux.go` for Linux-only compiling), it's idiomatic to use underscores to group words together, and we arrive at the conclusion of using snake_case for Go files.
 
-### Package
+We use kebab-case for everything else for example compiled binaries, such that they are consistent with other shell tools.
+
+### Expression and statement
+
+A Go file consists of expressions and statements for the computer to read, parse, and execute instructions. Here is a comparison between the expression and statement.
+
+\ | Expression | Statement
+-|-|-
+Purpose | To produce data | To execute an instruction
+Value returning | Yes | No
+Examples | `5; a + b; len(array)` | `x = 5; if ... else ...; for ...; return value; import "fmt"; i++`
+
+## Package
 
 A package is a collection of Go files inside the same directory. Variables, constants, functions, and types defined under the same package are visible across all Go files in the package.
 
-We use lowercase single word for package names so the `user service` package becomes `userservice`.
+### Package naming
 
-### Module
+We use lowercase single word for package names so the `user service` package becomes `userservice`. The same applies to directory names as they have to match package names.
+
+## Module
 
 A module is a collection of packages. It is like a project or repository. A module contains all packages inside its root directory (the directory that has the `go.mod`), including those in the subdirectories, except any subdirectory that contains another `go.mod`, which therefore defines another module.
 
-#### Module initialization
+### Module initialization
 
 We use `go init mod <MODULE_PATH>` to initialize a module where `<MODULE_PATH>` is the path to our module on a repository platform like GitHub. We usually use a GitHub repository to host a module so the module path is `github.com/<ORGANIZATION>/<REPOSITORY>`. The module path also defines the import path prefix for all packages within the module.
 
@@ -40,115 +54,45 @@ module <MODULE_PATH>
 go <VERSION>
 ```
 
-### First Go program
+## Code structure
 
-We can create our first Go program by making a `here_we_go.go` file. Later on during the compile process, the Go compiler first converts this Go file into an assembly-like internal representation and then compiles the internal representation into a binary.
+The goal of this code structure is flexibility with minimum abstraction. It divides the system into 3 layers, handler, service, and infrastructure.
 
-In order to let the compile succeed, there must be a Go file (`here_we_go.go` in our case here) that not only belongs to the `main` package but also includes a `main` function such that the compiler can locate the entrypoint of the binary.
-
-{% codeblocktag () %}
-here_we_go.go
-{% end %}
-```go
-// Declare this file as part of the main package.
-package main
-
-// Import the built-in fmt package for input/output.
-import (
-    "fmt"
-)
-
-// Declare the main function in the main package.
-func main() {
-    // Print a line saying "Here we Go!".
-    fmt.Println("Here we Go!")
-}
-```
-
-#### Expression and statement
-
-A Go file consists of expressions and statements for the computer to read, parse, and execute instructions. Here is a comparison between the expression and statement.
-
-\ | Expression | Statement
--|-|-
-Purpose | To produce data | To execute an instruction
-Value returning | Yes | No
-Examples | `5; a + b; len(array)` | `x = 5; if ... else ...; for ...; return value; import "fmt"; i++`
-
-#### Compile and run
-
-We can use the `go build` command to instruct the Go compiler to compile the working directory's Go files into a binary.
+Here is an application for user registration, login, and logout.
 
 ```bash
-# Generate a binary named after the working directory.
-go build
-
-# Generate a binary with the specified name.
-go build -o <BINARY_NAME>
-# Or
-go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
-
-# Generate a binary such that it is independent from the host's C libraries and can run in a scratch container without the exec format error and no such file or directory error.
-CGO_ENABLE=0 GOOS=linux GOARCH=amd64 go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
+/cmd
+    /main
+        main.go
+/internal
+    /server
+        /rest.go
+    /domain
+        /user.go
+        /port.go
+    /database
+        /postgresql.go
 ```
 
-And then we can run the produced binary.
+Here are the 3 layers.
 
-```bash
-# Run the binary, assuming its name is here-we-go.
-./here-we-go
-```
+-   Handler
+    -   Defined in `/internal/server/rest.go`
+    -   Decode request, calling service struct methods, and send response.
+    -   Take service struct pointers as dependencies.
+    -   We want to use the injected service struct methods rather than performing business logic in the handler for better flexibility. This makes creating and switching to a new handler much easier.
+-   Service
+    -   Defined in `/internal/domain/user.go`
+    -   Perform business logic by calling infrastructure interface methods.
+    -   Take infrastructure interface values as dependencies.
+    -   We want to use the injected infrastructure interface values instead of passing the infrastructure interface values to every struct method for better flexibility. If we want to add or remove an infrastructure interface value, we don't have to update the parameters of every service struct method.
+    -   Infrastructure interfaces are defined in `/internal/domain/port.go`.
+    -   Has no dependency on other packages created in the project.
+-   Infrastructure (database, API, etc)
+    -   Defined in `/internal/database/postgresql.go`
+    -   Implement the infrastructure interfaces.
 
-Furthermore, we can combine the compile and run into one command `go run`.
-
-```bash
-# Generate an ephemeral binary go-buildxxx inside the temporary directory /tmp, running it, and deletes the binary after execution.
-go run here_we_go.go
-
-# This also works as long as the working directory contains the Go file that includes the main package's main function.
-go run .
-```
-
-If we want to install the binary so we can run it anywhere, export the Go install path and install the binary.
-
-```bash
-# Locate the Go install path.
-go list -f '{{.Target}}'
-
-# Export the path.
-export PATH=$PATH:<GO_INSTALL_PATH>
-
-# Compile and install the binary to the Go install path.
-go install
-```
-
-##### Build tag
-
-We can use build tags to mark the source file that should only be included during a local build and include the tag in the build command.
-
-```go
-//go:build local
-
-// The tag has to be at the top of the file and the second line must be a blank line.
-package main
-
-import _ "net/http/pprof"
-```
-
-```bash
-go build -tags="local" -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
-```
-
-##### Dockerfile
-
-Here are some tips for building binaries for Go programs via Dockerfile.
-
--   Put `COPY go.mod go.sum` and `RUN go mod download` before `COPY . .` to prevent a change in a source file from invalidating the module download cache layer.
-
-
-#### Panic stack trace
-
-If a panic occurs and crashes the program, Go prints the top of the call stack first, and then all the way to the program entrypoint, following a reverse chronological order (error -> main). The concept behind it is giving the most important log for debugging first.
+At last, `cmd/main/main.go` creates infrastructure interface values, service structs, and then the handler, injecting dependencies, and starts the handler.
 
 ## Variable
 
@@ -610,7 +554,7 @@ Go uses the `const <CONSTANT_NAME> <CONSTANT_TYPE>` declaration format for const
 
 Numeric constants are high-precision values. An untyped constant takes the type needed by its context.
 
-## Print
+## Printing
 
 We often use the `Print`, `Println`, and `Printf` function from the built-in `fmt` package.
 -   Print
@@ -931,6 +875,28 @@ Here are some tips for function error handling tailored for the [code structure 
             Error: err
         }
     ```
+
+### Function panic handling
+
+Unlike an expectable error that can be handled via `if err != nil`, a panic means something unrecoverable has occurred and the program cannot continue safely.
+
+When a panic happens in any goroutine of the program, Go performs the following steps.
+
+1.  Stop the program execution immediately.
+1.  Unwind the call stack from the root cause of the panic all the way to the main function. As each function is exited, any deferred function is still executed normally.
+1.  If the panic reaches the main function without being handled, the program crashes and prints the stack trace following a reverse chronological order (error -> main). The concept behind it is giving the most important detail for debugging first.
+
+We can catch the panic during unwinding using `defer` with `recover()` and implement panic recovering. If `recover()` is called during a panic, it captures the panic value and stops the program from crashing, allowing it to resume normal execution. This is often used in web servers to prevent one bad request from taking down the entire service.
+
+```go
+func panicFunction() {
+    defer func() {
+        if r := recover(); r != nil {
+            // Recover the function.
+        }
+    }()
+}
+```
 
 ## Type
 
@@ -1485,46 +1451,6 @@ func main() {
 }
 ```
 
-## Code structure
-
-The goal of this code structure is flexibility with minimum abstraction. It divides the system into 3 layers, handler, service, and infrastructure.
-
-Here is an application for user registration, login, and logout.
-
-```bash
-/cmd
-    /main
-        main.go
-/internal
-    /server
-        /rest.go
-    /domain
-        /user.go
-        /port.go
-    /database
-        /postgresql.go
-```
-
-Here are the 3 layers.
-
--   Handler
-    -   Defined in `/internal/server/rest.go`
-    -   Decode request, calling service struct methods, and send response.
-    -   Take service struct pointers as dependencies.
-    -   We want to use the injected service struct methods rather than performing business logic in the handler for better flexibility. This makes creating and switching to a new handler much easier.
--   Service
-    -   Defined in `/internal/domain/user.go`
-    -   Perform business logic by calling infrastructure interface methods.
-    -   Take infrastructure interface values as dependencies.
-    -   We want to use the injected infrastructure interface values instead of passing the infrastructure interface values to every struct method for better flexibility. If we want to add or remove an infrastructure interface value, we don't have to update the parameters of every service struct method.
-    -   Infrastructure interfaces are defined in `/internal/domain/port.go`.
-    -   Has no dependency on other packages created in the project.
--   Infrastructure (database, API, etc)
-    -   Defined in `/internal/database/postgresql.go`
-    -   Implement the infrastructure interfaces.
-
-At last, `cmd/main/main.go` creates infrastructure interface values, service structs, and then the handler, injecting dependencies, and starts the handler.
-
 ## Dependency management
 
 ### Recommended dependencies
@@ -1592,6 +1518,105 @@ import (
 ### Removing all downloaded modules
 
 Use `go clean -modcache` to remove all downloaded modules.
+
+## Compilation
+
+We can create an example Go program by making a `here_we_go.go` file. Later on during the compile process, the Go compiler first converts this Go file into an assembly-like internal representation and then compiles the internal representation into a binary.
+
+In order to let the compile succeed, there must be a Go file (`here_we_go.go` in our case here) that not only belongs to the `main` package but also includes a `main` function such that the compiler can locate the entrypoint of the binary.
+
+{% codeblocktag () %}
+here_we_go.go
+{% end %}
+```go
+// Declare this file as part of the main package.
+package main
+
+// Import the built-in fmt package for input/output.
+import (
+    "fmt"
+)
+
+// Declare the main function in the main package.
+func main() {
+    // Print a line saying "Here we Go!".
+    fmt.Println("Here we Go!")
+}
+```
+
+We can use the `go build` command to instruct the Go compiler to compile the working directory's Go files into a binary.
+
+```bash
+# Generate a binary named after the working directory.
+go build
+
+# Generate a binary with the specified binary name.
+go build -o <BINARY_NAME>
+
+# Generate a binary with the specified binary name and main package path.
+go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
+
+# Generate a binary such that it is independent from the host's C libraries and can run in a scratch container without the exec format error and no such file or directory error.
+CGO_ENABLE=0 GOOS=linux GOARCH=amd64 go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
+```
+
+## Execution
+
+And then we can run the produced binary.
+
+```bash
+# Run the binary, assuming its name is here-we-go.
+./here-we-go
+```
+
+Furthermore, we can combine the compile and run into one command `go run`.
+
+```bash
+# Generate an ephemeral binary go-buildxxx inside the temporary directory /tmp, running it, and delete the binary after execution.
+go run here_we_go.go
+
+# This also works as long as the working directory contains the Go file that includes the main package's main function.
+go run .
+```
+
+If we want to install the binary so we can run it anywhere on the host, export the Go install path and install the binary.
+
+```bash
+# Locate the Go install path.
+go list -f '{{.Target}}'
+
+# Export the path.
+export PATH=$PATH:<GO_INSTALL_PATH>
+
+# Compile and install the binary to the Go install path.
+go install
+```
+
+## Containerization
+
+### Dockerfile
+
+Here are some tips for building binaries for Go programs via Dockerfile.
+
+-   Put `COPY go.mod go.sum` and `RUN go mod download` before `COPY . .` to prevent a change in a source file from invalidating the module download cache layer.
+
+### Build tag
+
+We can use build tags to mark the source file that should only be included during a local build.
+```go
+//go:build local
+
+// The tag has to be at the top of the file and the second line must be a blank line.
+package main
+
+import _ "net/http/pprof"
+```
+
+We can include the tag in the build command.
+
+```bash
+go build -tags="local" -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
+```
 
 ## Memory management
 
