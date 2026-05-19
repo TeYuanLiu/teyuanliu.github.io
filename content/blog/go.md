@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-05-17
+updated = 2026-05-19
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1081,7 +1081,7 @@ type Image interface {
 
 ### Generic type
 
-A generic value can hold any type value.
+The generic type helps reduce boilerplate code as one generic value can hold any type value and we can consolidate similar logics into one.
 
 ```go
 // List represents a singly-linked list that holds any type value.
@@ -1091,6 +1091,83 @@ type List[T any] struct {
 }
 ```
 
+Here are some common use cases.
+
+-   Result container for concurrent goroutine jobs
+    -   A result container includes both the value for success and the error for failure. We can pass the result container into the result channel to let the caller know the reason of job failure.
+        ```go
+        type Result[T any] struct {
+            Value T
+            Error error
+        }
+        ```
+-   Slice filtering
+    ```go
+    func Filter[T any](s []T, keep func(T) bool) []T {
+        results := make([]T, 0, len(s))
+        for _, v := range s {
+            if keep(v) {
+                results = append(results, v)
+            }
+        }
+        return results
+    }
+    ```
+-   Slice grouping
+    -   We may need to create a custom equality function for each custom struct type to make the following `comparable` work.
+        ```go
+        func GroupBy[T any, K comparable](s []T, key func(T) K) map[K][]T {
+            results := make(map[K][]T)
+            for _, v := range s {
+                k := key(v)
+                results[k] = append(results[k], v)
+            }
+            return results
+        }
+        ```
+-   Slice transforming
+    ```go
+    func Transform[T, U any](s []T, f func(T) U) []U {
+        results := make([]U, len(s))
+        for i, v := range s {
+            results[i] = f(v)
+        }
+        return results
+    }
+    ```
+-   Generic cache
+    ```go
+    type Cache[K comparable, V any] struct {
+        mu sync.RWMutex
+        pairs map[K]V
+    }
+
+    func (c *Cache[K, V]) Set(k K, v V) {
+        c.mu.Lock()
+        defer c.mu.Unlock()
+        c.pairs[k] = v
+    }
+
+    func (c *Cache[K, V]) Get(k K) (V, bool) {
+        c.mu.RLock()
+        defer c.mu.RUnlock()
+        v, ok := c.pairs[k]
+        if !ok {
+            return V{}, false
+        }
+        return v, true
+    }
+
+    func main() {
+        c := Cache[int, string]{pairs: make(map[int]string)}
+        c.Set(1, "one")
+        fmt.Println(c.Get(1))
+    }
+    ```
+
+However, the generic type is not suitable for some use cases.
+
+-   Does not fit HTTP middleware because neither `http.Handler` nor `http.ResponseWriter` is parameterized and is not supported well by standard library or frameworks.
 ## Concurrency
 
 ### Goroutine
@@ -1156,8 +1233,6 @@ Generally, we don't want the sender to be blocked by a send so we will set the b
 
 Although goroutine is cheap, it is not free. Creating one goroutine per job can grow the number of concurrent goroutines indefinitely. Therefore, we often adopt the worker pool pattern to limit the number of goroutines.
 
-We use a coordinator goroutine to close the `out` channel and thus unblock the main function.
-
 ```go
 type Result struct {
     JobID int
@@ -1174,7 +1249,7 @@ func main() {
     var wg sync.WaitGroup
     for workerID := range numWorkers {
         wg.Go(func() {
-            worker(workerID, in, out)
+            work(workerID, in, out)
         })
     }
 
@@ -1197,7 +1272,7 @@ func main() {
     fmt.Println("finished!")
 }
 
-func worker(workerID int, in <-chan int, out chan<- int) {
+func work(workerID int, in <-chan int, out chan<- int) {
     for i := range in {
         if i % 2 == 0 {
             out <- Result{
@@ -1216,6 +1291,10 @@ func worker(workerID int, in <-chan int, out chan<- int) {
     }
 }
 ```
+
+We use a coordinator goroutine to close the `out` channel and thus unblock the main function.
+
+Here we use `sync.WaitGroup` but we can switch to `errgroup` from `golang.org/x/sync/errgroup` if we need the all-or-nothing characteristic.
 
 ### Goroutine pipeline
 
@@ -1484,7 +1563,7 @@ func main() {
 #### Database
 
 -   Use `pgx` for PostgreSQL.
--   If we need boilerplate code reduction, use `sqlc-dev/sqlc` or `database/sql` with extensions like `sqlx`.
+-   If we need boilerplate code reduction, use `sqlc-dev/sqlc` or `database/sql` with extensions like `jmoiron/sqlx`.
 -   Using too many abstractions like `go-gorm/gorm` often leads to N+1 problem and abstraction debugging difficulty.
 
 #### Networking
