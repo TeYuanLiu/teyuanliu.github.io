@@ -1,7 +1,7 @@
 +++
 title = "Container"
 date = 2025-04-20
-updated = 2026-05-19
+updated = 2026-05-20
 +++
 
 A container is a process or a group of processes running with its own namespace for process ID (PID), cgroup, mount, user ID (UID), Inter-Process Communication (IPC), network, environment variable, etc. Through these namespace configurations, the container process sees itself as isolated.
@@ -43,9 +43,19 @@ Docker is a full-featured image and container management tool. Its Docker engine
 
 Docker can create a new Docker image using a Dockerfile and a context. Newer Docker versions on certain OS support building cross-platform images like building arm64 images on amd64 CPU architecture.
 
-#### Execution PID
+#### Base image type
 
-Using the exec form `CMD ["./server"]` makes the `server` process PID 1, but using `CMD ./server` makes the `sh` process PID 1 and the `server` process a child process of the `sh` process.
+Here are different base image types.
+
+-   Distro image
+    -   Provide a full Linux distribution that includes shell, package manager, and other tools and packages.
+    -   Have high Common Vulnerabilities and Exposures (CVE).
+-   Distroless image
+    -   Provide a minimal Linux distribution that only has language-specific runtime dependencies and essential system files like CA certificates and timezone data. It has no shell or package manager.
+    -   Have low CVE.
+-   Scratch image
+    -   Provide an empty file system that has no users or files.
+    -   Require manually creation and management of users and system files like CA certificates.
 
 ### Filesystem layers
 
@@ -66,37 +76,32 @@ During the build of each layer:
 
 Layers that already exist in the registry (verified via digest) are not uploaded again during `docker push` so good layering (ordering plus command aggregating) enables small pushes and fast CI/CD.
 
-### Networking
+#### Health check
 
-Docker offers 4 drivers to provide container-to-container networking.
--   The bridge driver enables egress from the container to the host, network, or the internet, but disables ingress access.
--   The host driver allows the container to share the host's networking configuration.
--   The overlay driver connects multiple hosts in a Docker Swarm and drives containers to run and communicate with each other on different hosts.
--   The macvlan driver assigns a MAC address (data-link layer) to a container so it appears as a separate physical network device on the host.
+The `HEALTHCHECK` instruction in Dockerfile tells Docker how to test a container to verify that it is still working.
 
-### Docker Compose
+-   For distro image we can use `curl`.
+    ```bash
+    FROM alpine:latest
+    ...
+    HEALTHCHECK --interval=30s --timeout=30s --start-period=10s retries=3 \
+        CMD curl --fail http://localhost:8080/healthz || exit 1
+    EXPOSE 8080
+    CMD ["./server"]
+    ```
+-   For distroless image we have to build a health check binary `healthcheck` and use it.
+    ```bash
+    FROM gcr.io/distroless/static-debian12
+    ...
+    HEALTHCHECK --interval=30s --timeout=30s --start-period=10s retries=3 \
+        CMD ["./healthcheck"]
+    EXPOSE 8080
+    CMD ["./server"]
+    ```
 
-Docker Compose is a tool for creating and running applications across multiple containers via YAML file configuration.
+#### Execution PID
 
-### Docker vs local
-
-Feature | Docker | Local
--|-|-
-Isolation | Yes | No
-Dependency conflict | No | Possible
-Security | Higher  | Lower
-Version control | Yes | No
-Portability | Yes | No
-Speed | Slow | Fast
-Debug | Hard | Easy
-Use case | Integration test | Code development
-
-### Cost
-
-Using Docker for applications comes with different costs:
--   Time for image building, transfer and deployment
--   Money for image transfer and storage
--   Application response latency overhead
+Using the exec form `CMD ["./server"]` makes the `server` process PID 1, but using `CMD ./server` makes the `sh` process PID 1 and the `server` process a child process of the `sh` process.
 
 ### Image optimization
 
@@ -104,28 +109,27 @@ Using Docker for applications comes with different costs:
     -   Include only what is needed.
         -   Multi-stage build
             -   Build stage
-                -   Install necessary dependencies and create a standalone executable.
+                -   Install necessary dependencies and create a standalone binary.
             -   Runtime stage
-                -   Copy over the executable from the build stage and set entry-point to it.
-            -   Use the minimal base image for each stage like slim for build stage, and scratch for runtime stage.
+                -   Copy over the binary from the build stage and set entry-point to it.
+            -   Use the minimal base image for each stage like slim for build stage, and distroless or even scratch for runtime stage.
         -   Use .dockerignore to exclude unnecessary files.
-        -   Use a distroless image.
     -   Minimize the number of layers.
         -   Aggregate multiple run commands together.
 -   Image build time reduction
     -   Increase cache utilization.
         -   Optimize layer order by running dependency installation commands first such that code changes don't invalidate the cached dependency install layers.
 
-### Image size tradeoff
+#### Image size tradeoff
 
-Smaller images are nice, but be aware of some possible pitfalls.
+Smaller images are nice, and sometimes we want to try out the scratch image, but be aware of some possible pitfalls.
 
-For example, we can use the Pyinstaller to bundle the bytecode of our Python application and its dependencies, plus the Python interpreter binary into a single executable, and reduce the image size by 50%. But we may find out that:
--   Some dependencies like the certificate aren't bundled properly and require manual fix. This can grow indefinitely as more dependencies are added to the application.
--   Image build time increases by 82% because the application code and the dependency have to be sorted out, compiled to bytecode, and compressed.
+For example, we can use the Pyinstaller to bundle the bytecode of our Python application and its dependencies, plus the Python interpreter binary into a single binary, putting it inside a scratch image, and reduce the image size by 50% compared with a slim Python image. But we may find out that:
+-   Some dependencies like CA certificates aren't bundled inside it and require manual fix. This overhead can grow indefinitely as more dependencies are added to the application.
+-   Image build time increases by 82% because the application code and the dependencies have to be sorted out, compiled to bytecode, and compressed.
 -   Application response latency increases by 8% due to loss of module caching and optimization specific to Python native environment.
 
-Therefore, be mindful of these caveats and consider using this kind of bundler only when image size is the bottleneck of the system.
+Therefore, be mindful of these caveats and consider using this kind of bundler and scratch image only when image size is the bottleneck of the system. Or, we can use the [distroless image](#base-image-type) instead.
 
 ### Security
 
@@ -139,6 +143,38 @@ Here are some tips to increase security when using Docker:
     RUN addgroup -S appgroup && adduser -S appuser -G appuser
     USER appuser
     ```
+
+### Networking
+
+Docker offers 4 drivers to provide container-to-container networking.
+-   The bridge driver enables egress from the container to the host, network, or the internet, but disables ingress access.
+-   The host driver allows the container to share the host's networking configuration.
+-   The overlay driver connects multiple hosts in a Docker Swarm and drives containers to run and communicate with each other on different hosts.
+-   The macvlan driver assigns a MAC address (data-link layer) to a container so it appears as a separate physical network device on the host.
+
+### Docker Compose
+
+Docker Compose is a tool for creating and running applications across multiple containers via YAML file configuration.
+
+### Adoption cost
+
+Using Docker for applications comes with different costs:
+-   Time for image building, transfer and deployment
+-   Money for image transfer and storage
+-   Application response latency overhead due to the Docker abstraction when compared with running directly on the host
+
+### Docker vs local
+
+Feature | Docker | Local
+-|-|-
+Isolation | Yes | No
+Dependency conflict | No | Possible
+Security | Higher  | Lower
+Version control | Yes | No
+Portability | Yes | No
+Speed | Slow | Fast
+Debug | Hard | Easy
+Use case | Integration test | Code development
 
 ## References
 

@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-05-19
+updated = 2026-05-20
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1681,6 +1681,31 @@ go install
 Here are some tips for building binaries for Go programs via Dockerfile.
 
 -   Put `COPY go.mod go.sum` and `RUN go mod download` before `COPY . .` to prevent a change in a source file from invalidating the module download cache layer.
+
+### Health check
+
+We can add a health check endpoint to the HTTP server.
+
+```go
+mux := http.NewServeMux()
+mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request){
+    w.WriteHeader(http.StatusOK)
+    w.write([]byte("OK"))
+})
+```
+
+And then build a health check binary for [Docker to run](@/blog/container.md#health-check).
+
+```go
+func main() {
+    client := &http.Client{Timeout: 5 * time.Second}
+    response, err := client.Get("http://localhost:8080/health")
+    if err != nil || response.StatusCode != 200 {
+        os.Exit(1)
+    }
+    os.Exit(0)
+}
+```
 
 ### Build tag
 
