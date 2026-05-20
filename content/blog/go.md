@@ -1636,7 +1636,10 @@ go build -o <BINARY_NAME>
 go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
 
 # Generate a binary such that it is independent from the host's C libraries and can run in a scratch container without the exec format error and no such file or directory error.
-CGO_ENABLE=0 GOOS=linux GOARCH=amd64 go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
+CGO_ENABLE=0 go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
+
+# Generate a binary for specified OS and hardware.
+GOOS=linux GOARCH=amd64 go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
 ```
 
 ## Execution

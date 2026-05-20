@@ -1,7 +1,7 @@
 +++
 title = "Container"
 date = 2025-04-20
-updated = 2026-05-16
+updated = 2026-05-19
 +++
 
 A container is a process or a group of processes running with its own namespace for process ID (PID), cgroup, mount, user ID (UID), Inter-Process Communication (IPC), network, environment variable, etc. Through these namespace configurations, the container process sees itself as isolated.
@@ -98,22 +98,25 @@ Using Docker for applications comes with different costs:
 -   Money for image transfer and storage
 -   Application response latency overhead
 
-#### Image size
+### Image optimization
 
-We can reduce Docker image size by:
--   Include only what is needed.
-    -   Multi-stage build
-        -   Build stage
-            -   Install necessary dependencies and create a standalone executable.
-        -   Runtime stage
-            -   Copy over the executable from the build stage and set entry-point to it.
-        -   Use the minimal base image for each stage like slim for build stage, and scratch for runtime stage.
-    -   Use .dockerignore to exclude unnecessary files.
-    -   Use a distroless image.
--   Increase cache utilization.
-    -   Optimize layer order by running dependency installation commands first such that code changes don't invalidate the cached dependency install layers.
--   Minimize the number of layers.
-    -   Aggregate multiple run commands together.
+-   Image size reduction
+    -   Include only what is needed.
+        -   Multi-stage build
+            -   Build stage
+                -   Install necessary dependencies and create a standalone executable.
+            -   Runtime stage
+                -   Copy over the executable from the build stage and set entry-point to it.
+            -   Use the minimal base image for each stage like slim for build stage, and scratch for runtime stage.
+        -   Use .dockerignore to exclude unnecessary files.
+        -   Use a distroless image.
+    -   Minimize the number of layers.
+        -   Aggregate multiple run commands together.
+-   Image build time reduction
+    -   Increase cache utilization.
+        -   Optimize layer order by running dependency installation commands first such that code changes don't invalidate the cached dependency install layers.
+
+### Image size tradeoff
 
 Smaller images are nice, but be aware of some possible pitfalls.
 
