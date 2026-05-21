@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-05-20
+updated = 2026-05-21
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1676,9 +1676,27 @@ go install
 
 ## Containerization
 
+### Build tag
+
+We can use build tags to mark the source file that should only be included during a local build.
+```go
+//go:build local
+
+// The tag has to be at the top of the file and the second line must be a blank line.
+package main
+
+import _ "net/http/pprof"
+```
+
+We can include the tag in the build command.
+
+```bash
+go build -tags="local" -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
+```
+
 ### Termination handling
 
-Docker usually sends SIGTERM before terminating a container, so we should handle it otherwise in-flight requests will be dropped.
+Docker or Kubernetes usually send the `SIGTERM` signal before killing a container with `SIGKILL`, so we should handle the `SIGTERM` signal otherwise in-flight requests will be dropped.
 
 #### Kubernetes termination grace period
 
@@ -1722,7 +1740,7 @@ func (s *RESTServer) readyHandler(w http.ResponseWriter, r *http.Request){
 
 #### Docker health check
 
-Docker only supports single health check so here we choose the liveness one. We build a health check binary to [check the liveness and use this binary in the Dockerfile](@/blog/container.md#health-check).
+Docker only supports single health check so we choose the liveness one. We need to [build a health check binary and configure Docker to use it for health checks in the Dockerfile](@/blog/container.md#health-check).
 
 ```go
 func main() {
@@ -1737,27 +1755,7 @@ func main() {
 
 #### Kubernetes health check
 
-We build the liveness health check binary and the readiness health check binary because Kubernetes supports both of them.
-
-See more in the [Kubernetes post](@/blog/kubernetes.md#container-liveness-and-readiness).
-
-### Build tag
-
-We can use build tags to mark the source file that should only be included during a local build.
-```go
-//go:build local
-
-// The tag has to be at the top of the file and the second line must be a blank line.
-package main
-
-import _ "net/http/pprof"
-```
-
-We can include the tag in the build command.
-
-```bash
-go build -tags="local" -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
-```
+We configure the liveness and readiness probe endpoint in the [deployment manifest](#kubernetes-deployment) such that Kubernetes can scrape them. See more in the [Kubernetes post](@/blog/kubernetes.md#container-liveness-and-readiness).
 
 ### Dockerfile
 
@@ -1785,7 +1783,7 @@ ENTRYPOINT ["/server"]
     -   The `-s` removes the symbol table, which maps memory addresses back to function and variable names. Stripping it makes reverse-engineering the application via tools like `nm` much harder, but also increases the difficulty of troubleshooting as the function names and line numbers in the stack trace logs become unreadable for humans.
     -   The `-w` deletes DWARF debugging information, which enables debuggers like Delve or GDB to set breakpoints, inspect variables, or view stack traces while the program is running.
 
-### Kubernetes deployment
+### Kubernetes Deployment
 
 Here is a deployment manifest example.
 
@@ -1835,24 +1833,24 @@ spec:
                         limits:
                             cpu: "100m"
                             memory: "64Mi"
-                        livenessProbe:
-                            httpGet:
-                                path: /healthz/live
-                                port: 8080
-                            initialDelaySeconds: 10
-                            periodSeconds: 30
-                        readinessProbe:
-                            httpGet:
-                                path: /healthz/ready
-                                port: 8080
-                            initialDelaySeconds: 20
-                            periodSeconds: 30
+                    livenessProbe:
+                        httpGet:
+                            path: /healthz/live
+                            port: 8080
+                        initialDelaySeconds: 10
+                        periodSeconds: 30
+                    readinessProbe:
+                        httpGet:
+                            path: /healthz/ready
+                            port: 8080
+                        initialDelaySeconds: 20
+                        periodSeconds: 30
 ```
 
 -   We use `maxUnavailable: 0` to tell Kubernetes to bring up a new pod before taking down an old one during a rollout.
 -   We pin the image using its hash because image tag is modifiable.
 
-### Kubernetes configmap and secret
+### Kubernetes ConfigMap and Secret
 
 We use Kubernetes ConfigMap and Secret to store the application settings.
 

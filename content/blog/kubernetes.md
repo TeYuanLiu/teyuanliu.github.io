@@ -1,7 +1,7 @@
 +++
 title = "Kubernetes"
 date = 2025-05-01
-updated = 2026-05-20
+updated = 2026-05-21
 +++
 
 Kubernetes is a [container](@/blog/container.md) orchestration engine for containerized application management and provides features like high availability, complex auto-scaling, automatic rollout and rollback, custom scheduling, and service mesh.
@@ -91,15 +91,30 @@ The pod's `command` field replaces the container's `ENTRYPOINT` and `args` field
 
 #### Container resource request and limit
 
-The resource request defines the guaranteed resource amount that will be given to the container. The scheduler uses resource request to determine which node to schedule for a pod.
+-   The resource request defines the guaranteed resource amount that will be given to a container. Kubernetes uses the resource request to determine which node to schedule the pod.
+-   The resource limit defines the maximum amount of resource a container can use.
+-   Having resource limit but no resource request makes Kubernetes copy the limit over as the request.
+-   Missing resource request leads to potential scheduling of the pod on a node that is on the brink of resource pressure. When the pod starts consuming resources, the node suffers from resource pressure.
+-   Missing resource limit lets a container consume all resource available on the node, leading to resource pressure.
+-   Having CPU limit possibly results in CPU throttling. However, CPU throttling does not crush a container so it's safer to not set the limit.
+-   Having memory limit potentially causes Out-Of-Memory (OOM) kill. Because memory shortage does crush a container, we should set the limit to prevent one container from taking away all memory available on the node.
+-   Here is the recommended setting.
+    -   For CPU, set the request but don't set the limit.
+    -   For memory, set the request to 2x of the container max usage and the limit to 2x of the request.
 
-The resource limit defines the maximum amount of resource a container can use. A container hitting the limits can cause CPU throttling or Out-Of-Memory (OOM) kill.
+##### Quality of Service (QoS)
 
-Setting both request and limit to 2x of the average resource usage is a good starting point. If the average usage is unknown, cloud providers like GCP recommends 1 CPU and 4Gi memory.
+When a node resource pressure occurs, the kubelet begins the node-pressure eviction to resolve resource pressure and protect the node's stability.
 
-If a resource's request is missing but its limit is set, the Kubernetes API server will copy the limit to the request.
-
-Missing both request and limit configuration may cause that too many pods are scheduled on the same node, throttling the CPUs and using up memory. If cluster autoscaler is enabled, this may result in unnecessary scale-out and lead to a waste of resource/money.
+-   Best effort
+    -   A pod lacking a resource limit is labeled with this QoS class.
+    -   It is the first to be evicted during node-pressure eviction.
+-   Burstable
+    -   A pod that has both request and limit set, with the limit greater than the request, and is exceeding the requested amount is labeled with this QoS class.
+    -   It is the next to be evicted during node-pressure eviction.
+-   Guaranteed
+    -   A pod that has request equal to limit or a burstable pod staying within the requested amount is labeled with this QoS class.
+    -   It is the last to be evicted during node-pressure eviction.
 
 #### Container liveness and readiness
 
