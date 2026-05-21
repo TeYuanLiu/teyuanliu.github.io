@@ -1676,36 +1676,70 @@ go install
 
 ## Containerization
 
-### Dockerfile
+### Termination handling
 
-Here are some tips for building binaries for Go programs via Dockerfile.
+Docker usually sends SIGTERM before terminating a container, so we should handle it otherwise in-flight requests will be dropped.
 
--   Put `COPY go.mod go.sum` and `RUN go mod download` before `COPY . .` to prevent a change in a source file from invalidating the module download cache layer.
+#### Kubernetes termination grace period
+
+In the application pod manifest, set `spec.terminationGracePeriodSeconds` to a number slightly greater than the shutdown timeout duration we configure in the application shutdown handling logic.
 
 ### Health check
 
-We can add a health check endpoint to the HTTP server.
+We can add both the liveness and readiness health check endpoint to the HTTP server.
 
 ```go
-mux := http.NewServeMux()
-mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request){
+func main() {
+    mux := http.NewServeMux()
+
+    mux.HandleFunc("GET /healthz/live", liveHandler)
+    mux.HandleFunc("GET /healthz/ready", readyHandler)
+
+    httpServer := &http.Server{Addr: ":8080", Handler: mux}
+
+    database := &database.PostgreSQL{}
+
+    restServer := &server.RESTServer{HTTPServer: httpServer, Database: database}
+}
+
+func (s *RESTServer) liveHandler(w http.ResponseWriter, r *http.Request){
     w.WriteHeader(http.StatusOK)
-    w.write([]byte("OK"))
-})
+}
+
+func (s *RESTServer) readyHandler(w http.ResponseWriter, r *http.Request){
+    ctx, cancel := context.WithTimeout(r.Context(), 5 * time.Second)
+    defer cancel()
+
+    err := s.Database.PingContext(ctx)
+    if err != nil {
+        http.Error(w, "database is not ready", http.StatusServiceUnavailable)
+        return
+    }
+
+    w.WriteHeader(http.StatusOK)
+}
 ```
 
-And then build a health check binary for [Docker to run](@/blog/container.md#health-check).
+#### Docker health check
+
+Docker only supports single health check so here we choose the liveness one. We build a health check binary to [check the liveness and use this binary in the Dockerfile](@/blog/container.md#health-check).
 
 ```go
 func main() {
     client := &http.Client{Timeout: 5 * time.Second}
-    response, err := client.Get("http://localhost:8080/health")
+    response, err := client.Get("http://localhost:8080/health/live")
     if err != nil || response.StatusCode != 200 {
         os.Exit(1)
     }
     os.Exit(0)
 }
 ```
+
+#### Kubernetes health check
+
+We build the liveness health check binary and the readiness health check binary because Kubernetes supports both of them.
+
+See more in the [Kubernetes post](@/blog/kubernetes.md#container-liveness-and-readiness).
 
 ### Build tag
 
@@ -1724,6 +1758,140 @@ We can include the tag in the build command.
 ```bash
 go build -tags="local" -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
 ```
+
+### Dockerfile
+
+Here is an example Dockerfile.
+
+```bash
+FROM golang:1.26-alpine AS builder
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLE=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o server ./cmd/server
+
+FROM scratch
+COPY --from=builder /app/server /server
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+EXPOSE 8080
+HEALTHCHECK --interval=30s --timeout=30s --start-period=10s retries=3 \
+    CMD ["./healthcheck"]
+ENTRYPOINT ["/server"]
+```
+
+-   We put `COPY go.mod go.sum` and `RUN go mod download` before `COPY . .` to prevent a change in a source file from invalidating the module download cache layer.
+-   We add `-ldflags="-s -w"` to the build command to further reduce the binary size and increase security.
+    -   The `-s` removes the symbol table, which maps memory addresses back to function and variable names. Stripping it makes reverse-engineering the application via tools like `nm` much harder, but also increases the difficulty of troubleshooting as the function names and line numbers in the stack trace logs become unreadable for humans.
+    -   The `-w` deletes DWARF debugging information, which enables debuggers like Delve or GDB to set breakpoints, inspect variables, or view stack traces while the program is running.
+
+### Kubernetes deployment
+
+Here is a deployment manifest example.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: myapp
+    labels:
+        app: myapp
+spec:
+    selector:
+        matchLabels:
+            app: myapp
+    replicas: 3
+    strategy:
+        type: RollingUpdate
+        rollingUpdate:
+            maxUnavailable: 0
+            maxSurge: 1
+    template:
+        metadata:
+            labels:
+                app: myapp
+        spec:
+            terminationGracePeriodSeconds: 30
+            containers:
+                -   name: myapp
+                    image: myrepo/myapp@hash
+                    env:
+                        -   name: LOG_LEVEL
+                            valueFrom:
+                                configMapKeyRef:
+                                    name: myapp
+                                    key: LOG_LEVEL
+                        -   name: DB_DSN
+                            valueFrom:
+                                secretKeyRef:
+                                    name: myapp
+                                    key: db-dsn
+                    ports:
+                        -   containerPort: 8080
+                    resources:
+                        requests:
+                            cpu: "100m"
+                            memory: "64Mi"
+                        limits:
+                            cpu: "100m"
+                            memory: "64Mi"
+                        livenessProbe:
+                            httpGet:
+                                path: /healthz/live
+                                port: 8080
+                            initialDelaySeconds: 10
+                            periodSeconds: 30
+                        readinessProbe:
+                            httpGet:
+                                path: /healthz/ready
+                                port: 8080
+                            initialDelaySeconds: 20
+                            periodSeconds: 30
+```
+
+-   We use `maxUnavailable: 0` to tell Kubernetes to bring up a new pod before taking down an old one during a rollout.
+-   We pin the image using its hash because image tag is modifiable.
+
+### Kubernetes configmap and secret
+
+We use Kubernetes ConfigMap and Secret to store the application settings.
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: myapp
+data:
+    LOG_LEVEL: "info"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+    name: myapp
+type: Opaque
+stringData:
+    db-dsn: "postgres://user:password@host:5432/myapp"
+```
+
+Inside our code, we use a config struct and `os.Getenv()` to read from environment variables.
+
+```go
+type Config struct {
+    LogLevel string
+    DBDSN string
+}
+
+func LoadConfig() Config {
+    return Config{
+        LogLevel: os.getEnv("LOG_LEVEL", "info"),
+        DBDSN: os.getEnv("DB_DSN"),
+    }
+}
+```
+
+### Kubernetes resource request and limit
+
+See more in the [Kubernetes post](@/blog/kubernetes.md#container-resource-request-and-limit).
 
 ## Memory management
 

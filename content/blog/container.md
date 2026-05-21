@@ -78,7 +78,7 @@ Layers that already exist in the registry (verified via digest) are not uploaded
 
 #### Health check
 
-The `HEALTHCHECK` instruction in Dockerfile tells Docker how to test a container to verify that it is still working.
+The `HEALTHCHECK` instruction in Dockerfile tells Docker how to test a container to verify that it is still working. Note that we can only have one active health check at a time.
 
 -   For distro image we can use `curl`.
     ```bash

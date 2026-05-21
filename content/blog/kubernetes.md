@@ -1,7 +1,7 @@
 +++
 title = "Kubernetes"
 date = 2025-05-01
-updated = 2026-05-16
+updated = 2026-05-20
 +++
 
 Kubernetes is a [container](@/blog/container.md) orchestration engine for containerized application management and provides features like high availability, complex auto-scaling, automatic rollout and rollback, custom scheduling, and service mesh.
@@ -103,7 +103,10 @@ Missing both request and limit configuration may cause that too many pods are sc
 
 #### Container liveness and readiness
 
-Kubernetes relies on a liveness probe to know if a container is alive or needs a restart, and readiness probe to know if a container is ready to serve requests or stop sending requests to the container’s pod.
+Kubernetes relies on the liveness and readiness probe to know what to do with the container.
+
+-   If the liveness probe fails, Kubernetes restarts the container. Therefore, we should keep the liveness logic simple and check nothing external to prevent a slow database call from restarting the entire container.
+-   If the readiness probe fails, Kubernetes removes the pod from the service endpoints.
 
 #### Sidecar container
 
