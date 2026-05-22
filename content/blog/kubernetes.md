@@ -94,8 +94,8 @@ The pod's `command` field replaces the container's `ENTRYPOINT` and `args` field
 -   The resource request defines the guaranteed resource amount that will be given to a container. Kubernetes uses the resource request to determine which node to schedule the pod.
 -   The resource limit defines the maximum amount of resource a container can use.
 -   Having resource limit but no resource request makes Kubernetes copy the limit over as the request.
--   Missing resource request leads to potential scheduling of the pod on a node that is on the brink of resource pressure. When the pod starts consuming resources, the node suffers from resource pressure.
--   Missing resource limit lets a container consume all resource available on the node, leading to resource pressure.
+-   Missing resource request leads to potential scheduling of the pod on a node that is on the brink of node resource pressure. When the pod starts consuming resources, the node suffers from node resource pressure.
+-   Missing resource limit lets a container consume all resource available on the node, leading to node resource pressure.
 -   Having CPU limit possibly results in CPU throttling. However, CPU throttling does not crush a container so it's safer to not set the limit.
 -   Having memory limit potentially causes Out-Of-Memory (OOM) kill. Because memory shortage does crush a container, we should set the limit to prevent one container from taking away all memory available on the node.
 -   Here is the recommended setting.
@@ -104,7 +104,7 @@ The pod's `command` field replaces the container's `ENTRYPOINT` and `args` field
 
 ##### Quality of Service (QoS)
 
-When a node resource pressure occurs, the kubelet begins the node-pressure eviction to resolve resource pressure and protect the node's stability.
+When a node resource pressure occurs, the kubelet begins the node-pressure eviction to resolve node resource pressure and protect the node's stability.
 
 -   Best effort
     -   A pod lacking a resource limit is labeled with this QoS class.

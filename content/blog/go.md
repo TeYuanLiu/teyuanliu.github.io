@@ -162,20 +162,10 @@ The Go community has the naming convention of PascalCase for exported variables,
     -   complex128
 -   Byte
     -   byte (alias of uint8)
-        -   Use `'<BYTE>'` for literal.
-        -   Byte is an alias of uint8 and not int8 because people had already developed the habit of considering 0xFF as 255 not -1. This has increased the difficulty of detecting arithmetic overflow though.
 -   Rune
     -   rune (alias of int32, representing a Unicode code point)
-        -   Use `'<RUNE>'` for literal.
-        -   Rune is an alias of int32 and not uint32 such that arithmetic overflow can be easily detected.
-        -   UTF-8
-            -   A code point between 0 and 2047 is stored with 2 bytes. The first byte has a 3-bit header `110xxxxx` indicating the character start. The second byte has a 2-bit header `10xxxxxx` marking itself as a continuation byte. The `x` count is 11, and a 11-bit signed integer gives us the range of -2048 to 2047. For example, a code point with value 256 has the first byte as `11000100` and the second byte as `10000000`.
-            -   A code point between 2048 and 65535 is stored with 3 bytes. The first byte has a 4-bit header `1110xxxx` indicating the character start. The second and third byte each has a 2-bit header `10xxxxxx` marking as a continuation byte. The `x` count is 16, and a 16-bit signed integer gives us the range of -65536 to 65535. For example, a code point with value 2048 has the first byte as `11100000`, the second byte as `10100000`, and the third byte as `10000000`.
 -   String
     -   string
-        -   Use `"<STRING>"` for literal.
-        -   When working with a string, if we want the rune index as well as the rune value, it is recommended to first turn the string into a rune slice and then process it. If you only need the rune value, a `for _, r := range s {fmt.Printf("%c", r)}` is sufficient.
-        -   A string variable is stored as a pointer pointing to its data and length, so we should almost always pass it by value.
 
 ### Variable type conversion
 
@@ -191,30 +181,36 @@ i := 2
 f := float64(i)
 ```
 
+### Byte
+
+-   Use `'<BYTE>'` for literal.
+-   Byte is an alias of uint8 and not int8 because people had already developed the habit of considering 0xFF as 255 not -1. This has increased the difficulty of detecting arithmetic overflow though.
+
+### Rune
+
+-   Use `'<RUNE>'` for literal.
+-   Rune is an alias of int32 and not uint32 such that arithmetic overflow can be easily detected.
+-   UTF-8
+    -   A code point between 0 and 2047 is stored with 2 bytes. The first byte has a 3-bit header `110xxxxx` indicating the character start. The second byte has a 2-bit header `10xxxxxx` marking itself as a continuation byte. The `x` count is 11, and a 11-bit signed integer gives us the range of -2048 to 2047. For example, a code point with value 256 has the first byte as `11000100` and the second byte as `10000000`.
+    -   A code point between 2048 and 65535 is stored with 3 bytes. The first byte has a 4-bit header `1110xxxx` indicating the character start. The second and third byte each has a 2-bit header `10xxxxxx` marking as a continuation byte. The `x` count is 16, and a 16-bit signed integer gives us the range of -65536 to 65535. For example, a code point with value 2048 has the first byte as `11100000`, the second byte as `10100000`, and the third byte as `10000000`.
+
 ### String
+
+-   Use `"<STRING>"` for literal.
+-   When working with a string, if we want the rune index as well as the rune value, it is recommended to first turn the string into a rune slice and then process it. If you only need the rune value, a `for _, r := range s {fmt.Printf("%c", r)}` is sufficient.
+-   A string variable is stored as a pointer pointing to its data and length, so we should almost always pass it by value.
+-   A string is immutable whereas a byte slice is mutable. Converting one to the other causes a copy so it's better to stick with one representation and be consistent.
 
 #### String concatenation
 
--   Direct concatenation (best heap allocation)
+-   fmt.Sprintf (worst heap allocation)
     ```go
     func concatenateStrings(a, b string) string {
-        return a + b
+        return fmt.Sprintf("%s%s", a, b)
     }
     ```
-    -   Go creates a string slice from the string arguments on the stack (which is way cheaper than heap allocation) and calls [runtime.concatstrings](https://github.com/golang/go/blob/master/src/runtime/string.go#L29) to calculate the total length, creating a byte buffer for the final string, and write from the slice to it.
-    -   New heap allocation per function call is the byte buffer.
--   [String builder](https://github.com/golang/go/blob/master/src/strings/builder.go#L17) with predefined length (good heap allocation)
-    ```go
-    func concatenateStrings(a, b string) string {
-        var sb strings.Builder
-        sb.Grow(len(a) + len(b))
-        sb.WriteString(a)
-        sb.WriteString(b)
-        return sb.String()
-    }
-    ```
-    -   Go creates a string builder, growing its internal byte slice to the predefined length, writing from the string parameters to it, and uses `unsafe` to return its internal byte slice.
-    -   New heap allocation per function call is the string builder struct which includes its internal byte slice.
+    -   Go creates an `any` slice from the string parameters, getting a printer from the printer sync pool, using its method to parse the format verbs, writing the formatted data into the printer's internal buffer, and copy from the buffer to a final string.
+    -   New heap allocations per function call are the final string and the `any` slice for the string parameters. The printer sync pool cost on heap is amortized among function calls.
 -   Byte buffer sync pool (worse heap allocation)
     ```go
     var bufferPool = sync.Pool{
@@ -232,14 +228,26 @@ f := float64(i)
     ```
     -   Go creates a byte buffer sync pool, getting a buffer from the pool, writing the string parameters to the buffer, and copy from the buffer to a final string.
     -   New heap allocation per function call is the final string. The byte buffer sync pool cost on heap is amortized among function calls.
--   fmt.Sprintf (worst heap allocation)
+-   [String builder](https://github.com/golang/go/blob/master/src/strings/builder.go#L17) with predefined length (good heap allocation)
     ```go
     func concatenateStrings(a, b string) string {
-        return fmt.Sprintf("%s%s", a, b)
+        var sb strings.Builder
+        sb.Grow(len(a) + len(b))
+        sb.WriteString(a)
+        sb.WriteString(b)
+        return sb.String()
     }
     ```
-    -   Go creates an `any` slice from the string parameters, getting a printer from the printer sync pool, using its method to parse the format verbs, writing the formatted data into the printer's internal buffer, and copy from the buffer to a final string.
-    -   New heap allocations per function call are the final string and the `any` slice for the string parameters. The printer sync pool cost on heap is amortized among function calls.
+    -   Go creates a string builder, growing its internal byte slice to the predefined length, writing from the string parameters to it, and uses `unsafe` to return its internal byte slice.
+    -   New heap allocation per function call is the string builder struct which includes its internal byte slice.
+-   Direct concatenation (best heap allocation)
+    ```go
+    func concatenateStrings(a, b string) string {
+        return a + b
+    }
+    ```
+    -   Go creates a string slice from the string arguments on the stack (which is way cheaper than heap allocation) and calls [runtime.concatstrings](https://github.com/golang/go/blob/master/src/runtime/string.go#L29) to calculate the total length, creating a byte buffer for the final string, and write from the slice to it.
+    -   New heap allocation per function call is the byte buffer.
 
 ### Array
 
@@ -386,6 +394,24 @@ s1 = append(s1, s2...)  // s1 = {1, 2, 3, 4}
     ```
     -   In each iteration of the for loop, Go creates a string slice from the last `final` and `strs[i]` on stack, and calls `runtime.concatstrings` to calculate the total length, creating a byte buffer for the current `final`, and write from the slice to it.
     -   New heap allocations per function call are the byte buffers created for all iterations.
+-   Byte buffer sync pool (good heap allocation)
+    ```go
+    var bufferPool = sync.Pool{
+        New: func() any {return &bytes.Buffer{}},
+    }
+
+    func concatenateStrings(strs []string) string {
+        buffer := bufferPool.Get().(*bytes.Buffer)
+        buffer.Reset()
+        defer bufferPool.Put(buffer)
+        for _, s := range strs {
+            buffer.WriteString(s)
+        }
+        return buffer.String()
+    }
+    ```
+    -   Go creates a byte buffer sync pool, getting a buffer from the pool, writing the strings to the buffer in a for loop, and copy from the buffer to a final string.
+    -   New heap allocation per function call is the final string. The byte buffer sync pool cost on heap is amortized among function calls.
 -   [Strings join](https://github.com/golang/go/blob/master/src/strings/strings.go#L470) which is using string builder with predefined length under the hood (best heap allocation)
     ```go
     func concatenateStrings(strs []string) string {
@@ -408,26 +434,8 @@ s1 = append(s1, s2...)  // s1 = {1, 2, 3, 4}
         return sb.String()
     }
     ```
-    -   Go creates a string builder, growing its internal byte slice to the predefined length, writing from the string slice to it with for loop, and uses `unsafe` to return its internal byte slice.
+    -   Go creates a string builder, growing its internal byte slice to the predefined length, writing from the string slice to it with a for loop, and uses `unsafe` to return its internal byte slice.
     -   New heap allocation per function call is the string builder struct which includes its internal byte slice.
--   Byte buffer sync pool (good heap allocation)
-    ```go
-    var bufferPool = sync.Pool{
-        New: func() any {return &bytes.Buffer{}},
-    }
-
-    func concatenateStrings(strs []string) string {
-        buffer := bufferPool.Get().(*bytes.Buffer)
-        buffer.Reset()
-        defer bufferPool.Put(buffer)
-        for _, s := range strs {
-            buffer.WriteString(s)
-        }
-        return buffer.String()
-    }
-    ```
-    -   Go creates a byte buffer sync pool, getting a buffer from the pool, writing the strings to the buffer in a for loop, and copy from the buffer to a final string.
-    -   New heap allocation per function call is the final string. The byte buffer sync pool cost on heap is amortized among function calls.
 
 ### Heap
 
@@ -681,6 +689,8 @@ Switch without condition is the same as `switch true` and is a clean way to writ
 A `defer` statement evaluates its function arguments immediately but postpones the function execution until the `defer` statement's surrounding function returns.
 
 Deferred function calls are pushed onto a stack and follows the Last-In-First-Out (LIFO) execution order.
+
+We should avoid calling deferred function inside a for loop because all deferred function calls will stack on each other and accumulate resource usage. Instead, we should move the loop body which includes the deferred function call into its own function and call this function inside the for loop.
 
 ## Function
 
@@ -955,7 +965,15 @@ An Interface defines a set of method signatures for other types to implement, ac
 
 Under the hood, an interface value is a header that contains a type pointer and a data pointer. The type pointer points to a concrete type, and the data pointer points to a value of that concrete type.
 
-Calling a method on an interface value effectively executes the same-named method of its concrete type value. If the interface value's data pointer is nil, calling the method will result in a nil pointer dereference runtime error. Therefore, it's a good practice to write code to gracefully handle nil receiver method call.
+Calling a method on an interface value effectively executes the same-named method of its concrete type value through the below steps.
+
+-   Look up the type pointer.
+-   Look up its method table (itable).
+-   Call the function which cannot be inlined by the compiler due to the indirection.
+
+If the interface value's data pointer is nil, calling the method will result in a nil pointer dereference runtime error. Therefore, it's a good practice to write code to gracefully handle nil receiver method call.
+
+When the method is called many times, the indirection may cause considerable latency overhead. Thus, it may be better to use the concrete type instead of the interface in such case.
 
 ```go
 type I interface {
@@ -1221,19 +1239,25 @@ z, ok := <-ch   // A receiver checks if the ch channel is closed via the ok vari
 
 #### Channel buffer
 
-A buffer is a channel's internal queue. By default the buffer length is 0, so a send blocks a goroutine until the element it's sending is received by another goroutine. Same for the read, a read blocks a goroutine until another goroutine sends an element to the channel for it to receive.
+A buffer is a channel's internal queue. By default the buffer capacity is 0, so a send blocks a goroutine until the element it's sending is received by another goroutine. Same for the read, a read blocks a goroutine until another goroutine sends an element to the channel for it to receive.
 
-We can use the second argument of `make` to set the buffer length, and use `cap(ch)` for total buffer size (capacity), `len(ch)` for current buffered element count.
+We can use the second argument of `make` to set the buffer capacity. We can get the buffer capacity via `cap(ch)`, and `len(ch)` for the number of current elements in the buffer.
 
-A send doesn't block a goroutine if the number of elements in the channel is less than the buffer length. Otherwise, the send blocks the goroutine. A read works in a similar way.
+A send doesn't block a goroutine if the number of current elements in the buffer is less than the buffer capacity. Otherwise, the send blocks the goroutine. A read works in a similar way.
 
-Generally, we don't want the sender to be blocked by a send so we will set the buffer capacity to the total number of elements or at least an estimate.
+Generally, we don't want the sender to be blocked by a send so we will set the buffer capacity to an exact number or at least an estimate.
 
 ### Goroutine worker pool
 
 Although goroutine is cheap, it is not free. Creating one goroutine per job can grow the number of concurrent goroutines indefinitely. Therefore, we often adopt the worker pool pattern to limit the number of goroutines.
 
+If the job is CPU-bound, we can set the number of workers to the number of logical CPUs using the default `GOMAXPROCS`. However, in a containerization environment like Docker or Kubernetes, the Go runtime often sees the host CPU count instead of the container's CPU limit, leading to excessive context switching. Therefore, we should set the worker count to the accurate CPU count using `import _ "go.uber.org/automaxprocs".
+
+If the job is IO-bound, we can use the wait-to-compute ratio `worker count = CPU count x (1 + wait time / compute time)` as a guidance, and scale the worker count from 2x the CPU count to 10x or even more. When the number gets larger, it starts to get limited by other settings like database connection pool size, file descriptor limit, and upstream service rate limit.
+
 ```go
+// For containerization uncomment the below line.
+// import _ "go.uber.org/automaxprocs
 type Result struct {
     JobID int
     WorkerID int
@@ -1245,7 +1269,7 @@ func main() {
     in := make(chan int, 100)
     out := make(chan Result, cap(in))
 
-    numWorkers := runtime.NumCPU() // Use CPU count for CPU-bound job and file descriptor count for IO-bound job.
+    numWorkers := runtime.NumCPU() // For containerization use runtime.GOMAXPROCS(0) instead.
     var wg sync.WaitGroup
     for workerID := range numWorkers {
         wg.Go(func() {
@@ -1370,14 +1394,6 @@ func multiplyBy10(i int, ctx context.Context, results chan int) {
     }
 }
 ```
-
-### Goroutine profiler
-
-Go's built-in profiler `pprof` can start a http server and let we inspect how many goroutines are running and which line of code started them. We can set it up with the below steps.
-
-1.  Add `import _ "net/http/pprof"`.
-2.  Register the handler function to an existing HTTP ServeMux with `http.HandleFunc("/debug/pprof/", pprof.Index)`. Otherwise, run it in a side server with `go func() {http.ListenAndServe("localhost:6060", nil)}()`.
-3.  Visit `http://localhost:6060/debug/pprof/goroutine?debug=1`.
 
 ### Mutex
 
@@ -1674,6 +1690,89 @@ export PATH=$PATH:<GO_INSTALL_PATH>
 go install
 ```
 
+## Memory management
+
+### Common memory bugs
+
+-   Invalid memory address or nil pointer dereference
+    -   An invalid memory address or nil pointer dereference error occurs when a program tries to access a memory region it is not allowed to.
+
+## Profile
+
+Go's built-in profiler `pprof` can start a http server and let we inspect things like heap allocations and how many goroutines are running and which line of code started them. We can set it up with the below steps.
+
+1.  Add `import _ "net/http/pprof"`.
+2.  Register the handler function to an existing HTTP ServeMux with `http.HandleFunc("/debug/pprof/", pprof.Index)`. Otherwise, run it in a side server with `go func() {http.ListenAndServe("localhost:6060", nil)}()`.
+3.  Visit `http://localhost:6060/debug/pprof/goroutine?debug=1`.
+
+## Benchmark
+
+We can use the built-in benchmark tool to measure performance. First we create the benchmark function.
+
+```go
+func BenchmarkBuildURL(b *testing.B) {
+    for range b.N {
+        buildURL("domain", "/api/users", 8080)
+    }
+}
+```
+
+Then we run the benchmark.
+
+```bash
+go test -bench=. -benchmem -count=5 ./...
+```
+
+-   `-benchmem` shows allocations per operation.
+-   `-count=5` runs each benchmark 5 times to reduce variance.
+
+We can run for heap profile.
+
+```bash
+go test -bench=. -memprofile=mem.out
+go tool pprof mem.out
+```
+
+Or run for CPU profile.
+
+```bash
+go test -bench=. -cpuprofile=cpu.out
+go tool pprof cpu.out
+```
+
+## Production best practice
+
+### Error handling
+
+-   [Server shutdown cancel context and request timeout context](#context)
+-   Goroutine panic recover
+-   Jittered exponential backoff retry
+
+### Asynchronous processing
+
+-   [Goroutine pipeline](#goroutine-pipeline)
+-   [Buffered channel](#channel-buffer)
+
+### Memory
+
+-   [Goroutine worker pool](#goroutine-worker-pool)
+-   [Direct string concatenation](#string-concatenation)
+-   [String slice concatenation with strings join](#string-slice-concatenation)
+-   [Ephemeral object pool](#byte-slice-generation)
+-   [Large struct pointer receiver method](#pointer-receiver-method)
+-   [Slice capacity preallocation](#slice-appending)
+-   [Generic type function parameter](#generic-function) rather than [any type function parameter](#empty-interface-type)
+-   Cache size limit
+    -   Without size limit (worse heap allocation)
+        -   The cache size can grow indefinitely.
+    -   With size limit (good heap allocation)
+        -   The cache size has a limit.
+-   GC frequency tuning
+    -   With the default 100 GCPercent
+        -   GC is triggered when heap grows 100%.
+    -   With the 50 GCPercent
+        -   GC is triggered when heap grows 50%.
+
 ## Containerization
 
 ### Build tag
@@ -1890,46 +1989,6 @@ func LoadConfig() Config {
 ### Kubernetes resource request and limit
 
 See more in the [Kubernetes post](@/blog/kubernetes.md#container-resource-request-and-limit).
-
-## Memory management
-
-### Common memory bugs
-
--   Invalid memory address or nil pointer dereference
-    -   An invalid memory address or nil pointer dereference error occurs when a program tries to access a memory region it is not allowed to.
-
-## Production best practice
-
-### Error handling
-
--   [Server shutdown cancel context and request timeout context](#context)
--   Goroutine panic recover
--   Jittered exponential backoff retry
-
-### Asynchronous processing
-
--   [Goroutine pipeline](#goroutine-pipeline)
--   [Buffered channel](#channel-buffer)
-
-### Memory
-
--   [Goroutine worker pool](#goroutine-worker-pool)
--   [Direct string concatenation](#string-concatenation)
--   [String slice concatenation with strings join](#string-slice-concatenation)
--   [Ephemeral object pool](#byte-slice-generation)
--   [Large struct pointer receiver method](#pointer-receiver-method)
--   [Slice capacity preallocation](#slice-appending)
--   [Generic type function parameter](#generic-function)
--   Cache size limit
-    -   Without size limit (worse heap allocation)
-        -   The cache size can grow indefinitely.
-    -   With size limit (good heap allocation)
-        -   The cache size has a limit.
--   GC frequency tuning
-    -   With the default 100 GCPercent
-        -   GC is triggered when heap grows 100%.
-    -   With the 50 GCPercent
-        -   GC is triggered when heap grows 50%.
 
 ## Adoption challenge
 
