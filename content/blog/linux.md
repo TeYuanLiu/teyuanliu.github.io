@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date = 2025-04-17
-updated = 2026-04-22
+updated = 2026-05-30
 +++
 
 Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.
@@ -108,7 +108,7 @@ Each process is given the following resources.
 -   A process view. It by default inherits the parent process's process view. If the parent process is the shell, it can see all the processes on the system.
 -   A cgroup for CPU, memory, I/O access and limit. It by default inherits the parent process's cgroup. If the parent process is the shell, it can use as much CPU and memory as the system has available. Tools like Systemd or Docker creates a new cgroup, defining the CPU/memory limits, and assigns a process to it.
 -   A filesystem view. It by default inherits the parent process's filesystem. If the parent process is the shell, it can see all the files on the system. Docker uses containerd, which uses runc, to run `chroot` to change the root directory of each container process for an isolated filesystem view.
--   A network namespace for an IP address (65536 ports), network devices (loopback, eth0, wlan0), routing table, and iptables like filter table (firewall), Network Address Translation (NAT) table, and mangle table (for packet modification). It by default inherits the parent process's network namespace. If the parent process is the shell, it can use the system network namespace. Docker creates a new network namespace for each new container and assigns the container process to it.
+-   A network namespace for an IP address (65536 ports), network devices (loopback, eth0, wlan0), routing table, and iptables like filter table (firewall), NAT table, and mangle table (for packet modification). It by default inherits the parent process's network namespace. If the parent process is the shell, it can use the system network namespace. Docker creates a new network namespace for each new container and assigns the container process to it.
 
 Processes have a parent-child hierarchy as a parent process can start a child process.
 
@@ -408,13 +408,13 @@ A routing table stores a list of route entries. Each route entry has the followi
 -   Next hop IP address
 -   Network device
 
-### Network address translation table
+### NAT table
 
-A NAT table stores the request ID to device private IP mapping, and is often used by routers.
+A NAT table stores the packet to IP mapping and is often used by routers.
 
-NAT is a proxy that manages the outbound traffic of the private network. For an outbound request from a device on the private network, it uses the NAT table to record the request ID to device private IP mapping, and then replaces the request's source private IP with its own public IP.
+For an outbound request from a device on the private network to an external public IP, it uses the NAT table to record the request ID to device private IP mapping, and then replaces the request's source private IP with its own public IP. When it receives a response, it use the NAT table to redirect the response to the device.
 
-When it receives a response, it use the NAT table to redirect the response to the device.
+For inbound traffic, it uses the NAT table to map the inbound request's destination port to the correct device's internal IP and port on the private network.
 
 ### Network device
 

@@ -1,7 +1,7 @@
 +++
 title = "Kubernetes"
 date = 2025-05-01
-updated = 2026-05-21
+updated = 2026-05-30
 +++
 
 Kubernetes is a [container](@/blog/container.md) orchestration engine for containerized application management and provides features like high availability, complex auto-scaling, automatic rollout and rollback, custom scheduling, and service mesh.
@@ -135,7 +135,7 @@ A sidecar container is usually managed via a mutating webhook to run alongside t
     -   OpenTelemetry collector for collecting and forwarding telemetry data
     -   Datadog agent for collecting logs, metrics, and traces
 -   Security
-    -   Falco sidecar for monitoring runtime security
+    -   Falcon sidecar for monitoring runtime security
     -   Cert-manager sidecar for periodic TLS certificate renewing
 -   Storage
     -   Redis sidecar for local data caching and periodic write-back to the database
@@ -149,24 +149,29 @@ A sidecar container is usually managed via a mutating webhook to run alongside t
 ## Networking
 
 A Kubernetes cluster has the following:
--   A pod Classless Inter-Domain Routing (CIDR) allocated by the CNI. The CNI allocates each node's pod CIDR and assigns each pod's IP. It also creates a `cni0` network device on each node to communicate with the `veth0` network device inside a container. The pod CIDR to network device mapping on each node is stored inside the node's routing table.
+-   A pod Classless Inter-Domain Routing (CIDR) allocated by the CNI. The CNI allocates each node's pod CIDR and assigns each pod's IP. It also creates a `cni` network device on each node to communicate with the `veth` network device inside a container. The pod CIDR to network device mapping on each node is stored inside the node's routing table.
 -   A service CIDR allocated by a service mesh like kube-proxy or Istio. The service CIDR contains virtual IPs without the corresponding network devices.
 
 Whenever a node joins the cluster, the CNI configures the node's:
 -   Pod CIDR
 -   Routing table
--   Network device like virtual ethernet `veth`
+-   Iptables
+    -   Filter table
+        -   Serve as the firewall to drop packets.
+        -   A CNI like Calico uses the filter table to implement NetworkPolicy and allow traffic from a pod to another.
+    -   Name Address Translation (NAT) table
+        -   Modify the source or destination IP addresses of packets according to pod CIDR and service CIDR mapping rules.
+    -   Mangle table
+        -   Modify a packet's TTL or TOS field.
+-   Network device like `cni` for host-to-container communication and `veth` for host-to-host communication
 -   Virtual eXtensible Local-Area Network (VXLAN) tunnels
 
 Whenever a pod is created, the CNI sets up the pod's:
 -   Network namespace
     -   Network device
+        -   `veth` for container-host communication
     -   Routing table
-    -   Iptables
-        -   Filter table (firewall)
-            -   A CNI like Calico uses the filter table to implement NetworkPolicy and allow traffic from a pod to another.
-        -   Name Address Translation (NAT) table
-        -   Mangle table (packet modification)
+    -   Iptables (usually empty)
 
 ### Service
 
@@ -194,15 +199,15 @@ Here is what happens when a pod makes a request to a service:
     Src IP = Pod IP (e.g., 10.244.1.5)
     Dst IP = CoreDNS service ClusterIP (e.g., 10.96.123.45)
     ```
-1.  The pod sends the packet to the host's network namespace via `veth`.
-1.  The host's kernel intercepts the packet using iptables rules configured by kube-proxy and rewrites the destination IP from the CoreDNS service ClusterIP to a CoreDNS pod IP (selected via random or round-robin).
+1.  The pod sends the packet via its `veth` network device to the host's `cni` network device.
+1.  The host's kernel intercepts the packet using NAT table rules configured by kube-proxy and rewrites the destination IP from the CoreDNS service ClusterIP to a CoreDNS pod IP (selected via random or round-robin).
     ```
     10.96.123.45:443 -> 10.244.2.7:443
     ```
 1.  The host's kernel sends out the packet to the CoreDNS pod's host.
-1.  The CoreDNS pod's host receives the packet and forwards it to the CoreDNS pod's network namespace via `veth`.
+1.  The CoreDNS pod's host receives the packet and forwards it to the CoreDNS pod.
 1.  The CoreDNS pod processes the packet and sends back a response containing the service ClusterIP.
-1.  The pod receives the service ClusterIP and then goes through the same process as before to send a request to the service.
+1.  The pod receives the service ClusterIP and then sends a request to the service.
 
 ##### Istio service mesh networking
 
