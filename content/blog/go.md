@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-05-21
+updated = 2026-05-29
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -963,17 +963,29 @@ It allows creating a set from a map with empty struct value type, or a channel p
 
 An Interface defines a set of method signatures for other types to implement, achieving polymorphism (flexibility). An interface value can hold any concrete type value as long as that concrete type implements those methods.
 
-Under the hood, an interface value is a header that contains a type pointer and a data pointer. The type pointer points to a concrete type, and the data pointer points to a value of that concrete type.
+Under the hood, an interface value is a data structure that contains 2 things.
 
-Calling a method on an interface value effectively executes the same-named method of its concrete type value through the below steps.
+-   A type pointer for the type metadata like the concrete type and the concrete type method table
+-   A data pointer for the concrete type value
 
--   Look up the type pointer.
--   Look up its method table (itable).
--   Call the function which cannot be inlined by the compiler due to the indirection.
+When calling an interface value method, Go effectively executes the same-named method of the concrete type value through the below steps.
+
+1.  Look up the concrete type.
+1.  Look up the concrete type method table.
+1.  Call the concrete type method.
+
+This strips away the below optimizations the Go compiler provides.
+
+-   Devirtualization
+    -   Turn the method table lookup (indirect call) into a hardcoded jump to the target method (direct call).
+-   Inlining
+    -   Replace the method call with the code of the target method.
+
+We can see how the Go compiler applies devirtualization and inlining by building the binary with the [`-gcflags="-m"` flag](#compilation).
+
+When a method is called many times, the indirection may cause considerable latency overhead. Thus, it may be better to use the concrete type instead of the interface in such case.
 
 If the interface value's data pointer is nil, calling the method will result in a nil pointer dereference runtime error. Therefore, it's a good practice to write code to gracefully handle nil receiver method call.
-
-When the method is called many times, the indirection may cause considerable latency overhead. Thus, it may be better to use the concrete type instead of the interface in such case.
 
 ```go
 type I interface {
@@ -1023,7 +1035,7 @@ When we use an any type parameter in a function, Go has to box it and place it o
 
 Heavier GC load causes higher response latency because GC needs longer execution freezes to clean up the heap memory.
 
-If possible, we should change to use [generic type parameters](#generic-function) because the types can be resolved at compile time, leading to zero heap allocation per function call.
+If possible, we should change to use typed parameters or [generic type parameters](#generic-function) because the types can be resolved at compile time, leading to zero heap allocation per function call. This is especially useful for high-concurrency logging, eventing, or caching.
 
 #### Interface concrete type assertion
 
@@ -1546,6 +1558,8 @@ func main() {
 }
 ```
 
+We use `context.WithValue()` to pass request-scoped data between middleware. However, multiple layers of middleware, each having a `context.WithValue()`, can lead to many heap allocations. It's probably better to store data in a request-to-data map inside the pointer receiver handler struct.
+
 ## Dependency management
 
 ### Recommended dependencies
@@ -1648,8 +1662,14 @@ go build
 # Generate a binary with the specified binary name.
 go build -o <BINARY_NAME>
 
-# Generate a binary with the specified binary name and main package path.
-go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
+# Generate a binary with the specified main package path.
+go build <MAIN_PACKAGE_PATH>
+
+# Generate a binary with garbage collection decisions printed like devirtualization, inlining, and heap escape.
+go build -gcflag="-m"
+
+# Generate a binary with garbage collection decisions and reasoning printed like devirtualization, inlining, and heap escape.
+go build -gcflag="-m=2"
 
 # Generate a binary such that it is independent from the host's C libraries and can run in a scratch container without the exec format error and no such file or directory error.
 CGO_ENABLE=0 go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
@@ -1657,6 +1677,14 @@ CGO_ENABLE=0 go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
 # Generate a binary for specified OS and hardware.
 GOOS=linux GOARCH=amd64 go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
 ```
+
+### Escape
+
+The compiler promotes a value from the stack to the heap if it cannot prove the value's lifetime is limited to the current function scope. Here are some cases where the compiler makes the value escape from the stack to the heap.
+
+-   The value is returned by the function.
+-   The value is stored in a variable that lives outside of the function.
+-   The value is passed to a function that accepts `...interface{}` and uses reflection, for example `fmt.Println().
 
 ## Execution
 
@@ -1741,6 +1769,10 @@ go tool pprof cpu.out
 ```
 
 ## Production best practice
+
+1.  Profile
+1.  Identify bottleneck from heap escape and goroutine analysis
+1.  Improve and benchmark
 
 ### Error handling
 
