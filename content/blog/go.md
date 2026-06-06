@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-05-29
+updated = 2026-06-05
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1562,55 +1562,6 @@ We use `context.WithValue()` to pass request-scoped data between middleware. How
 
 ## Dependency management
 
-### Recommended dependencies
-
-#### Logging
-
--   Use `log/slog` for structured logging.
--   Using `uber-go/zap` or `rs/zerolog` is often too excessive unless for truly large-scale applications.
-
-#### Configuration
-
--   Use `os.LookupEnv` or `caarlos0/env` for environment variables parsing and `gopkg.in/yaml.v3` for YAML files.
--   Using `spf13/viper` to manage YAML/JSON configuration files, environment variables, flags, is often an overkill unless for truly large-scale applications.
-
-#### Validation
-
--   Use custom validation functions to accommodate business validation logic directly.
--   Using `go-playground/validator` makes it hard to handle business logic and fields depending on each others.
-
-#### Dependency injection
-
--   Use custom constructor functions take in dependencies and create structs.
--   Use the main function to call constructor functions and wire dependencies.
--   Using `google/wire` creates generated-code debugging issue and extra build step.
-
-#### Command Line Interface (CLI)
-
--   Use `flag` for flag parsing and `switch` statement for subcommands.
--   Using `spf13/cobra` is often too much unless for truly large-scale applications.
-
-#### Database
-
--   Use `pgx` for PostgreSQL.
--   If we need boilerplate code reduction, use `sqlc-dev/sqlc` or `database/sql` with extensions like `jmoiron/sqlx`.
--   Using too many abstractions like `go-gorm/gorm` often leads to N+1 problem and abstraction debugging difficulty.
-
-#### Networking
-
--   `encoding/json` package for data serialization/deserialization
--   `net/http` for REST API server and client
--   Default server with default ServeMux is usually sufficient but we can create custom ones too with `http.NewServeMux` and `http.Server`.
--   Create our own custom `http.Client` because `http.DefaultClient` has no timeout and may be modified by imported dependencies. Reuse the same client for connection pool sharing.
--   Close the response body to prevent file descriptor exhaustion.
--   Using `gorilla/mux` is obsolete since the release of the updated `net/http` in Go 1.22.
--   `go-chi/chi` is still valuable for complex routing.
-
-#### Testing
-
--   `testing` with interface-based mocking
--   `stretchr/testify` for call tracking and more readable test assertions
-
 ### Downloading remote modules
 
 In each Go file, we use the `import` keyword to import packages from both local module and remote modules. To download a remote module and record its version in our `go.mod`. We use the `go mod tidy` command to add the missing module and also remove unneeded modules.
@@ -1718,92 +1669,65 @@ export PATH=$PATH:<GO_INSTALL_PATH>
 go install
 ```
 
-## Memory management
+## Logging
 
-### Common memory bugs
+-   Use `log/slog` for structured logging.
+-   Using `uber-go/zap` or `rs/zerolog` is often too excessive unless for truly large-scale applications.
+
+## Configuration
+
+-   Use `os.LookupEnv` or `caarlos0/env` for environment variables parsing and `gopkg.in/yaml.v3` for YAML files.
+-   Using `spf13/viper` to manage YAML/JSON configuration files, environment variables, flags, is often an overkill unless for truly large-scale applications.
+
+## Validation
+
+-   Use custom validation functions to accommodate business validation logic directly.
+-   Using `go-playground/validator` makes it hard to handle business logic and fields depending on each others.
+
+## Dependency injection
+
+-   Use custom constructor functions take in dependencies and create structs.
+-   Use the main function to call constructor functions and wire dependencies.
+-   Using `google/wire` creates generated-code debugging issue and extra build step.
+
+## Database
+
+-   Use `pgx` for PostgreSQL.
+-   If we need boilerplate code reduction, use `sqlc-dev/sqlc` or `database/sql` with extensions like `jmoiron/sqlx`.
+-   Using too many abstractions like `go-gorm/gorm` often leads to N+1 problem and abstraction debugging difficulty.
+
+## Networking
+
+-   `encoding/json` package for data serialization/deserialization
+-   `net/http` for REST API server and client
+-   Default ServeMux is usually sufficient but we can create custom ones too with `http.NewServeMux`,
+-   Create our own custom `http.Server` because the default server has no timeout.
+-   Create our own custom `http.Client` because `http.DefaultClient` has no timeout and may be modified by imported dependencies. Reuse the same client for connection pool sharing.
+-   Close the response body to prevent file descriptor exhaustion.
+-   Set CORS check explicitly.
+-   Set response security headers.
+-   Using `gorilla/mux` is obsolete since the release of the updated `net/http` in Go 1.22.
+-   `go-chi/chi` is still valuable for complex routing.
+
+## Randomness
+
+-   Use `crypto/rand` for session token generation and other security-relevant randomness.
+-   Using `math/rand` makes it guessable because it is seeded and deterministic.
+
+## Command Line Interface (CLI)
+
+-   Use `flag` for flag parsing and `switch` statement for subcommands.
+-   Using `spf13/cobra` is often too much unless for truly large-scale applications.
+
+## Testing
+
+-   `testing` with interface-based mocking
+-   `stretchr/testify` for call tracking and more readable test assertions
+
+## Memory management
 
 -   Invalid memory address or nil pointer dereference
     -   An invalid memory address or nil pointer dereference error occurs when a program tries to access a memory region it is not allowed to.
-
-## Profile
-
-Go's built-in profiler `pprof` can start a http server and let we inspect things like heap allocations and how many goroutines are running and which line of code started them. We can set it up with the below steps.
-
-1.  Add `import _ "net/http/pprof"`.
-2.  Register the handler function to an existing HTTP ServeMux with `http.HandleFunc("/debug/pprof/", pprof.Index)`. Otherwise, run it in a side server with `go func() {http.ListenAndServe("localhost:6060", nil)}()`.
-3.  Visit `http://localhost:6060/debug/pprof/goroutine?debug=1`.
-
-## Benchmark
-
-We can use the built-in benchmark tool to measure performance. First we create the benchmark function.
-
-```go
-func BenchmarkBuildURL(b *testing.B) {
-    for range b.N {
-        buildURL("domain", "/api/users", 8080)
-    }
-}
-```
-
-Then we run the benchmark.
-
-```bash
-go test -bench=. -benchmem -count=5 ./...
-```
-
--   `-benchmem` shows allocations per operation.
--   `-count=5` runs each benchmark 5 times to reduce variance.
-
-We can run for heap profile.
-
-```bash
-go test -bench=. -memprofile=mem.out
-go tool pprof mem.out
-```
-
-Or run for CPU profile.
-
-```bash
-go test -bench=. -cpuprofile=cpu.out
-go tool pprof cpu.out
-```
-
-## Production best practice
-
-1.  Profile
-1.  Identify bottleneck from heap escape and goroutine analysis
-1.  Improve and benchmark
-
-### Error handling
-
--   [Server shutdown cancel context and request timeout context](#context)
--   Goroutine panic recover
--   Jittered exponential backoff retry
-
-### Asynchronous processing
-
--   [Goroutine pipeline](#goroutine-pipeline)
--   [Buffered channel](#channel-buffer)
-
-### Memory
-
--   [Goroutine worker pool](#goroutine-worker-pool)
--   [Direct string concatenation](#string-concatenation)
--   [String slice concatenation with strings join](#string-slice-concatenation)
--   [Ephemeral object pool](#byte-slice-generation)
--   [Large struct pointer receiver method](#pointer-receiver-method)
--   [Slice capacity preallocation](#slice-appending)
--   [Generic type function parameter](#generic-function) rather than [any type function parameter](#empty-interface-type)
--   Cache size limit
-    -   Without size limit (worse heap allocation)
-        -   The cache size can grow indefinitely.
-    -   With size limit (good heap allocation)
-        -   The cache size has a limit.
--   GC frequency tuning
-    -   With the default 100 GCPercent
-        -   GC is triggered when heap grows 100%.
-    -   With the 50 GCPercent
-        -   GC is triggered when heap grows 50%.
 
 ## Containerization
 
@@ -2018,9 +1942,108 @@ func LoadConfig() Config {
 }
 ```
 
+Note that environment variables are visible in `/proc` and can be inherited by child processes. Beside environment variable populating, mounting secret files to the container as volumes, or fetching secrets from a secret manager at startup and keep them in unexported struct fields, are also popular ways to inject configurations into the container.
+
+```go
+type Config struct {
+    dbPassword string // unexported
+    jwtSecret  []byte // unexported
+}
+
+func LoadConfig(ctx context.Context, client secrets.Client) (*Config, error) {
+    dbPassword, err := client.GetSecret(ctx, "prod/db/password")
+    if err != nil {
+        return nil, fmt.Errorf("failed to fetch db password: %w", err)
+    }
+    return &Config{dbPassword: dbPassword}, nil
+}
+```
+
 ### Kubernetes resource request and limit
 
 See more in the [Kubernetes post](@/blog/kubernetes.md#container-resource-request-and-limit).
+
+## Optimization
+
+1.  Profile.
+1.  Identify bottleneck from heap escape and goroutine analysis.
+1.  Improve and benchmark.
+
+### Profile
+
+Go's built-in profiler `pprof` can start a http server and let we inspect things like heap allocations and how many goroutines are running and which line of code started them. We can set it up with the below steps.
+
+1.  Add `import _ "net/http/pprof"`.
+2.  Register the handler function to an existing HTTP ServeMux with `http.HandleFunc("/debug/pprof/", pprof.Index)`. Otherwise, run it in a side server with `go func() {http.ListenAndServe("localhost:6060", nil)}()`.
+3.  Visit `http://localhost:6060/debug/pprof/goroutine?debug=1`.
+
+### Benchmark
+
+We can use the built-in benchmark tool to measure performance. First we create the benchmark function.
+
+```go
+func BenchmarkBuildURL(b *testing.B) {
+    for range b.N {
+        buildURL("domain", "/api/users", 8080)
+    }
+}
+```
+
+Then we run the benchmark.
+
+```bash
+go test -bench=. -benchmem -count=5 ./...
+```
+
+-   `-benchmem` shows allocations per operation.
+-   `-count=5` runs each benchmark 5 times to reduce variance.
+
+We can run for heap profile.
+
+```bash
+go test -bench=. -memprofile=mem.out
+go tool pprof mem.out
+```
+
+Or run for CPU profile.
+
+```bash
+go test -bench=. -cpuprofile=cpu.out
+go tool pprof cpu.out
+```
+
+## Production best practice
+
+### Error handling
+
+-   [Server shutdown cancel context and request timeout context](#context)
+-   Goroutine panic recover
+-   Jittered exponential backoff retry
+
+### Asynchronous processing
+
+-   [Goroutine pipeline](#goroutine-pipeline)
+-   [Buffered channel](#channel-buffer)
+
+### Memory
+
+-   [Goroutine worker pool](#goroutine-worker-pool)
+-   [Direct string concatenation](#string-concatenation)
+-   [String slice concatenation with strings join](#string-slice-concatenation)
+-   [Ephemeral object pool](#byte-slice-generation)
+-   [Large struct pointer receiver method](#pointer-receiver-method)
+-   [Slice capacity preallocation](#slice-appending)
+-   [Generic type function parameter](#generic-function) rather than [any type function parameter](#empty-interface-type)
+-   Cache size limit
+    -   Without size limit (worse heap allocation)
+        -   The cache size can grow indefinitely.
+    -   With size limit (good heap allocation)
+        -   The cache size has a limit.
+-   GC frequency tuning
+    -   With the default 100 GCPercent
+        -   GC is triggered when heap grows 100%.
+    -   With the 50 GCPercent
+        -   GC is triggered when heap grows 50%.
 
 ## Adoption challenge
 
