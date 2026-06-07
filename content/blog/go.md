@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-06-05
+updated = 2026-06-06
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -54,9 +54,9 @@ module <MODULE_PATH>
 go <VERSION>
 ```
 
-## Code structure
+## Application server code structure
 
-The goal of this code structure is flexibility with minimum abstraction. It divides the system into 3 layers, handler, service, and infrastructure.
+The goal of this application server code structure is flexibility with minimum abstraction. It divides the system into 3 layers, handler, service, and infrastructure.
 
 Here is an application for user registration, login, and logout.
 
@@ -83,16 +83,16 @@ Here are the 3 layers.
     -   We want to use the injected service struct methods rather than performing business logic in the handler for better flexibility. This makes creating and switching to a new handler much easier.
 -   Service
     -   Defined in `/internal/domain/user.go`
-    -   Perform business logic by calling infrastructure interface methods.
+    -   Perform business logic and call infrastructure interface methods.
     -   Take infrastructure interface values as dependencies.
-    -   We want to use the injected infrastructure interface values instead of passing the infrastructure interface values to every struct method for better flexibility. If we want to add or remove an infrastructure interface value, we don't have to update the parameters of every service struct method.
+    -   We want to use the injected infrastructure interface values instead of passing the infrastructure interface values to every service struct method as parameters for better flexibility. If we want to add or remove an infrastructure interface value, we don't have to update the parameters of every relevant service struct method.
     -   Infrastructure interfaces are defined in `/internal/domain/port.go`.
-    -   Has no dependency on other packages created in the project.
+    -   Have no dependency on other packages created in the project.
 -   Infrastructure (database, API, etc)
     -   Defined in `/internal/database/postgresql.go`
     -   Implement the infrastructure interfaces.
 
-At last, `cmd/main/main.go` creates infrastructure interface values, service structs, and then the handler, injecting dependencies, and starts the handler.
+At last, `cmd/main/main.go` creates infrastructure interface values, service structs, the handler, injecting dependencies, and then starts the handler.
 
 ## Variable
 
@@ -855,7 +855,7 @@ func getIndex[T comparable](s []T, x T) int
 
 Go addresses function error with an explicit and imperative approach. In general, a function is expected to return a pair of values. The first one is the result value and the other one is the error value. Go expects us to check and handle the error using `if err != nil {}` for every function call.
 
-Here are some tips for function error handling tailored for the [code structure in this post](#code-structure).
+Here are some tips for function error handling tailored for the [application server code structure in this post](#application-server-code-structure).
 
 -   Handler layer (System boundary)
     -   Log error.
@@ -1673,6 +1673,16 @@ go install
 
 -   Use `log/slog` for structured logging.
 -   Using `uber-go/zap` or `rs/zerolog` is often too excessive unless for truly large-scale applications.
+-   Log non-confidential data only and keep passwords, tokens, and keys redacted. Keep an eye on accidental logging of HTTP requests with `Authorization` headers, struct values with credentials, and error values with secrets.
+    ```go
+    type APIKey struct {
+        Value string
+    }
+
+    func (k APIKey) LogValue() slog.Value {
+        return slog.StringValue("[REDACTED]")
+    }
+    ```
 
 ## Configuration
 
@@ -1706,6 +1716,11 @@ go install
 -   Close the response body to prevent file descriptor exhaustion.
 -   Set CORS check explicitly.
 -   Set response security headers.
+    ```go
+    w.Header().Set("X-Content-Type-Options", "nosniff")
+    w.Header().Set("X-Frame-Options", "DENY")
+    w.Header().Set("Strict-Transport-Security", "max-age=63072000; includeSubDomains")
+    ```
 -   Using `gorilla/mux` is obsolete since the release of the updated `net/http` in Go 1.22.
 -   `go-chi/chi` is still valuable for complex routing.
 
@@ -2016,16 +2031,23 @@ go tool pprof cpu.out
 
 ### Error handling
 
--   [Server shutdown cancel context and request timeout context](#context)
+-   [Server shutdown context and request timeout context](#context)
 -   Goroutine panic recover
 -   Jittered exponential backoff retry
+-   Set server and client timeout.
+-   Set request security headers.
 
 ### Asynchronous processing
 
 -   [Goroutine pipeline](#goroutine-pipeline)
 -   [Buffered channel](#channel-buffer)
 
-### Memory
+### Security
+
+-   Use `crypto/rand` rather than `math/rand` for session token generation and other security-relevant randomness.
+-   Prevent logger from logging sensitive data.
+
+### Memory optimization
 
 -   [Goroutine worker pool](#goroutine-worker-pool)
 -   [Direct string concatenation](#string-concatenation)
