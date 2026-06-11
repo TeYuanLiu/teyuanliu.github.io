@@ -1,7 +1,7 @@
 +++
 title = "PostgreSQL"
 date = 2025-12-23
-updated = 2026-04-26
+updated = 2026-06-11
 +++
 
 PostgreSQL is an open-source relational database.
@@ -359,6 +359,22 @@ SELECT DISTINCT name, height_m FROM user WHERE height_m > 1.8 AND weight_kg < 70
 -   Use `AS` to relabel a output column.
 -   Use `AND`, `OR`, and `NOT` in the `WHERE` qualification expression.
 -   Use `ORDER by` to sort the returned result.
+
+#### Search argument
+
+Search argument (SARG) is the condition in a query, typically in a `WHERE` or `HAVING` clause, that PostgreSQL can look up efficiently using an index. We describe this kind of query as sargable.
+
+-   Sargable
+    ```sql
+    WHERE date >= '2026-01-01' AND date <= '2026-12-31'
+    WHERE number = 10
+    ```
+-   Non-sargable
+    ```sql
+    WHERE YEAR(date) = 2026
+    WHERE number + 5 = 15
+    ```
+    PostgreSQL has to apply the `YEAR` function/math operation to every row before the date/number can be checked.
 
 #### Table join
 
