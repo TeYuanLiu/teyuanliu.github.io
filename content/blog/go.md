@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-06-11
+updated = 2026-06-12
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1456,7 +1456,7 @@ When our code makes an I/O call and writes the result to a shared resource via m
 
 ### Semaphore
 
-A semaphore is a signaling counter that allows a limited number of goroutines to access a resource. It is useful for rate-limiting API calls or database connections.
+A semaphore is a signaling counter that allows a limited number of goroutines to access a resource. It is useful for database connection rate-limiting.
 
 Mutex is like a semaphore with size one.
 
@@ -1491,6 +1491,29 @@ func main() {
         wg.Wait()
         close(out)
     }()
+}
+```
+
+We can use it for API request rate-limiting too.
+
+```go
+type Server struct {
+    Mux *httpServeMux
+    HTTPServer *http.Server
+    Sem Semaphore
+}
+
+func (s *Server) rateLimit(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+        select {
+        case s.Sem <- struct{}{}:
+            defer func() { <-s.Sem }()
+        default:
+            http.Error(w, "too many requests error", http.StatusTooManyRequests)
+            return
+        }
+        next(w, r)
+    }
 }
 ```
 
