@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-06-06
+updated = 2026-06-11
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -2056,6 +2056,11 @@ go tool pprof cpu.out
 -   [Large struct pointer receiver method](#pointer-receiver-method)
 -   [Slice capacity preallocation](#slice-appending)
 -   [Generic type function parameter](#generic-function) rather than [any type function parameter](#empty-interface-type)
+-   Database connection pool size limit
+    -   Without size limit (worse heap allocation)
+        -   The pool size can grow indefinitely.
+    -   With size limit (good heap allocation)
+        -   The pool size has a limit.
 -   Cache size limit
     -   Without size limit (worse heap allocation)
         -   The cache size can grow indefinitely.
