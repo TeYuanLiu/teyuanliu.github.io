@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-06-12
+updated = 2026-06-13
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1604,9 +1604,11 @@ Use `go clean -modcache` to remove all downloaded modules.
 
 ## Compilation
 
-We can create an example Go program by making a `here_we_go.go` file. Later on during the compile process, the Go compiler first converts this Go file into an assembly-like internal representation and then compiles the internal representation into a binary.
+We can create an example Go program by making a `here_we_go.go` file.
 
-In order to let the compile succeed, there must be a Go file (`here_we_go.go` in our case here) that not only belongs to the `main` package but also includes a `main` function such that the compiler can locate the entrypoint of the binary.
+If we want to produce a binary, `here_we_go.go` must belong to the `main` package and include a `main` function such that the compiler can locate the entrypoint of the binary. During the compilation process, the compiler first converts this Go file into an assembly-like internal representation and then compiles the internal representation into a binary.
+
+If we don't need a binary, then `here_we_go.go` doesn't need to have the `main` package and function. The compilation still runs but produces nothing.
 
 {% codeblocktag () %}
 here_we_go.go
