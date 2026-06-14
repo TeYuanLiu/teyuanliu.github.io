@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-06-13
+updated = 2026-06-14
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -43,7 +43,7 @@ A module is a collection of packages. It is like a project or repository. A modu
 
 ### Module initialization
 
-We use `go init mod <MODULE_PATH>` to initialize a module where `<MODULE_PATH>` is the path to our module on a repository platform like GitHub. We usually use a GitHub repository to host a module so the module path is `github.com/<ORGANIZATION>/<REPOSITORY>`. The module path also defines the import path prefix for all packages within the module.
+We use `go mod init <MODULE_PATH>` to initialize a module where `<MODULE_PATH>` is the path to our module on a repository platform like GitHub. We usually use a GitHub repository to host a module so the module path is `github.com/<ORGANIZATION>/<REPOSITORY>`. The module path also defines the import path prefix for all packages within the module.
 
 Running the command generates the `go.mod` file that stores the module path and the Go version we are using.
 {% codeblocktag () %}
@@ -52,6 +52,38 @@ go.mod
 ```config
 module <MODULE_PATH>
 go <VERSION>
+```
+
+## Workspace
+
+A `go.mod` contains the dependencies of a module, often times other modules on GitHub, but what if one of them is a module developed in the same repository?
+
+This is where a `go.work` kicks in. It acts as a local configuration layer that intercepts remote imports and redirects them to specific local directories such that local changes can be seamlessly recognized. It eliminates the need for a temporary `replace` statement inside the `go.mod` file of a dependent module during local development.
+
+### Workspace initialization
+
+At the repository root, we first initialize each module inside the repository, and then initialize the workspace.
+
+```bash
+cd <MODULE_1>
+go mod init github.com/<ORGANIZATION>/<REPOSITORY>/<MODULE_1>
+cd ../<MODULE_2>
+go mod init github.com/<ORGANIZATION>/<REPOSITORY>/<MODULE_2>
+cd ..
+go work init ./<MODULE_1> ./<MODULE_2>
+```
+
+The generated `go.work` is like the following.
+{% codeblocktag () %}
+go.work
+{% end %}
+```config
+go <VERSION>
+
+use (
+    ./<MODULE_1>
+    ./<MODULE_2>
+)
 ```
 
 ## Application server code structure
