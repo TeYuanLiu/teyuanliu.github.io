@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-06-15
+updated = 2026-06-16
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -85,46 +85,6 @@ use (
     ./<MODULE_2>
 )
 ```
-
-## Application server code structure
-
-The goal of this application server code structure is flexibility with minimum abstraction. It divides the system into 3 layers, handler, service, and infrastructure.
-
-Here is an application for user registration, login, and logout.
-
-```bash
-/cmd
-    /main
-        main.go
-/internal
-    /server
-        /rest.go
-    /domain
-        /user.go
-        /port.go
-    /database
-        /postgresql.go
-```
-
-Here are the 3 layers.
-
--   Handler
-    -   Defined in `/internal/server/rest.go`
-    -   Decode request, calling service struct methods, and send response.
-    -   Take service struct pointers as dependencies.
-    -   We want to use the injected service struct methods rather than performing business logic in the handler for better flexibility. This makes creating and switching to a new handler much easier.
--   Service
-    -   Defined in `/internal/domain/user.go`
-    -   Perform business logic and call infrastructure interface methods.
-    -   Take infrastructure interface values as dependencies.
-    -   We want to use the injected infrastructure interface values instead of passing the infrastructure interface values to every service struct method as parameters for better flexibility. If we want to add or remove an infrastructure interface value, we don't have to update the parameters of every relevant service struct method.
-    -   Infrastructure interfaces are defined in `/internal/domain/port.go`.
-    -   Have no dependency on other packages created in the project.
--   Infrastructure (database, API, etc)
-    -   Defined in `/internal/database/postgresql.go`
-    -   Implement the infrastructure interfaces.
-
-At last, `cmd/main/main.go` creates infrastructure interface values, service structs, the handler, injecting dependencies, and then starts the handler.
 
 ## Variable
 
@@ -887,7 +847,7 @@ func getIndex[T comparable](s []T, x T) int
 
 Go addresses function error with an explicit and imperative approach. In general, a function is expected to return a pair of values. The first one is the result value and the other one is the error value. Go expects us to check and handle the error using `if err != nil {}` for every function call.
 
-Here are some tips for function error handling tailored for the [application server code structure in this post](#application-server-code-structure).
+Here are some tips for function error handling tailored for the [application server directory structure in this post](#application-server-directory-structure).
 
 -   Handler layer (System boundary)
     -   Log error.
@@ -1781,22 +1741,131 @@ go install
 -   Using `gorilla/mux` is obsolete since the release of the updated `net/http` in Go 1.22.
 -   `go-chi/chi` is still valuable for complex routing.
 
+
+### Application server directory structure
+
+The goal of this application server directory structure is flexibility with minimum abstraction. It divides the system into 3 layers, handler, service, and infrastructure.
+
+Here is an application for user registration, login, and logout.
+
+```bash
+cmd/
+    main/
+        main.go
+internal/
+    server/
+        rest.go
+    domain/
+        user.go
+        port.go
+    database/
+        postgresql.go
+go.mod
+```
+
+Here are the 3 layers.
+
+-   Handler
+    -   Defined in `/internal/server/rest.go`
+    -   Decode request, calling service struct methods, and send response.
+    -   Take service struct pointers as dependencies.
+    -   We want to use the injected service struct methods rather than performing business logic in the handler for better flexibility. This makes creating and switching to a new handler much easier.
+-   Service
+    -   Defined in `/internal/domain/user.go`
+    -   Perform business logic and call infrastructure interface methods.
+    -   Take infrastructure interface values as dependencies.
+    -   We want to use the injected infrastructure interface values instead of passing the infrastructure interface values to every service struct method as parameters for better flexibility. If we want to add or remove an infrastructure interface value, we don't have to update the parameters of every relevant service struct method.
+    -   Infrastructure interfaces are defined in `/internal/domain/port.go`.
+    -   Have no dependency on other packages created in the project.
+-   Infrastructure (database, API, etc)
+    -   Defined in `/internal/database/postgresql.go`
+    -   Implement the infrastructure interfaces.
+
+At last, `cmd/main/main.go` creates infrastructure interface values, service structs, the handler, injecting dependencies, and then starts the handler.
+
 ### gRPC
 
-gRPC enables a client to call a function on a server as if it were a local function. We define a service and its methods. On the server side, we implement the methods and run a gRPC server to handle client calls. On the client side, the client object is used by the users to make method calls.
+gRPC enables a client to call a function on a server as if it were a local function.
 
 #### Protocol buffer
 
-gRPC uses protocol buffers by default to serialize and deserialize structured data. Below is an example.
+gRPC uses protocol buffers by default to serialize and deserialize structured data. For each service, we use a `.proto` file to define its data structures and methods. Below is an example.
 
+```bash
+protocol-buffer/
+    proto/
+        proto1/
+            proto1.proto
+    pb/
+        proto1/
+    go.mod
+client/
+    client.go
+    go.mod
+server/
+    server.go
+    go.mod
+go.work
+```
+
+{% codeblocktag () %}
+proto1.proto
+{% end %}
 ```proto
-message Person {
-    int32 id = 1;
-    string name = 2;
+syntax = "proto3";
+
+option go_package = "github.com/<ORGANIZATION>/<REPOSITORY>/protocol-buffer/pb/proto1";
+
+service Proto1 {
+    rpc Method1 (Method1Request) returns (Method1Response);
+}
+
+message Method1Request {
+    bool foo = 1;
+    int32 bar = 2;
+    string baz = 3;
+}
+
+message Method1Response {
+    bool ok = 1;
 }
 ```
 
-The integers `1` and `2` are unique IDs used to identify a field in the protocol buffer binary message format. This gives the backward compatibility as renaming a field doesn't break the communication between a new version and the old one.
+The integers `1`, `2`, and `3` are unique IDs used to identify a field in the protocol buffer binary message format. This gives the backward compatibility as renaming a field doesn't break the communication between a new version and the old one.
+
+##### Protocol buffer compilation
+
+After the service definition, we use the protocol buffer compiler, [protoc](https://grpc.io/docs/languages/go/quickstart/#regenerate-grpc-code), to compile the `.proto` files and generate the client and server code for each service.
+
+```bash
+protoc --proto_path=protocol-buffer/proto \
+       --go_out=protocol-buffer/pb --go_opt=paths=source_relative \
+       --go-grpc_out=protocol-buffer/pb --go-grpc_opt=paths=source_relative \
+       protocol-buffer/proto/proto1/proto1.proto
+```
+
+The directory structure after the code generation is like the following.
+
+```bash
+protocol-buffer/
+    proto/
+        proto1/
+            proto1.proto
+    pb/
+        proto1/
+            proto1_grpc.pb.go
+            proto1.pb.go
+    go.mod
+client/
+    client.go
+    go.mod
+server/
+    server.go
+    go.mod
+go.work
+```
+
+We can now implement the `client/client.go` and `server/server.go` with the protocol buffer client and server spec defined in the `protocol-buffer/pb/proto1/proto1_grpc.pb.go`.
 
 ## Randomness
 
