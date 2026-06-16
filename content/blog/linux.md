@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date = 2025-04-17
-updated = 2026-05-30
+updated = 2026-06-15
 +++
 
 Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.
@@ -593,7 +593,7 @@ Here are the steps I take to set up my development environment.
     ```bash
     sudo apt install python3.12-venv`
     ```
-1.  Install Go
+1.  Install Go.
     1.  Download the latest archive from the [Go official website](https://go.dev/doc/install).
     1.  Extract the files at `/user/local`.
         ```bash
@@ -607,25 +607,31 @@ Here are the steps I take to set up my development environment.
         ```bash
         go version
         ```
-1.  Install pre-commit
+1.  Install pre-commit.
     ```bash
     sudo apt install pre-commit`
     ```
-1.  Install PostgreSQL
+1.  Install PostgreSQL.
     ```bash
     sudo apt install postgresql
     ```
-1.  Install Vim
+1.  Install Vim.
     ```bash
     sudo apt install vim
     ```
-1.  Install python3-venv
+1.  Install python3-venv.
     ```bash
     sudo apt install python3-venv
     ```
-1.  Install graphviz for go pprof visualization
+1.  Install graphviz for go pprof visualization.
     ```bash
     sudo apt install graphviz
+    ```
+1.  Install protocol buffer compiler and Go plugins.
+    ```bash
+    sudo apt install protobuf-compiler
+    go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
     ```
 
 ## References

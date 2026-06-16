@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-06-14
+updated = 2026-06-15
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1780,6 +1780,23 @@ go install
     ```
 -   Using `gorilla/mux` is obsolete since the release of the updated `net/http` in Go 1.22.
 -   `go-chi/chi` is still valuable for complex routing.
+
+### gRPC
+
+gRPC enables a client to call a function on a server as if it were a local function. We define a service and its methods. On the server side, we implement the methods and run a gRPC server to handle client calls. On the client side, the client object is used by the users to make method calls.
+
+#### Protocol buffer
+
+gRPC uses protocol buffers by default to serialize and deserialize structured data. Below is an example.
+
+```proto
+message Person {
+    int32 id = 1;
+    string name = 2;
+}
+```
+
+The integers `1` and `2` are unique IDs used to identify a field in the protocol buffer binary message format. This gives the backward compatibility as renaming a field doesn't break the communication between a new version and the old one.
 
 ## Randomness
 
