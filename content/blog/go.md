@@ -1744,7 +1744,7 @@ go install
 
 ### Application server directory structure
 
-The goal of this application server directory structure is flexibility with minimum abstraction. It divides the system into 3 layers, handler, service, and infrastructure.
+The goal of this application server directory structure is decoupling with minimum abstraction. It divides the system into 3 layers, handler, service, and infrastructure.
 
 Here is an application for user registration, login, and logout.
 
@@ -1769,12 +1769,12 @@ Here are the 3 layers.
     -   Defined in `/internal/server/rest.go`
     -   Decode request, calling service struct methods, and send response.
     -   Take service struct pointers as dependencies.
-    -   We want to use the injected service struct methods rather than performing business logic in the handler for better flexibility. This makes creating and switching to a new handler much easier.
+    -   We want to use the injected service struct methods rather than performing business logic in the handler for better decoupling. This makes creating and switching to a new handler much easier.
 -   Service
     -   Defined in `/internal/domain/user.go`
     -   Perform business logic and call infrastructure interface methods.
     -   Take infrastructure interface values as dependencies.
-    -   We want to use the injected infrastructure interface values instead of passing the infrastructure interface values to every service struct method as parameters for better flexibility. If we want to add or remove an infrastructure interface value, we don't have to update the parameters of every relevant service struct method.
+    -   We want to use the injected infrastructure interface values instead of passing the infrastructure interface values to every service struct method as parameters for better decoupling. If we want to add or remove an infrastructure interface value, we don't have to update the parameters of every relevant service struct method.
     -   Infrastructure interfaces are defined in `/internal/domain/port.go`.
     -   Have no dependency on other packages created in the project.
 -   Infrastructure (database, API, etc)
