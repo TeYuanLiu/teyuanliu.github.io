@@ -1589,7 +1589,7 @@ import (
 ```
 
 -   Use `go get <ORGANIZATION>/<REPOSITORY>/<MODULE>/<PACKAGE>` to add or update packages inside a project and update the `go.mod`.
--   Use `go mod tidy` to add missing packages and remove unneeded ones.
+-   Use `go mod tidy` to add missing packages and remove unneeded ones in `go.mod` and `go.sum`.
 -   Use `go install <ORGANIZATION>/<REPOSITORY>/<MODULE>/<PACKAGE>@<VERSION>` to compile and install global CLI tools.
 
 ### Removing all downloaded modules
