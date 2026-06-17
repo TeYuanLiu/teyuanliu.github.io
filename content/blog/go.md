@@ -1579,9 +1579,7 @@ We use `context.WithValue()` to pass request-scoped data between middleware. How
 
 ### Downloading remote modules
 
-In each Go file, we use the `import` keyword to import packages from both local module and remote modules. To download a remote module and record its version in our `go.mod`. We use the `go mod tidy` command to add the missing module and also remove unneeded modules.
-
-If two different modules have packages with the same name, we have to use alias for at least one of the package to avoid conflicting import.
+In each Go file, we use the `import` keyword to import packages from both local module and remote modules. If two different modules have packages with the same name, we have to use alias for at least one of the package to avoid conflicting import.
 
 ```go
 import (
@@ -1589,6 +1587,10 @@ import (
     m2x "example.com/module2/x" // Alias example.com/module2/x to m2x.
 )
 ```
+
+-   Use `go get <ORGANIZATION>/<REPOSITORY>/<MODULE>/<PACKAGE>` to add or update packages inside a project and update the `go.mod`.
+-   Use `go mod tidy` to add missing packages and remove unneeded ones.
+-   Use `go install <ORGANIZATION>/<REPOSITORY>/<MODULE>/<PACKAGE>@<VERSION>` to compile and install global CLI tools.
 
 ### Removing all downloaded modules
 
