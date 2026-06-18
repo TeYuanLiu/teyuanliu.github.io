@@ -1,7 +1,7 @@
 +++
 title = "Markdown"
 date = 2025-04-13
-updated = 2026-04-26
+updated = 2026-06-17
 +++
 
 Markdown is a simple way to format text. Here I documented some best practices I found in the [Google Markdown style guide].
@@ -81,6 +81,12 @@ over:
 ### Single H1 heading
 
 Only the document title and nothing else should use the H1 heading.
+
+## Content
+
+### New line
+
+Use `\` at the beginning of a line to mark a new line.
 
 ## List
 

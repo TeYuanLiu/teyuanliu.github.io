@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-06-16
+updated = 2026-06-17
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -17,7 +17,7 @@ Due to compatibility across case-sensitive OS like Linux and case-insensitive OS
 
 Because the Go compiler uses underscores for special file suffixes to control the build process (`*_test.go` for test file and `*_linux.go` for Linux-only compiling), it's idiomatic to use underscores to group words together, and we arrive at the conclusion of using snake_case for Go files.
 
-We use kebab-case for everything else for example compiled binaries, such that they are consistent with other shell tools.
+We use kebab-case for every other kind of files for example compiled binaries, such that they are consistent with other shell tools.
 
 ### Expression and statement
 
@@ -31,11 +31,57 @@ Examples | `5; a + b; len(array)` | `x = 5; if ... else ...; for ...; return val
 
 ## Package
 
-A package is a collection of Go files inside the same directory. Variables, constants, functions, and types defined under the same package are visible across all Go files in the package.
+A package defines a code namespace.
 
-### Package naming
+The scope of the namespace includes all Go files inside the same directory so placing 2 Go files with different package declaration in the same directory leads to compilation failure.
 
-We use lowercase single word for package names so the `user service` package becomes `userservice`. The same applies to directory names as they have to match package names.
+All variables, constants, functions, and types defined within the namespace have access to each other. They are inaccessible from any file outside of the package, unless the object name is marked as exported by capitalizing its name, and inside the file there is an `import` statement which imports the package and thus the object.
+
+A package has the below 2 attributes.
+
+-   Package name
+    -   The package name is the unique identifier of a package.
+    -   A package name should use the lowercase single word format, so a `user service` package becomes `userservice`.
+    -   Each Go file has a `package <PACKAGE>` statement at its top to declare its package and thus label its content with that package.
+    -   The compiler reads the `<PACKAGE_NAME>.<EXPORTED_OBJECT>` expression in a Go file of a target package to locate and call a source package's exported objects.
+-   Package path
+    -   The package path is the unique address of a package and is usually the joining of its module path and the package directory path relative to the module root.
+    -   The compiler reads the `import <PACKAGE_NAME> <PACKAGE_PATH>` statement in our code to locate a package.
+    -   The package directory name is independent of the package name.
+        -   Here are 2 situations in which the package directory name is different from the package name.
+            -   `main`
+                -   The compiler demands the entrypoint file to declare package `main` even though it is often placed at somewhere like the project root, `cmd/server/`, or `cmd/cli/`, rather than a `main/` directory.
+            -   `*_test`
+                -   We put Go files for external testing alongside application code. To ensure the tests only interact with public APIs, we declare the external test package as `package <PACKAGE>_test` even though it lives inside the `<PACKAGE>/` directory.
+        -   Below is another example.
+            ```bash
+            <REPOSITORY>/
+                go.mod
+                directory1/
+                    package1.go
+                directory2/
+                    package2.go
+            ```
+            \
+            {% codeblocktag () %}
+            package1.go
+            {% end %}
+            ```go
+            package package1
+            var Package1Var = 1
+            ```
+            \
+            {% codeblocktag () %}
+            package2.go
+            {% end %}
+            ```go
+            package package2
+            import package1 "github.com/<ORGANIZATION>/<REPOSITORY>/directory1"
+            func Package2Func() {
+                println(package1.Package1Var)
+            }
+            ```
+        -   Go rewards the convention of naming the package directory after the package by letting us omit the `<PACKAGE_NAME>` part in the import statement so `import <PACKAGE_NAME> <PACKAGE_PATH>` becomes `import <PACKAGE_PATH>` and we can still use `<PACKAGE_NAME>.<EXPORTED_OBJECT>` to call an exported package object.
 
 ## Module
 
@@ -56,11 +102,11 @@ go <VERSION>
 
 ## Workspace
 
-A `go.mod` contains the dependencies of a module, often times other modules on GitHub, but what if one of them is a module developed in the same repository?
-
-This is where a `go.work` kicks in. It acts as a local configuration layer that intercepts remote imports and redirects them to specific local directories such that local changes can be seamlessly recognized. It eliminates the need for a temporary `replace` statement inside the `go.mod` file of a dependent module during local development.
+A workspace is a local configuration layer that intercepts remote imports and redirects them to specific local directories such that local changes can be recognized. This is very useful when we have multiple Go modules inside the same repository as it eliminates the need for a temporary `replace` statement inside the `go.mod` file of a dependent module during local development.
 
 ### Workspace initialization
+
+A workspace is defined in a `go.work` file.
 
 At the repository root, we first initialize each module inside the repository, and then initialize the workspace.
 
@@ -1881,6 +1927,7 @@ We can now implement the `client/client.go` and `server/server.go` with the prot
 
 ## Testing
 
+-   Test function behavior over implementation. Tests should validate what the code promises to do, not how it achieves it. This avoid breaking tests when the underlying implementation changes.
 -   `testing` with interface-based mocking
 -   `stretchr/testify` for call tracking and more readable test assertions
 
