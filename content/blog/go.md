@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-06-17
+updated = 2026-06-18
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -28,6 +28,21 @@ A Go file consists of expressions and statements for the computer to read, parse
 Purpose | To produce data | To execute an instruction
 Value returning | Yes | No
 Examples | `5; a + b; len(array)` | `x = 5; if ... else ...; for ...; return value; import "fmt"; i++`
+
+### Code structure
+
+The goal of this code structure is readability with minimum context switching. If a global constant or variable is used by one specific object, we can place it right above that specific object for better locality.
+
+1.  Package declaration
+1.  Import statements
+1.  Global constants
+1.  Global variables
+1.  Types
+    -   Type A that depends on Type B
+        -   Constructor function
+        -   Methods
+    -   Type B with no dependencies
+1.  Functions
 
 ## Package
 
