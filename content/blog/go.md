@@ -1852,7 +1852,7 @@ At last, `cmd/main/main.go` creates infrastructure interface values, service str
 
 ### gRPC
 
-gRPC enables a client to call a function on a server as if it were a local function.
+gRPC enables a client to call a function on a server as if it were a local function. It supports bi-directional and unary like client or server streaming.
 
 #### Protocol buffer
 
