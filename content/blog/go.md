@@ -82,6 +82,7 @@ A package has the below 2 attributes.
             }
             ```
         -   Go rewards the convention of naming the package directory after the package by letting us omit the `<PACKAGE_NAME>` part in the import statement so `import <PACKAGE_NAME> <PACKAGE_PATH>` becomes `import <PACKAGE_PATH>` and we can still use `<PACKAGE_NAME>.<EXPORTED_OBJECT>` to call an exported package object.
+    -   Packages inside an `internal` directory are private and cannot be imported by code outside of the module.
 
 ## Module
 
