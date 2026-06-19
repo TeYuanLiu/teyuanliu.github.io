@@ -1,7 +1,7 @@
 +++
 title = "Etcd"
 date = 2025-11-28
-updated = 2025-12-28
+updated = 2026-06-18
 +++
 
 Etcd is a distributed key-value store that keeps the single source of truth for all configuration data and cluster state for a [Kubernetes](@/blog/kubernetes.md) cluster. All Kubernetes objects like pods, deployments, and services, are stored in etcd.
@@ -49,7 +49,7 @@ An `AppendEntries` contains:
     1.  Otherwise, the follower fails the `AppendEntries` and the leader initiates the log repair process.
         1.  The leader repeats the loop of decrementing the log previous entry and retrying the `AppendEntries` RPC, until the previous entry finally matches an entry in the follower's log.
         1.  The leader forcefully synchronizes all subsequent log entries to the follower.
-1.  If the leader receives acknowledgements from a majority of the followers (`ceil((node number + 1) / 2)`), it continues with the below operations.
+1.  If the leader receives acknowledgements from a majority of the followers (`ceil((node count + 1) / 2)` or `floor(node count / 2) + 1`), it continues with the below operations.
     1.  It marks the log entry as committed, and applies the log entry to its BoltDB (single-instance file-based key-value store).
     1.  It updates its key-value cache and key-disk-location index.
     1.  It replies to the client with a success message.
