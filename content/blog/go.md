@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-06-18
+updated = 2026-06-20
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1780,6 +1780,12 @@ go install
 
 ## Dependency injection
 
+-   Inject dependencies that affect testability.
+    -   Configuration
+    -   Database connection pool
+    -   API client
+    -   Logger
+    -   Timer
 -   Use custom constructor functions take in dependencies and create structs.
 -   Use the main function to call constructor functions and wire dependencies.
 -   Using `google/wire` creates generated-code debugging issue and extra build step.
