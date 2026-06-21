@@ -1,7 +1,7 @@
 +++
 title = "Etcd"
 date = 2025-11-28
-updated = 2026-06-18
+updated = 2026-06-21
 +++
 
 Etcd is a distributed key-value store that keeps the single source of truth for all configuration data and cluster state for a [Kubernetes](@/blog/kubernetes.md) cluster. All Kubernetes objects like pods, deployments, and services, are stored in etcd.
@@ -27,7 +27,7 @@ A leader has two duties:
 -   Use the `AppendEntries` Remote Procedure Call (RPC) to:
     -   Send its empty-payload heartbeat to the followers periodically (every 50ms) via a heartbeat timer. The timer automatically resets after expiration. A follower resets its election timer (randomized between 150ms to 300ms) when receiving a leader heartbeat.
     -   Replicate data to its followers for write requests and failure recovery. Note that this resets its heartbeat timer as well.
--   Handle read requests.
+-   Handle read and write requests.
 
 An `AppendEntries` contains:
 -   Metadata
@@ -38,6 +38,32 @@ An `AppendEntries` contains:
     -   Write Ahead Log (WAL)
         -   Previous entry (index + term number + key-value pair)
         -   Next entry (index + term number + key-value pair)
+
+#### Leader election
+
+A leader can be generated via the leader election process:
+1.  States
+    1.  Every node starts with the follower state and the term number of 0, and has its own election timer.
+    1.  If the node hasn't received an `AppendEntries` message from a leader and the election timer expires, it assumes the leader is down and transitions itself from a follower into a candidate. It increments its current term number by 1 and resets the election timer.
+1.  Voting
+    1.  The candidate votes for itself for the current term number (each node has one vote for a given term number), and sends out the `RequestVote` message to others to ask for their votes.
+    1.  From the perspective of a `RequestVote` receiver, it performs the following operations after receiving the message:
+        1.  The receiver checks if the requesting candidate's term number is greater than or equal to the receiver's current term number. If the requesting candidate's term number is higher, the receiver updates its term number and steps down to become a follower.
+        1.  The receiver checks if it has not yet voted in its current term.
+        1.  The receivers checks that whether the requesting candidate's WAL is at least as up-to-date as the receiver's WAL by comparing the last log index and term number.
+        1.  If all three checks pass, the receiver grants the vote and resets its election timer. Otherwise, it rejects the `RequestVote` with its current term number.
+1.  Winning
+    1.  If a candidate receives votes from a majority of the nodes, it becomes the new leader. If two candidates get the same votes, neither of them satisfies the majority vote rule so no leader is elected. Every node watches its election timer and starts another round of leader election after the timer expires (the timer is randomized to avoid indefinite staleness).
+1.  Heartbeat
+    1.  The new leader starts sending out its heartbeat constantly.
+
+##### Disconnection and reconnection
+
+If a follower disconnects from the cluster and no longer receives the leader heartbeat, it transitions to a candidate, incrementing its term number, and resets the election timer. Because it is isolated from the others, it cannot get enough votes to become a leader. The election timer eventually expires and it restarts the leader election process. This election failure loop can make this isolated node having a large term number.
+
+When the node reconnects to the cluster, if its term number is larger than the cluster leader's, it rejects the `AppendEntries` from the leader with its own term number, forcing the leader to update its own term number and reverts to the follower state.
+
+The cluster becomes leaderless and waits for a node to start its leader election.
 
 #### Write request
 
@@ -68,32 +94,6 @@ Due to the frequent writes to the log, etcd's performance heavily relies on the 
 1.  Otherwise, it checks the key-disk-location index. If the key is in the index, it reads the value from the BoltDB and replies to the client. It also updates the key-value cache.
 1.  Otherwise, it searches in the BoltDB. If the key is in the BoltDB, it reads the value from the BoltDB, and replies to the client. It also updates the key-value cache and key-disk-location index.
 1.  Otherwise, it fails the client's read request.
-
-#### Leader election
-
-A leader can be generated via the leader election process:
-1.  States
-    1.  Every node starts with the follower state and the term number of 0, and has its own election timer.
-    1.  If the node hasn't received an `AppendEntries` message from a leader and the election timer expires, it assumes the leader is down and transitions itself from a follower into a candidate. It increments its current term number by 1 and resets the election timer.
-1.  Voting
-    1.  The candidate votes for itself for the current term number (each node has one vote for a given term number), and sends out the `RequestVote` message to others to ask for their votes.
-    1.  From the perspective of a `RequestVote` receiver, it performs the following operations after receiving the message:
-        1.  The receiver checks if the requesting candidate's term number is greater than or equal to the receiver's current term number. If the requesting candidate's term number is higher, the receiver updates its term number and steps down to become a follower.
-        1.  The receiver checks if it has not yet voted in its current term.
-        1.  The receivers checks that whether the requesting candidate's WAL is at least as up-to-date as the receiver's WAL by comparing the last log index and term number.
-        1.  If all three checks pass, the receiver grants the vote and resets its election timer. Otherwise, it rejects the `RequestVote` with its current term number.
-1.  Winning
-    1.  If a candidate receives votes from a majority of the nodes, it becomes the new leader. If two candidates get the same votes, neither of them satisfies the majority vote rule so no leader is elected. Every node watches its election timer and starts another round of leader election after the timer expires (the timer is randomized to avoid indefinite staleness).
-1.  Heartbeat
-    1.  The new leader starts sending out its heartbeat constantly.
-
-##### Disconnection and reconnection
-
-If a follower disconnects from the cluster and no longer receives the leader heartbeat, it transitions to a candidate, incrementing its term number, and resets the election timer. Because it is isolated from the others, it cannot get enough votes to become a leader. The election timer eventually expires and it restarts the leader election process. This election failure loop can make this isolated node having a large term number.
-
-When the node reconnects to the cluster, if its term number is larger than the cluster leader's, it rejects the `AppendEntries` from the leader with its own term number, forcing the leader to update its own term number and reverts to the follower state.
-
-The cluster becomes leaderless and waits for a node to start its leader election.
 
 #### Scaling
 

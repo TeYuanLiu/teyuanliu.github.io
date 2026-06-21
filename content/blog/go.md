@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-06-20
+updated = 2026-06-21
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -948,15 +948,15 @@ When a panic happens in any goroutine of the program, Go performs the following 
 
 1.  Stop the program execution immediately.
 1.  Unwind the call stack from the root cause of the panic all the way to the main function. As each function is exited, any deferred function is still executed normally.
-1.  If the panic reaches the main function without being handled, the program crashes and prints the stack trace following a reverse chronological order (error -> main). The concept behind it is giving the most important detail for debugging first.
+1.  If the panic reaches the main function without being handled, the program crashes and prints the stack trace following a reverse chronological order (error -> main). The concept behind it is giving the most important detail for debugging first, at the top of the output.
 
-We can catch the panic during unwinding using `defer` with `recover()` and implement panic recovering. If `recover()` is called during a panic, it captures the panic value and stops the program from crashing, allowing it to resume normal execution. This is often used in web servers to prevent one bad request from taking down the entire service.
+We can catch the panic during unwinding using `defer` with `recover()` and implement panic recovering. If `recover()` is called during a panic, it captures the panic value and stops the program from crashing, allowing it to resume normal execution. This is often used in situations in which we want to prevent one bad request from taking down the entire application, like request handling inside a web server or daemon goroutine, or third-party code executing. Inside the panic recovery code, we often log the error and clean up resources.
 
 ```go
-func panicFunction() {
+func processRequest() {
     defer func() {
         if r := recover(); r != nil {
-            // Recover the function.
+            // Recovery logic
         }
     }()
 }
