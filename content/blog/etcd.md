@@ -1,7 +1,7 @@
 +++
 title = "Etcd"
 date = 2025-11-28
-updated = 2026-06-21
+updated = 2026-06-22
 +++
 
 Etcd is a distributed key-value store that keeps the single source of truth for all configuration data and cluster state for a [Kubernetes](@/blog/kubernetes.md) cluster. All Kubernetes objects like pods, deployments, and services, are stored in etcd.
@@ -53,7 +53,7 @@ A leader can be generated via the leader election process:
         1.  The receivers checks that whether the requesting candidate's WAL is at least as up-to-date as the receiver's WAL by comparing the last log index and term number.
         1.  If all three checks pass, the receiver grants the vote and resets its election timer. Otherwise, it rejects the `RequestVote` with its current term number.
 1.  Winning
-    1.  If a candidate receives votes from a majority of the nodes, it becomes the new leader. If two candidates get the same votes, neither of them satisfies the majority vote rule so no leader is elected. Every node watches its election timer and starts another round of leader election after the timer expires (the timer is randomized to avoid indefinite staleness).
+    1.  If a candidate receives votes from a majority of the nodes (`ceil((node count + 1) / 2)` or `floor(node count / 2) + 1`), it becomes the new leader. If two candidates get the same votes, neither of them satisfies the majority vote rule so no leader is elected. Every node watches its election timer and starts another round of leader election after the timer expires (the timer is randomized to avoid indefinite staleness).
 1.  Heartbeat
     1.  The new leader starts sending out its heartbeat constantly.
 
