@@ -1,7 +1,7 @@
 +++
 title = "Etcd"
 date = 2025-11-28
-updated = 2026-06-22
+updated = 2026-06-28
 +++
 
 Etcd is a distributed key-value store that keeps the single source of truth for all configuration data and cluster state for a [Kubernetes](@/blog/kubernetes.md) cluster. All Kubernetes objects like pods, deployments, and services, are stored in etcd.
@@ -31,13 +31,15 @@ A leader has two duties:
 
 An `AppendEntries` contains:
 -   Metadata
-    -   Follower node ID
+    -   Leader ID
     -   Leader term number
-    -   Leader commit index (the highest/latest log entry index the leader has committed)
+    -   Leader commit index (The last/largest/latest log index the leader has committed)
 -   Payload
     -   Write Ahead Log (WAL)
         -   Previous entry (index + term number + key-value pair)
-        -   Next entry (index + term number + key-value pair)
+        -   Next entries
+            -   Next entry 1 (index + term number + key-value pair)
+            -   Next entry 2
 
 #### Leader election
 
@@ -47,10 +49,9 @@ A leader can be generated via the leader election process:
     1.  If the node hasn't received an `AppendEntries` message from a leader and the election timer expires, it assumes the leader is down and transitions itself from a follower into a candidate. It increments its current term number by 1 and resets the election timer.
 1.  Voting
     1.  The candidate votes for itself for the current term number (each node has one vote for a given term number), and sends out the `RequestVote` message to others to ask for their votes.
-    1.  From the perspective of a `RequestVote` receiver, it performs the following operations after receiving the message:
-        1.  The receiver checks if the requesting candidate's term number is greater than or equal to the receiver's current term number. If the requesting candidate's term number is higher, the receiver updates its term number and steps down to become a follower.
+        1.  Every `RequestVote` receiver checks if the requesting candidate's term number is larger than the receiver's current term number. If the requesting candidate's term number is greater, the receiver updates its term number and steps down to become a follower.
         1.  The receiver checks if it has not yet voted in its current term.
-        1.  The receivers checks that whether the requesting candidate's WAL is at least as up-to-date as the receiver's WAL by comparing the last log index and term number.
+        1.  The receiver checks that whether the requesting candidate's WAL is at least as up-to-date as the receiver's WAL by comparing the last log index and term number.
         1.  If all three checks pass, the receiver grants the vote and resets its election timer. Otherwise, it rejects the `RequestVote` with its current term number.
 1.  Winning
     1.  If a candidate receives votes from a majority of the nodes (`ceil((node count + 1) / 2)` or `floor(node count / 2) + 1`), it becomes the new leader. If two candidates get the same votes, neither of them satisfies the majority vote rule so no leader is elected. Every node watches its election timer and starts another round of leader election after the timer expires (the timer is randomized to avoid indefinite staleness).
@@ -63,26 +64,32 @@ If a follower disconnects from the cluster and no longer receives the leader hea
 
 When the node reconnects to the cluster, if its term number is larger than the cluster leader's, it rejects the `AppendEntries` from the leader with its own term number, forcing the leader to update its own term number and reverts to the follower state.
 
-The cluster becomes leaderless and waits for a node to start its leader election.
+The cluster becomes leaderless and waits for a node to start its leader election. Note that the reconnected node may have outdated logs and lose its upcoming leader election because of it.
 
 #### Write request
 
 1.  A client sends a write request to the leader.
-1.  The leader turns the request into a log entry (index + term number + key-value pair), appending the log entry to its WAL file on disk, and then sends out an `AppendEntries` to each follower.
-1.  A follower receives an `AppendEntries`, and continues with the below operations:
-    1.  The follower checks if its log has an entry matches the previous entry.
+1.  The leader turns the request into a log entry (index + term number + key-value pair), appending the log entry to its WAL file on disk.
+1.  The leader sends out an `AppendEntries` to each follower.
+    1.  Every follower that receives an `AppendEntries` checks if its log has an entry matching the previous entry in the `AppendEntries`.
     1.  If the check succeeds, the follower adds the next entry to its log and replies with an acknowledgement.
     1.  Otherwise, the follower fails the `AppendEntries` and the leader initiates the log repair process.
-        1.  The leader repeats the loop of decrementing the log previous entry and retrying the `AppendEntries` RPC, until the previous entry finally matches an entry in the follower's log.
-        1.  The leader forcefully synchronizes all subsequent log entries to the follower.
-1.  If the leader receives acknowledgements from a majority of the followers (`ceil((node count + 1) / 2)` or `floor(node count / 2) + 1`), it continues with the below operations.
-    1.  It marks the log entry as committed, and applies the log entry to its BoltDB (single-instance file-based key-value store).
-    1.  It updates its key-value cache and key-disk-location index.
-    1.  It replies to the client with a success message.
-    1.  It updates the leader commit index field in its subsequent `AppendEntries`. Any follower that receives an `AppendEntries` uses the leader commit index to apply the entries to its BoltDB.
-1.  Otherwise, it fails the client's write request.
+        1.  The leader repeats the loop of decrementing the log previous entry and retrying the `AppendEntries` RPC, until the previous entry finally matches the follower's last log entry.
+        1.  The leader forcefully synchronizes all subsequent log entries to the follower via an `AppendEntries`.
+1.  If the leader doesn't receive acknowledgements from a majority of the followers, it fails the client's write request. Otherwise, it continues with the below operations.
+1.  The leader marks the log entry as committed, updating its commit index, and applies the log entry to its BoltDB (single-instance file-based key-value store).
+1.  The leader updates its key-value cache and key-disk-location index.
+1.  The leader sends out an `AppendEntries` to each follower.
+    1.  Every follower that receives an `AppendEntries` uses the leader commit index to commit and apply the entry and then replies with an acknowledgement.
+1.  If the leader receives acknowledgements from a majority of the followers, it replies to the client with a success message. Otherwise, it fails the client's write request.
 
 Due to the frequent writes to the log, etcd's performance heavily relies on the disk I/O speed so SSDs are often the top choice for it.
+
+##### Uncommitted log entry by leader shutdown scenario
+
+1.  The leader commits and applies the log entry.
+1.  Before sending out a heartbeat, the leader encounters a shutdown. Now every follower has an uncommitted log entry.
+1.  One follower becomes the new leader and keeps the uncommitted log entry.
 
 #### Read request
 
