@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date = 2025-04-17
-updated = 2026-06-15
+updated = 2026-06-28
 +++
 
 Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.
@@ -335,6 +335,16 @@ In 1983, Richard Stallman started the GNU project to provide binaries that make 
     ls /mnt/EFI/
     sudo rm -r /mnt/EFI/<DIRECTORY_TO_BE_DELETED>
     sudo umount /mnt
+    ```
+-   Print OS installation date.
+    ```bash
+    stat /var/log/installer
+    ```
+-   Print memory information.
+    ```bash
+    lsmem # List memory size, address range, and block number.
+    lshw -c memory # List memory ID and size.
+    sudo dmidecode -t memory # List memory hardware details like data width, size, type, manufacturer, and serial number.
     ```
 
 ## Filesystem
