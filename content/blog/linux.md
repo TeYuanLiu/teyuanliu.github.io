@@ -351,19 +351,22 @@ In 1983, Richard Stallman started the GNU project to provide binaries that make 
 
 Linux's ext4 filesystem follows the Filesystem Hierarchy Standard (FHS) 3 specification and has the following structure:
 -   `/`: Root
--   `/bin`: Essential binaries like `ls`
--   `/sbin`: Superuser's essential binaries like `mount`
--   `/lib`: Shared code between binaries
--   `/usr/bin`: Non-essential installed binaries
--   `/usr/local/bin`: Locally compiled binaries separated from binaries installed by a system package manager
--   `/etc`: Editable text configurations
--   `/home/user`: User workspace
--   `/boot`: Files needed to boot the system like the Linux kernel
--   `/dev`: External devices like disks
--   `/opt`: Optional binaries
--   `/var`: Logs and cache files
--   `/tmp`: Temporary files
--   `/proc`: A filesystem created in memory to keep track of running processes
+-   `/boot/`: Contain files needed to boot the system like the Linux kernel.
+-   `/bin/`: Contain essential binaries like `ls` and may be a link pointing to `/usr/bin/`.
+-   `/usr/bin/`: Contain non-essential binaries installed by user either directly or via a package manager.
+-   `/sbin/`: Contain superuser's essential binaries like `mount` and may be a link pointing to `/usr/sbin/`.
+-   `/usr/sbin/`: Contain superuser's non-essential installed by user either directly or via a package manager.
+-   `/usr/local/bin/`: Contain non-essential binaries compiled by user.
+-   `/opt/`: Contain optional binaries.
+-   `/lib/`: Contain shared code between binaries.
+-   `/usr/lib/`: Contain shared code between binaries installed by user either directly or via a package manager.
+-   `/etc/`: Contain editable text configurations.
+-   `/var/`: Contain logs and cache files.
+-   `/proc/`: Contain a filesystem created in memory to keep track of running processes.
+-   `/tmp/`: Contain temporary files.
+-   `/dev/`: Contain external devices like disks.
+-   `/root/`: Superuser workspace
+-   `/home/<USER_NAME>/`: User workspace
 
 ### Storage devices in filesystem
 
