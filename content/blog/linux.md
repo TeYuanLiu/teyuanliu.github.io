@@ -551,15 +551,15 @@ To sum up, use APT unless we need sandboxing, auto-updates, or the latest versio
 
 Here are the steps I take to set up my development environment.
 
-1.  Install Google Chrome.
-    ```bash
-    sudo apt install ./google-chrome-stable_current_amd64.deb
-    ```
 1.  Install LibreOffice.
     ```bash
     sudo apt install libreoffice
     ```
-1.  Install Visual Studio Code.
+1.  Install Google Chrome.
+    ```bash
+    sudo apt install ./google-chrome-stable_current_amd64.deb
+    ```
+1.  Install Visual Studio Code and configure zoom level and terminal scrollback limit.
     ```bash
     sudo apt install ./code_x.x.x_amd64.deb
     ```
@@ -580,13 +580,13 @@ Here are the steps I take to set up my development environment.
     ssh-add ~/.ssh/id_ed25519
     ```
 1.  Install Zola.
-    -   Compile from source
+    -   Compile from source.
         ```bash
         git clone git@github.com:getzola/zola.git
         cd zola
         cargo install –path . –locked
         ```
-    -   Or use snap package manager
+    -   Or use snap package manager.
         ```bash
         snap install --edge zola
         ```
@@ -660,7 +660,7 @@ Here are the steps I take to set up my development environment.
     ```
 1.  Install Claude Code and configure it to use a Google Gemini model.
     1.  Go to [Google AI studio API keys](https://aistudio.google.com/api-keys) to create a new API key or use an existing one. Copy the API key `<GEMINI_API_KEY>` for later use.
-    1.  Decide which Google Gemini model, `<GEMINI_MODEL>`, we want to use, e.g. `gemini-3.1-flash-lite`.
+    1.  Decide which Google Gemini model, `<GEMINI_MODEL>`, we want to use, e.g., `gemini-3.1-flash-lite`.
     1.  Go to the project root directory.
         ```bash
         cd <PROJECT_PATH>
