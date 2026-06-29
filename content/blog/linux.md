@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date = 2025-04-17
-updated = 2026-06-28
+updated = 2026-06-29
 +++
 
 Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.
@@ -322,9 +322,21 @@ In 1983, Richard Stallman started the GNU project to provide binaries that make 
     ```
     -   Debian's package manager `apt` installs packages to `dist-packages` like `/usr/local/lib/python3.12/dist-packages/`.
     -   Any third party tool like pip installs packages to `site-packages`.
--   Add the current user to a group.
+-   Create a user
     ```bash
-    sudo usermod -aG <GROUP> $USER
+    sudo adduser <USER>
+    ```
+-   Print the groups a user belongs to.
+    ```bash
+    groups <USER>
+    ```
+-   Add a user to a group.
+    ```bash
+    sudo usermod -aG <GROUP> <USER>
+    ```
+-   Remove a user from a group
+    ```bash
+    sudo usermod -rG <GROUP> <USER> # Or use `sudo deluser <USER> <GROUP>`.
     ```
 -   Clean boot entries.
     ```bash
@@ -646,6 +658,91 @@ Here are the steps I take to set up my development environment.
     go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
     go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
     ```
+1.  Install Claude Code and configure it to use a Google Gemini model.
+    1.  Go to [Google AI studio API keys](https://aistudio.google.com/api-keys) to create a new API key or use an existing one. Copy the API key `<GEMINI_API_KEY>` for later use.
+    1.  Decide which Google Gemini model, `<GEMINI_MODEL>`, we want to use, e.g. `gemini-3.1-flash-lite`.
+    1.  Go to the project root directory.
+        ```bash
+        cd <PROJECT_PATH>
+        ```
+    1.  [Install LiteLLM proxy](https://docs.litellm.ai/docs/proxy/docker_quick_start#1-install) as a translator between Anthropic's request/response format and Google's.
+        ```bash
+        curl -fsSL https://raw.githubusercontent.com/BerriAI/litellm/main/scripts/install.sh | sh
+        ```
+    1.  Run the [LiteLLM setup wizard](https://docs.litellm.ai/docs/proxy/docker_quick_start#2-follow-the-wizard).
+        ```bash
+        litellm --setup
+        ```
+        1.  Select `Google Gemini` as the LLM provider.
+        1.  Input empty string for the `Google Gemini API key` as we will configure it via an environment variable later.
+        1.  Accept the default port number `<PORT>`.
+        1.  Accept the default LiteLLM master key `<LITELLM_MASTER_KEY>`.
+        1.  Decline starting the proxy and exit.
+        1.  Now a `litellm_config.yaml` should exist in the project root directory and contain the LiteLLM master key.
+    1.  Create a `.env` with the below content.
+        ```bash
+        GEMINI_API_KEY="<GEMINI_API_KEY>"
+        ANTHROPIC_API_KEY="<LITELLM_MASTER_KEY>"
+        ANTHROPIC_BASE_URL="http://localhost:<PORT>"
+        ANTHROPIC_MODEL="<GEMINI_MODEL>"
+        ```
+    1.  Append the below code to the `.bashrc` so whenever a terminal is opened it scans the directory to find a `.env` and creates environment variables from the content.
+        ```bash
+        load_dot_env_file() {
+            if [ -f .env ]; then
+                set -a
+                source .env
+                set +a
+            fi
+        }
+
+        if [[ ! "$PROMPT_COMMAND" =~ "load_dot_env_file" ]]; then
+            PROMPT_COMMAND="load_dot_env_file; $PROMPT_COMMAND"
+            echo "added .env loading function to prompt command"
+        fi
+        ```
+    1.  Update the `litellm_config.yaml` to the below content.
+        ```yaml
+        model_list:
+          - model_name: <GEMINI_MODEL>
+            litellm_params:
+              model: gemini/<GEMINI_MODEL>
+              api_key: os.environ/GEMINI_API_KEY
+        ```
+    1.  Run the LiteLLM server.
+        ```bash
+        litellm --config litellm_config.yaml
+        ```
+    1.  Open a new terminal and [install Claude Code CLI](https://code.claude.com/docs/en/quickstart#step-1-install-claude-code).
+        ```bash
+        curl -fsSL https://claude.ai/install.sh | bash
+        ```
+    1.  Add the below code to the `.bashrc` so we can run `claude` at any location.
+        ```bash
+        export PATH="/home/apogee/.local/bin:$PATH"
+        ```
+    1.  Run Claude Code CLI to test it out.
+        ```bash
+        claude
+        ```
+    1.  If using VSCode Claude Code extension, add the below content to the `settings.json`.
+        ```json
+        "claudeCode.disableLoginPrompt": true,
+        "claudeCode.environmentVariables": [
+            {
+                "name": "ANTHROPIC_API_KEY",
+                "value": "<LITELLM_MASTER_KEY>"
+            },
+            {
+                "name": "ANTHROPIC_BASE_URL",
+                "value": "http://localhost:<PORT>"
+            },
+            {
+                "name": "ANTHROPIC_MODEL",
+                "value": "<GEMINI_MODEL>"
+            }
+        ]
+        ```
 
 ## References
 
