@@ -743,6 +743,10 @@ Here are the steps I take to set up my development environment.
             }
         ]
         ```
+1.  Install SQLite.
+    ```bash
+    sudo apt install sqlite3
+    ```
 
 ## References
 
