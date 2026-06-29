@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-06-21
+updated = 2026-06-29
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1317,7 +1317,7 @@ Generally, we don't want the sender to be blocked by a send so we will set the b
 
 Although goroutine is cheap, it is not free. Creating one goroutine per job can grow the number of concurrent goroutines indefinitely. Therefore, we often adopt the worker pool pattern to limit the number of goroutines.
 
-If the job is CPU-bound, we can set the number of workers to the number of logical CPUs using the default `GOMAXPROCS`. However, in a containerization environment like Docker or Kubernetes, the Go runtime often sees the host CPU count instead of the container's CPU limit, leading to excessive context switching. Therefore, we should set the worker count to the accurate CPU count using `import _ "go.uber.org/automaxprocs".
+If the job is CPU-bound, we can set the number of workers to the number of logical CPUs using the default `GOMAXPROCS`. However, in a containerization environment like Docker or Kubernetes, the Go runtime often sees the host CPU count instead of the container's CPU limit, leading to excessive context switching. Therefore, we should set the worker count to the accurate CPU count using `import _ "go.uber.org/automaxprocs"`.
 
 If the job is IO-bound, we can use the wait-to-compute ratio `worker count = CPU count x (1 + wait time / compute time)` as a guidance, and scale the worker count from 2x the CPU count to 10x or even more. When the number gets larger, it starts to get limited by other settings like database connection pool size, file descriptor limit, and upstream service rate limit.
 
@@ -1719,7 +1719,7 @@ The compiler promotes a value from the stack to the heap if it cannot prove the 
 
 -   The value is returned by the function.
 -   The value is stored in a variable that lives outside of the function.
--   The value is passed to a function that accepts `...interface{}` and uses reflection, for example `fmt.Println().
+-   The value is passed to a function that accepts `...interface{}` and uses reflection, for example `fmt.Println()`.
 
 ## Execution
 
