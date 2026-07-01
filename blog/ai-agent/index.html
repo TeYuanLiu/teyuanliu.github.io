@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- CSS -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    AI Agent
+  </div>
+  <div class="header-metadata">
+    
+      
+        Jun 29, 2026 · 217 words · 2 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/ai-agent/#development-loop">Development loop </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/ai-agent/#claude">Claude </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/ai-agent/#agent-setting">Agent setting</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/ai-agent/#chat">Chat</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/ai-agent/#skills">Skills</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/ai-agent/#hooks">Hooks</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/ai-agent/#subagent">Subagent</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/ai-agent/#mcp">MCP</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/ai-agent/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>AI agents are good at repetitive tasks that have huge amount of documentation and data. These tasks usually have a converged solution pattern and can be handled by an AI agent.</p>
+<h2 id="development-loop"><a class="zola-anchor" href="#development-loop" aria-label="Anchor link for: development-loop">Development loop</a></h2>
+<div class="mermaid">
+  flowchart TB
+    clarify-requirements --&gt; design-system
+    design-system --&gt; implement-system
+    implement-system --&gt; verify-requirement-fulfillment
+    verify-requirement-fulfillment -- failure --&gt; debug-implementation
+    debug-implementation --&gt; verify-requirement-fulfillment
+    verify-requirement-fulfillment -- success --&gt; write-tests
+    write-tests --&gt; verify-tests
+    verify-tests -- failure --&gt; debug-tests
+    debug-tests --&gt; verify-tests
+    verify-tests -- success --&gt; complete
+</div>
+<h2 id="claude"><a class="zola-anchor" href="#claude" aria-label="Anchor link for: claude">Claude</a></h2>
+<h3 id="agent-setting"><a class="zola-anchor" href="#agent-setting" aria-label="Anchor link for: agent-setting">Agent setting</a></h3>
+<ul>
+<li>Use <code>CLAUDE.md</code> for essential context, e.g., configuring Claude to ask followup questions if a request is unclear.</li>
+</ul>
+<h3 id="chat"><a class="zola-anchor" href="#chat" aria-label="Anchor link for: chat">Chat</a></h3>
+<ul>
+<li>Use <code>@&lt;FILE_NAME&gt;</code> to include the content of a file in the context.</li>
+<li>Use <code>/compact</code> to compress conversation history.</li>
+<li>Use <code>/account</code> to view token quota.</li>
+<li>Use <code>/model</code> to switch the backend LLM.</li>
+<li>Use <code>/plugins</code> to find and install plugins.</li>
+</ul>
+<h3 id="skills"><a class="zola-anchor" href="#skills" aria-label="Anchor link for: skills">Skills</a></h3>
+<ul>
+<li>Use skills for context injection and let Claude decide to load or not.</li>
+<li>Pick and use only well-tested skills from the public repository as many skills are ineffective and even malicious.</li>
+<li>Use Anthropic skill-creator skill to build our own skills.</li>
+</ul>
+<h3 id="hooks"><a class="zola-anchor" href="#hooks" aria-label="Anchor link for: hooks">Hooks</a></h3>
+<ul>
+<li>Use hooks for event-driven context injection.</li>
+</ul>
+<h3 id="subagent"><a class="zola-anchor" href="#subagent" aria-label="Anchor link for: subagent">Subagent</a></h3>
+<ul>
+<li>Use <code>/agents</code> to create new agents.</li>
+</ul>
+<h3 id="mcp"><a class="zola-anchor" href="#mcp" aria-label="Anchor link for: mcp">MCP</a></h3>
+<ul>
+<li>Use Model Context Protocol (MCP) to let Claude make API calls to web services.</li>
+</ul>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;c&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/mermaid.js"></script>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>
