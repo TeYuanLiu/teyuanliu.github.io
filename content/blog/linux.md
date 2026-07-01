@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date = 2025-04-17
-updated = 2026-06-29
+updated = 2026-07-01
 +++
 
 Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.
@@ -69,6 +69,10 @@ The kernel acts as a bridge between the hardware and software. When we press the
     -   IPOs dispatcher
 -   Once initialized, the kernel starts applications in the user space and lets the user to log in.
 
+## Control group (cgroup)
+
+Cgroup is a logical box that holds the resource limits of a process, i.e., defining the maximum amount of CPU, memory, and I/O a process can use.
+
 ## Namespace
 
 A Linux namespace is a kernel-defined logical box that holds a specific software resource for a process or a group of processes within the namespace. A namespace creates a lightweight and isolated environment.
@@ -78,12 +82,9 @@ A Linux namespace is a kernel-defined logical box that holds a specific software
 -   Process ID (PID)
     -   Isolate process IDs.
     -   Each namespace has its own PID 1 process.
--   Control group (cgroup)
-    -   Isolate resource limits.
-    -   Each namespace has its own cgroup for resources like CPU, memory and I/O.
 -   Mount
-    -   Isolate the filesystem.
-    -   Each namespace has its own root filesystem mount-point.
+    -   Isolate the filesystem by using `chroot`, or `pivot_root` in newer systems, to change the root directory of the namespace, preventing the namespace from accessing other parts of the host filesystem.
+    -   Each namespace has its own root filesystem mount-point inside the host filesystem.
 -   Network
     -   Isolate the IP address (65536 ports), network devices, routing table, iptables (firewall, Network Address Translation (NAT), mangle table).
 -   Inter-Process Communication (IPC)
@@ -674,7 +675,7 @@ Here are the steps I take to set up my development environment.
         litellm --setup
         ```
         1.  Select `Google Gemini` as the LLM provider.
-        1.  Input empty string for the `Google Gemini API key` as we will configure it via an environment variable later.
+        1.  Input nothing for the `Google Gemini API key` as we will configure it via an environment variable later.
         1.  Accept the default port number `<PORT>`.
         1.  Accept the default LiteLLM master key `<LITELLM_MASTER_KEY>`.
         1.  Decline starting the proxy and exit.
@@ -725,7 +726,7 @@ Here are the steps I take to set up my development environment.
         ```bash
         claude
         ```
-    1.  If using VSCode Claude Code extension, add the below content to the `settings.json`.
+    1.  (Optional) If using VSCode Claude Code extension, add the below content to the `settings.json`.
         ```json
         "claudeCode.disableLoginPrompt": true,
         "claudeCode.environmentVariables": [

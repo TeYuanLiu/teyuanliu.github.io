@@ -1,7 +1,7 @@
 +++
 title = "Kubernetes"
 date = 2025-05-01
-updated = 2026-05-30
+updated = 2026-07-01
 +++
 
 Kubernetes is a [container](@/blog/container.md) orchestration engine for containerized application management and provides features like high availability, complex auto-scaling, automatic rollout and rollback, custom scheduling, and service mesh.
@@ -18,6 +18,8 @@ A Kubernetes node usually has one cluster-internal IP and one cluster-external I
 ### Control-plane
 
 #### API server
+
+The API server performs authentication, authorization, admission control (validation/mutating) on read and write requests to etcd.
 
 #### Etcd
 
@@ -69,17 +71,17 @@ A pod can consume different kinds of resources.
 ### Pod creation
 
 1.  A user sends a pod creation request to the API server.
-1.  The API server performs authentication, authorization, admission control (validation/mutating), writing a pod with empty `nodeName` into the etcd, and then updates the user about the pod creation.
-1.  The scheduler watches the API server for any pod with empty `nodeName`, scheduling the pod to a node, and then updates the API server about the pod scheduling.
-1.  The kubelet on the assigned node watches the API server for any assigned pod with the matching `nodeName`, working with the Container Runtime Interface (CRI) plugin to create the pod, and then updates the API server about the pod and container creation.
+1.  The API server creates a pod with empty `nodeName` in etcd, and replies to user with a pod creation response.
+1.  The scheduler watches the API server for any pod with empty `nodeName`, scheduling the pod to a node, and then updates pod status in etcd via the API server.
+1.  The Kubelet on the assigned node watches etcd via the API server for any assigned pod with the matching `nodeName`, working with the Container Runtime Interface (CRI) plugin to create the pod, and then updates the pod status in etcd via the API server.
 
 ### Pod deletion
 
 1.  A user sends a pod deletion request to the API server.
-1.  The API server performs authentication, authorization, admission control (validation/mutating), updating the pod with its `deletionTimestamp` set to the current time in the etcd, and then updates the user about the pod deletion.
-1.  The endpoint controller watches the API server for any pod with its `deletionTimestamp` set, removing the pod's IP address from any service endpoint that includes it, and then updates the API server about the pod's IP removal.
-1.  The kubelet on the node where the pod is running watches the API server for any pod with its `deletionTimestamp` set, working with the CRI plugin to delete the pod (`SIGTERM` or `SIGKILL`), and then updates the API server about the pod and container deletion.
-1.  The API server removes the pod object from the etcd.
+1.  The API server updates the pod's `deletionTimestamp` to the current time in etcd, and replies to the user with a pod deletion response.
+1.  The endpoint controller watches etcd via the API server for any pod with `deletionTimestamp` set, removing the pod's IP address from any service endpoint that includes it, and then updates the pod status in etcd via the API server.
+1.  The Kubelet on the node where the pod is running watches etcd via the API server for any pod with `deletionTimestamp` set, working with the CRI plugin to delete the pod (`SIGTERM` or `SIGKILL`), and updates the pod status via the API server.
+1.  The API server removes the pod object from etcd.
 
 ### Container
 
@@ -104,7 +106,7 @@ The pod's `command` field replaces the container's `ENTRYPOINT` and `args` field
 
 ##### Quality of Service (QoS)
 
-When a node resource pressure occurs, the kubelet begins the node-pressure eviction to resolve node resource pressure and protect the node's stability.
+When a node resource pressure occurs, the Kubelet begins the node-pressure eviction to resolve node resource pressure and protect the node's stability.
 
 -   Best effort
     -   A pod lacking a resource limit is labeled with this QoS class.
@@ -228,16 +230,29 @@ Kubernetes uses the Persistent Volume Claim (PVC) to manage storage.
 ### PVC creation
 
 1.  A user sends a PVC creation request to the API server.
-1.  The API server performs authentication, authorization, admission control (validation/mutating), writing an unbound PVC into the etcd, and then updates the user about the PVC creation.
-1.  The Container Storage Interface (CSI) controller watches the API server for any unbound PVC, working with a storage system to create a directory as a volume on the storage system's filesystem, and then sends a Persistent Volume (PV) creation request to the API server. The request contains metadata like volume ID, driver details, and `claimRef` for PVC bound.
-1.  The API server performs authentication, authorization, admission control (validation/mutating), writing a PV into the etcd, updating the PVC's bound status, and then updates the CSI controller about the PV creation.
+1.  The API server creates an unbound PVC in etcd, and replies to the user with a PVC creation response.
+1.  The Persistent Volume (PV) controller watches the API server for any unbound PVC, and checks if an existing, idle PV fits the PVC's requirements.
+1.  If a matching PV is found, the PV controller binds them and updates their statuses in etcd via the API server.
+1.  If no matching PV exists, it calls the Container Storage Interface (CSI) controller to create a PV.
+1.  The CSI controller detects the unbound PVC's StorageClass and calls the StorageClass's CSI driver with the `CreateVolume` RPC to create a volume inside the CSI driver's backend storage system.
+1.  Once the volume is ready, the CSI controller creates a PV in etcd via the API server.
+1.  The PV controller watches the API server for any unbound PVC and binds the new PV to the PVC and update their statuses in etcd via the API server.
+
+### PV mounting
+
+1.  A pod demanding a PV is scheduled on a node.
+1.  The AttachDetach controller watches etcd via the API server for any pod that needs device-attaching and calls the CSI controller to attach a remote or local device to the node.
+1.  Kubelet on the node calls the CSI node plugin to mount the newly-attached device to a directory on the node, e.g., `/var/lib/kubelet/pods/<POD-UID>/volumes/<VOLUME-UID>`, via the `NodeStageVolume` RPC.
+1.  Kubelet calls the CSI node plugin to map the node directory to the pod's specific container directory via the `NodePublishVolume` RPC.
 
 ### PVC deletion
 
 1.  A user sends a PVC deletion request to the API server.
-1.  The API server performs authentication, authorization, admission control (validation/mutating), setting the PVC's deletion status into the etcd, and then updates the user about the PVC deletion.
-1.  The CSI controller watches the API server for any PVC deletion, working with the storage system to remove the directory from the filesystem, and then updates the API server about the PVC and PV deletion.
-1.  The API server removes the PVC and PV from the etcd.
+1.  The API server ensures no pod is using the PVC, deleting the PVC in etcd, and then replies to the user with a PVC deletion response.
+1.  The PV controller watches the API server for any PVC deletion, and update the PV status to `unbound` in etcd via the API server.
+1.  The CSI controller watches for any unbound PV and checks if its reclaim policy is `Delete`.
+1.  If the reclaim policy is `Delete`, then the CSI controller calls the StorageClass's CSI driver with the `DeleteVolume` RPC to delete the volume inside the CSI driver's backend storage system.
+1.  Once the volume is deleted, the CSI controller deletes the PV in etcd via the API server.
 
 ## Operation
 
