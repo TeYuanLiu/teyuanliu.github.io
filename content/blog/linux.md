@@ -39,17 +39,13 @@ The kernel acts as a bridge between the hardware and software. When we press the
 -   The UEFI/BIOS loads the first bootloader in the boot order.
     -   If this is a Ubuntu computer, it should be the GRand Unified Bootloader (GRUB) bootloader at `/boot/efi/EFI/ubuntu/grubx64.efi` in the Ubuntu partition.
     -   If this is a Windows computer, it should be the Windows bootloader at `/Windows/Boot/EFI/bootmgfw.efi` in the Windows partition.
--   The bootloader loads the kernel into the Random Access Memory (RAM).
--   The kernel detects hardware devices like CPU, RAM, disk, network, etc, and executes the `init` system, which is often `systemd`, to start many subsystems.
+-   The bootloader loads the kernel into memory.
+-   The kernel detects hardware devices like CPU, memory, disk, network, etc, and executes the `init` system, which is often `systemd`, to start many subsystems.
     -   Process management subsystem
         -   Signal handling
         -   Process/thread creation and termination
         -   Process scheduler (Linux kernel)
-    -   Memory management subsystem
-        -   Virtual memory
-            -   The kernel utilizes virtual memory to allocate and de-allocate memory in RAM or disk for every process.
-        -   Paging page replacement
-        -   Page cache
+    -   [Memory management subsystem](#memory-management)
     -   I/O subsystem
         -   Virtual filesystem
             -   The kernel utilizes a virtual filesystem to interact with files on different devices.
@@ -424,6 +420,20 @@ Linux's ext4 filesystem follows the Filesystem Hierarchy Standard (FHS) 3 specif
     -   Unicode is a character set extending ASCII characters and aims to include every used character on Earth inside it.
 -   UTF-8
     -   UTF-8 is the mapping table similar to ASCII that does the encoding/decoding for Unicode characters.
+
+## Memory management
+
+-   Paging
+    -   Paging divides a logical address space into fixed-size blocks to simplify hardware allocation and eliminate external fragmentation.
+-   Virtual memory (or swap memory)
+    -   The Memory Management Unit (MMU) uses paging to break memory into blocks called frames, and disk into blocks called pages.
+    -   Because frame and page have the same size, the MMU can offload the frames of a process to pages on disk or load them back to memory.
+    -   From a user's perspective it behaves just like memory so it is called virtual memory.
+-   Segmentation
+    -   Segmentation divides a logical address space into variable-sized blocks called segments to match a process's logical address space structure, which includes code, initialized global variables, uninitialized global variables, heap, stack, and kernel space.
+    -   This approach simplifies access management, e.g., granting read-only access to the code segment while allowing read-write access to the heap segment.
+-   Hybrid
+    -   Newer CPU architecture often divides a process's logical address space with segmentation and then further divides each segment with paging.
 
 ## Networking
 
