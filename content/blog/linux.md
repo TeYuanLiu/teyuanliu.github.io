@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date = 2025-04-17
-updated = 2026-07-01
+updated = 2026-07-02
 +++
 
 Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.
@@ -65,9 +65,9 @@ The kernel acts as a bridge between the hardware and software. When we press the
     -   IPOs dispatcher
 -   Once initialized, the kernel starts applications in the user space and lets the user to log in.
 
-## Control group (cgroup)
+## Control group
 
-Cgroup is a logical box that holds the resource limits of a process, i.e., defining the maximum amount of CPU, memory, and I/O a process can use.
+Control group (cgroup) is a logical box that holds the resource limits of a process, i.e., defining the maximum amount of CPU, memory, and I/O a process can use.
 
 ## Namespace
 
@@ -78,6 +78,9 @@ A Linux namespace is a kernel-defined logical box that holds a specific software
 -   Process ID (PID)
     -   Isolate process IDs.
     -   Each namespace has its own PID 1 process.
+-   User ID (UID)
+    -   Isolate user and group IDs.
+    -   Each namespace has its own UID 0 user (root) and it is mapped to a different UID on the system.
 -   Mount
     -   Isolate the filesystem by using `chroot`, or `pivot_root` in newer systems, to change the root directory of the namespace, preventing the namespace from accessing other parts of the host filesystem.
     -   Each namespace has its own root filesystem mount-point inside the host filesystem.
@@ -85,9 +88,6 @@ A Linux namespace is a kernel-defined logical box that holds a specific software
     -   Isolate the IP address (65536 ports), network devices, routing table, iptables (firewall, Network Address Translation (NAT), mangle table).
 -   Inter-Process Communication (IPC)
     -   Isolate the shared memory, message queues, and semaphores (resource counter to prevent race condition).
--   User ID (UID)
-    -   Isolate user and group IDs.
-    -   Each namespace has its own UID 0 user (root) and it is mapped to a different UID on the system.
 -   Environment variable
     -   Isolate environment variables.
 -   UTS

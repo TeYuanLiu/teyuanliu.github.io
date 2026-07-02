@@ -1,11 +1,20 @@
 +++
 title = "Container"
 date = 2025-04-20
-updated = 2026-05-20
+updated = 2026-07-02
 +++
 
-A container is a process or a group of processes running with its own namespace for process ID (PID), cgroup, mount, user ID (UID), Inter-Process Communication (IPC), network, environment variable, etc. Through these namespace configurations, the container process sees itself as isolated.
+A container is a process running with its own cgroup for resource limits and namespaces for process ID (PID), user ID (UID), mount, Inter-Process Communication (IPC), network, environment variable, etc. Through these configurations, the container process sees itself as isolated.
 <!-- more -->
+
+## Container
+
+A process needs the below operations to become a container.
+
+-   Own an independent [control group](@/blog/linux.md#control-group).
+-   Own independent [Namespaces](@/blog/linux.md#namespace).
+-   Run [chroot or pivot_root](@/blog/linux.md#namespace-types) to update its mount namespace root directory.
+-   Limit kernel function access via Linux Capabilities and Seccomp.
 
 ## Runc
 
@@ -15,21 +24,13 @@ Runc is a low-level runtime that implements the Open Container Initiative (OCI) 
 
 Containerd is a high-level runtime that administers the lifecycle of containers including image transfer (no image building), and container supervision (start, stop, restart). It uses runc to implement the Container Runtime Interface (CRI). It supports simple networking like the host mode which allows a container to access the host's network. For more complex networking features we can choose an implementation of the Container Network Interface (CNI) like Calico.
 
-## Ctr
+### Ctr
 
 Ctr is a client tool for containerd management.
 
 ## CRI-O
 
 CRI-O is another high-level runtime that implements the CRI. It was built for container management on Kubernetes.
-
-## Kubernetes
-
-[Kubernetes](@/blog/kubernetes.md) is a high-level container orchestrator that can use either CRI-O or containerd for CRI.
-
-## Kubectl
-
-Kubectl is a client tool for Kubernetes management.
 
 ## Dockerd
 
@@ -57,7 +58,7 @@ Here are different base image types.
     -   Provide an empty file system that has no users or files.
     -   Require manually creation and management of users and system files like CA certificates.
 
-### Filesystem layers
+#### Filesystem layers
 
 When building a container image, the final image is composed of a group of stacked, immutable filesystem layers. Each instruction like `FROM`, `COPY/ADD`, and `RUN` in the Dockerfile produces a new layer. Note that `CMD` and `ENTRYPOINT` don't create filesystem layers but update the image config. Each layer is a tarball of the layer's file changes, stored in `/var/lib/docker/overlay2/` for Docker and `/var/lib/containerd/` for Containerd.
 
@@ -175,6 +176,14 @@ Portability | Yes | No
 Speed | Slow | Fast
 Debug | Hard | Easy
 Use case | Integration test | Code development
+
+## Kubernetes
+
+[Kubernetes](@/blog/kubernetes.md) is a high-level container orchestrator that can use either containerd or CRI-O for CRI.
+
+## Kubectl
+
+Kubectl is a client tool for Kubernetes management.
 
 ## References
 
