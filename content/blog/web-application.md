@@ -1,7 +1,7 @@
 +++
 title = "Web Application"
 date = 2025-05-01
-updated = 2026-01-31
+updated = 2026-07-03
 +++
 
 ## Frontend
@@ -84,7 +84,7 @@ By just adding the pre-built `container` class to a `div` tag, Bootstrap automat
 ### API gateway
 
 -   Security
-    -   Authentication and authorization
+    -   [Authentication and authorization](@/blog/authentication-and-authorization.md)
     -   TLS
     -   Rate limiting
 -   Transforming
