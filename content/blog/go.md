@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-06-29
+updated = 2026-07-08
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -909,7 +909,7 @@ func getIndex[T comparable](s []T, x T) int
 
 Go addresses function error with an explicit and imperative approach. In general, a function is expected to return a pair of values. The first one is the result value and the other one is the error value. Go expects us to check and handle the error using `if err != nil {}` for every function call.
 
-Here are some tips for function error handling tailored for the [application server directory structure in this post](#application-server-directory-structure).
+Here are some tips for function error handling tailored for the [server directory structure in this post](#server-directory-structure).
 
 -   Handler layer (System boundary)
     -   Log error.
@@ -1796,14 +1796,15 @@ go install
 -   If we need boilerplate code reduction, use `sqlc-dev/sqlc` or `database/sql` with extensions like `jmoiron/sqlx`.
 -   Using too many abstractions like `go-gorm/gorm` often leads to N+1 problem and abstraction debugging difficulty.
 
-## Networking
+## REST API
 
 -   `encoding/json` package for data serialization/deserialization
 -   `net/http` for REST API server and client
--   Default ServeMux is usually sufficient but we can create custom ones too with `http.NewServeMux`,
--   Create our own custom `http.Server` because the default server has no timeout.
 -   Create our own custom `http.Client` because `http.DefaultClient` has no timeout and may be modified by imported dependencies. Reuse the same client for connection pool sharing.
 -   Close the response body to prevent file descriptor exhaustion.
+-   Create our own custom `http.Server` because the default server has no timeout.
+-   `http.Server` runs a loop that accepts incoming network connections and creates one goroutine per network connection for request handling. Inside the request handling goroutine, `http.ServeMux` matches the request URL path to the handler function and executes that function.
+-   Default ServeMux is usually sufficient but we can create custom ones too with `http.NewServeMux`.
 -   Set CORS check explicitly.
 -   Set response security headers.
     ```go
@@ -1815,11 +1816,11 @@ go install
 -   `go-chi/chi` is still valuable for complex routing.
 
 
-### Application server directory structure
+### Server directory structure
 
-The goal of this application server directory structure is decoupling with minimum abstraction. It divides the system into 3 layers, handler, service, and infrastructure.
+The goal of this server directory structure is decoupling with minimum abstraction. It divides the system into 3 layers, handler, service, and infrastructure.
 
-Here is an application for user registration, login, and logout.
+Here is a server for user registration, login, and logout.
 
 ```bash
 cmd/
@@ -1856,11 +1857,11 @@ Here are the 3 layers.
 
 At last, `cmd/main/main.go` creates infrastructure interface values, service structs, the handler, injecting dependencies, and then starts the handler.
 
-### gRPC
+## gRPC
 
 gRPC enables a client to call a function on a server as if it were a local function. It supports bi-directional and unary like client or server streaming.
 
-#### Protocol buffer
+### Protocol buffer
 
 gRPC uses protocol buffers by default to serialize and deserialize structured data. For each service, we use a `.proto` file to define its data structures and methods. Below is an example.
 
@@ -1906,7 +1907,7 @@ message Method1Response {
 
 The integers `1`, `2`, and `3` are unique IDs used to identify a field in the protocol buffer binary message format. This gives the backward compatibility as renaming a field doesn't break the communication between a new version and the old one.
 
-##### Protocol buffer compilation
+#### Protocol buffer compilation
 
 After the service definition, we use the protocol buffer compiler, [protoc](https://grpc.io/docs/languages/go/quickstart/#regenerate-grpc-code), to compile the `.proto` files and generate the client and server code for each service.
 
@@ -2195,55 +2196,6 @@ func LoadConfig(ctx context.Context, client secrets.Client) (*Config, error) {
 
 See more in the [Kubernetes post](@/blog/kubernetes.md#container-resource-request-and-limit).
 
-## Optimization
-
-1.  Profile.
-1.  Identify bottleneck from heap escape and goroutine analysis.
-1.  Improve and benchmark.
-
-### Profile
-
-Go's built-in profiler `pprof` can start a http server and let we inspect things like heap allocations and how many goroutines are running and which line of code started them. We can set it up with the below steps.
-
-1.  Add `import _ "net/http/pprof"`.
-2.  Register the handler function to an existing HTTP ServeMux with `http.HandleFunc("/debug/pprof/", pprof.Index)`. Otherwise, run it in a side server with `go func() {http.ListenAndServe("localhost:6060", nil)}()`.
-3.  Visit `http://localhost:6060/debug/pprof/goroutine?debug=1`.
-
-### Benchmark
-
-We can use the built-in benchmark tool to measure performance. First we create the benchmark function.
-
-```go
-func BenchmarkBuildURL(b *testing.B) {
-    for range b.N {
-        buildURL("domain", "/api/users", 8080)
-    }
-}
-```
-
-Then we run the benchmark.
-
-```bash
-go test -bench=. -benchmem -count=5 ./...
-```
-
--   `-benchmem` shows allocations per operation.
--   `-count=5` runs each benchmark 5 times to reduce variance.
-
-We can run for heap profile.
-
-```bash
-go test -bench=. -memprofile=mem.out
-go tool pprof mem.out
-```
-
-Or run for CPU profile.
-
-```bash
-go test -bench=. -cpuprofile=cpu.out
-go tool pprof cpu.out
-```
-
 ## Production best practice
 
 ### Error handling
@@ -2288,6 +2240,55 @@ go tool pprof cpu.out
         -   GC is triggered when heap grows 100%.
     -   With the 50 GCPercent
         -   GC is triggered when heap grows 50%.
+
+#### Optimization steps
+
+1.  Profile.
+1.  Identify bottleneck from heap escape and goroutine analysis.
+1.  Improve and benchmark.
+
+##### Profile
+
+Go's built-in profiler `pprof` can start a http server and let we inspect things like heap allocations and how many goroutines are running and which line of code started them. We can set it up with the below steps.
+
+1.  Add `import _ "net/http/pprof"`.
+2.  Register the handler function to an existing HTTP ServeMux with `http.HandleFunc("/debug/pprof/", pprof.Index)`. Otherwise, run it in a side server with `go func() {http.ListenAndServe("localhost:6060", nil)}()`.
+3.  Visit `http://localhost:6060/debug/pprof/goroutine?debug=1`.
+
+##### Benchmark
+
+We can use the built-in benchmark tool to measure performance. First we create the benchmark function.
+
+```go
+func BenchmarkBuildURL(b *testing.B) {
+    for range b.N {
+        buildURL("domain", "/api/users", 8080)
+    }
+}
+```
+
+Then we run the benchmark.
+
+```bash
+go test -bench=. -benchmem -count=5 ./...
+```
+
+-   `-benchmem` shows allocations per operation.
+-   `-count=5` runs each benchmark 5 times to reduce variance.
+
+We can run for heap profile.
+
+```bash
+go test -bench=. -memprofile=mem.out
+go tool pprof mem.out
+```
+
+Or run for CPU profile.
+
+```bash
+go test -bench=. -cpuprofile=cpu.out
+go tool pprof cpu.out
+```
 
 ## Adoption challenge
 
