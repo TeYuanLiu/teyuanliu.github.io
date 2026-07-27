@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-07-08
+updated = 2026-07-27
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1502,7 +1502,7 @@ go func() {
 }
 ```
 
-One way to prevent the deadlock from happening is to establish a global lock ordering. If every goroutine has to lock `mu1` first and then `mu2`, no deadlock would happen.
+One way to prevent the deadlock from happening is to establish a global lock ordering. If every goroutine has to lock `mu1` first and then `mu2`, no deadlock would happen. We lock mutexes in a globally consistent order and unlock them in the exact reverse order.
 
 #### Mutex blocking
 
@@ -1949,6 +1949,7 @@ We can now implement the `client/client.go` and `server/server.go` with the prot
 ## Command Line Interface (CLI)
 
 -   Use `flag` for flag parsing and `switch` statement for subcommands.
+    -   Use `-flag=false` instead of `-flag false` because a boolean-type flag without using `=` sets the value to `true`. The next argument, `false`, is then treated as a positional argument, and stops the flag parsing, which is undesirable.
 -   Using `spf13/cobra` is often too much unless for truly large-scale applications.
 
 ## Testing
