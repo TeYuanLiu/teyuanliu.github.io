@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date = 2025-04-17
-updated = 2026-07-02
+updated = 2026-08-01
 +++
 
 Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.
@@ -383,6 +383,8 @@ Linux's ext4 filesystem follows the Filesystem Hierarchy Standard (FHS) 3 specif
 -   The “sd” stands for Small Computer System Interface (SCSI) Disk, which is a data transfer protocol succeeded by other protocols like Serial Advanced Technology Attachment (SATA) and Non-Volatile Memory express (NVMe). Therefore, a disk with name prefixed with "sd" may be either a SATA or a NVMe drive.
 -   The next letter indicates the device order, so “sda” means the first detected disk and “sdb” means the second one.
 -   Each partition on the disk is given a number, so “sda1” is the first partition on the first disk.
+-   Mounting a storage device to a directory requires `sudo`, so we can block a user from accessing storage devices by not giving it `sudo`.
+    -   If a user has `sudo`, we cannot prohibit the user from accessing storage devices by adding a `polkit` rule to `/etc/polkit-1/rules.d/` as `sudo` switches the user that executes the mount command to the superuser.
 
 ### File permissions
 
