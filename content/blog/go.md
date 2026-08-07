@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-07-27
+updated = 2026-08-06
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -638,6 +638,101 @@ We often use the `Print`, `Println`, and `Printf` function from the built-in `fm
     -   %o for octal (base8)
     -   %x for hexadecimal (base16)
     -   %v for default format
+
+## Compilation
+
+We can create an example Go program by making a `here_we_go.go` file.
+
+If we want to produce a binary, `here_we_go.go` must belong to the `main` package and include a `main` function such that the compiler can locate the entrypoint of the binary. During the compilation process, the compiler first converts this Go file into an assembly-like internal representation and then compiles the internal representation into a binary.
+
+If we don't need a binary, then `here_we_go.go` doesn't need to have the `main` package and function. The compilation still runs but produces nothing.
+
+{% codeblocktag () %}
+here_we_go.go
+{% end %}
+```go
+// Declare this file as part of the main package.
+package main
+
+// Import the built-in fmt package for input/output.
+import (
+    "fmt"
+)
+
+// Declare the main function in the main package.
+func main() {
+    // Print a line saying "Here we Go!".
+    fmt.Println("Here we Go!")
+}
+```
+
+We can use the `go build` command to instruct the Go compiler to compile the working directory's Go files into a binary.
+
+```bash
+# Generate a binary named after the working directory.
+go build
+
+# Generate a binary with the specified binary name.
+go build -o <BINARY_NAME>
+
+# Generate a binary with the specified main package path.
+go build <MAIN_PACKAGE_PATH>
+
+# Generate a binary with garbage collection decisions printed like devirtualization, inlining, and heap escape.
+go build -gcflag="-m"
+
+# Generate a binary with garbage collection decisions and reasoning printed like devirtualization, inlining, and heap escape.
+go build -gcflag="-m=2"
+
+# Generate a binary such that it is independent from the host's C libraries and can run in a scratch container without the exec format error and no such file or directory error.
+CGO_ENABLE=0 go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
+
+# Generate a binary for specified OS and hardware.
+GOOS=linux GOARCH=amd64 go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
+
+# Generate a production binary.
+CGO_ENABLE=0 GOOS=linux GOARCH=amd64 go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
+```
+
+### Escape
+
+The compiler promotes a value from the stack to the heap if it cannot prove the value's lifetime is limited to the current function scope. Here are some cases where the compiler makes the value escape from the stack to the heap.
+
+-   The value is returned by the function.
+-   The value is stored in a variable that lives outside of the function.
+-   The value is passed to a function that accepts `...interface{}` and uses reflection, for example `fmt.Println()`.
+
+## Execution
+
+And then we can run the produced binary.
+
+```bash
+# Run the binary, assuming its name is here-we-go.
+./here-we-go
+```
+
+Furthermore, we can combine the compile and run into one command `go run`.
+
+```bash
+# Generate an ephemeral binary go-buildxxx inside the temporary directory /tmp, running it, and delete the binary after execution.
+go run here_we_go.go
+
+# This also works as long as the working directory contains the Go file that includes the main package's main function.
+go run .
+```
+
+If we want to install the binary so we can run it anywhere on the host, export the Go install path and install the binary.
+
+```bash
+# Locate the Go install path.
+go list -f '{{.Target}}'
+
+# Export the path.
+export PATH=$PATH:<GO_INSTALL_PATH>
+
+# Compile and install the binary to the Go install path.
+go install
+```
 
 ## Flow control
 
@@ -1661,98 +1756,6 @@ import (
 
 Use `go clean -modcache` to remove all downloaded modules.
 
-## Compilation
-
-We can create an example Go program by making a `here_we_go.go` file.
-
-If we want to produce a binary, `here_we_go.go` must belong to the `main` package and include a `main` function such that the compiler can locate the entrypoint of the binary. During the compilation process, the compiler first converts this Go file into an assembly-like internal representation and then compiles the internal representation into a binary.
-
-If we don't need a binary, then `here_we_go.go` doesn't need to have the `main` package and function. The compilation still runs but produces nothing.
-
-{% codeblocktag () %}
-here_we_go.go
-{% end %}
-```go
-// Declare this file as part of the main package.
-package main
-
-// Import the built-in fmt package for input/output.
-import (
-    "fmt"
-)
-
-// Declare the main function in the main package.
-func main() {
-    // Print a line saying "Here we Go!".
-    fmt.Println("Here we Go!")
-}
-```
-
-We can use the `go build` command to instruct the Go compiler to compile the working directory's Go files into a binary.
-
-```bash
-# Generate a binary named after the working directory.
-go build
-
-# Generate a binary with the specified binary name.
-go build -o <BINARY_NAME>
-
-# Generate a binary with the specified main package path.
-go build <MAIN_PACKAGE_PATH>
-
-# Generate a binary with garbage collection decisions printed like devirtualization, inlining, and heap escape.
-go build -gcflag="-m"
-
-# Generate a binary with garbage collection decisions and reasoning printed like devirtualization, inlining, and heap escape.
-go build -gcflag="-m=2"
-
-# Generate a binary such that it is independent from the host's C libraries and can run in a scratch container without the exec format error and no such file or directory error.
-CGO_ENABLE=0 go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
-
-# Generate a binary for specified OS and hardware.
-GOOS=linux GOARCH=amd64 go build -o <BINARY_NAME> <MAIN_PACKAGE_PATH>
-```
-
-### Escape
-
-The compiler promotes a value from the stack to the heap if it cannot prove the value's lifetime is limited to the current function scope. Here are some cases where the compiler makes the value escape from the stack to the heap.
-
--   The value is returned by the function.
--   The value is stored in a variable that lives outside of the function.
--   The value is passed to a function that accepts `...interface{}` and uses reflection, for example `fmt.Println()`.
-
-## Execution
-
-And then we can run the produced binary.
-
-```bash
-# Run the binary, assuming its name is here-we-go.
-./here-we-go
-```
-
-Furthermore, we can combine the compile and run into one command `go run`.
-
-```bash
-# Generate an ephemeral binary go-buildxxx inside the temporary directory /tmp, running it, and delete the binary after execution.
-go run here_we_go.go
-
-# This also works as long as the working directory contains the Go file that includes the main package's main function.
-go run .
-```
-
-If we want to install the binary so we can run it anywhere on the host, export the Go install path and install the binary.
-
-```bash
-# Locate the Go install path.
-go list -f '{{.Target}}'
-
-# Export the path.
-export PATH=$PATH:<GO_INSTALL_PATH>
-
-# Compile and install the binary to the Go install path.
-go install
-```
-
 ## Logging
 
 -   Use `log/slog` for structured logging.
@@ -1789,6 +1792,16 @@ go install
 -   Use custom constructor functions take in dependencies and create structs.
 -   Use the main function to call constructor functions and wire dependencies.
 -   Using `google/wire` creates generated-code debugging issue and extra build step.
+
+## File read and write
+
+-   File read
+    -   For known maximum line size, use `bufio.Scanner`.
+        -   For lines not exceeding 64 KB, use `scanner.Scan()`.
+        -   For lines exceeding 64 KB, use `scanner.Buffer(buffer, maxBufferSize)` and then `scanner.Scan()`.
+        -   For each line,  use `scanner.Bytes()` or `scanner.Text()`.
+    -   For unknown maximum line size, use `bufio.Reader`.
+        -   For each line, use `reader.ReadBytes('\n')` or `reader.ReadString('\n')`.
 
 ## Database
 
