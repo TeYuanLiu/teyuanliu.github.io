@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-08-06
+updated = 2026-08-09
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1793,15 +1793,36 @@ Use `go clean -modcache` to remove all downloaded modules.
 -   Use the main function to call constructor functions and wire dependencies.
 -   Using `google/wire` creates generated-code debugging issue and extra build step.
 
-## File read and write
+## OS operation
 
--   File read
+Use `os` for file system operations relevant to files, directories, and permissions.
+
+-   Create directory
+    -   Use `os.Mkdir(directoryName, permission)` for single creation or `os.MkdirAll(directoryPath, permission)` for recursive creation.
+-   Create file
+    -   Use `os.Create(fileName)`.
+-   Read bytes or string from file
+    -   For file opening, use `os.Open(fileName)`.
+    -   For reading a small file which can fit into the memory, use `os.ReadFile(fileName)`.
     -   For known maximum line size, use `bufio.Scanner`.
         -   For lines not exceeding 64 KB, use `scanner.Scan()`.
         -   For lines exceeding 64 KB, use `scanner.Buffer(buffer, maxBufferSize)` and then `scanner.Scan()`.
         -   For each line,  use `scanner.Bytes()` or `scanner.Text()`.
     -   For unknown maximum line size, use `bufio.Reader`.
         -   For each line, use `reader.ReadBytes('\n')` or `reader.ReadString('\n')`.
+-   Write bytes to file
+    -   Use `os.WriteFile(fileName, bytes, permission)`.
+
+## Stream operation
+
+Use `io` for abstract data stream operations like data transfer from a network connection to a byte slice.
+
+-   Read from stream like HTTP connection
+    -   Use `io.ReadAll(reader)`.
+-   Write string to stream
+    -   Use `io.WriteString(writer, string)`.
+-   Copy data from reader to writer with managed buffer to avoid loading the entire file.
+    -   Use `io.Copy(writer, reader)`.
 
 ## Database
 
