@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-08-09
+updated = 2026-08-11
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1817,9 +1817,9 @@ Use `os` for file system operations relevant to files, directories, and permissi
 
 Use `io` for abstract data stream operations like data transfer from a network connection to a byte slice.
 
--   Read from stream like HTTP connection
-    -   Use `io.ReadAll(reader)`.
--   Write string to stream
+-   Read from stream.
+    -   When we need to inspect the bytes of a HTTP connection besides parsing it, use `io.ReadAll(r.Body)` with `json.Unmarshal(bytes, &v)`. This loads the entire HTTP body into a byte slice before parsing and causes heap allocation. Otherwise, use `json.NewDecoder(r.Body).Decode(&v)` to stream bytes from the connection into our struct for smaller memory consumption.
+-   Write string to stream.
     -   Use `io.WriteString(writer, string)`.
 -   Copy data from reader to writer with managed buffer to avoid loading the entire file.
     -   Use `io.Copy(writer, reader)`.
