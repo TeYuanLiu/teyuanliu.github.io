@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-08-11
+updated = 2026-08-17
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1755,6 +1755,20 @@ import (
 ### Removing all downloaded modules
 
 Use `go clean -modcache` to remove all downloaded modules.
+
+## Time
+
+-   Go uses a specific reference timestamp, `Mon Jan 2 15:04:05 MST 2006`, to build custom timestamp layouts.
+    -   For year use `2006` or `06`.
+    -   For month use `01` or `1` or `January` or `Jan`.
+    -   For day use `02` or `_2` (underscore means space) or `2`.
+    -   For day of week use `Monday` or `Mon`.
+    -   For hour use `15` or `03` or `3`.
+    -   For minute use `04` or `4`.
+    -   For second use `05` or `5`.
+    -   For AM/PM use `AM` or `PM`.
+    -   For timezone use `MST` or `Z07:00` or `-0700`.
+    -   An layout example is `2006/January/02 Monday 03:04:05 PM Z07:00` and input example is `2026/August/17 Monday 12:28:59 PM -08:00`.
 
 ## Logging
 
