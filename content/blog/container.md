@@ -1,18 +1,18 @@
 +++
 title = "Container"
 date = 2025-04-20
-updated = 2026-07-02
+updated = 2026-08-17
 +++
 
-A container is a process running with its own cgroup for resource limits and namespaces for process ID (PID), user ID (UID), mount, Inter-Process Communication (IPC), network, environment variable, etc. Through these configurations, the container process sees itself as isolated.
+A container is a process running inside an isolated environment, and its emergence has drastically reduced the cost of software deployment.
 <!-- more -->
 
 ## Container
 
 A process needs the below operations to become a container.
 
--   Own an independent [control group](@/blog/linux.md#control-group).
--   Own independent [Namespaces](@/blog/linux.md#namespace).
+-   Own an independent [control group](@/blog/linux.md#control-group) for resource limits.
+-   Own independent [Namespaces](@/blog/linux.md#namespace) for process ID (PID), user ID (UID), mount, Inter-Process Communication (IPC), network, environment variable, etc.
 -   Run [chroot or pivot_root](@/blog/linux.md#namespace-types) to update its mount namespace root directory.
 -   Limit kernel function access via Linux Capabilities and Seccomp.
 

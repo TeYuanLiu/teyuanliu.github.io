@@ -1,11 +1,27 @@
 +++
 title = "Kubernetes"
 date = 2025-05-01
-updated = 2026-07-01
+updated = 2026-08-17
 +++
 
 Kubernetes is a [container](@/blog/container.md) orchestration engine for containerized application management and provides features like high availability, complex auto-scaling, automatic rollout and rollback, custom scheduling, and service mesh.
 <!-- more -->
+
+## Use case
+
+Kubernetes is a powerful yet demanding tool that requires not only multiple machines but also engineer expertise for handling a high complexity system. Therefore, consider to adopt it only if we need the following features.
+
+-   A place to run 100+ microservices
+-   Availability of > 99% uptime
+-   Automatic rollout and rollback
+-   Custom scheduling
+-   Service meshes
+
+### Deployment comparison
+
+Environment | Virtual machine | Docker container | Kubernetes
+-|-|-|-
+Deployment | Ansible | Docker Compose | Kubernetes Deployment
 
 ## Cluster
 
@@ -21,7 +37,7 @@ A Kubernetes node usually has one cluster-internal IP and one cluster-external I
 
 The API server performs authentication, authorization, admission control (validation/mutating) on read and write requests to etcd.
 
-#### Etcd
+#### etcd
 
 See more about [etcd](@/blog/etcd.md).
 
