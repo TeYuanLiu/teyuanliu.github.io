@@ -1190,9 +1190,13 @@ If possible, we should change to use typed parameters or [generic type parameter
 
 An interface concrete type assertion checks if the interface value holds a value of the specified concrete type. If so, it returns the concrete type value and a true ok value. Otherwise, it returns the zero value of the specified concrete type and a false ok value.
 
+```go
+t, ok := i.(int)
+```
+
 #### Interface type switch
 
-An interface type switch is a switch statement that uses types as cases, rather than values as cases.
+An interface type switch is a switch statement that uses types as cases, rather than values as cases. It is used to inspect the concrete type of an interface variable.
 
 ```go
 func do(i any) {
