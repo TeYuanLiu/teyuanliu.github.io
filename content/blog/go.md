@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-08-17
+updated = 2026-08-19
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -239,6 +239,7 @@ f := float64(i)
 
 -   Use `'<BYTE>'` for literal.
 -   Byte is an alias of uint8 and not int8 because people had already developed the habit of considering 0xFF as 255 not -1. This has increased the difficulty of detecting arithmetic overflow though.
+-   When we treat bytes as text using `string(b)` or `fmt.Printf("%s")` or `for range`, bytes are interpreted with UTF-8 encoded Unicode by default.
 
 ### Rune
 
@@ -396,6 +397,38 @@ s1 := []int{1}          // s1 = {1}
 s1 = append(s1, 2, 3)   // s1 = {1, 2, 3}
 s2 := []int{4}          // s2 = {4}
 s1 = append(s1, s2...)  // s1 = {1, 2, 3, 4}
+```
+
+#### Slice popping
+
+```go
+s := []int{1, 2}                        // s = {1, 2}
+v, s = s[len(s) - 1], s[:len(s) - 1]    // v = 2, s = {1}
+```
+
+#### Slice prepending
+
+```go
+s := []int{1, 2}            // s = {1, 2}
+s = append([]int{0}, s...)  // s = {0, 1, 2}
+```
+
+#### Slice front popping
+
+```go
+s := []int{1, 2}    // s = {1, 2}
+v, s = s[0], s[1:]  // v = 1, s = {2}
+```
+
+#### Double-ended queue
+
+We can make a double-ended queue (deque) from a slice.
+
+```go
+s = append(s, v)                        // append
+v, s = s[len(s) - 1], s[:len(s) - 1]    // pop
+s = append([]int{v}, s)                 // prepend
+v, s = s[0], s[1:]                      // pop front
 ```
 
 #### Byte slice generation
@@ -572,6 +605,9 @@ m := map[string]Vertex{
 ```go
 // Insert or update a key-value pair.
 m[key] = value
+
+// Insert or update a key's slice value. This is possible because append can handle an empty (nil) slice.
+m[key] = append(m[key], v)
 
 // Retrieve the value of a key.
 value := m[key]
