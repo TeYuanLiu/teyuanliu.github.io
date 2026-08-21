@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- CSS -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Model Inference
+  </div>
+  <div class="header-metadata">
+    
+      
+        Jun 29, 2026 · 137 words · 1 min read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/model-inference/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <ul>
+<li>backend
+<ul>
+<li>vllm
+<ul>
+<li>text-generation-model-1
+<ul>
+<li>pvc</li>
+<li>deployment
+<ul>
+<li>command
+<ul>
+<li>api key</li>
+</ul>
+</li>
+<li>env
+<ul>
+<li>api key</li>
+<li>vllm-text-generation-model-1 parameters dir path</li>
+<li>hf token</li>
+</ul>
+</li>
+<li>ports</li>
+</ul>
+</li>
+<li>service</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>tei
+<ul>
+<li>text-embedding-model-1
+<ul>
+<li>pvc</li>
+<li>deployment
+<ul>
+<li>args
+<ul>
+<li>api key</li>
+<li>port</li>
+</ul>
+</li>
+<li>env
+<ul>
+<li>api key</li>
+<li>tei-text-embedding-model-1 parameters dir path</li>
+</ul>
+</li>
+<li>ports</li>
+</ul>
+</li>
+<li>service</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>hf token external secret</li>
+<li>litellm
+<ul>
+<li>database creds external secret</li>
+<li>stateful set
+<ul>
+<li>env
+<ul>
+<li>database username</li>
+<li>database password</li>
+</ul>
+</li>
+<li>ports</li>
+</ul>
+</li>
+<li>litellm key external secret</li>
+<li>api key external secret</li>
+<li>config
+<ul>
+<li>litellm key</li>
+<li>database url</li>
+<li>models
+<ul>
+<li>vllm-text-generation-model-1
+<ul>
+<li>vllm-text-generation-model-1 api url</li>
+<li>api key</li>
+</ul>
+</li>
+<li>tei-text-embedding-model-1
+<ul>
+<li>tei-text-embedding-model-1 api url</li>
+<li>api key</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>metric</li>
+</ul>
+</li>
+<li>deployment
+<ul>
+<li>args
+<ul>
+<li>config</li>
+</ul>
+</li>
+<li>env
+<ul>
+<li>litellm key</li>
+<li>database url</li>
+<li>database username</li>
+<li>database password</li>
+<li>api key</li>
+</ul>
+</li>
+<li>ports</li>
+</ul>
+</li>
+<li>service
+<ul>
+<li>database</li>
+<li>litellm</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>istio
+<ul>
+<li>certificate</li>
+<li>gateway</li>
+<li>virtual service</li>
+</ul>
+</li>
+<li>service monitor
+<ul>
+<li>litellm</li>
+</ul>
+</li>
+</ul>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;markdown&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;network-protocol&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/mermaid.js"></script>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

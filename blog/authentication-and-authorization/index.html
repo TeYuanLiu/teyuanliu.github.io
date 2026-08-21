@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- CSS -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Authentication and Authorization
+  </div>
+  <div class="header-metadata">
+    
+      
+        Jul  3, 2026 · 180 words · 1 min read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/authentication-and-authorization/#authentication">Authentication </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/authentication-and-authorization/#server-identity-verification">Server identity verification</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/authentication-and-authorization/#client-identity-verification">Client identity verification</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/authentication-and-authorization/#authorization">Authorization </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/authentication-and-authorization/#authentication-and-authorization-provider">Authentication and authorization provider </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/authentication-and-authorization/#oauth-2-0">OAuth 2.0</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/authentication-and-authorization/#openid-connect">OpenID Connect</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/authentication-and-authorization/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <h2 id="authentication"><a class="zola-anchor" href="#authentication" aria-label="Anchor link for: authentication">Authentication</a></h2>
+<p>Authentication is about identity verification, and this is bidirectional.</p>
+<h3 id="server-identity-verification"><a class="zola-anchor" href="#server-identity-verification" aria-label="Anchor link for: server-identity-verification">Server identity verification</a></h3>
+<p>A user performs the following steps to verify the server identity to which the user is talking.</p>
+<ul>
+<li>Verify server address by checking whether the server URL is correct.</li>
+<li>Ensure server identity via <a href="https://teyuanliu.github.io/blog/transport-layer-security/#authentication">transport layer security</a>.</li>
+</ul>
+<h3 id="client-identity-verification"><a class="zola-anchor" href="#client-identity-verification" aria-label="Anchor link for: client-identity-verification">Client identity verification</a></h3>
+<p>A server uses the credentials provided by the user the identify the user.</p>
+<h2 id="authorization"><a class="zola-anchor" href="#authorization" aria-label="Anchor link for: authorization">Authorization</a></h2>
+<h2 id="authentication-and-authorization-provider"><a class="zola-anchor" href="#authentication-and-authorization-provider" aria-label="Anchor link for: authentication-and-authorization-provider">Authentication and authorization provider</a></h2>
+<h3 id="oauth-2-0"><a class="zola-anchor" href="#oauth-2-0" aria-label="Anchor link for: oauth-2-0">OAuth 2.0</a></h3>
+<ul>
+<li>OAuth 2.0 is an authorization framework that lets an application directs a user to a provider and receives an access token from the provider once the user logs into the provider.</li>
+<li>The access token contains an opaque string or JSON Web Token (JWT) with custom scope like read, write, or admin, to grant the user with application resource access.</li>
+</ul>
+<h3 id="openid-connect"><a class="zola-anchor" href="#openid-connect" aria-label="Anchor link for: openid-connect">OpenID Connect</a></h3>
+<ul>
+<li>OpenID Connect (OIDC) is an authentication extension built on top of OAuth 2.0 to receive an ID token from the provider once the user logs into the provider.</li>
+<li>The ID token contains a JWT with pre-defined fields like openid and email.</li>
+</ul>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;ai-agent&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;c&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/mermaid.js"></script>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>
