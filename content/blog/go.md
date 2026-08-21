@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-08-19
+updated = 2026-08-21
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -246,8 +246,8 @@ f := float64(i)
 -   Use `'<RUNE>'` for literal.
 -   Rune is an alias of int32 and not uint32 such that arithmetic overflow can be easily detected.
 -   UTF-8
-    -   A code point between 0 and 2047 is stored with 2 bytes. The first byte has a 3-bit header `110xxxxx` indicating the character start. The second byte has a 2-bit header `10xxxxxx` marking itself as a continuation byte. The `x` count is 11, and a 11-bit signed integer gives us the range of -2048 to 2047. For example, a code point with value 256 has the first byte as `11000100` and the second byte as `10000000`.
-    -   A code point between 2048 and 65535 is stored with 3 bytes. The first byte has a 4-bit header `1110xxxx` indicating the character start. The second and third byte each has a 2-bit header `10xxxxxx` marking as a continuation byte. The `x` count is 16, and a 16-bit signed integer gives us the range of -65536 to 65535. For example, a code point with value 2048 has the first byte as `11100000`, the second byte as `10100000`, and the third byte as `10000000`.
+    -   A code point between 0 and 2047 is stored with 2 bytes. The first byte has a 3-bit header `110xxxxx` indicating the character start. The second byte has a 2-bit header `10xxxxxx` marking itself as a continuation byte. The `x` count is 11, and a 11-bit unsigned integer gives us the range of 0 to 2047. For example, a code point with value 256 has the first byte as `11000100` and the second byte as `10000000`.
+    -   A code point between 2048 and 65535 is stored with 3 bytes. The first byte has a 4-bit header `1110xxxx` indicating the character start. The second and third byte each has a 2-bit header `10xxxxxx` marking as a continuation byte. The `x` count is 16, and a 16-bit unsigned integer gives us the range of 0 to 65535. For example, a code point with value 2048 has the first byte as `11100000`, the second byte as `10100000`, and the third byte as `10000000`.
 
 ### String
 
@@ -821,7 +821,7 @@ for value := range channel
 Collection type | First value | Second value (optional)
 -|-|-
 Integer | Index (int) | Not applicable
-String | Index (int) | Rune (Unicode code point)
+String | Starting byte index of the rune (int) | Rune
 Array or Slice | Index (int) | Element copy
 Map | Key | Value copy
 Channel | Element | Not applicable
