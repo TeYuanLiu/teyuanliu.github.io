@@ -1,7 +1,7 @@
 +++
 title = "Etcd"
 date = 2025-11-28
-updated = 2026-06-28
+updated = 2026-10-11
 +++
 
 Etcd is a distributed key-value store that keeps the single source of truth for all configuration data and cluster state for a [Kubernetes](@/blog/kubernetes.md) cluster. All Kubernetes objects like pods, deployments, and services, are stored in etcd.
@@ -79,9 +79,9 @@ The cluster becomes leaderless and waits for a node to start its leader election
 1.  If the leader doesn't receive acknowledgements from a majority of the followers, it fails the client's write request. Otherwise, it continues with the below operations.
 1.  The leader marks the log entry as committed, updating its commit index, and applies the log entry to its BoltDB (single-instance file-based key-value store).
 1.  The leader updates its key-value cache and key-disk-location index.
-1.  The leader sends out an `AppendEntries` to each follower.
+1.  The leader replies to the client with a success message.
+1.  When the leader sends out a new `AppendEntries` to each follower.
     1.  Every follower that receives an `AppendEntries` uses the leader commit index to commit and apply the entry and then replies with an acknowledgement.
-1.  If the leader receives acknowledgements from a majority of the followers, it replies to the client with a success message. Otherwise, it fails the client's write request.
 
 Due to the frequent writes to the log, etcd's performance heavily relies on the disk I/O speed so SSDs are often the top choice for it.
 
