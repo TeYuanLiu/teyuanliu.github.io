@@ -1,7 +1,7 @@
 +++
 title = "Raft"
 date = 2026-10-18
-updated = 2026-10-20
+updated = 2026-10-23
 +++
 
 Raft is a consensus algorithm that ensures data consistency among a cluster of nodes. It counts on a leader-follower protocol to enforce the nodes to agree on a single, ordered sequence of data manipulation commands, known as the Write-Ahead Log (WAL). If all nodes have the same WAL, we know that they have the same state of data.
@@ -113,8 +113,29 @@ There are some additional rules.
 ### AppendEntries
 
 -   Request
+    -   term
+        -   The leader's currentTerm
+    -   leaderId
+        -   The leader's node ID for request redirection
+    -   prevLogIndex
+        -   The index of the log entry immediately preceding the new ones
+    -   preLogTerm
+        -   The term of the log entry immediately preceding the new ones
+    -   entries[]
+        -   The log entries to store
+    -   leaderCommit
+        -   The leader's commitIndex
 -   Response
+    -   term
+        -   The receiver's currentTerm
+    -   success
+        -   If the receiver has a log entry with matching prevLogIndex and prevLogTerm, the receiver returns true.
 -   Receiver implementation
+    1.  If the leader's currentTerm < the receiver's currentTerm, reply false.
+    1.  If the receiver doesn't have an log entry at prevLogIndex with matching prevLogTerm, reply false.
+    1.  If a new log entry has the same index but different terms that conflicts with an existing entry, delete the existing entry and all the following.
+    1.  Append new entries.
+    1.  If leaderCommit > commitIndex, set commitIndex = min(leaderCommit, last new entry index).
 
 ### Write request
 
@@ -177,6 +198,11 @@ Due to the frequent writes to the log, etcd's performance heavily relies on the 
     -   Split the entire dataset into smaller shards.
     -   Each shard is handled by an independent Raft cluster.
     -   Requests are routed to the correct shard based on key range or directory.
+
+## Operation simplification
+
+-   Keep commitIndex and remove lastApplied.
+-   Keep nextIndex[] and remove matchIndex[].
 
 ## Appendix
 
