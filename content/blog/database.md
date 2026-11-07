@@ -1,7 +1,7 @@
 +++
 title = "Database"
 date = 2025-05-01
-updated = 2025-12-27
+updated = 2026-11-06
 +++
 
 ## Relational database
@@ -14,8 +14,25 @@ updated = 2025-12-27
     -   ACID vs BASE
     -   Strong consistency vs eventual consistency
     -   Data deduplication (normalization) vs data compression (de-normalization)
-    -   Primary-replica database replication vs peer-to-peer database replication
-        -   We have one primary database and multiple replica databases. The primary database handles write requests and propagates the latest data to replica databases. The replica databases take care of read requests. This increases read speed.
+    -   Replication
+        -   Primary-replica
+            -   Contain a fixed primary and multiple replicas.
+            -   The primary handles write requests.
+            -   The primary synchronizes data to replicas.
+            -   The replicas handle read requests.
+            -   Pros
+                -   Simple to implement and maintain
+            -   Cons
+                -   Serious availability hit during leader failure
+                -   Weak consistency due to stale data read caused by data synchronization delay
+        -   [Raft](@/blog/raft.md)
+            -   Contain a non-fixed leader and multiple followers.
+            -   A follower can become the new leader via election if the leader fails.
+            -   Pros
+                -   High availability
+                -   Strong consistency
+            -   Cons
+                -   More complex to implement and maintain
 
 ### Tradeoff
 
