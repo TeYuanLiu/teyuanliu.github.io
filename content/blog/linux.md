@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date = 2025-04-17
-updated = 2026-08-01
+updated = 2026-11-09
 +++
 
 Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.
@@ -759,6 +759,10 @@ Here are the steps I take to set up my development environment.
 1.  Install SQLite.
     ```bash
     sudo apt install sqlite3
+    ```
+1.  Install Discord.
+    ```bash
+    sudo apt install ./Discord.deb
     ```
 
 ## References
