@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-08-21
+updated = 2026-11-09
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1442,9 +1442,9 @@ z, ok := <-ch   // A receiver checks if the ch channel is closed via the ok vari
 
 A buffer is a channel's internal queue. By default the buffer capacity is 0, so a send blocks a goroutine until the element it's sending is received by another goroutine. Same for the read, a read blocks a goroutine until another goroutine sends an element to the channel for it to receive.
 
-We can use the second argument of `make` to set the buffer capacity. We can get the buffer capacity via `cap(ch)`, and `len(ch)` for the number of current elements in the buffer.
+We can use the second argument of `make` to set the buffer capacity. We can get the buffer capacity via `cap(ch)`, and `len(ch)` for the number of elements in the buffer currently.
 
-A send doesn't block a goroutine if the number of current elements in the buffer is less than the buffer capacity. Otherwise, the send blocks the goroutine. A read works in a similar way.
+A send doesn't block a goroutine if the number of elements in the buffer currently is less than the buffer capacity. Otherwise, the send blocks the goroutine. A read works in a similar way.
 
 Generally, we don't want the sender to be blocked by a send so we will set the buffer capacity to an exact number or at least an estimate.
 
@@ -1710,7 +1710,7 @@ func (s *Server) rateLimit(next http.HandlerFunc) http.HandlerFunc {
 
 Contexts propagate request-scoped data, cancellation and timeout signals across service calls, preventing resource leaks and allowing for graceful shutdowns.
 
-The creation of a context gives us the context and its cancel function. The cancel function closes the context.Done() channel under the hood and we can use the cancel function to cancel the context.
+The creation of a context gives us the context and its cancel function. If we call the cancel function, the `context.Done()` channel will be closed and every channel read operation will receive a `struct{}{}` and become unblocked.
 
 If we use one of the context with cause types like `context.WithCancelCause()`, we use `context.Cause()` for context cancel visibility, otherwise we use `ctx.Err()` given the context `ctx`. However, we till have to be aware of nested timeouts and the complexity brought by cross-service propagation.
 
@@ -1745,8 +1745,8 @@ func main() {
     baseContext, baseCancel := signal.NotifyContext(context.Background(), syscall.SIGTERM, syscall.SIGINT)
     defer baseCancel()
 
-	mainContext, mainCancel := context.WithCancelCause(baseContext)
-	defer mainCancel(errors.New("main context canceled"))
+    mainContext, mainCancel := context.WithCancelCause(baseContext)
+    defer mainCancel(errors.New("main context canceled"))
 
     backgroundService := &domain.BackgroundService{}
 
