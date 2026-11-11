@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date = 2025-04-17
-updated = 2026-11-09
+updated = 2026-11-10
 +++
 
 Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.
@@ -425,11 +425,16 @@ Linux's ext4 filesystem follows the Filesystem Hierarchy Standard (FHS) 3 specif
 
 ## Memory management
 
+-   Internal fragmentation
+    -   The Memory Management Unit (MMU) gives an object slightly more memory than it asked for, wasting the leftover space inside the assigned chunk.
+-   External fragmentation
+    -   The contiguous memory block is broken into scattered gaps between allocated objects and these gaps may not be able to handle larger future allocations. We can use paging and compaction to resolve this issue.
 -   Paging
-    -   Paging divides a logical address space into fixed-size blocks to simplify hardware allocation and eliminate external fragmentation.
+    -   Paging divides a logical address space into fixed-size blocks called pages to simplify hardware allocation. This also ameliorates external fragmentation because each gap is at least one-page large and can easily fit a typical process's memory request as long as the page size is set to be large enough.
+-   Compaction
+    -   Compaction shuffles allocated pages to merge free gaps to mitigate external fragmentation.
 -   Virtual memory (or swap memory)
-    -   The Memory Management Unit (MMU) uses paging to break memory into blocks called frames, and disk into blocks called pages.
-    -   Because frame and page have the same size, the MMU can offload the frames of a process to pages on disk or load them back to memory.
+    -   The MMU uses paging to break disk space into pages, so it can offload the pages of a process to pages on disk or load them back to memory.
     -   From a user's perspective it behaves just like memory so it is called virtual memory.
 -   Segmentation
     -   Segmentation divides a logical address space into variable-sized blocks called segments to match a process's logical address space structure, which includes code, initialized global variables, uninitialized global variables, heap, stack, and kernel space.
