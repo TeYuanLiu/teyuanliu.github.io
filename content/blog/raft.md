@@ -1,7 +1,7 @@
 +++
 title = "Raft"
 date = 2026-10-18
-updated = 2026-11-09
+updated = 2026-11-12
 +++
 
 Raft is a consensus algorithm that ensures data consistency among a cluster of nodes. It counts on a leader-follower protocol to enforce the nodes to agree on a single, ordered sequence of data manipulation commands, known as the Write-Ahead Log (WAL). If all nodes have the same WAL, we know that they have the same state of data.
@@ -188,7 +188,7 @@ The cluster becomes leaderless and waits for a node to start its leader election
 
 ## Operation simplification
 
--   Keep commitIndex and remove lastApplied.
--   Keep nextIndex[] and remove matchIndex[].
+-   Remove lastApplied.
+-   Remove matchIndex[].
 
 ## References
