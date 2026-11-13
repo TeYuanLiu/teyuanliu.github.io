@@ -81,20 +81,60 @@ The 3-way merge looks at the branch1 commit, the branch2 commit, and their neare
 
 ## Rebase
 
-A rebase recreates the branch1 commits on branch2 by replaying the branch1 commits' changes. This makes the history linear.
+A rebase makes the history linear by recreating the branch1 commits of branch2. The original branch1 commits become orphaned and unreachable.
+
+It is recommended to rebase only local commits that are not pushed yet to avoid merge conflict for others.
+
+1.  Alice and Bob worked on a feature branch together.
+1.  Alice created c2 for the feature and considered the feature done.
+1.  Bob fetched c2 and planned to add something extra to the feature.
+1.  Alice rebased c2 of the main branch c3 and created c2'.
+1.  Bob created c4 and considered the feature done.
+1.  Bob tried to rebase c4 of the main branch but failed due to duplicated changes caused by history diverge.
+
+{% mermaid() %}
+flowchart LR
+    c0 --> c1
+    c1 --> c3
+    c3 --> c2'
+    c1 --> c2
+    c2 --> c4
+    c4 -- cannot rebase --> c2'
+{% end %}
 
 ## Common commands
 
--   Rewind to the last commit but keep the file changes in the staged area.
+-   Add a new commit to undo the changes in the last commit.
     ```bash
-    git reset HEAD~1
+    git revert c1
+    ```
+-   Move the branch pointer but keep the staging area and working directory.
+    ```bash
+    git reset --soft HEAD~1
+    ```
+-   Move the branch pointer and clear the staging area but keep the working directory.
+    ```bash
+    git reset --mixed HEAD~1
+    ```
+-   Move the branch pointer and clear the staging area and working directory.
+    ```bash
+    git reset --hard HEAD~1
     ```
 -   Untrack a file from Git but keep it.
     ```bash
     git rm --cached <FILE>
+    ```
+-   View commits that are visited recently for disaster recovery. Reachable commits lose their reflog entries in 90 days and for orphaned commits it is 30 days.
+    ```bash
+    git reflog
+    ```
+-   Recover commit.
+    ```bash
+    git branch recovery c1
     ```
 
 ## References
 
 -   https://www.youtube.com/watch?v=cLBvn81naWY
 -   https://www.youtube.com/watch?v=RxHJdapz2p0
+-   https://www.youtube.com/watch?v=Ala6PHlYjmw
