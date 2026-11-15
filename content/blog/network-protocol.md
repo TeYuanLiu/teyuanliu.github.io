@@ -1,7 +1,7 @@
 +++
-title = "Network Protocol"
+title = "Network protocol"
 date = 2025-05-01
-updated = 2026-06-29
+updated = 2026-11-15
 +++
 
 Since the creation of computer network, people have gradually developed different set of rules for communication, and these are the network protocols.

@@ -1,7 +1,7 @@
 +++
-title = "System Design"
+title = "System design"
 date = 2025-04-25
-updated = 2026-04-21
+updated = 2026-11-15
 +++
 
 Ok, we want to build a software system for example a web application, but where should we start?

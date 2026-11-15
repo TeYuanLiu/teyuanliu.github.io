@@ -1,7 +1,7 @@
 +++
-title = "Learning Coding"
+title = "Learning coding"
 date = 2025-04-27
-updated = 2025-12-27
+updated = 2026-11-15
 +++
 
 Learning coding is not easy, but here are some steps we can follow to boost our efficiency.

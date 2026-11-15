@@ -1,7 +1,7 @@
 +++
-title = "System Architecture"
+title = "System architecture"
 date = 2025-05-02
-updated = 2025-12-27
+updated = 2026-11-15
 +++
 
 Here we discuss the monolithic architecture, which is a tightly-coupled software running on a single physical server or Virtual Machine (VM) that handles the end-to-end workflow. Then we talk about the microservice architecture, which consists of many services running independently on different servers and connected via a network.

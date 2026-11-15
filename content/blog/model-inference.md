@@ -1,7 +1,7 @@
 +++
-title = "Model Inference"
+title = "Model inference"
 date = 2026-06-09
-updated = 2026-06-29
+updated = 2026-11-15
 +++
 
 -   backend

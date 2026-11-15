@@ -1,7 +1,7 @@
 +++
-title = "Authentication and Authorization"
+title = "Authentication and authorization"
 date = 2026-07-03
-updated = 2026-11-10
+updated = 2026-11-15
 +++
 
 ## Authentication

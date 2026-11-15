@@ -1,7 +1,7 @@
 +++
-title = "AI Agent"
+title = "AI agent"
 date = 2026-06-29
-updated = 2026-06-29
+updated = 2026-11-15
 +++
 
 AI agents are good at repetitive tasks that have huge amount of documentation and data. These tasks usually have a converged solution pattern and can be handled by an AI agent.
@@ -13,12 +13,10 @@ flowchart TB
     clarify-requirements --> design-system
     design-system --> implement-system
     implement-system --> verify-requirement-fulfillment
-    verify-requirement-fulfillment -- failure --> debug-implementation
-    debug-implementation --> verify-requirement-fulfillment
+    verify-requirement-fulfillment -- failure --> design-system
     verify-requirement-fulfillment -- success --> write-tests
     write-tests --> verify-tests
-    verify-tests -- failure --> debug-tests
-    debug-tests --> verify-tests
+    verify-tests -- failure --> write-tests
     verify-tests -- success --> complete
 {% end %}
 

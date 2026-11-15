@@ -1,7 +1,7 @@
 +++
-title = "Programming Language"
+title = "Programming language"
 date = 2025-04-20
-updated = 2025-12-27
+updated = 2026-11-15
 +++
 
 We use programming languages to talk to computers, but how does it work? Here we discuss a few concepts about programming languages including types, syntax, and execution flow.

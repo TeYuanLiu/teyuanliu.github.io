@@ -1,7 +1,7 @@
 +++
-title = "Development Cycle"
+title = "Development cycle"
 date = 2025-04-30
-updated = 2026-02-03
+updated = 2026-11-15
 +++
 
 Let's talk about software development prioritization as well as the development cycle.

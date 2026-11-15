@@ -1,7 +1,7 @@
 +++
-title = "Web Application"
+title = "Web application"
 date = 2025-05-01
-updated = 2026-07-03
+updated = 2026-11-15
 +++
 
 ## Frontend
