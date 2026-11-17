@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date = 2025-04-17
-updated = 2026-11-10
+updated = 2026-11-16
 +++
 
 Linux is a free and open source Operating System (OS). It is the dominating OS on servers nowadays.
@@ -593,8 +593,8 @@ Here are the steps I take to set up my development environment.
     ```bash
     sudo apt install git
     git config –global user.email <EMAIL>
-    ssh-keygen -t ed25519 -C “<COMMENT>”
-    eval “$(ssh-agent -s)”
+    ssh-keygen -t ed25519 -C "<COMMENT>"
+    eval "$(ssh-agent -s)"
     ssh-add ~/.ssh/id_ed25519
     ```
 1.  Install Zola.
@@ -652,7 +652,7 @@ Here are the steps I take to set up my development environment.
         ```
 1.  Install pre-commit.
     ```bash
-    sudo apt install pre-commit`
+    sudo apt install pre-commit
     ```
 1.  Install PostgreSQL.
     ```bash
@@ -737,7 +737,7 @@ Here are the steps I take to set up my development environment.
         ```
     1.  Add the below code to the `.bashrc` so we can run `claude` at any location.
         ```bash
-        export PATH="/home/apogee/.local/bin:$PATH"
+        export PATH="/home/<USER>/.local/bin:$PATH"
         ```
     1.  Run Claude Code CLI to test it out.
         ```bash
