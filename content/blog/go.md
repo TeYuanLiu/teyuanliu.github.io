@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-11-09
+updated = 2026-11-20
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1708,21 +1708,21 @@ func (s *Server) rateLimit(next http.HandlerFunc) http.HandlerFunc {
 
 ## Context
 
-Contexts propagate request-scoped data, cancellation and timeout signals across service calls, preventing resource leaks and allowing for graceful shutdowns.
+Contexts can propagate cancellation and timeout signals, as well as request-scoped data across service calls, preventing resource leaks and allow graceful shutdowns.
 
-The creation of a context gives us the context and its cancel function. If we call the cancel function, the `context.Done()` channel will be closed and every channel read operation will receive a `struct{}{}` and become unblocked.
-
-If we use one of the context with cause types like `context.WithCancelCause()`, we use `context.Cause()` for context cancel visibility, otherwise we use `ctx.Err()` given the context `ctx`. However, we till have to be aware of nested timeouts and the complexity brought by cross-service propagation.
-
--   context.Context
-    -   context.Background()
-    -   context.TODO()
-    -   context.WithCancel()
-    -   context.WithCancelCause()
-    -   context.WithTimeout()
-    -   context.WithTimeoutCause()
-    -   context.WithDeadline()
-    -   context.WithDeadlineCause()
+-   Here is a list of commonly-used context types under `context.Context`.
+    -   `context.Background()`
+    -   `context.TODO()`
+    -   `context.WithCancel()`
+    -   `context.WithCancelCause()`
+    -   `context.WithTimeout()`
+    -   `context.WithTimeoutCause()`
+    -   `context.WithDeadline()`
+    -   `context.WithDeadlineCause()`
+-   Creating a context gives us the context and its cancel function.
+-   Calling the cancel function closes the `context.Done()` channel so every channel read operation currently blocked on reading from the channel receives a `struct{}{}` and becomes unblocked.
+-   Calling the `ctx.Err()` function of a context `ctx` gives us a general message `context canceled`.
+-   Calling `context.WithValue()` allows us to pass request-scoped data between middleware. However, multiple layers of middleware, each having a `context.WithValue()`, can lead to many heap allocations. It's probably better to store data in a request-to-data map inside the pointer receiver handler struct.
 
 ```go
 func work() {
@@ -1738,7 +1738,19 @@ func work() {
 }
 ```
 
-In general we want to handle OS signals like interrupt or terminate via `signal.NotifyContext`. Note that the cancel function given by `signal.NotifyContext` can yield back OS signal handling to the OS in addition to its context cancellation functionality. After the OS signal handling is given back to the OS, if we press `Ctrl + C` the second time, then the OS can kill the process by force. That's why we need to call it manually after `<-baseContext.Done()` as receiving an OS signal does cancel the context but the OS signal handling is still held by Go instead of the OS.
+### Context with cancel cause
+
+-   Contexts with cancel cause like `context.WithCancelCause()` provide extra debugging clarity.
+-   Calling the `context.Cause(ctx)` function of a context `ctx` gives us a more specific error.
+-   We can use the error returned by `context.Cause(ctx)` inside `errors.Is()` for more find-grained error handling.
+
+### Context with OS signal handling
+
+The function `signal.NotifyContext()` creates a context and a cancel function that takes in OS signals.
+
+During the runtime of a Go program with OS signal handling context, pressing `Ctrl + C` cancels the context, but it does not return the OS signal handling back to the OS. Therefore, pressing `Ctrl + C` no longer kills the program.
+
+To reclaim the power, we need to add a cancel function call to the program code as shown below.
 
 ```go
 func main() {
@@ -1762,15 +1774,13 @@ func main() {
     }()
 
     <-baseContext.Done()
-    baseCancel()
+    baseCancel() // Call the cancel function to return the OS signal handling back to the OS.
 
     shutdownContext, shutdownCancel := context.WithTimeoutCause(context.Background(), 10 * time.Second, errors.New("shutdown context canceled"))
     defer shutdownCancel()
     server.Shutdown(shutdownContext)
 }
 ```
-
-We use `context.WithValue()` to pass request-scoped data between middleware. However, multiple layers of middleware, each having a `context.WithValue()`, can lead to many heap allocations. It's probably better to store data in a request-to-data map inside the pointer receiver handler struct.
 
 ## Dependency management
 
