@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- CSS -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Raft
+  </div>
+  <div class="header-metadata">
+    
+      
+        Nov 12, 2026 · 1376 words · 7 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/raft/#node-role">Node role </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/raft/#node-state">Node state </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/raft/#operation-path">Operation path </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/raft/#requestvote">RequestVote</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/raft/#appendentries">AppendEntries</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/raft/#uncommitted-log-entry-by-leader-shutdown-scenario">Uncommitted log entry by leader shutdown scenario</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/raft/#disconnection-and-reconnection">Disconnection and reconnection</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/raft/#write-request-scaling">Write request scaling</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/raft/#read-request-scaling">Read request scaling</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/raft/#operation-simplification">Operation simplification </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/raft/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>Raft is a consensus algorithm that ensures data consistency among a cluster of nodes. It counts on a leader-follower protocol to enforce the nodes to agree on a single, ordered sequence of data manipulation commands, known as the Write-Ahead Log (WAL). If all nodes have the same WAL, we know that they have the same state of data.</p>
+<span id="continue-reading"></span><h2 id="node-role"><a class="zola-anchor" href="#node-role" aria-label="Anchor link for: node-role">Node role</a></h2>
+<p>There are 3 roles and each node can only be one of them at any time.</p>
+<ul>
+<li>Follower
+<ul>
+<li>Receive data synchronization from the leader.</li>
+</ul>
+</li>
+<li>Candidate
+<ul>
+<li>Run the leader election.</li>
+</ul>
+</li>
+<li>Leader
+<ul>
+<li>Synchronize data via heartbeat to others.</li>
+<li>Handle client requests.</li>
+</ul>
+</li>
+</ul>
+<h2 id="node-state"><a class="zola-anchor" href="#node-state" aria-label="Anchor link for: node-state">Node state</a></h2>
+<p>Every node has the following states.</p>
+<ul>
+<li>currentTerm
+<ul>
+<li>The highest term the node has seen.</li>
+<li>It is initialized to 0 and increases monotonically.</li>
+</ul>
+</li>
+<li>votedFor
+<ul>
+<li>The candidateID that received the node's vote in current term.</li>
+<li>It is null if the node hasn't voted yet.</li>
+</ul>
+</li>
+<li>log[]
+<ul>
+<li>The log entries of the WAL.</li>
+<li>Each entry contains its index, term, and data manipulation command.</li>
+<li>The first entry has index 1.</li>
+</ul>
+</li>
+<li>commitIndex
+<ul>
+<li>The highest log index whose log entry is committed.</li>
+<li>It is initialized to 0 and increases monotonically.</li>
+</ul>
+</li>
+<li>lastApplied
+<ul>
+<li>The highest log index whose data manipulation command is applied.</li>
+<li>It is initialized to 0 and increases monotonically.</li>
+</ul>
+</li>
+</ul>
+<p>The leader has the following extra states which are reinitialized right after its conversion to the leader.</p>
+<ul>
+<li>matchIndex[]
+<ul>
+<li>The highest log index whose log entry is replicated to that node for each node.</li>
+<li>Each entry is initialized to 0 and increases monotonically.</li>
+</ul>
+</li>
+<li>nextIndex[]
+<ul>
+<li>The index of the next log entry to send to that node for each node.</li>
+<li>Each entry is initialized to the leader's highest log index + 1.</li>
+</ul>
+</li>
+</ul>
+<h2 id="operation-path"><a class="zola-anchor" href="#operation-path" aria-label="Anchor link for: operation-path">Operation path</a></h2>
+<div class="mermaid">
+  flowchart TB
+    follower -- election timeout --&gt; candidate
+    candidate -- discover leader or higher term --&gt; follower
+    candidate -- restart election after election timeout --&gt; candidate
+    candidate -- run election --&gt; others
+    others -- response --&gt; candidate
+    candidate -- win election --&gt; leader
+    leader -- sync logs --&gt; others
+    others -- response --&gt; leader
+    leader -- discover higher term --&gt; follower
+    client -- request --&gt; leader
+    leader -- response --&gt; client
+</div>
+<ol>
+<li>A node starts with the follower role and an election timer (randomized between 150 ms and 300 ms).</li>
+<li>If the node grants its vote to a RequestVote or receives an AppendEntries, it restarts the election timer. Otherwise, when the election timer expires, it assumes the leader is gone and converts its role from follower to candidate.</li>
+<li>The new candidate node performs the following steps.
+<ol>
+<li>Increment the currentTerm.</li>
+<li>Vote for itself.</li>
+<li>Restart the election timer.</li>
+<li>Send RequestVote to others.
+<ul>
+<li>If the node receives votes from the majority of nodes, it becomes the leader.</li>
+<li>If the node receives an AppendEntries with term T &gt;= currentTerm, it converts to follower.</li>
+<li>If the election timer expires, it starts a new election.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>The new leader performs the following tasks.
+<ul>
+<li>Send AppendEntries as heartbeat to others periodically (every 50 ms) based on the expiration of its leader heartbeat timer.</li>
+<li>Handle a client request by performing the following steps.
+<ol>
+<li>Append an entry to its log.</li>
+<li>Send AppendEntries to others on next heartbeat.
+<ul>
+<li>For nodes with success, increase their matchIndex and nextIndex.</li>
+<li>For nodes with failure, decrease their nextIndex and retry.</li>
+</ul>
+</li>
+<li>Conduct majority check.
+<ol>
+<li>If the majority of matchIndex[i] &gt;= commitIndex + x with positive x and log[commitIndex + x].term == currentTerm, set commitIndex = commitIndex + x.</li>
+<li>If commitIndex &gt; lastApplied, increment lastApplied and apply the command of log[lastApplied].</li>
+</ol>
+</li>
+<li>Reply to the client based on majority check result.</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<p>There are some additional rules.</p>
+<ul>
+<li>If the request or response of RequestVote or AppendEntries contains a term T &gt; the node's currentTerm, update the node's currentTerm to T and convert to follower.</li>
+<li>If a node has commitIndex &gt; lastApplied, increment lastApplied and apply the command of log[lastApplied].</li>
+</ul>
+<h3 id="requestvote"><a class="zola-anchor" href="#requestvote" aria-label="Anchor link for: requestvote">RequestVote</a></h3>
+<ul>
+<li>Request
+<ul>
+<li>term
+<ul>
+<li>The candidate's currentTerm</li>
+</ul>
+</li>
+<li>candidateId
+<ul>
+<li>The candidate's node ID</li>
+</ul>
+</li>
+<li>lastLogIndex
+<ul>
+<li>The index of the candidate's last log entry</li>
+</ul>
+</li>
+<li>lastLogTerm
+<ul>
+<li>The term of the candidate's last log entry</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Response
+<ul>
+<li>term
+<ul>
+<li>The receiver's currentTerm</li>
+</ul>
+</li>
+<li>voteGranted
+<ul>
+<li>The receiver's vote</li>
+<li>It is true if the receiver grants its vote to the candidate.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Receiver implementation
+<ul>
+<li>If the receiver's votedFor is null or the candidate's ID, and the candidate has term T &gt;= the receiver's currentTerm, and the candidate has log at least as up-to-date as the receiver's, the receiver grants the vote.</li>
+</ul>
+</li>
+</ul>
+<h3 id="appendentries"><a class="zola-anchor" href="#appendentries" aria-label="Anchor link for: appendentries">AppendEntries</a></h3>
+<ul>
+<li>Request
+<ul>
+<li>term
+<ul>
+<li>The leader's currentTerm</li>
+</ul>
+</li>
+<li>leaderId
+<ul>
+<li>The leader's node ID for request redirection</li>
+</ul>
+</li>
+<li>prevLogIndex
+<ul>
+<li>The index of the log entry immediately preceding the new ones</li>
+</ul>
+</li>
+<li>preLogTerm
+<ul>
+<li>The term of the log entry immediately preceding the new ones</li>
+</ul>
+</li>
+<li>entries[]
+<ul>
+<li>The log entries to store</li>
+</ul>
+</li>
+<li>leaderCommit
+<ul>
+<li>The leader's commitIndex</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Response
+<ul>
+<li>term
+<ul>
+<li>The receiver's currentTerm</li>
+</ul>
+</li>
+<li>success
+<ul>
+<li>If the receiver has a log entry with matching prevLogIndex and prevLogTerm, the receiver returns true.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Receiver implementation
+<ol>
+<li>If the leader's currentTerm &lt; the receiver's currentTerm, reply false.</li>
+<li>If the receiver doesn't have an log entry at prevLogIndex with matching prevLogTerm, reply false.</li>
+<li>If a new log entry has the same index but different terms that conflicts with an existing entry, delete the existing entry and all the following.</li>
+<li>Append new entries.</li>
+<li>If leaderCommit &gt; commitIndex, set commitIndex = min(leaderCommit, last new entry index).</li>
+</ol>
+</li>
+</ul>
+<h3 id="uncommitted-log-entry-by-leader-shutdown-scenario"><a class="zola-anchor" href="#uncommitted-log-entry-by-leader-shutdown-scenario" aria-label="Anchor link for: uncommitted-log-entry-by-leader-shutdown-scenario">Uncommitted log entry by leader shutdown scenario</a></h3>
+<ol>
+<li>The leader appends a new entry E1 to its log.</li>
+<li>The leader sends out a heartbeat so every node has the uncommitted E1.</li>
+<li>The leader receives acknowledgements from the majority of nodes.</li>
+<li>The leader commits and applies E1.</li>
+<li>The leader replies to the client.</li>
+<li>Before sending out another heartbeat to inform the followers to commit and apply E1, the leader encounters a shutdown.</li>
+<li>A follower becomes the new leader. At this point, there is a conflict between the client's understanding of the data state (E1 is applied) and the actual data state (E1 is not applied).</li>
+<li>The new leader appends a no-op log entry E2 to its log.</li>
+<li>The new leader sends out a heartbeat.</li>
+<li>The leader receives acknowledgements from the majority of nodes.</li>
+<li>The new leader commits and applies both E1 and E2.</li>
+<li>The new leader sends out another heartbeat to inform the followers to commit and apply E1 and E2, and this should fix the mismatch.</li>
+</ol>
+<h3 id="disconnection-and-reconnection"><a class="zola-anchor" href="#disconnection-and-reconnection" aria-label="Anchor link for: disconnection-and-reconnection">Disconnection and reconnection</a></h3>
+<p>If a follower disconnects from the cluster and no longer receives the leader heartbeat, it converts to a candidate, incrementing its term number, and resets the election timer. Because it is isolated from the others, it cannot get enough votes to become a leader. The election timer eventually expires and it restarts the leader election process. This election failure loop can make this isolated node having a large term number.</p>
+<p>When the node reconnects to the cluster, if its term number is larger than the cluster leader's, it rejects the AppendEntries from the leader with its own term number, forcing the leader to update its own term number and revert to the follower state.</p>
+<p>The cluster becomes leaderless and waits for a node to start its leader election. Note that the reconnected node may have outdated logs and lose its upcoming leader election because of it.</p>
+<h3 id="write-request-scaling"><a class="zola-anchor" href="#write-request-scaling" aria-label="Anchor link for: write-request-scaling">Write request scaling</a></h3>
+<ul>
+<li>Vertical scaling
+<ul>
+<li>Use Non-Volatile Memory express (NVMe) SSDs for cluster nodes as WAL disk sync is sensitive to disk I/O throughput and latency.</li>
+<li>Use high-speed network as the network round-trip time is a major component of write latency.</li>
+<li>Enable dynamic write request batching such that the leader can put multiple requests into a single large log entry before doing data replication, amortizing the disk sync and networking cost.</li>
+</ul>
+</li>
+</ul>
+<h3 id="read-request-scaling"><a class="zola-anchor" href="#read-request-scaling" aria-label="Anchor link for: read-request-scaling">Read request scaling</a></h3>
+<ul>
+<li>Leader lease
+<ul>
+<li>The leader ensures its leader position via the leader lease.</li>
+<li>The leader periodically issues a lease for itself via its heartbeat.</li>
+<li>The lease stays valid for a short time (150 ms) and during the lease period, the leader is guaranteed to be the current leader.</li>
+</ul>
+</li>
+<li>Adding learner
+<ul>
+<li>A learner is a node that only does data replication.</li>
+<li>It doesn't participate in any voting.</li>
+<li>The leader doesn't wait for a learner's acknowledgement of the AppendEntries before committing the WAL entry.</li>
+<li>This increase read throughput without sacrificing write latency.</li>
+</ul>
+</li>
+<li>Sharding
+<ul>
+<li>Split the entire dataset into smaller shards.</li>
+<li>Each shard is handled by an independent Raft cluster.</li>
+<li>Requests are routed to the correct shard based on key range or directory.</li>
+</ul>
+</li>
+</ul>
+<h2 id="operation-simplification"><a class="zola-anchor" href="#operation-simplification" aria-label="Anchor link for: operation-simplification">Operation simplification</a></h2>
+<ul>
+<li>Remove lastApplied.</li>
+<li>Remove matchIndex[].</li>
+</ul>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;python&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;rust&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/mermaid.js"></script>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

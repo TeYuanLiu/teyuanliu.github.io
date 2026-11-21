@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- CSS -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Code directory structure
+  </div>
+  <div class="header-metadata">
+    
+      
+        Nov 20, 2026 · 191 words · 1 min read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/code-directory-structure/#maintainability">Maintainability </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/code-directory-structure/#layer">Layer </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/code-directory-structure/#main">Main </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/code-directory-structure/#layer-based-organization">Layer-based organization </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/code-directory-structure/#functionality-based-organization">Functionality-based organization </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/code-directory-structure/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>How to organize a codebase for better maintainability? Let's find out.</p>
+<span id="continue-reading"></span><h2 id="maintainability"><a class="zola-anchor" href="#maintainability" aria-label="Anchor link for: maintainability">Maintainability</a></h2>
+<ul>
+<li>Minimum time to know which file and which part of the file to change</li>
+</ul>
+<h2 id="layer"><a class="zola-anchor" href="#layer" aria-label="Anchor link for: layer">Layer</a></h2>
+<ul>
+<li>Model
+<ul>
+<li>Define the business entity data structures (e.g., a stock class has properties like symbol and company name).</li>
+</ul>
+</li>
+<li>Infrastructure
+<ul>
+<li>Define the infrastructure implementations (e.g., PostgreSQL).</li>
+</ul>
+</li>
+<li>Port
+<ul>
+<li>Define the infrastructure abstractions which are implemented in the infrastructure layer (e.g., database abstraction).</li>
+</ul>
+</li>
+<li>Service
+<ul>
+<li>Define the business logic functions that manipulates models and infrastructure abstractions.</li>
+<li>Take infrastructure abstractions and store them as internal attributes instead of passing them as method parameters to reduce infrastructure-change complexity.</li>
+</ul>
+</li>
+<li>Handler
+<ul>
+<li>Take service object pointers as dependencies.</li>
+<li>Decode request, calling the service object methods, and send response. We don't perform business logic inside the handler to lower handler switching difficulty.</li>
+</ul>
+</li>
+</ul>
+<h2 id="main"><a class="zola-anchor" href="#main" aria-label="Anchor link for: main">Main</a></h2>
+<p>The main entrypoint creates infrastructure and service instances, injecting dependencies, and starts the handler.</p>
+<h2 id="layer-based-organization"><a class="zola-anchor" href="#layer-based-organization" aria-label="Anchor link for: layer-based-organization">Layer-based organization</a></h2>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cmd/
+</span><span>    </span><span style="color:#bf616a;">main.go
+</span><span style="color:#bf616a;">internal/
+</span><span>    </span><span style="color:#bf616a;">model/
+</span><span>        </span><span style="color:#bf616a;">stock.go
+</span><span>        </span><span style="color:#bf616a;">notification.go
+</span><span>    </span><span style="color:#bf616a;">infrastructure/
+</span><span>        </span><span style="color:#bf616a;">database/
+</span><span>            </span><span style="color:#bf616a;">postgresql.go
+</span><span>            </span><span style="color:#bf616a;">sqlite.go
+</span><span>    </span><span style="color:#bf616a;">port/
+</span><span>        </span><span style="color:#bf616a;">database.go
+</span><span>    </span><span style="color:#bf616a;">service/
+</span><span>        </span><span style="color:#bf616a;">stock.go
+</span><span>        </span><span style="color:#bf616a;">notification.go
+</span><span>    </span><span style="color:#bf616a;">handler/
+</span><span>        </span><span style="color:#bf616a;">rest.go
+</span><span>        </span><span style="color:#bf616a;">grpc.go
+</span></code></pre>
+<ul>
+<li>Adding or fixing one specific feature requires navigation across all layer directories.</li>
+</ul>
+<table><thead><tr><th>Metric</th><th>Method</th></tr></thead><tbody>
+<tr><td>Search</td><td>Worse</td></tr>
+</tbody></table>
+<h2 id="functionality-based-organization"><a class="zola-anchor" href="#functionality-based-organization" aria-label="Anchor link for: functionality-based-organization">Functionality-based organization</a></h2>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cmd/
+</span><span>    </span><span style="color:#bf616a;">main.go
+</span><span style="color:#bf616a;">internal/
+</span><span>    </span><span style="color:#bf616a;">stock/
+</span><span>        </span><span style="color:#bf616a;">model.go
+</span><span>        </span><span style="color:#bf616a;">service.go
+</span><span>        </span><span style="color:#bf616a;">port.go
+</span><span>    </span><span style="color:#bf616a;">notification/
+</span><span>        </span><span style="color:#bf616a;">model.go
+</span><span>        </span><span style="color:#bf616a;">service.go
+</span><span>        </span><span style="color:#bf616a;">port.go
+</span><span>    </span><span style="color:#bf616a;">infrastructure/
+</span><span>        </span><span style="color:#bf616a;">database/
+</span><span>            </span><span style="color:#bf616a;">postgresql.go
+</span><span>            </span><span style="color:#bf616a;">sqlite.go
+</span><span>    </span><span style="color:#bf616a;">handler/
+</span><span>        </span><span style="color:#bf616a;">rest.go
+</span><span>        </span><span style="color:#bf616a;">grpc.go
+</span></code></pre>
+<ul>
+<li>Group functionalities with shared models under the same functionality directory to avoid code duplication or extra import dependency.</li>
+</ul>
+<table><thead><tr><th>Metric</th><th>Method</th></tr></thead><tbody>
+<tr><td>Search</td><td>Better</td></tr>
+</tbody></table>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;caching&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;container&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/mermaid.js"></script>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

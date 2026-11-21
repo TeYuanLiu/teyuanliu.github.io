@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- CSS -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Etcd
+  </div>
+  <div class="header-metadata">
+    
+      
+        Nov  9, 2026 · 329 words · 2 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/etcd/#data-model">Data model </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/etcd/#data-consistency">Data consistency </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/etcd/#write-request">Write request </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/etcd/#read-request">Read request </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/etcd/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>Etcd is a distributed key-value store. It is best known for its state storage role in <a href="https://teyuanliu.github.io/blog/kubernetes/">Kubernetes</a> that keeps the single source of truth for all configuration data and cluster states. All Kubernetes objects like pods, deployments, and services, are stored in etcd.</p>
+<span id="continue-reading"></span><h2 id="data-model"><a class="zola-anchor" href="#data-model" aria-label="Anchor link for: data-model">Data model</a></h2>
+<p>Etcd stores data in the key-value pair format.</p>
+<p>The key is a unique, hierarchical string that serves as the object's address. It is structured like a file path to enable efficient querying and range lookups. It generally follows the format of <code>/registry/&lt;OBJECT_TYPE&gt;/&lt;OBJECT_NAMESPACE&gt;/&lt;OBJECT_NAME&gt;</code>, for example, <code>/registry/pods/default/my-pod</code>.</p>
+<p>The value is the complete YAML/JSON representation of the Kubernetes object, including the <code>apiVersion</code>, <code>kind</code>, <code>metadata</code>, <code>spec</code>, and <code>status</code>. It is usually stored as a serialized YAML/JSON data blob.</p>
+<h2 id="data-consistency"><a class="zola-anchor" href="#data-consistency" aria-label="Anchor link for: data-consistency">Data consistency</a></h2>
+<p>Etcd uses the <a href="https://teyuanliu.github.io/blog/raft/">Raft</a> consensus algorithm to ensure that all etcd nodes in a cluster agree on a single, ordered sequence of operation.</p>
+<h2 id="write-request"><a class="zola-anchor" href="#write-request" aria-label="Anchor link for: write-request">Write request</a></h2>
+<ol>
+<li>It appends a new entry to its log.</li>
+<li>It sends out a heartbeat.</li>
+<li>If it gets acknowledgements from the majority, it commits and applies the log entry to its BoltDB (single-instance file-based key-value store).</li>
+<li>The leader updates its key-value cache and key-disk-location index.</li>
+<li>The leader replies to the client with a success message.</li>
+</ol>
+<h2 id="read-request"><a class="zola-anchor" href="#read-request" aria-label="Anchor link for: read-request">Read request</a></h2>
+<ol>
+<li>It checks the key-value cache. If the key is in the cache, it replies to the client.</li>
+<li>Otherwise, it checks the key-disk-location index. If the key is in the index, it reads the value from the BoltDB and replies to the client. It also updates the key-value cache.</li>
+<li>Otherwise, it searches in the BoltDB. If the key is in the BoltDB, it reads the value from the BoltDB, and replies to the client. It also updates the key-value cache and key-disk-location index.</li>
+<li>Otherwise, it fails the client's read request.</li>
+</ol>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;development-cycle&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;git&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/mermaid.js"></script>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>
