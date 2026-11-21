@@ -1040,16 +1040,17 @@ func getIndex[T comparable](s []T, x T) int
 
 Go addresses function error with an explicit and imperative approach. In general, a function is expected to return a pair of values. The first one is the result value and the other one is the error value. Go expects us to check and handle the error using `if err != nil {}` for every function call.
 
-Here are some tips for function error handling tailored for the [server directory structure in this post](#server-directory-structure).
+Here are some tips for function error handling.
 
--   Handler layer (System boundary)
-    -   Log error.
-    -   Map system error or business error to response with `errors.Is()` and return it.
--   Service layer
-    -   Define business errors.
-    -   Either wrap system error with context using `fmt.Errorf("failed to do something: %w", err)` and return it, or convert system error to business error with `errors.Is()` and return it.
--   Infrastructure layer
-    -   Wrap system error with context and return it.
+-   For different [codebase layers](@/blog/code-directory-structure.md#layer)
+    -   Infrastructure layer
+        -   Wrap system error with context and return it.
+    -   Service layer
+        -   Define business errors.
+        -   Either wrap system error with context using `fmt.Errorf("failed to do something: %w", err)` and return it, or convert system error to business error with `errors.Is()` and return it.
+    -   Handler layer (system boundary)
+        -   Log error.
+        -   Map system error or business error to response with `errors.Is()` and return it.
 -   Use custom error struct with logging tools in the observability system for debugging distributed Go services.
     ```go
         type AppError struct {
@@ -1912,48 +1913,6 @@ Use `io` for abstract data stream operations like data transfer from a network c
     ```
 -   Using `gorilla/mux` is obsolete since the release of the updated `net/http` in Go 1.22.
 -   `go-chi/chi` is still valuable for complex routing.
-
-
-### Server directory structure
-
-The goal of this server directory structure is decoupling with minimum abstraction. It divides the system into 3 layers, handler, service, and infrastructure.
-
-Here is a server for user registration, login, and logout.
-
-```bash
-cmd/
-    main/
-        main.go
-internal/
-    server/
-        rest.go
-    domain/
-        user.go
-        port.go
-    database/
-        postgresql.go
-go.mod
-```
-
-Here are the 3 layers.
-
--   Handler
-    -   Defined in `/internal/server/rest.go`
-    -   Decode request, calling service struct methods, and send response.
-    -   Take service struct pointers as dependencies.
-    -   We want to use the injected service struct methods rather than performing business logic in the handler for better decoupling. This makes creating and switching to a new handler much easier.
--   Service
-    -   Defined in `/internal/domain/user.go`
-    -   Perform business logic and call infrastructure interface methods.
-    -   Take infrastructure interface values as dependencies.
-    -   We want to use the injected infrastructure interface values instead of passing the infrastructure interface values to every service struct method as parameters for better decoupling. If we want to add or remove an infrastructure interface value, we don't have to update the parameters of every relevant service struct method.
-    -   Infrastructure interfaces are defined in `/internal/domain/port.go`.
-    -   Have no dependency on other packages created in the project.
--   Infrastructure (database, API, etc)
-    -   Defined in `/internal/database/postgresql.go`
-    -   Implement the infrastructure interfaces.
-
-At last, `cmd/main/main.go` creates infrastructure interface values, service structs, the handler, injecting dependencies, and then starts the handler.
 
 ## gRPC
 
