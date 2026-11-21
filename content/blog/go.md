@@ -1,7 +1,7 @@
 +++
 title = "Go"
 date = 2025-11-30
-updated = 2026-11-20
+updated = 2026-11-21
 +++
 
 Go is a statically typed, compiled programming language. It has fast compilation and concurrency support via goroutines and channels. It uses a garbage collector to manage the heap memory.
@@ -1448,6 +1448,10 @@ We can use the second argument of `make` to set the buffer capacity. We can get 
 A send doesn't block a goroutine if the number of elements in the buffer currently is less than the buffer capacity. Otherwise, the send blocks the goroutine. A read works in a similar way.
 
 Generally, we don't want the sender to be blocked by a send so we will set the buffer capacity to an exact number or at least an estimate.
+
+##### Time ticker channel buffer
+
+The ticker's channel `ticker.C` has a buffer size of 1. If the buffer is full then the subsequent ticks are dropped.
 
 ### Goroutine worker pool
 
