@@ -1,7 +1,7 @@
 +++
 title = "Raft"
 date = 2026-10-18
-updated = 2026-11-12
+updated = 2026-11-21
 +++
 
 Raft is a consensus algorithm that ensures data consistency among a cluster of nodes. It counts on a leader-follower protocol to enforce the nodes to agree on a single, ordered sequence of data manipulation commands, known as the Write-Ahead Log (WAL). If all nodes have the same WAL, we know that they have the same state of data.
@@ -53,6 +53,7 @@ The leader has the following extra states which are reinitialized right after it
 
 {% mermaid() %}
 flowchart TB
+    follower -- restart election timer if grant vote or get heartbeat --> follower
     follower -- election timeout --> candidate
     candidate -- discover leader or higher term --> follower
     candidate -- restart election after election timeout --> candidate
