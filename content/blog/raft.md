@@ -1,7 +1,7 @@
 +++
 title = "Raft"
 date = 2026-10-18
-updated = 2026-11-22
+updated = 2026-11-23
 +++
 
 Raft is a consensus algorithm that ensures data consistency among a cluster of nodes. It counts on a leader-follower protocol to enforce the nodes to agree on a single, ordered sequence of data manipulation commands, known as the Write-Ahead Log (WAL). If all nodes have the same WAL, we know that they have the same state of data.
@@ -150,11 +150,10 @@ There are some additional rules.
 1.  The leader replies to the client.
 1.  Before sending out another heartbeat to inform the followers to commit and apply E1, the leader encounters a shutdown.
 1.  A follower becomes the new leader. At this point, there is a conflict between the client's understanding of the data state (E1 is applied) and the actual data state (E1 is not applied).
-1.  The new leader appends a no-op log entry E2 to its log.
 1.  The new leader sends out a heartbeat.
-1.  The leader receives acknowledgements from the majority of nodes.
-1.  The new leader commits and applies both E1 and E2.
-1.  The new leader sends out another heartbeat to inform the followers to commit and apply E1 and E2, and this should fix the mismatch.
+1.  The new leader receives acknowledgements from the majority of nodes.
+1.  The new leader commits and applies E1.
+1.  The new leader sends out another heartbeat to inform the followers to commit and apply E1, and this should fix the mismatch.
 
 ### Disconnection and reconnection
 
