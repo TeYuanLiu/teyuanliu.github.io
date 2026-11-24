@@ -157,9 +157,9 @@ There are some additional rules.
 
 ### Disconnection and reconnection
 
-If a follower disconnects from the cluster and no longer receives the leader heartbeat, it converts to a candidate, incrementing its term number, and resets the election timer. Because it is isolated from the others, it cannot get enough votes to become a leader. The election timer eventually expires and it restarts the leader election process. This election failure loop can make this isolated node having a large term number.
+If a follower disconnects from the cluster and no longer receives the leader's heartbeat, it converts to a candidate, incrementing its term, and resets the election timer. Because it is isolated from the others, it cannot get enough votes to become a leader. The election timer eventually expires and it restarts the leader election process. This election failure loop can lead to an isolated node with a very high term.
 
-When the node reconnects to the cluster, if its term number is larger than the cluster leader's, it rejects the AppendEntries from the leader with its own term number, forcing the leader to update its own term number and revert to the follower state.
+When the node reconnects to the cluster, if its term is higher than the current cluster leader's, it rejects the AppendEntries from the leader with its own term, forcing the leader to revert to follower.
 
 The cluster becomes leaderless and waits for a node to start its leader election. Note that the reconnected node may have outdated logs and lose its upcoming leader election because of it.
 
