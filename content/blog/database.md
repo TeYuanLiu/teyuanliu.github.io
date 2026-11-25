@@ -1,7 +1,7 @@
 +++
 title = "Database"
 date = 2025-05-01
-updated = 2026-11-06
+updated = 2026-11-24
 +++
 
 ## Relational database
@@ -51,13 +51,17 @@ updated = 2026-11-06
 -   Indexing
 -   Caching
     -   Read-through cache vs write-through cache
+    -   Reservation cache
+        -   Use a cache to store in-progress reservation to prevent the accumulation of inventory-checking queries.
+        -   The cache stores a record of (user_id, product_id, quantity, expires_at).
+        -   When an order comes in, the system checks the remaining inventory by subtracting the total inventory by the sum of quantity across all records in the reservation cache. If there is still remaining inventory then the order gets processed by the checkout service. Otherwise, the order is rejected.
 -   CDN
 -   Replication
 -   Sharding
 
 ### Write
 
--   Control Query Request Separation (CQRS)
+-   Command Query Request Separation (CQRS)
 -   Event sourcing
     -   Write-Ahead Logging (WAL)
         -   Ensure atomicity (all-or-nothing) and durability (data persistence) of the ACID properties by first appending a write transaction to a sequential log file on disk and then committing it to the database. If the system crashes, it can recover by replaying the log to restore the data to a consistent state.
