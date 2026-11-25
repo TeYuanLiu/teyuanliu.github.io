@@ -1,7 +1,7 @@
 +++
 title = "Database"
 date = 2025-05-01
-updated = 2026-11-24
+updated = 2026-11-25
 +++
 
 ## Relational database
@@ -52,9 +52,15 @@ updated = 2026-11-24
 -   Caching
     -   Read-through cache vs write-through cache
     -   Reservation cache
-        -   Use a cache to store in-progress reservation to prevent the accumulation of inventory-checking queries.
-        -   The cache stores a record of (user_id, product_id, quantity, expires_at).
-        -   When an order comes in, the system checks the remaining inventory by subtracting the total inventory by the sum of quantity across all records in the reservation cache. If there is still remaining inventory then the order gets processed by the checkout service. Otherwise, the order is rejected.
+        -   Use a cache to store in-progress reservation to decrease the number of inventory-checking queries hitting the database.
+        -   Example
+            -   The cache is a key-value store with format `order_id: (user_id, product_id, quantity, expires_at)`.
+                -   Assuming the checkout page timeout is 10 minutes and the order processing timeout is 1 minute, then the `expires_at` is `Now() + 11 minutes`, considering the edge case that the user clicks `Place order` at the very last second of the checkout page timeout.
+            -   Workflow
+                1.  On a product page, the user inputs the quantity and clicks `Start order`.
+                1.  The frontend sends the order to the backend.
+                1.  The backend checks the inventory availability through subtracting the total inventory by the sum of quantities across all orders in the reservation cache. If the check passes then the backend creates a record in the cache and directs the user to the checkout page. Otherwise, the order is rejected and no record is created and the user receives an error message.
+                1.  On the checkout page, the user is given 10 minutes to click `Place order` to complete the order. If the user places the order successfully the backend updates the order table and the total inventory, and then directs the user to the confirmation page. Otherwise, the system directs the user to the checkout timeout page.
 -   CDN
 -   Replication
 -   Sharding
