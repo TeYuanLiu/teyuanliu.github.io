@@ -1,7 +1,7 @@
 +++
 title = "Raft"
 date = 2026-10-18
-updated = 2026-11-27
+updated = 2026-11-28
 +++
 
 Raft is a consensus algorithm that ensures data consistency among a cluster of nodes. It counts on a leader-follower protocol to enforce the nodes to agree on a single, ordered sequence of data manipulation commands, known as the Write-Ahead Log (WAL). If all nodes have the same WAL, we know that they have the same state of data.
@@ -78,10 +78,10 @@ flowchart TB
         -   If the node receives an AppendEntries with term T >= currentTerm, it converts to follower.
         -   If the election timer expires, it starts a new election.
 1.  The new leader performs the following tasks.
-    -   Send AppendEntries as heartbeat to others periodically (every 50 ms) based on the expiration of its leader heartbeat timer.
+    -   Send AppendEntries as heartbeat to others periodically (every 50 ms) based on the expiration of its heartbeat timer.
     -   Handle a client request by performing the following steps.
         1.  Append an entry to its log.
-        1.  Send AppendEntries to others on next heartbeat.
+        1.  Send AppendEntries to others immediately and restart the heartbeat timer.
             -   For nodes with success, increase their matchIndex and nextIndex.
             -   For nodes with failure, decrease their nextIndex and retry.
         1.  Conduct majority check.
