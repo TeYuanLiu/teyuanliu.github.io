@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- CSS -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Payment
+  </div>
+  <div class="header-metadata">
+    
+      
+        Nov 24, 2026 · 442 words · 3 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/payment/#idempotent-key">Idempotent key </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/payment/#payment-flow">Payment flow </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/payment/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>When a customer click "Place the order", the payment details move across the customer, the merchant, and the bank.</p>
+<span id="continue-reading"></span><h2 id="idempotent-key"><a class="zola-anchor" href="#idempotent-key" aria-label="Anchor link for: idempotent-key">Idempotent key</a></h2>
+<p>An idempotent key is a unique identifier used for de-duplication such that repeating the same API request produces the same result and does not perform the same operation multiple times.</p>
+<p>Below is an example workflow.</p>
+<ol>
+<li>The client-side application generates an idempotent key and puts it in the API request header.</li>
+<li>The server maintains a cache for idempotent keys and whenever a request arrives the server checks if the key already exists.</li>
+<li>If the key does not exist, the server carries out the operation and stores the key and the operation result in the cache. Otherwise, the server returns the cached result back to the client, avoiding duplicated operation.</li>
+</ol>
+<h2 id="payment-flow"><a class="zola-anchor" href="#payment-flow" aria-label="Anchor link for: payment-flow">Payment flow</a></h2>
+<ol>
+<li>Placing an order sends the customer's order data (customer ID, product ID, quantity) and payment data (card token, wallet pass, or bank login) to the merchant's checkout processor via HTTPS POST request.</li>
+<li>The checkout processor creates an order in the order table and also a payment in the payment table.
+<ul>
+<li>order table
+<ul>
+<li>order_id</li>
+<li>order_idempotent_key</li>
+<li>customer_id</li>
+<li>product_id</li>
+<li>quantity</li>
+<li>status (created/paid/completed)</li>
+</ul>
+</li>
+<li>payment table
+<ul>
+<li>payment_id</li>
+<li>payment_idempotent_key</li>
+<li>order_id</li>
+<li>status (created/approved/declined)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>The checkout processor sends an ISO-8583-format authorization request via TCP through the card network or banking rails to the customer's bank for authorization approval.
+<ul>
+<li>The authorization request contains a payment idempotent key so the bank doesn't process the same payment twice.</li>
+</ul>
+</li>
+<li>The bank checks the credit limit or account balance and fraud risk signals.
+<ul>
+<li>If any of the checks fails, the bank replies with a declination.</li>
+<li>If all checks pass, the bank holds the funds and replies with an approval.</li>
+<li>In a few days, the bank settles the actual funds and lets the merchant capture the funds.</li>
+</ul>
+</li>
+<li>The checkout processor digests the response and updates the order table and payment table and redirects the customer to the result page.
+<ul>
+<li>If the bank's response is dropped mid-way and the request times out, the checkout processor can retry the request (with the payment idempotent key) or ask the customer to pay with another payment method, which creates another payment record in the payment table.</li>
+<li>If the checkout processor cannot get the response for the first payment even with retries, but gets an approval for the second payment, then the checkout processor can either send an authorization reversal request (with an authorization reversal idempotent key) to the bank to cancel the first payment, or rely on the bank's automatic expiration to release the uncaptured funds of the first payment.</li>
+</ul>
+</li>
+</ol>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;network-protocol&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;postgresql&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/mermaid.js"></script>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>

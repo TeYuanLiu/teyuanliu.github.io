@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>teyuanliu.github.io</title>
+  <!-- CSS -->
+  <!-- https://fontawesome.com/v6/icons/ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Icon -->
+  <link rel="shortcut icon" href="/background.jpg" type="image/x-icon">
+</head>
+
+  <body>
+    <div class="body">
+      <div class="header-image"></div>
+
+      <div class="navigation">
+  <a href="https://teyuanliu.github.io/">Te-Yuan Liu</a>
+  <div class="links">
+    <i class="fa-solid fa-xmark collapse-button"></i>
+    <a href="https://teyuanliu.github.io/">Home</a>
+    <a href="https://teyuanliu.github.io/blog/">Blog</a>
+  </div>
+  <i class="fa-solid fa-bars expand-button"></i>
+</div>
+<div class="overlay"></div>
+      
+<div class="header-text">
+  <div class="header-title">
+    Git
+  </div>
+  <div class="header-metadata">
+    
+      
+        Nov 12, 2026 · 565 words · 3 mins read
+      
+    
+  </div>
+</div>
+<div class="content">
+
+  
+    <ul>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/git/#file-state">File state </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/git/#repository-database">Repository database </a>
+          
+            <ul>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/git/#object">Object</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/git/#index">Index</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/git/#branch">Branch</a>
+                  
+                </li>
+              
+                <li>
+                  <a href="https://teyuanliu.github.io/blog/git/#head">HEAD</a>
+                  
+                </li>
+              
+            </ul>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/git/#merge">Merge </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/git/#rebase">Rebase </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/git/#common-commands">Common commands </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://teyuanliu.github.io/blog/git/#references">References </a>
+          
+        </li>
+      
+    </ul>
+  
+
+  <p>Git was created as a code version management tool.</p>
+<span id="continue-reading"></span><h2 id="file-state"><a class="zola-anchor" href="#file-state" aria-label="Anchor link for: file-state">File state</a></h2>
+<ul>
+<li>Working directory
+<ul>
+<li>Untracked files or tracked files that have uncommitted changes</li>
+</ul>
+</li>
+<li>Staging area
+<ul>
+<li>Tracked files with uncommitted changes that are staged to be committed</li>
+</ul>
+</li>
+<li>Repository
+<ul>
+<li>Tracked files with all changes committed and saved in the repository database (.git)</li>
+</ul>
+</li>
+</ul>
+<h2 id="repository-database"><a class="zola-anchor" href="#repository-database" aria-label="Anchor link for: repository-database">Repository database</a></h2>
+<ul>
+<li>.git
+<ul>
+<li>objects
+<ul>
+<li>a1
+<ul>
+<li>b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>index</li>
+<li>refs
+<ul>
+<li>heads
+<ul>
+<li>main</li>
+<li>feature</li>
+<li>hotfix</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>HEAD</li>
+<li>config</li>
+</ul>
+</li>
+</ul>
+<h3 id="object"><a class="zola-anchor" href="#object" aria-label="Anchor link for: object">Object</a></h3>
+<p>Git saves object in its object store. There are 3 types of object: blob, tree, and commit.</p>
+<ul>
+<li>Key
+<ul>
+<li>Generated from the value content with SHA-1 so it has 40 characters (160 bits with 0-9 and a-f).</li>
+<li>Keys are grouped into subdirectories based on the first two characters of the key to alleviate inode count burden of the objects directory (filesystem like FAT32 allows only 65536 files per directory). The last 38 characters are used to name the file that stores the value.</li>
+</ul>
+</li>
+<li>Value
+<ul>
+<li>Blob
+<ul>
+<li>File content compressed with Zlib</li>
+</ul>
+</li>
+<li>Tree
+<ul>
+<li>Represent a directory and contain a list of file entries. Each file entry can be an actual file or a directory (another tree).</li>
+<li>Each file entry contains the following.
+<ul>
+<li>Blob object type</li>
+<li>Blob object key</li>
+<li>File name</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Commit
+<ul>
+<li>Indicate a snapshot of the project.</li>
+<li>Contain the following.
+<ul>
+<li>Tree object key</li>
+<li>Author with datetime</li>
+<li>Commit message</li>
+<li>Parent commit object key (absent for initial commit)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="index"><a class="zola-anchor" href="#index" aria-label="Anchor link for: index">Index</a></h3>
+<ul>
+<li>Contain a list of file entries.</li>
+<li>Each file entry contains the following.
+<ul>
+<li>File path</li>
+<li>Blob object key</li>
+<li>File size</li>
+<li>Created datetime</li>
+<li>Modified datetime</li>
+</ul>
+</li>
+</ul>
+<h3 id="branch"><a class="zola-anchor" href="#branch" aria-label="Anchor link for: branch">Branch</a></h3>
+<ul>
+<li>Contain the following.
+<ul>
+<li>Commit object key</li>
+</ul>
+</li>
+</ul>
+<h3 id="head"><a class="zola-anchor" href="#head" aria-label="Anchor link for: head">HEAD</a></h3>
+<ul>
+<li>Contain the current branch file path or commit object key in detached HEAD state.
+<ul>
+<li>Any new commit made in detached HEAD state is not persistent and will be garbage-collected after a set interval so we need to create a branch that points to the new commit to preserve it.</li>
+</ul>
+</li>
+</ul>
+<h2 id="merge"><a class="zola-anchor" href="#merge" aria-label="Anchor link for: merge">Merge</a></h2>
+<p>The 3-way merge looks at the branch1 commit, the branch2 commit, and their nearest common ancestor commit to perform the merge.</p>
+<h2 id="rebase"><a class="zola-anchor" href="#rebase" aria-label="Anchor link for: rebase">Rebase</a></h2>
+<p>A rebase makes the history linear by recreating the branch1 commits of branch2. The original branch1 commits become orphaned and unreachable.</p>
+<p>It is recommended to rebase only local commits that are not pushed yet to avoid merge conflict for others.</p>
+<ol>
+<li>Alice and Bob worked on a feature branch together.</li>
+<li>Alice created c2 for the feature and considered the feature done.</li>
+<li>Bob fetched c2 and planned to add something extra to the feature.</li>
+<li>Alice rebased c2 of the main branch c3 and created c2'.</li>
+<li>Bob created c4 and considered the feature done.</li>
+<li>Bob tried to rebase c4 of the main branch but failed due to duplicated changes caused by history diverge.</li>
+</ol>
+<div class="mermaid">
+  flowchart LR
+    c0 --&gt; c1
+    c1 --&gt; c3
+    c3 --&gt; c2&#x27;
+    c1 --&gt; c2
+    c2 --&gt; c4
+    c4 -- cannot rebase --&gt; c2&#x27;
+</div>
+<h2 id="common-commands"><a class="zola-anchor" href="#common-commands" aria-label="Anchor link for: common-commands">Common commands</a></h2>
+<ul>
+<li>Add a new commit to undo the changes in the last commit.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> revert c1
+</span></code></pre>
+</li>
+<li>Move the branch pointer but keep the staging area and working directory.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> reset</span><span style="color:#bf616a;"> --soft</span><span> HEAD</span><span style="color:#bf616a;">~</span><span>1
+</span></code></pre>
+</li>
+<li>Move the branch pointer and clear the staging area but keep the working directory.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> reset</span><span style="color:#bf616a;"> --mixed</span><span> HEAD</span><span style="color:#bf616a;">~</span><span>1
+</span></code></pre>
+</li>
+<li>Move the branch pointer and clear the staging area and working directory.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> reset</span><span style="color:#bf616a;"> --hard</span><span> HEAD</span><span style="color:#bf616a;">~</span><span>1
+</span></code></pre>
+</li>
+<li>Untrack a file from Git but keep it.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> rm</span><span style="color:#bf616a;"> --cached </span><span>&lt;FILE&gt;
+</span></code></pre>
+</li>
+<li>View commits that are visited recently for disaster recovery. Reachable commits lose their reflog entries in 90 days and for orphaned commits it is 30 days.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> reflog
+</span></code></pre>
+</li>
+<li>Recover commit.<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> branch recovery c1
+</span></code></pre>
+</li>
+</ul>
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+<ul>
+<li>https://www.youtube.com/watch?v=cLBvn81naWY</li>
+<li>https://www.youtube.com/watch?v=RxHJdapz2p0</li>
+<li>https://www.youtube.com/watch?v=Ala6PHlYjmw</li>
+</ul>
+
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;etcd&#x2F;" class="button float-left">&larr;Previous</a>
+  
+  
+    <a href="https:&#x2F;&#x2F;teyuanliu.github.io&#x2F;blog&#x2F;go&#x2F;" class="button float-right">Next&rarr;</a>
+  
+</div>
+
+      <div class="footer">
+  <div class="footer-links">
+      <a href="mailto:teyuanliu@gmail.com">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;teyuanliu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;TeYuanLiu">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa-brands fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+      </a>
+  </div>
+  <div class="footer-copyright">Copyright © Te-Yuan Liu </div>
+</div>
+    </div>
+    <script defer="defer" src="/mermaid.js"></script>
+    <script defer="defer" src="/script.js"></script>
+  </body>
+</html>
