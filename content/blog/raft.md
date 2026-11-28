@@ -1,7 +1,7 @@
 +++
 title = "Raft"
 date = 2026-10-18
-updated = 2026-11-24
+updated = 2026-11-27
 +++
 
 Raft is a consensus algorithm that ensures data consistency among a cluster of nodes. It counts on a leader-follower protocol to enforce the nodes to agree on a single, ordered sequence of data manipulation commands, known as the Write-Ahead Log (WAL). If all nodes have the same WAL, we know that they have the same state of data.
@@ -141,7 +141,7 @@ There are some additional rules.
     1.  Append new entries.
     1.  If leaderCommit > commitIndex, set commitIndex = min(leaderCommit, last new entry index).
 
-### Uncommitted log entry by leader shutdown scenario
+### Leader shutdown log commit mismatch
 
 1.  The leader appends a new entry E1 to its log.
 1.  The leader sends out a heartbeat so every node has the uncommitted E1.
@@ -155,7 +155,7 @@ There are some additional rules.
 1.  The new leader commits and applies E1.
 1.  The new leader sends out another heartbeat to inform the followers to commit and apply E1, and this should fix the mismatch.
 
-### Disconnection and reconnection
+### Follower disconnection and reconnection
 
 If a follower disconnects from the cluster and no longer receives the leader's heartbeat, it converts to a candidate, incrementing its term, and resets the election timer. Because it is isolated from the others, it cannot get enough votes to become a leader. The election timer eventually expires and it restarts the leader election process. This election failure loop can lead to an isolated node with a very high term.
 
